@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPÉRATION LIBRESTAN — Histoire 3ème · M. Grégory CRON</title>
+<style>
+:root{
+  --bg:#080d14;--surface:#0d1a26;--panel:#0f2035;--panel2:#112438;
+  --or:#c8a84b;--or-clair:#f0d080;--or-bg:rgba(200,168,75,0.08);
+  --vert:#1aff8c;--vert-dark:#00b35c;--rouge:#ff3355;--rouge-bg:rgba(255,51,85,0.08);
+  --bleu:#1a8cff;--bleu-bg:rgba(26,140,255,0.08);--bleu-clair:#5bb8ff;
+  --algerie:#e85d00;--algerie-bg:rgba(232,93,0,0.1);
+  --gris:#8aa3b8;--blanc:#e8f0f8;--dim:#2a3f55;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--blanc);min-height:100vh;font-size:15px;line-height:1.65;}
+
+/* scanlines */
+body::after{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:9999;}
+
+/* ── HEADER ── */
+.hdr{background:linear-gradient(135deg,#050c18,#0d1f35,#050c18);border-bottom:2px solid var(--or);padding:32px 20px 24px;text-align:center;position:relative;overflow:hidden;}
+.hdr::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 0%,rgba(200,168,75,.1) 0%,transparent 70%);pointer-events:none;}
+.hdr-badge{display:inline-block;font-family:monospace;font-size:10px;color:var(--vert);background:rgba(26,255,140,.1);border:1px solid var(--vert);padding:3px 12px;border-radius:2px;letter-spacing:.15em;margin-bottom:14px;}
+.hdr h1{font-size:clamp(1.4rem,4vw,2.4rem);font-weight:900;color:var(--or-clair);letter-spacing:.06em;text-shadow:0 0 30px rgba(200,168,75,.3);margin-bottom:8px;}
+.hdr h2{font-size:1rem;color:var(--gris);font-weight:400;margin-bottom:4px;}
+.hdr .author{font-size:.85rem;color:var(--or);margin-top:6px;font-weight:600;}
+.hdr-deco{font-size:2rem;margin-bottom:10px;filter:drop-shadow(0 0 8px rgba(200,168,75,.4));}
+
+/* progress */
+.prog-wrap{background:var(--dim);height:4px;}
+.prog-fill{height:4px;background:linear-gradient(90deg,var(--vert),var(--or));width:0%;transition:width .5s;}
+
+/* ── MAIN ── */
+.main{max-width:900px;margin:0 auto;padding:20px 16px 40px;}
+
+/* ── BRIEFING ── */
+.briefing{background:linear-gradient(135deg,#0a1a0f,#0a1520);border:1px solid var(--or);border-left:4px solid var(--vert);border-radius:8px;padding:20px 24px;margin:20px 0;}
+.briefing-title{font-size:.75rem;font-weight:700;color:var(--vert);letter-spacing:.12em;text-transform:uppercase;margin-bottom:10px;}
+.briefing p{color:var(--gris);margin-bottom:8px;}
+.briefing p:last-child{margin:0;}
+.briefing strong{color:var(--blanc);}
+
+/* ── PLANNING ── */
+.planning{background:var(--panel);border:1px solid var(--dim);border-radius:8px;padding:16px 20px;margin:16px 0;}
+.planning-title{font-size:.75rem;font-weight:700;color:var(--or);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;}
+.tl{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;}
+.tl-block{background:rgba(255,255,255,.04);border:1px solid var(--dim);border-radius:6px;padding:8px 12px;}
+.tl-time{font-size:.72rem;color:var(--or);font-weight:700;font-family:monospace;}
+.tl-label{font-size:.8rem;color:var(--gris);margin-top:2px;}
+
+/* ── SECTION DIVIDER ── */
+.sec-div{display:flex;align-items:center;gap:12px;margin:28px 0 18px;}
+.sec-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--or),transparent);}
+.sec-label{font-size:.75rem;font-weight:700;letter-spacing:.1em;color:var(--or);white-space:nowrap;padding:4px 12px;background:var(--panel);border:1px solid var(--or);border-radius:4px;}
+
+/* ── ÉTAPE ── */
+.etape{margin-bottom:14px;border:1px solid var(--dim);border-radius:10px;overflow:hidden;}
+.etape-hdr{display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--panel);cursor:pointer;user-select:none;}
+.etape-hdr:hover{background:var(--panel2);}
+.etape-num{width:36px;height:36px;border-radius:50%;background:var(--or);color:#080d14;font-size:.9rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:monospace;}
+.etape-num.rouge{background:var(--rouge);}
+.etape-num.bleu{background:var(--bleu);}
+.etape-num.vert{background:var(--vert);}
+.etape-num.algerie{background:var(--algerie);}
+.etape-info{flex:1;}
+.etape-tag{font-size:.68rem;color:var(--or);font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+.etape-titre{font-size:1rem;font-weight:700;color:var(--blanc);}
+.etape-duree{font-size:.72rem;color:var(--gris);margin-top:2px;font-family:monospace;}
+.etape-arrow{font-size:1rem;color:var(--gris);transition:transform .2s;}
+.etape-arrow.open{transform:rotate(90deg);}
+.etape-body{display:none;padding:16px;}
+.etape-body.open{display:block;}
+
+/* ── CARDS ── */
+.card{border-radius:8px;padding:16px;margin-bottom:12px;}
+.card-mission{background:linear-gradient(135deg,#0a1520,#0f1f12);border:1px solid var(--vert);}
+.card-cours{background:var(--bleu-bg);border:1px solid rgba(26,140,255,.3);border-left:3px solid var(--bleu);}
+.card-algerie{background:var(--algerie-bg);border:1px solid rgba(232,93,0,.3);border-left:3px solid var(--algerie);}
+.card-activite{background:var(--panel);border:1px solid var(--dim);}
+.card-escape{background:linear-gradient(135deg,#1a0520,#200510);border:1px solid var(--rouge);border-left:3px solid var(--rouge);}
+.card-final{background:linear-gradient(135deg,#0a1a0f,#0a1520);border:2px solid var(--or);}
+.card-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;padding:3px 8px;border-radius:3px;display:inline-block;}
+.lbl-mission{background:rgba(26,255,140,.15);color:var(--vert);}
+.lbl-cours{background:rgba(26,140,255,.15);color:var(--bleu-clair);}
+.lbl-algerie{background:rgba(232,93,0,.2);color:var(--algerie);}
+.lbl-activite{background:rgba(200,168,75,.15);color:var(--or);}
+.lbl-escape{background:rgba(255,51,85,.15);color:var(--rouge);}
+.lbl-final{background:rgba(200,168,75,.2);color:var(--or-clair);}
+.card h3{font-size:1rem;font-weight:700;color:var(--blanc);margin-bottom:8px;}
+.card p{font-size:.9rem;color:var(--gris);margin-bottom:8px;}
+.card p:last-child{margin:0;}
+.card strong{color:var(--blanc);}
+.card em{color:var(--or);}
+
+/* ── DEFINITION BOX ── */
+.def-box{background:rgba(200,168,75,.07);border-left:3px solid var(--or);border-radius:0 6px 6px 0;padding:12px 16px;margin:10px 0;font-size:.9rem;color:var(--gris);}
+.def-box strong{color:var(--or-clair);}
+
+/* ── COURS CONTENT ── */
+.cours-section{margin-bottom:14px;}
+.cours-h{font-size:.95rem;font-weight:700;color:var(--bleu-clair);margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid rgba(26,140,255,.2);}
+.cours-h.rouge{color:#ff7088;border-color:rgba(255,51,85,.2);}
+.cours-h.or{color:var(--or);border-color:rgba(200,168,75,.2);}
+.cours-h.algerie{color:var(--algerie);border-color:rgba(232,93,0,.2);}
+.cours-list{list-style:none;padding:0;}
+.cours-list li{padding:4px 0 4px 18px;position:relative;font-size:.88rem;color:var(--gris);}
+.cours-list li::before{content:'▸';position:absolute;left:0;color:var(--or);font-size:.8rem;}
+.cours-list li strong{color:var(--blanc);}
+
+/* ── CHRONOLOGIE ── */
+.chrono{margin:12px 0;}
+.chrono-row{display:flex;align-items:flex-start;gap:12px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.chrono-row:last-child{border:none;}
+.chrono-date{min-width:90px;font-family:monospace;font-size:.82rem;color:var(--or);font-weight:700;padding-top:1px;}
+.chrono-evt{font-size:.87rem;color:var(--gris);}
+.chrono-evt strong{color:var(--blanc);}
+
+/* ── TABLEAU ── */
+.tableau{width:100%;border-collapse:collapse;margin:10px 0;font-size:.85rem;}
+.tableau th{background:rgba(200,168,75,.15);color:var(--or);font-weight:700;padding:8px 10px;text-align:left;border:1px solid var(--dim);}
+.tableau td{padding:7px 10px;border:1px solid var(--dim);color:var(--gris);}
+.tableau td strong{color:var(--blanc);}
+.tableau tr:nth-child(even) td{background:rgba(255,255,255,.02);}
+
+/* ── LIENS ── */
+.lien{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;background:rgba(255,255,255,.04);border:1px solid var(--dim);border-radius:6px;margin:6px 0;text-decoration:none;color:var(--blanc);transition:all .15s;}
+.lien:hover{background:var(--or-bg);border-color:var(--or);}
+.lien-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
+.lien-info{flex:1;}
+.lien-label{font-size:.9rem;font-weight:600;color:var(--blanc);}
+.lien-url{font-size:.75rem;color:var(--gris);font-family:monospace;margin-top:2px;}
+.lien-badge{font-size:.65rem;font-weight:700;padding:2px 6px;border-radius:3px;margin-left:6px;}
+.ok{background:rgba(26,255,140,.2);color:var(--vert);}
+.warn{background:rgba(255,165,0,.2);color:orange;}
+
+/* ── VOCAB ── */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin:10px 0;}
+.vocab-item{background:rgba(255,255,255,.04);border:1px solid var(--dim);border-radius:6px;padding:10px 12px;}
+.vocab-term{font-size:.85rem;font-weight:700;color:var(--or);margin-bottom:3px;}
+.vocab-def{font-size:.8rem;color:var(--gris);}
+
+/* ── ESCAPE GAME ── */
+.verrou{background:rgba(255,51,85,.06);border:1px solid rgba(255,51,85,.2);border-radius:6px;padding:12px 14px;margin:8px 0;}
+.verrou-title{font-size:.82rem;font-weight:700;color:var(--rouge);margin-bottom:6px;}
+.verrou-body{font-size:.87rem;color:var(--gris);}
+.verrou-body strong{color:var(--blanc);}
+
+/* ── RAPPORT FINAL ── */
+.rapport-section{margin:12px 0;}
+.rapport-h{font-size:.9rem;font-weight:700;color:var(--or);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;}
+.rapport-lines div{height:1px;background:rgba(200,168,75,.2);margin:14px 0;}
+
+/* ── QUESTION AGENT ── */
+.question-agent{background:linear-gradient(135deg,#0a1520,#0f1a10);border:1px solid var(--vert);border-radius:8px;padding:14px 18px;margin:12px 0;}
+.qa-title{font-size:.75rem;color:var(--vert);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
+.qa-q{font-size:.9rem;color:var(--gris);margin-bottom:6px;}
+.qa-q strong{color:var(--blanc);}
+
+/* ── BADGES BLOCS ── */
+.bloc-badge{display:inline-block;padding:3px 10px;border-radius:4px;font-size:.75rem;font-weight:700;margin:2px;}
+.bloc-ouest{background:rgba(26,107,204,.25);color:#5bb8ff;border:1px solid rgba(26,107,204,.4);}
+.bloc-est{background:rgba(204,26,26,.2);color:#ff8888;border:1px solid rgba(204,26,26,.35);}
+.bloc-neutre{background:rgba(204,136,0,.2);color:#ffcc44;border:1px solid rgba(204,136,0,.35);}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════════════════════════════════ -->
+<div class="hdr">
+  <div class="hdr-deco">🕵️</div>
+  <div class="hdr-badge">DOSSIER CONFIDENTIEL · NIVEAU AGENT</div>
+  <h1>OPÉRATION LIBRESTAN</h1>
+  <h2>Le monde après 1945 — Guerre froide & Décolonisation · 3ème</h2>
+  <div class="author">M. Grégory CRON · Histoire-Géographie-EMC</div>
+</div>
+<div class="prog-wrap"><div class="prog-fill" id="prog"></div></div>
+
+<!-- ══ MAIN ════════════════════════════════════════════════════════════════ -->
+<div class="main">
+
+  <!-- BRIEFING -->
+  <div class="briefing">
+    <div class="briefing-title">📡 Transmission chiffrée — Quartier général du Librestan</div>
+    <p>Nous sommes en <strong>1962</strong>. Le monde est déchiré entre deux blocs — l'Ouest américain et l'Est soviétique — et les nouveaux États comme le nôtre doivent choisir leur camp… ou leur indépendance.</p>
+    <p>Votre mission : parcourir les deux fronts, collecter des renseignements sur la <em>décolonisation</em> et la <em>Guerre froide</em>, analyser les blocs et la voie des non-alignés, puis rédiger un <strong>Rapport Final</strong> pour <em>Sir. Cron</em>.</p>
+    <p>Ce rapport sera votre fiche de révision complète pour le <strong>DNB</strong>. ⚠️ Tous les liens sont accessibles depuis la Tunisie.</p>
+  </div>
+
+  <!-- PLANNING -->
+  <div class="planning">
+    <div class="planning-title">▸ Plan de mission — 2h30</div>
+    <div class="tl">
+      <div class="tl-block"><div class="tl-time">0–10 min</div><div class="tl-label">Briefing & Activation</div></div>
+      <div class="tl-block"><div class="tl-time">10–40 min</div><div class="tl-label">Phase 1 · Décolonisation</div></div>
+      <div class="tl-block"><div class="tl-time">40–70 min</div><div class="tl-label">Mission Algérie ⭐</div></div>
+      <div class="tl-block"><div class="tl-time">70–110 min</div><div class="tl-label">Phase 2 · Guerre froide</div></div>
+      <div class="tl-block"><div class="tl-time">110–125 min</div><div class="tl-label">Phase 3 · Escape Game</div></div>
+      <div class="tl-block"><div class="tl-time">125–150 min</div><div class="tl-label">Phase 4 · Rapport Final</div></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- PHASE 1 — DÉCOLONISATION -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="sec-div"><div class="sec-line"></div><div class="sec-label">⚑ PHASE 1 — TERRAIN AFRO-ASIATIQUE : LA DÉCOLONISATION</div><div class="sec-line"></div></div>
+
+  <!-- Étape 01 -->
+  <div class="etape">
+    <div class="etape-hdr" onclick="toggle('e01')">
+      <div class="etape-num">01</div>
+      <div class="etape-info">
+        <div class="etape-tag">▸ COURS + TRACES ÉCRITES</div>
+        <div class="etape-titre">La décolonisation (1945–1975) : pourquoi et comment ?</div>
+        <div class="etape-duree">⏱ 10 min</div>
+      </div>
+      <div class="etape-arrow" id="arr-e01">›</div>
+    </div>
+    <div class="etape-body" id="e01">
+      <div class="card card-cours">
+        <div class="card-label lbl-cours">📘 COURS — TRACES ÉCRITES</div>
+        <div class="def-box"><strong>Décolonisation :</strong> processus par lequel les peuples colonisés obtiennent leur indépendance politique vis-à-vis des puissances coloniales européennes, entre 1945 et 1975. Plus de 80 nouveaux États naissent en moins de 30 ans.</div>
+        <div class="cours-section">
+          <div class="cours-h">Les 5 causes de la décolonisation</div>
+          <ul class="cours-list">
+            <li><strong>Idéologique :</strong> la Charte de l'ONU (1945) proclame le droit des peuples à disposer d'eux-mêmes.</li>
+            <li><strong>Politique :</strong> USA et URSS s'opposent tous deux au colonialisme pour des raisons stratégiques.</li>
+            <li><strong>Économique :</strong> les colonies veulent contrôler leurs ressources naturelles.</li>
+            <li><strong>Culturelle :</strong> émergence de nationalismes et d'élites instruites dans les colonies.</li>
+            <li><strong>Militaire :</strong> les soldats coloniaux réclament la liberté pour laquelle ils ont combattu.</li>
+          </ul>
+        </div>
+        <div class="cours-section">
+          <div class="cours-h">Deux voies d'accès à l'indépendance</div>
+          <table class="tableau">
+            <tr><th>Voie NÉGOCIÉE (pacifique)</th><th>Voie ARMÉE (conflictuelle)</th></tr>
+            <tr><td>Accords progressifs avec la métropole<br>Inde (1947) — Gandhi, non-violence<br>Maroc, Tunisie (1956)</td><td>Guerres de libération nationale<br>Algérie (1954–1962) — FLN<br>Vietnam (1945–1975) — Hô Chi Minh</td></tr>
+          </table>
+        </div>
+        <div class="cours-section">
+          <div class="cours-h">Chronologie clé</div>
+          <div class="chrono">
+            <div class="chrono-row"><div class="chrono-date">1945</div><div class="chrono-evt">Charte de l'ONU — droit des peuples à disposer d'eux-mêmes</div></div>
+            <div class="chrono-row"><div class="chrono-date">1947</div><div class="chrono-evt"><strong>Indépendance de l'Inde</strong> — Gandhi, Nehru, partition Pakistan/Inde</div></div>
+            <div class="chrono-row"><div class="chrono-date">1954</div><div class="chrono-evt">Diên Biên Phu — défaite française en Indochine · Début guerre d'Algérie</div></div>
+            <div class="chrono-row"><div class="chrono-date">1955</div><div class="chrono-evt"><strong>Conférence de Bandung</strong> — 29 pays afro-asiatiques, naissance du Tiers Monde</div></div>
+            <div class="chrono-row"><div class="chrono-date">1960</div><div class="chrono-evt"><strong>"Année de l'Afrique"</strong> — 17 pays africains indépendants</div></div>
+            <div class="chrono-row"><div class="chrono-date">1962</div><div class="chrono-evt">Indépendance de l'Algérie — Accords d'Évian</div></div>
+          </div>
+        </div>
+        <div class="question-agent">
+          <div class="qa-title">🕵️ Question Agent</div>
+          <div class="qa-q">Le <strong>Librestan</strong> vient d'accéder à l'indépendance. Par quelle voie — négociée ou armée ? Justifiez en une phrase dans votre carnet de bord.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Étape 02 — Vidéos décolonisation -->
+  <div class="etape">
+    <div class="etape-hdr" onclick="toggle('e02')">
+      <div class="etape-num bleu">02</div>
+      <div class="etape-info">
+        <div class="etape-tag">▸ RESSOURCES VIDÉO</div>
+        <div class="etape-titre">Décolonisation — Sources audiovisuelles</div>
+        <div class="etape-duree">⏱ 10 min</div>
+      </div>
+      <div class="etape-arrow" id="arr-e02">›</div>
+    </div>
+    <div class="etape-body" id="e02">
+      <div class="card card-activite">
+        <div class="card-label lbl-activite">🎬 VIDÉOS RECOMMANDÉES</div>
+        <a class="lien" href="https://www.youtube.com/results?search_query=decolonisation+3eme+brevet+histoire" target="_blank">
+          <span class="lien-icon">🔴</span>
+          <div class="lien-info"><div class="lien-label">YouTube — Décolonisation 3ème brevet <span class="lien-badge ok">✓</span></div><div class="lien-url">youtube.com → recherche "décolonisation 3ème brevet"</div></div>
+        </a>
+        <a class="lien" href="https://www.lumni.fr/recherche?term=decolonisation" target="_blank">
+          <span class="lien-icon">🟠</span>
+          <div class="lien-info"><div class="lien-label">Lumni — Décolonisation (vidéos officielles) <span class="lien-badge ok">✓</span></div><div class="lien-url">lumni.fr/recherche?term=decolonisation</div></div>
+        </a>
+        <a class="lien" href="https://www.youtube.com/results?search_query=independance+inde+gandhi+1947" target="_blank">
+          <span class="lien-icon">🔴</span>
+          <div class="lien-info"><div class="lien-label">YouTube — Indépendance de l'Inde / Gandhi 1947 <span class="lien-badge ok">✓</span></div><div class="lien-url">youtube.com → "indépendance Inde Gandhi 1947"</div></div>
+        </a>
+        <a class="lien" href="https://www.youtube.com/results?search_query=conference+bandung+1955+tiers+monde" target="_blank">
+          <span class="lien-icon">🔴</span>
+          <div class="lien-info"><div class="lien-label">YouTube — Conférence de Bandung & Tiers-Monde <span class="lien-badge ok">✓</span></div><div class="lien-url">youtube.com → "conférence Bandung 1955 tiers monde"</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Étape 03 — Exercices décolonisation -->
+  <div class="etape">
+    <div class="etape-hdr" onclick="toggle('e03')">
+      <div class="etape-num">03</div>
+      <div class="etape-info">
+        <div class="etape-tag">▸ EXERCICES INTERACTIFS</div>
+        <div class="etape-titre">Testez vos connaissances — Décolonisation</div>
+        <div class="etape-duree">⏱ 10 min</div>
+      </div>
+      <div class="etape-arrow" id="arr-e03">›</div>
+    </div>
+    <div class="etape-body" id="e03">
+      <div class="card card-activite">
+        <div class="card-label lbl-activite">🎮 EXERCICES INTERACTIFS</div>
+        <a class="lien" href="https://learningapps.org/view1790589" target="_blank">
+          <span class="lien-icon">🟢</span>
+          <div class="lien-info"><div class="lien-label">LearningApps — La décolonisation (carte interactive) <span class="lien-badge ok">✓</span></div><div class="lien-url">learningapps.org/view1790589</div></div>
+        </a>
+        <a class="lien" href="https://learningapps.org/view1680365" target="_blank">
+          <span class="lien-icon">🟢</span>
+          <div class="lien-info"><div class="lien-label">LearningApps — Causes et étapes de la décolonisation <span class="lien-badge ok">✓</span></div><div class="lien-url">learningapps.org/view1680365</div></div>
+        </a>
+        <a class="lien" href="https://www.lumni.fr/recherche?term=decolonisation+afrique" target="_blank">
+          <span class="lien-icon">🟠</span>
+          <div class="lien-info"><div class="lien-label">Lumni — Décolonisation en Afrique <span class="lien-badge ok">✓</span></div><div class="lien-url">lumni.fr → décolonisation Afrique</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- MISSION ALGÉRIE -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="sec-div"><div class="sec-line"></div><div class="sec-label" style="color:var(--algerie);border-color:var(--algerie);">🇩🇿 MISSION SPÉCIALE — DOSSIER ALGÉRIE</div><div class="sec-line"></div></div>
+
+  <!-- Étape A1 — Cours Algérie -->
+  <div class="etape">
+    <div class="etape-hdr" onclick="toggle('ea1')">
+      <div class="etape-num algerie">A1</div>
+      <div class="etape-info">
+        <div class="etape-tag" style="color:var(--algerie);">▸ COURS COMPLET — ALGÉRIE</div>
+        <div class="etape-titre">La guerre d'Algérie (1954–1962) — Étude de cas</div>
+        <div class="etape-duree">⏱ 15 min</div>
+      </div>
+      <div class="etape-arrow" id="arr-ea1">›</div>
+    </div>
+    <div class="etape-body" id="ea1">
+      <div class="card card-algerie">
+        <div class="card-label lbl-algerie">🇩🇿 DOSSIER ALGÉRIE — CONFIDENTIEL</div>
+        <div class="def-box" style="border-color:var(--algerie)"><strong>Contexte :</strong> Colonie française depuis 1830, l'Algérie a un statut particulier — elle est juridiquement un département français, peuplée d'1 million d'Européens (Pieds-noirs) et de 9 millions de musulmans. L'indépendance se conquiert par les armes.</div>
+        <div class="cours-section">
+          <div class="cours-h algerie">Chronologie détaillée</div>
+          <div class="chrono">
+            <div class="chrono-row"><div class="chrono-date">1er nov. 1954</div><div class="chrono-evt"><strong>Toussaint rouge</strong> — Le FLN déclenche la guerre par des attentats simultanés</div></div>
+            <div class="chrono-row"><div class="chrono-date">1955–1957</div><div class="chrono-evt">Esclade du conflit — Bataille d'Alger (1957), torture, terrorisme urbain</div></div>
+            <div class="chrono-row"><div class="chrono-date">Mai 1958</div><div class="chrono-evt">Crise politique en France — De Gaulle revient au pouvoir</div></div>
+            <div class="chrono-row"><div class="chrono-date">1958–1961</div><div class="chrono-evt">De Gaulle accepte progressivement l'autodétermination algérienne</div></div>
+            <div class="chrono-row"><div class="chrono-date">Avril 1961</div><div class="chrono-evt">Putsch des généraux à Alger — échec de la rébellion militaire</div></div>
+            <div class="chrono-row"><div class="chrono-date">19 mars 1962</div><div class="chrono-evt"><strong>Accords d'Évian</strong> — cessez-le-feu, référendum d'autodétermination</div></div>
+            <div class="chrono-row"><div class="chrono-date">Juillet 1962</div><div class="chrono-evt"><strong>Indépendance de l'Algérie</strong> — Exode des Pieds-noirs (1 million de personnes)</div></div>
+          </div>
+        </div>
+        <div class="cours-section">
+          <div class="cours-h algerie">Les acteurs du conflit</div>
+          <table class="tableau">
+            <tr><th>Acteur</th><th>Rôle</th></tr>
+            <tr><td><strong>FLN</strong> (Front de Libération Nationale)</td><td>Organisation indépendantiste algérienne, lutte armée et diplomatique</td></tr>
+            <tr><td><strong>Pieds-noirs</strong></td><td>Européens d'Algérie (~1 million), opposés à l'indépendance</td></tr>
+            <tr><td><strong>Harkis</strong></td><td>Soldats algériens servant dans l'armée française, abandonnés en 1962</td></tr>
+            <tr><td><strong>OAS</strong></td><td>Organisation Armée Secrète — extrémistes pieds-noirs contre l'indépendance</td></tr>
+            <tr><td><strong>De Gaulle</strong></td><td>Négocie finalement l'indépendance malgré ses engagements initiaux</td></tr>
+          </table>
+        </div>
+        <div class="cours-section">
+          <div class="cours-h algerie">Vocabulaire essentiel</div>
+          <div class="vocab-grid">
+            <div class="vocab-item"><div class="vocab-term">FLN</div><div class="vocab-def">Front de Libération Nationale — mouvement indépendantiste algérien</div></div>
+            <div class="vocab-item"><div class="vocab-term">Pieds-noirs</div><div class="vocab-def">Européens d'Algérie contraints de partir après l'indépendance</div></div>
+            <div class="vocab-item"><div class="vocab-term">Harkis</div><div class="vocab-def">Soldats algériens de l'armée française, victimes tragiques de la guerre</div></div>
+            <div class="vocab-item"><div class="vocab-term">Accords d'Évian</div><div class="vocab-def">Accord du 19 mars 1962 mettant fin à la guerre</div></div>
+            <div class="vocab-item"><div class="vocab-term">Toussaint rouge</div><div class="vocab-def">1er novembre 1954 — début des attentats du FLN</div></div>
+            <div class="vocab-item"><div class="vocab-term">Autodétermination</div><div class="vocab-def">Droit d'un peuple à décider librement de son avenir politique</div></div>
+          </div>
+        </div>
+        <div class="question-agent">
+          <div class="qa-title" style="color:var(--algerie);">🕵️ Question Agent</div>
+          <div class="qa-q">Pourquoi la guerre d'Algérie est-elle différente des autres décolonisations ? Citez <strong>2 raisons</strong> dans votre carnet de bord.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Étape A2 — Vidéos Algérie -->
+  <div class="etape">
+    <div class="etape-hdr" onclick="toggle('ea2')">
+      <div class="etape-num algerie">A2</div>
+      <div class="etape-info">
+        <div class="etape-tag" style="color:var(--algerie);">▸ VIDÉOS — DOSSIER ALGÉRIE</div>
+        <div class="etape-titre">Sources audiovisuelles — Guerre d'Algérie</div>
+        <div class="etape-duree">⏱ 8 min</div>
+      </div>
+      <div class="etape-arrow" id="arr-ea2">›</div>
+    </div>
+    <div class="etape-body" id="ea2">
+      <div class="card card-algerie">
+        <div class="card-label lbl-algerie">🎬 VIDÉOS ALGÉRIE</div>
+        <a class="lien" href="https://www.youtube.com/results?search_query=guerre+algerie+3eme+histoire" target="_blank">
+          <span class="lien-icon">🔴</span>
+          <div class="lien-info"><div class="lien-label">YouTube — Guerre d'Algérie 3ème <span class="lien-badge ok">✓</span></div><div class="lien-url">youtube.com → "guerre Algérie 3ème histoire"</div></div>
+        </a>
+        <a class="lien" href="https://www.lumni.fr/recherche?term=guerre+algerie" target="_blank">
+          <span class="lien-icon">🟠</span>
+          <div class="lien-info"><div class="lien-label">Lumni — Guerre d'Algérie <span class="lien-badge ok">✓</span></div><div class="lien-url">lumni.fr → guerre Algérie</div></div>
+        </a>
+        <a class="lien" href="https://www.youtube.com/results?search_query=accords+evian+1962+algerie" target="_blank">
+          <span class="lien-icon">🔴</span>
+          <div class="lien-info"><div class="lien-label">YouTube — Accords d'Évian 1962 <span class="lien-badge ok">✓</span></div><div class="lien-url">youtube.com → "accords Évian 1962 Algérie"</div></div>
+        </a>
+        <a class="lien" href="https://www.youtube.com/results?search_query=pieds+noirs+harkis+1962" target="_blank">
+          <span class="lien-icon">🔴</span>
+          <div class="lien-info"><div class="lien-label">YouTube — Pieds-noirs & Harkis 1962 <span class="lien-badge ok">✓</span></div><div class="lien-url">youtube.com → "pieds-noirs harkis 1962"</div></div>
+        </a>
+        <a class="lien" href="https://www.eduscol.education.fr/3140/algerie-1962-france-2022-enseigner-la-fin-de-la-guerre-et-ses-enjeux-memoriels" target="_blank">
+          <span class="lien-icon">📚</span>
+          <div class="lien-info"><div class="lien-label">Éduscol — Ressources officielles Algérie <span class="lien-badge ok">✓</span></div><div class="lien-url">eduscol.education.fr → ressources Algérie 1962</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Étape A3 — Quiz Algérie -->
+  <div class="etape">
+    <div class="etape-hdr" onclick="toggle('ea3')">
+      <div class="etape-num algerie">A3</div>
+      <div class="etape-info">
+        <div class="etape-tag" style="color:var(--algerie);">▸ EXERCICES INTERACTIFS — ALGÉRIE</div>
+        <div class="etape-titre">Testez vos connaissances — Dossier Algérie</div>
+        <div class="etape-duree">⏱ 7 min</div>
+      </div>
+      <div class="etape-arrow" id="arr-ea3">›</div>
+    </div>
+    <div class="etape-body" id="ea3">
+      <div class="card card-algerie">
+        <div class="card-label lbl-algerie">🎮 EXERCICES — ALGÉRIE</div>
+        <a class="lien" href="https://learningapps.org/view12704318" target="_blank">
+          <span class="lien-icon">🟢</span>
+          <div class="lien-info"><div class="lien-label">LearningApps — Chronologie Guerre d'Algérie <span class="lien-badge ok">✓</span></div><div class="lien-url">learningapps.org/view12704318</div></div>
+        </a>
+        <a class="lien" href="https://www.youtube.com/results?search_query=quiz+guerre+algerie+3eme" target="_blank">
+          <span class="lien-icon">🔴</span>
+          <div class="lien-info"><div class="lien-label">YouTube — Quiz guerre d'Algérie 3ème <span class="lien-badge ok">✓</span></div><div class="lien-url">youtube.com → "quiz guerre Algérie 3ème"</div></div>
+        </a>
+        <div class="question-agent" style="border-color:var(--algerie)">
+          <div class="qa-title" style="color:var(--algerie);">📋 Mini-exercice "5 réponses rapides"</div>
+          <div class="qa-q">Sans regarder vos notes, répondez dans votre cahier :<br>
+          ① Sigle du mouvement indépendantiste algérien ? <em style="color:var(--vert)">(FLN)</em><br>
+          ② Nom des Européens d'Algérie forcés de partir ? <em style="color:var(--vert)">(Pieds-noirs)</em><br>
+          ③ Accord mettant fin à la guerre le 19 mars 1962 ? <em style="color:var(--vert)">(Accords d'Évian)</em><br>
+          ④ Général revenu au pouvoir en 1958 ? <em style="color:var(--vert)">(De Gaulle)</em><br>
+          ⑤ Soldats algériens de l'armée française ? <em style="color:var(--vert)">(Harkis)</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- PHASE 2 — GUERRE FROIDE -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="sec-div"><div class="sec-line"></div><div class="sec-label" style="color:var(--bleu);border-color:var(--bleu);">❄️ PHASE 2 — FRONT EUROPÉEN : LA GUERRE FROIDE</div><div class="sec-line"></div></div>
+
+  <!-- Étape 04 -->
+  <div class="etape">
+    <div class="etape-hdr" onclick="toggle('e04')">
+      <div class="etape-num bleu">04</div>
+      <div class="etape-info">
+        <div class="etape-tag">▸ COURS + TRACES ÉCRITES</div>
+        <div class="etape-titre">La Guerre froide (1947–1991) : le monde bipolaire</div>
+        <div class="etape-duree">⏱ 15 min</div>
+      </div>
+      <div class="etape-arrow" id="arr-e04">›</div>
+    </div>
+    <div class="etape-body" id="e04">
+      <div class="card card-cours">
+        <div class="card-label lbl-cours">📘 COURS — GUERRE FROIDE</div>
+        <div class="def-box"><strong>Guerre froide :</strong> affrontement indirect entre les USA et l'URSS (1947–1991), sans conflit armé direct entre les deux superpuissances. Chaque camp cherche à étendre son influence dans le monde.</div>
+        <div class="cours-section">
+          <div class="cours-h">Les deux blocs</div>
+          <table class="tableau">
+            <tr><th>Bloc OCCIDENTAL <span class="bloc-badge bloc-ouest">🗽 USA</span></th><th>Bloc ORIENTAL <span class="bloc-badge bloc-est">☭ URSS</span></th></tr>
+            <tr><td><strong>Idéologie :</strong> démocratie libérale, économie de marché</td><td><strong>Idéologie :</strong> communisme, économie planifiée</td></tr>
+            <tr><td><strong>Alliance :</strong> OTAN (1949)</td><td><strong>Alliance :</strong> Pacte de Varsovie (1955)</td></tr>
+            <tr><td><strong>Plan Marshall</strong> (aide économique à l'Europe, 1947)</td><td><strong>Kominform</strong> (coordination des partis communistes)</td></tr>
+            <tr><td>Doctrine Truman — endiguement du communisme</td><td>Doctrine Jdanov — lutte contre l'impérialisme américain</td></tr>
+          </table>
+        </div>
+        <div class="cours-section">
+          <div class="cours-h">Les grandes crises</div>
+          <div class="chrono">
+            <div class="chrono-row"><div class="chrono-date">1948–49</div><div class="chrono-evt"><strong>Blocus de Berlin</strong> — l'URSS coupe l'accès à Berlin-Ouest, pont aérien allié</div></div>
+            <div class="chrono-row"><div class="chrono-date">1950–53</div><div class="chrono-evt"><strong>Guerre de Corée</strong> — premier conflit armé de la Guerre froide</div></div>
+            <div class="chrono-row"><div class="chrono-date">1961</div><div class="chrono-evt"><strong>Mur de Berlin</strong> — l'URSS coupe Berlin en deux pour stopper les fuites</div></div>
+            <div class="chrono-row"><div class="chrono-date">Oct. 1962</div><div class="chrono-evt"><strong>Crise des missiles de Cuba</strong> — le monde au bord de la guerre nucléaire (13 jours)</div></div>
+            <div class="chrono-row"><div class="chrono-date">1965–73</div><div class="chrono-evt"><strong>Guerre du Vietnam</strong> — défaite américaine face au communisme</div></div>
+            <div class="chrono-row"><div class="chrono-date">1989</div><div class="chrono-evt"><strong>Chute du mur de Berlin</strong> — fin de la Guerre froide</div></div>
+            <div class="chrono-row"><div class="chrono-date">1991</div><div class="chrono-evt"><strong>Dissolution de l'URSS</strong> — victoire américaine, fin de la bipolarité</div></div>
+          </div>
+        </div>
+        <div class="cours-section">
+          <div class="cours-h">La voie des Non-Alignés</div>
+          <ul class="cours-list">
+            <li><strong>Conférence de Bandung (1955) :</strong> 29 pays afro-asiatiques refusent de choisir entre les deux blocs.</li>
+            <li><strong>Tiers Monde :</strong> terme créé par Alfred Sauvy (1952) pour désigner ces pays en dehors des deux blocs.</li>
+            <li>Figures emblématiques : <strong>Nehru</strong> (Inde), <strong>Nasser</strong> (Égypte), <strong>Tito</strong> (Yougoslavie), <strong>Sukarno</strong> (Indonésie).</li>
+            <li>Le Librestan peut choisir cette voie — indépendance vis-à-vis des deux superpuissances.</li>
+          </ul>
+        </div>
+        <div class="question-agent">
+          <div class="qa-title">🕵️ Question Agent</div>
+          <div class="qa-q">Le <strong>Librestan</strong> doit choisir son camp ou rester non-aligné. Quel est votre choix et pourquoi ? Argumentez en 3 phrases dans votre carnet de bord.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Étape 05 — Vidéos Guerre froide -->
+  <div class="etape">
+    <div class="etape-hdr" onclick="toggle('e05')">
+      <div class="etape-num bleu">05</div>
+      <div class="etape-info">
+        <div class="etape-tag">▸ RESSOURCES VIDÉO</div>
+        <div class="etape-titre">Guerre froide — Sources audiovisuelles</div>
+        <div class="etape-duree">⏱ 10 min</div>
+      </div>
+      <div class="etape-arrow" id="arr-e05">›</div>
+    </div>
+    <div class="etape-body" id="e05">
+      <div class="card card-activite">
+        <div class="card-label lbl-activite">🎬 VIDÉOS RECOMMANDÉES</div>
+        <a class="lien" href="https://www.youtube.com/results?search_query=guerre+froide+3eme+brevet+histoire" target="_blank">
+          <span class="lien-icon">🔴</span>
+          <div class="lien-info"><div class="lien-label">YouTube — Guerre froide 3ème brevet <span class="lien-badge ok">✓</span></div><div class="lien-url">youtube.com → "guerre froide 3ème brevet"</div></div>
+        </a>
+        <a class="lien" href="https://www.lumni.fr/recherche?term=guerre+froide" target="_blank">
+          <span class="lien-icon">🟠</span>
+          <div class="lien-info"><div class="lien-label">Lumni — Guerre froide (officiel) <span class="lien-badge ok">✓</span></div><div class="lien-url">lumni.fr → guerre froide</div></div>
+        </a>
+        <a class="lien" href="https://www.youtube.com/results?search_query=crise+missiles+cuba+1962" target="_blank">
+          <span class="lien-icon">🔴</span>
+          <div class="lien-info"><div class="lien-label">YouTube — Crise des missiles de Cuba 1962 <span class="lien-badge ok">✓</span></div><div class="lien-url">youtube.com → "crise missiles Cuba 1962"</div></div>
+        </a>
+        <a class="lien" href="https://www.youtube.com/results?search_query=mur+de+berlin+chute+1989" target="_blank">
+          <span class="lien-icon">🔴</span>
+          <div class="lien-info"><div class="lien-label">YouTube — Chute du mur de Berlin 1989 <span class="lien-badge ok">✓</span></div><div class="lien-url">youtube.com → "mur Berlin chute 1989"</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Étape 06 — Exercices Guerre froide -->
+  <div class="etape">
+    <div class="etape-hdr" onclick="toggle('e06')">
+      <div class="etape-num bleu">06</div>
+      <div class="etape-info">
+        <div class="etape-tag">▸ EXERCICES INTERACTIFS</div>
+        <div class="etape-titre">Testez vos connaissances — Guerre froide</div>
+        <div class="etape-duree">⏱ 10 min</div>
+      </div>
+      <div class="etape-arrow" id="arr-e06">›</div>
+    </div>
+    <div class="etape-body" id="e06">
+      <div class="card card-activite">
+        <div class="card-label lbl-activite">🎮 EXERCICES INTERACTIFS</div>
+        <a class="lien" href="https://learningapps.org/view1793456" target="_blank">
+          <span class="lien-icon">🟢</span>
+          <div class="lien-info"><div class="lien-label">LearningApps — Guerre froide : les deux blocs <span class="lien-badge ok">✓</span></div><div class="lien-url">learningapps.org/view1793456</div></div>
+        </a>
+        <a class="lien" href="https://learningapps.org/view3344091" target="_blank">
+          <span class="lien-icon">🟢</span>
+          <div class="lien-info"><div class="lien-label">LearningApps — Chronologie Guerre froide <span class="lien-badge ok">✓</span></div><div class="lien-url">learningapps.org/view3344091</div></div>
+        </a>
+        <a class="lien" href="https://www.youtube.com/results?search_query=quiz+guerre+froide+3eme" target="_blank">
+          <span class="lien-icon">🔴</span>
+          <div class="lien-info"><div class="lien-label">YouTube — Quiz Guerre froide 3ème <span class="lien-badge ok">✓</span></div><div class="lien-url">youtube.com → "quiz guerre froide 3ème"</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- PHASE 3 — ESCAPE GAME -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="sec-div"><div class="sec-line"></div><div class="sec-label" style="color:var(--rouge);border-color:var(--rouge);">🔐 PHASE 3 — BUNKER BRAVO : ESCAPE GAME</div><div class="sec-line"></div></div>
+
+  <div class="etape">
+    <div class="etape-hdr" onclick="toggle('e07')">
+      <div class="etape-num rouge">07</div>
+      <div class="etape-info">
+        <div class="etape-tag" style="color:var(--rouge);">▸ ESCAPE GAME — MISSION FINALE</div>
+        <div class="etape-titre">Bunker Bravo — 4 verrous à briser en 15 minutes</div>
+        <div class="etape-duree">⏱ 15 min</div>
+      </div>
+      <div class="etape-arrow" id="arr-e07">›</div>
+    </div>
+    <div class="etape-body" id="e07">
+      <div class="card card-escape">
+        <div class="card-label lbl-escape">🔐 ESCAPE GAME — DOSSIER CLASSIFIÉ</div>
+        <p><strong>Situation :</strong> Vous avez infiltré le Bunker Bravo, QG secret de la Guerre froide. 4 verrous chiffrés protègent les archives. Chaque verrou = une question maîtrisée.</p>
+        <div class="verrou">
+          <div class="verrou-title">🔒 VERROU 1 — Décolonisation</div>
+          <div class="verrou-body">Quelle conférence de 1955 rassemble 29 pays afro-asiatiques ? → <strong>BANDUNG</strong></div>
+        </div>
+        <div class="verrou">
+          <div class="verrou-title">🔒 VERROU 2 — Algérie</div>
+          <div class="verrou-body">Quel accord du 19 mars 1962 met fin à la guerre d'Algérie ? → <strong>ÉVIAN</strong></div>
+        </div>
+        <div class="verrou">
+          <div class="verrou-title">🔒 VERROU 3 — Guerre froide</div>
+          <div class="verrou-body">Quelle crise d'octobre 1962 amène le monde au bord de la guerre nucléaire ? → <strong>CUBA</strong></div>
+        </div>
+        <div class="verrou">
+          <div class="verrou-title">🔒 VERROU 4 — Chronologie</div>
+          <div class="verrou-body">En quelle année le mur de Berlin tombe-t-il, marquant la fin de la Guerre froide ? → <strong>1989</strong></div>
+        </div>
+        <div style="margin-top:14px;">
+          <a class="lien" href="https://view.genially.com/665447897729d20014e5c981" target="_blank">
+            <span class="lien-icon">🔐</span>
+            <div class="lien-info"><div class="lien-label">Escape Game Genially — Version numérique complète <span class="lien-badge ok">✓</span></div><div class="lien-url">view.genially.com/665447897729d20014e5c981</div></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- PHASE 4 — RAPPORT FINAL -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="sec-div"><div class="sec-line"></div><div class="sec-label" style="color:var(--vert);border-color:var(--vert);">📋 PHASE 4 — RAPPORT FINAL : FICHE DE RÉVISION DNB</div><div class="sec-line"></div></div>
+
+  <div class="etape">
+    <div class="etape-hdr" onclick="toggle('e08')">
+      <div class="etape-num vert">08</div>
+      <div class="etape-info">
+        <div class="etape-tag" style="color:var(--vert);">▸ RAPPORT FINAL — SYNTHÈSE DNB</div>
+        <div class="etape-titre">Rédiger votre fiche de révision complète pour Sir. Cron</div>
+        <div class="etape-duree">⏱ 25 min</div>
+      </div>
+      <div class="etape-arrow" id="arr-e08">›</div>
+    </div>
+    <div class="etape-body" id="e08">
+      <div class="card card-final">
+        <div class="card-label lbl-final">📋 RAPPORT FINAL — AGENT LIBRESTAN</div>
+        <p style="color:var(--gris);margin-bottom:16px;">Rédigez dans votre cahier ou sur feuille une fiche de révision structurée. Ce sera votre outil principal pour le DNB.</p>
+        <div class="rapport-section">
+          <div class="rapport-h">I — Le monde après 1945 : présentation</div>
+          <div class="rapport-lines"><div></div><div></div><div></div></div>
+        </div>
+        <div class="rapport-section">
+          <div class="rapport-h">II — La décolonisation : causes, étapes, exemples</div>
+          <div class="rapport-lines"><div></div><div></div><div></div><div></div></div>
+        </div>
+        <div class="rapport-section">
+          <div class="rapport-h">III — La guerre d'Algérie : étude de cas</div>
+          <div class="rapport-lines"><div></div><div></div><div></div></div>
+        </div>
+        <div class="rapport-section">
+          <div class="rapport-h">IV — La Guerre froide : blocs, crises, fin</div>
+          <div class="rapport-lines"><div></div><div></div><div></div><div></div></div>
+        </div>
+        <div class="rapport-section">
+          <div class="rapport-h">V — Le choix du Librestan</div>
+          <p style="color:var(--gris);font-size:.88rem;">Rédigez un paragraphe de 5 à 8 lignes expliquant le positionnement de votre pays fictif face à la Guerre froide et à la décolonisation. Utilisez les notions du cours.</p>
+          <div class="rapport-lines"><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
+        <div class="def-box" style="margin-top:16px;border-color:var(--vert);">
+          <strong>Vocabulaire à maîtriser pour le DNB :</strong> décolonisation · monothéisme · Tiers Monde · non-alignés · Guerre froide · dissuasion nucléaire · FLN · Pieds-noirs · Harkis · Accords d'Évian · OTAN · Pacte de Varsovie · Bandung · mur de Berlin · bipolarité
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BANNIÈRE FINALE -->
+  <div style="background:linear-gradient(135deg,#050c18,#0d1f35);border:2px solid var(--or);border-radius:10px;padding:24px;text-align:center;margin-top:24px;">
+    <div style="font-size:1.8rem;margin-bottom:8px;">🎖️</div>
+    <div style="font-size:1.1rem;font-weight:900;color:var(--or-clair);margin-bottom:6px;">Mission LIBRESTAN accomplie</div>
+    <div style="font-size:.9rem;color:var(--gris);line-height:1.6;">« Un agent qui connaît l'histoire du monde est un agent qui comprend le présent. »<br>Bonne chance pour le DNB !</div>
+    <div style="font-size:.8rem;color:var(--or);margin-top:12px;font-weight:600;">M. Grégory CRON · Professeur d'Histoire-Géographie-EMC</div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+function toggle(id){
+  var body = document.getElementById(id);
+  var arr = document.getElementById('arr-'+id);
+  var open = body.classList.toggle('open');
+  arr.classList.toggle('open', open);
+  updateProg();
+}
+
+function updateProg(){
+  var all = document.querySelectorAll('.etape-body').length;
+  var opened = document.querySelectorAll('.etape-body.open').length;
+  document.getElementById('prog').style.width = (opened/all*100)+'%';
+}
+</script>
+</body>
+</html>

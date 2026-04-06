@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Décolonisation — 3ème · M. Grégory CRON</title>
+<style>
+:root{
+  --bg:#0a0f1a;--surface:#111827;--card:#1a2235;--border:#2a3550;
+  --gold:#f0c040;--gold2:#c89820;--teal:#2dd4bf;--red:#ef4444;
+  --green:#22c55e;--purple:#a855f7;--blue:#3b82f6;
+  --text:#f1f5f9;--muted:#94a3b8;--dim:#475569;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* ── Header ── */
+.hdr{background:linear-gradient(135deg,#0d1b2a,#1a0a2e);border-bottom:2px solid var(--gold);padding:16px 20px;position:sticky;top:0;z-index:100;}
+.hdr-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.hdr h1{font-size:1.1rem;font-weight:800;color:var(--gold);flex:1;letter-spacing:.02em;}
+.hdr-sub{font-size:.72rem;color:var(--muted);display:block;font-weight:400;}
+.hud{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.hud-box{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:6px 12px;text-align:center;min-width:72px;}
+.hud-label{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+.hud-val{font-size:1.1rem;font-weight:800;color:var(--gold);}
+.hud-val.danger{color:var(--red);}
+.lives{display:flex;gap:4px;justify-content:center;font-size:1.1rem;}
+
+/* ── Progress ── */
+.prog-wrap{background:var(--border);height:5px;width:100%;}
+.prog-fill{height:5px;background:linear-gradient(90deg,var(--teal),var(--gold));transition:width .4s;}
+
+/* ── Main ── */
+.main{max-width:860px;margin:0 auto;padding:20px 16px;}
+
+/* ── Question card ── */
+.q-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px;animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.q-meta{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;}
+.q-cat{font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em;}
+.cat-0{background:rgba(59,130,246,.2);color:#93c5fd;}
+.cat-1{background:rgba(168,85,247,.2);color:#d8b4fe;}
+.cat-2{background:rgba(34,197,94,.2);color:#86efac;}
+.cat-3{background:rgba(239,68,68,.2);color:#fca5a5;}
+.cat-4{background:rgba(45,212,191,.2);color:#99f6e4;}
+.cat-5{background:rgba(240,192,64,.2);color:#fde68a;}
+.q-num{font-size:.75rem;color:var(--muted);}
+.q-text{font-size:1.05rem;font-weight:600;color:var(--text);line-height:1.55;margin-bottom:18px;}
+.q-fun{font-size:.78rem;color:var(--gold);background:rgba(240,192,64,.08);border-left:3px solid var(--gold);padding:6px 10px;border-radius:0 6px 6px 0;margin-bottom:14px;font-style:italic;}
+
+/* ── Options ── */
+.options{display:grid;gap:10px;}
+.opt{background:rgba(255,255,255,.04);border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;cursor:pointer;font-size:.95rem;text-align:left;color:var(--text);transition:all .18s;display:flex;gap:10px;align-items:flex-start;}
+.opt:hover:not(:disabled){background:rgba(240,192,64,.08);border-color:var(--gold);}
+.opt.correct{background:rgba(34,197,94,.15);border-color:var(--green);color:var(--green);}
+.opt.wrong{background:rgba(239,68,68,.12);border-color:var(--red);color:var(--red);}
+.opt:disabled{cursor:default;}
+.opt-letter{width:22px;height:22px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;margin-top:1px;}
+
+/* ── Feedback ── */
+.feedback{border-radius:10px;padding:12px 16px;font-size:.9rem;margin-top:10px;line-height:1.5;display:none;}
+.feedback.correct{background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);color:#86efac;}
+.feedback.wrong{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#fca5a5;}
+.feedback.show{display:block;}
+
+/* ── Next button ── */
+.btn-next{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#0a0f1a;font-weight:800;font-size:.95rem;padding:12px 30px;border:none;border-radius:10px;cursor:pointer;margin-top:14px;display:none;letter-spacing:.02em;transition:opacity .2s;}
+.btn-next:hover{opacity:.85;}
+.btn-next.show{display:inline-block;}
+
+/* ── Combo toast ── */
+.combo-toast{position:fixed;top:80px;right:20px;background:var(--gold);color:#0a0f1a;font-weight:900;font-size:1.1rem;padding:10px 20px;border-radius:10px;display:none;z-index:200;animation:toastIn .3s ease;}
+@keyframes toastIn{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* ── End screen ── */
+.end-screen{display:none;background:var(--card);border:2px solid var(--gold);border-radius:16px;padding:36px 28px;text-align:center;margin:20px auto;max-width:600px;}
+.end-screen.show{display:block;}
+.end-title{font-size:2rem;font-weight:900;color:var(--gold);margin-bottom:8px;}
+.end-sub{font-size:1rem;color:var(--muted);margin-bottom:24px;}
+.end-stars{font-size:2.5rem;margin-bottom:16px;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;}
+.stat-box{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:14px;}
+.stat-val{font-size:1.6rem;font-weight:900;color:var(--gold);}
+.stat-lbl{font-size:.75rem;color:var(--muted);margin-top:3px;}
+.btn-restart{background:var(--gold);color:#0a0f1a;font-weight:800;padding:12px 28px;border:none;border-radius:10px;cursor:pointer;font-size:1rem;margin-top:16px;}
+.btn-restart:hover{opacity:.85;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-inner">
+    <div style="flex:1">
+      <h1>🌍 Quiz Décolonisation <span class="hdr-sub">3ème · Histoire · M. Grégory CRON</span></h1>
+    </div>
+    <div class="hud">
+      <div class="hud-box"><div class="hud-label">Score</div><div class="hud-val" id="score">0</div></div>
+      <div class="hud-box"><div class="hud-label">Combo</div><div class="hud-val" id="combo">×1</div></div>
+      <div class="hud-box"><div class="hud-label">Vies</div><div class="lives" id="lives">❤️❤️❤️</div></div>
+      <div class="hud-box"><div class="hud-label">Question</div><div class="hud-val" id="q-count">1/20</div></div>
+    </div>
+  </div>
+  <div class="prog-wrap"><div class="prog-fill" id="prog" style="width:0%"></div></div>
+</div>
+
+<div class="combo-toast" id="combo-toast"></div>
+
+<div class="main">
+  <div id="game-area"></div>
+  <div class="end-screen" id="end-screen">
+    <div class="end-stars" id="end-stars"></div>
+    <div class="end-title" id="end-title"></div>
+    <div class="end-sub" id="end-sub"></div>
+    <div class="stat-grid">
+      <div class="stat-box"><div class="stat-val" id="s-correct">0</div><div class="stat-lbl">Bonnes réponses</div></div>
+      <div class="stat-box"><div class="stat-val" id="s-wrong">0</div><div class="stat-lbl">Mauvaises réponses</div></div>
+      <div class="stat-box"><div class="stat-val" id="s-score">0</div><div class="stat-lbl">Score final</div></div>
+      <div class="stat-box"><div class="stat-val" id="s-best">×1</div><div class="stat-lbl">Meilleur combo</div></div>
+    </div>
+    <button class="btn-restart" onclick="initGame()">🔄 Rejouer</button>
+  </div>
+</div>
+
+<script>
+const CATS = [
+  {name:"Inde & Gandhi",    cls:"cat-0"},
+  {name:"Guerres d'indép.", cls:"cat-1"},
+  {name:"Afrique",          cls:"cat-2"},
+  {name:"Guerre Froide",    cls:"cat-3"},
+  {name:"Tiers-Monde & ONU",cls:"cat-4"},
+  {name:"Anecdotes",        cls:"cat-5"},
+];
+
+const ALL = [
+  // CAT 0 — INDE & GANDHI
+  {c:0,q:"Quand l'Inde obtient-elle son indépendance ?",opts:["1945","1947","1950","1954"],a:1,
+   fb:"Le 15 août 1947, l'Inde devient indépendante après 200 ans de domination britannique.",
+   fun:"Le 15 août est aussi la fête nationale de Corée du Sud !"},
+  {c:0,q:"Qui est le leader non-violent de l'indépendance indienne ?",opts:["Nehru","Jinnah","Gandhi","Mountbatten"],a:2,
+   fb:"Mahatma Gandhi prône la non-violence (ahimsa) et la désobéissance civile.",
+   fun:"Gandhi a passé 2089 jours en prison pour ses combats politiques !"},
+  {c:0,q:"La partition de 1947 crée l'Inde et quel autre État ?",opts:["Bangladesh","Sri Lanka","Pakistan","Bhoutan"],a:2,
+   fb:"La partition crée deux États : l'Inde hindoue et le Pakistan musulman, provoquant des millions de déplacés.",
+   fun:"La partition a provoqué le plus grand déplacement de population de l'histoire : 14 millions de personnes."},
+  {c:0,q:"Qui est le premier ministre de l'Inde indépendante ?",opts:["Gandhi","Nehru","Jinnah","Patel"],a:1,
+   fb:"Jawaharlal Nehru devient le premier Premier ministre de l'Inde le 15 août 1947.",
+   fun:"Nehru restera au pouvoir jusqu'à sa mort en 1964, soit 17 ans !"},
+  {c:0,q:"Quelle technique de résistance Gandhi utilise-t-il en 1930 ?",opts:["Grève générale","Marche du sel","Boycott des trains","Pétition au roi"],a:1,
+   fb:"La Marche du sel (240 km) proteste contre la taxe britannique sur le sel. C'est un acte de désobéissance civile emblématique.",
+   fun:"Gandhi a parcouru 388 km à pied lors de sa marche du sel, soit environ 24 jours de marche !"},
+
+  // CAT 1 — GUERRES D'INDÉPENDANCE
+  {c:1,q:"Quelle bataille marque la défaite française en Indochine (1954) ?",opts:["Verdun","Diên Biên Phu","Alger","Oradour"],a:1,
+   fb:"La bataille de Diên Biên Phu (mars-mai 1954) voit la capitulation de l'armée française face au Viet Minh de Hô Chi Minh.",
+   fun:"La France a perdu 2 293 hommes à Diên Biên Phu. Le Viet Minh en avait encerclé 15 000 !"},
+  {c:1,q:"En quelle année commence la guerre d'indépendance algérienne ?",opts:["1950","1952","1954","1958"],a:2,
+   fb:"Le 1er novembre 1954, le FLN (Front de Libération Nationale) déclenche la guerre d'Algérie.",
+   fun:"Le 1er novembre est la Toussaint — les Français appelèrent le début de la guerre 'la Toussaint rouge'."},
+  {c:1,q:"Quel accord met fin à la guerre d'Algérie en 1962 ?",opts:["Accords d'Évian","Traité de Paris","Accords de Genève","Traité de Rome"],a:0,
+   fb:"Les Accords d'Évian (19 mars 1962) mettent fin à la guerre et reconnaissent l'indépendance de l'Algérie.",
+   fun:"Les Accords d'Évian ont été négociés dans une villa au bord du lac Léman en Suisse !"},
+  {c:1,q:"Comment appelle-t-on les Européens d'Algérie contraints de partir en 1962 ?",opts:["Harkis","Pieds-noirs","Colons","Rapatriés"],a:1,
+   fb:"Les Pieds-noirs sont les Européens (environ 1 million) qui vivaient en Algérie et durent la quitter après l'indépendance.",
+   fun:"Le surnom 'Pieds-noirs' viendrait des bottines noires portées par les premiers colons... mais son origine exacte reste débattue !"},
+  {c:1,q:"Quel pays colonisateur perd la guerre du Vietnam en 1975 ?",opts:["France","Royaume-Uni","États-Unis","URSS"],a:2,
+   fb:"Les États-Unis, engagés depuis 1965, se retirent en 1973. Saïgon tombe en 1975 et le Vietnam est réunifié.",
+   fun:"La guerre du Vietnam a duré 20 ans (1955-1975) et coûté 58 000 vies américaines et des millions de vies vietnamiennes."},
+
+  // CAT 2 — AFRIQUE
+  {c:2,q:"Quelle année est surnommée 'l'Année de l'Afrique' car 17 pays accèdent à l'indépendance ?",opts:["1956","1958","1960","1962"],a:2,
+   fb:"En 1960, 17 pays africains (dont le Sénégal, la Côte d'Ivoire, le Mali) accèdent à l'indépendance en quelques mois.",
+   fun:"Le 1er octobre 1960, le Nigeria (le plus peuplé d'Afrique) accède à l'indépendance. Une fête géante !"},
+  {c:2,q:"Le Maroc et la Tunisie obtiennent leur indépendance de la France en quelle année ?",opts:["1952","1954","1956","1958"],a:2,
+   fb:"Le Maroc et la Tunisie obtiennent leur indépendance le 2 mars et le 20 mars 1956, par négociation pacifique.",
+   fun:"La Tunisie fut le premier pays d'Afrique du Nord à accéder à l'indépendance dans l'ère moderne !"},
+  {c:2,q:"Qui est Nelson Mandela ?",opts:["Président du Kenya","Leader anti-apartheid sud-africain","Chef du FLN algérien","Premier ministre du Sénégal"],a:1,
+   fb:"Nelson Mandela lutte contre l'apartheid (ségrégation raciale) en Afrique du Sud. Emprisonné 27 ans, il devient président en 1994.",
+   fun:"Mandela a passé 27 ans en prison sur l'île de Robben Island. Il a appris la langue afrikaans de ses gardiens !"},
+  {c:2,q:"Quelle conférence (1955) rassemble les pays d'Asie et d'Afrique pour défendre l'indépendance ?",opts:["Conférence de Yalta","Conférence de Bandung","Conférence de Genève","Conférence de Berlin"],a:1,
+   fb:"La conférence de Bandung (Indonésie, avril 1955) réunit 29 pays afro-asiatiques et proclame le droit des peuples à disposer d'eux-mêmes.",
+   fun:"Bandung est parfois appelée 'la conférence des damnés de la Terre' — elle représentait 1,5 milliard de personnes !"},
+  {c:2,q:"Quelle puissance coloniale contrôle le Congo belge, indépendant en 1960 ?",opts:["France","Belgique","Portugal","Pays-Bas"],a:1,
+   fb:"La Belgique colonise le Congo depuis 1908. L'indépendance du Congo (30 juin 1960) est suivie d'une crise politique majeure.",
+   fun:"Le roi Léopold II de Belgique a fait du Congo sa propriété personnelle — l'un des régimes coloniaux les plus brutaux de l'histoire."},
+
+  // CAT 3 — GUERRE FROIDE & DÉCOLONISATION
+  {c:3,q:"Pourquoi les USA soutiennent-ils la décolonisation ?",opts:["Par idéalisme pur","Pour affaiblir les empires européens et étendre leur influence","Par peur du communisme uniquement","Pour des raisons humanitaires"],a:1,
+   fb:"Les USA s'opposent au colonialisme européen pour des raisons stratégiques : affaiblir leurs alliés-concurrents et séduire les nouveaux États indépendants.",
+   fun:"Les USA ont eux-mêmes été une colonie britannique avant 1776 — ils se sont longtemps présentés comme 'anti-coloniaux' !"},
+  {c:3,q:"Qu'est-ce que le mouvement des Non-Alignés ?",opts:["Alliance militaire","Pays refusant de choisir entre USA et URSS","Pays sans armée","Organisation économique"],a:1,
+   fb:"Le mouvement des Non-Alignés (fondé à Bandung) rassemble des pays refusant de s'aligner sur les blocs américain ou soviétique.",
+   fun:"L'Inde, l'Égypte, la Yougoslavie et l'Indonésie sont les pères fondateurs du mouvement des Non-Alignés."},
+  {c:3,q:"En 1956, Nasser nationalise le canal de Suez. Quelle est la réaction franco-britannique ?",opts:["Aucune réaction","Saisine de l'ONU","Intervention militaire","Embargo économique"],a:2,
+   fb:"La France et le Royaume-Uni interviennent militairement (avec Israël) mais doivent se retirer sous pression américaine et soviétique.",
+   fun:"La crise de Suez révèle la fin de la puissance européenne : USA et URSS ont forcé la France et le Royaume-Uni à battre en retraite !"},
+  {c:3,q:"Qui est Hô Chi Minh ?",opts:["Chef des armées françaises","Leader communiste vietnamien","Président du Cambodge","Général américain"],a:1,
+   fb:"Hô Chi Minh est le leader nationaliste et communiste qui dirige la résistance contre la France puis contre les États-Unis au Vietnam.",
+   fun:"Hô Chi Minh signifie 'Celui qui éclaire' en vietnamien. Il a vécu en France et même en... Angleterre et États-Unis !"},
+  {c:3,q:"Quelle organisation internationale est créée en 1945 pour défendre la paix et le droit des peuples ?",opts:["OTAN","ONU","FMI","OECE"],a:1,
+   fb:"L'ONU (Organisation des Nations Unies) est fondée en 1945. Sa Charte proclame le droit des peuples à disposer d'eux-mêmes.",
+   fun:"L'ONU compte aujourd'hui 193 États membres — presque tous les pays du monde ! En 1945, il n'y en avait que 51."},
+
+  // CAT 4 — TIERS-MONDE & ONU
+  {c:4,q:"Qui invente le terme 'Tiers Monde' en 1952 ?",opts:["Nehru","Alfred Sauvy","Che Guevara","Nasser"],a:1,
+   fb:"Le démographe français Alfred Sauvy crée le terme en référence au Tiers État de la Révolution française : un 'troisième monde' exclu.",
+   fun:"Sauvy voulait dire que le Tiers Monde, 'ignoré, exploité, méprisé, veut lui aussi être quelque chose' — comme le Tiers État en 1789 !"},
+  {c:4,q:"Qu'est-ce que le 'droit des peuples à disposer d'eux-mêmes' ?",opts:["Droit de faire la guerre","Droit de choisir son régime politique et son gouvernement","Droit de commercer librement","Droit de refuser l'ONU"],a:1,
+   fb:"Ce principe, inscrit dans la Charte de l'ONU (1945), légitime les mouvements d'indépendance : chaque peuple choisit son avenir.",
+   fun:"Ce principe a été proclamé par Wilson (USA) en 1918 mais ne s'appliquait alors... qu'aux Européens ! L'ONU l'élargit à tous."},
+  {c:4,q:"Quel problème majeur héritent les nouveaux États africains de la colonisation ?",opts:["Manque de ressources naturelles","Frontières arbitraires ne correspondant pas aux réalités ethniques","Absence de population","Absence de monnaie"],a:1,
+   fb:"Les frontières africaines, tracées à Berlin (1885) par les Européens, ignorent les réalités ethniques et culturelles, source de nombreux conflits.",
+   fun:"La Conférence de Berlin de 1885 a partagé l'Afrique entre puissances européennes... sans inviter un seul Africain !"},
+  {c:4,q:"Quelle est la principale voie de décolonisation pacifique en Afrique francophone ?",opts:["Guerres d'indépendance","Référendum ou négociation avec la France","Résolution ONU","Pression américaine"],a:1,
+   fb:"La plupart des colonies françaises d'Afrique noire accèdent à l'indépendance par négociation en 1960, avec l'accord de De Gaulle.",
+   fun:"De Gaulle a proposé en 1958 un référendum dans les colonies françaises : 12 pays sur 13 ont voté pour rester dans la communauté française... avant de demander l'indépendance en 1960 !"},
+  {c:4,q:"Qu'est-ce que le néo-colonialisme ?",opts:["Retour à la colonisation directe","Domination économique et politique des anciens pays colonisés, sans occupation militaire","Aide humanitaire des grandes puissances","Accord commercial entre pays indépendants"],a:1,
+   fb:"Malgré l'indépendance politique, les anciens pays colonisés restent souvent dépendants économiquement (multinationales, dettes, bases militaires).",
+   fun:"Le terme 'Françafrique' désigne les liens troubles entre la France et ses anciennes colonies africaines — un exemple de néo-colonialisme !"},
+
+  // CAT 5 — ANECDOTES
+  {c:5,q:"Combien de nouveaux États naissent de la décolonisation entre 1945 et 1975 ?",opts:["Plus de 20","Plus de 40","Plus de 80","Plus de 100"],a:2,
+   fb:"Plus de 80 nouveaux États naissent en 30 ans ! L'ONU passe de 51 membres en 1945 à plus de 150 en 1975.",
+   fun:"Aujourd'hui, l'ONU compte 193 membres. En 1945, seulement 51 pays existaient en tant qu'États indépendants reconnus."},
+  {c:5,q:"Quel pays africain n'a JAMAIS été colonisé ?",opts:["Kenya","Éthiopie","Nigeria","Mozambique"],a:1,
+   fb:"L'Éthiopie est le seul pays africain à n'avoir jamais été colonisé (hors une courte occupation italienne 1936-1941 non reconnue comme colonisation).",
+   fun:"L'Éthiopie est si fière de son indépendance qu'elle est devenue le symbole du panafricanisme. Son drapeau inspire de nombreux autres drapeaux africains !"},
+  {c:5,q:"Quelle est la particularité de l'indépendance des DOM-TOM français ?",opts:["Ils sont devenus indépendants en 1946","Ils ont choisi de rester français","Ils sont sous mandat ONU","Ils appartiennent à l'Union Africaine"],a:1,
+   fb:"Les DOM-TOM (Guadeloupe, Martinique, Réunion…) ont choisi de rester français. Ils font aujourd'hui partie de la République française.",
+   fun:"La Nouvelle-Calédonie a organisé 3 référendums sur l'indépendance (2018, 2020, 2021). À chaque fois, les habitants ont voté pour rester français !"},
+  {c:5,q:"Comment appelle-t-on les soldats des colonies qui combattent pour la France durant la 2de Guerre mondiale ?",opts:["Légionnaires","Tirailleurs","Poilus","Résistants"],a:1,
+   fb:"Les Tirailleurs sénégalais (mais aussi algériens, marocains, malgaches…) ont combattu pour la France. Leur sacrifice légitime leurs revendications d'indépendance.",
+   fun:"En 1944, pour 'blanchir' l'armée française, De Gaulle a remplacé des milliers de soldats africains par des Français blancs avant la libération de Paris !"},
+  {c:5,q:"Quel symbole unit les mouvements de décolonisation africains ?",opts:["L'étoile rouge","La couleur verte","Les couleurs panafricaines (rouge-noir-vert)","La colombe"],a:2,
+   fb:"Les couleurs panafricaines (rouge pour le sang versé, noir pour les peuples africains, vert pour les terres) ornent de nombreux drapeaux d'Afrique.",
+   fun:"Ces couleurs viennent du drapeau de l'Éthiopie, pays symbole de la résistance africaine. Le Sénégal, le Ghana, le Mali... les arborent tous !"},
+];
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let questions, qIdx, score, combo, bestCombo, lives, correct, wrong, gameOver;
+
+function shuffle(arr){ return [...arr].sort(()=>Math.random()-.5); }
+
+function initGame(){
+  questions = shuffle(ALL).slice(0, 20);
+  qIdx = 0; score = 0; combo = 1; bestCombo = 1; lives = 3; correct = 0; wrong = 0; gameOver = false;
+  document.getElementById('end-screen').classList.remove('show');
+  document.getElementById('game-area').style.display = '';
+  updateHUD();
+  renderQuestion();
+}
+
+function updateHUD(){
+  document.getElementById('score').textContent = score;
+  document.getElementById('combo').textContent = '×' + combo;
+  document.getElementById('q-count').textContent = (qIdx+1) + '/' + questions.length;
+  document.getElementById('prog').style.width = (qIdx / questions.length * 100) + '%';
+  const lv = document.getElementById('lives');
+  lv.textContent = '❤️'.repeat(lives) + '🖤'.repeat(3 - lives);
+  const cv = document.getElementById('combo');
+  cv.style.color = combo >= 4 ? '#a855f7' : combo >= 2 ? '#2dd4bf' : '#f0c040';
+}
+
+function renderQuestion(){
+  if(qIdx >= questions.length){ endGame(); return; }
+  const q = questions[qIdx];
+  const letters = ['A','B','C','D'];
+  const shuffledOpts = shuffle(q.opts.map((t,i)=>({t,correct:i===q.a})));
+  const area = document.getElementById('game-area');
+  area.innerHTML = `
+    <div class="q-card">
+      <div class="q-meta">
+        <span class="q-cat ${CATS[q.c].cls}">${CATS[q.c].name}</span>
+        <span class="q-num">Question ${qIdx+1} / ${questions.length}</span>
+      </div>
+      ${q.fun ? `<div class="q-fun">💡 Le savais-tu ? ${q.fun}</div>` : ''}
+      <div class="q-text">${q.q}</div>
+      <div class="options" id="opts">
+        ${shuffledOpts.map((o,i)=>`
+          <button class="opt" onclick="answer(this,${o.correct},'${escQ(q.fb)}')"
+            data-correct="${o.correct}">
+            <span class="opt-letter">${letters[i]}</span>
+            <span>${o.t}</span>
+          </button>`).join('')}
+      </div>
+      <div class="feedback" id="fb"></div>
+      <button class="btn-next" id="btn-next" onclick="nextQ()">
+        ${qIdx < questions.length - 1 ? 'Question suivante →' : 'Voir mon score →'}
+      </button>
+    </div>`;
+}
+
+function escQ(s){ return s.replace(/'/g,"\\'"); }
+
+function answer(btn, isCorrect, fb){
+  if(gameOver) return;
+  const opts = document.querySelectorAll('.opt');
+  opts.forEach(o => {
+    o.disabled = true;
+    if(o.dataset.correct === 'true') o.classList.add('correct');
+  });
+  const fbEl = document.getElementById('fb');
+  fbEl.textContent = fb;
+  if(isCorrect){
+    btn.classList.add('correct');
+    correct++;
+    const pts = 100 * combo;
+    score += pts;
+    combo = Math.min(combo + 1, 8);
+    if(combo > bestCombo) bestCombo = combo;
+    fbEl.classList.add('correct','show');
+    if(combo >= 3){ showCombo(); }
+  } else {
+    btn.classList.add('wrong');
+    wrong++;
+    combo = 1;
+    lives--;
+    fbEl.classList.add('wrong','show');
+    if(lives <= 0){ gameOver = true; }
+  }
+  updateHUD();
+  document.getElementById('btn-next').classList.add('show');
+}
+
+function showCombo(){
+  const t = document.getElementById('combo-toast');
+  t.textContent = '🔥 COMBO ×' + combo + ' !  +'+(100*combo)+' pts';
+  t.style.display = 'block';
+  setTimeout(()=>{ t.style.display='none'; }, 1800);
+}
+
+function nextQ(){
+  if(gameOver || qIdx >= questions.length - 1){ endGame(); return; }
+  qIdx++;
+  updateHUD();
+  renderQuestion();
+}
+
+function endGame(){
+  document.getElementById('game-area').style.display = 'none';
+  const total = questions.length;
+  const pct = Math.round(correct / total * 100);
+  let stars = pct >= 90 ? '⭐⭐⭐' : pct >= 70 ? '⭐⭐' : pct >= 50 ? '⭐' : '💀';
+  let title = pct >= 90 ? 'Excellent !' : pct >= 70 ? 'Très bien !' : pct >= 50 ? 'Pas mal !' : 'À réviser !';
+  let sub = pct >= 90 ? 'Tu maîtrises parfaitement la décolonisation !' :
+            pct >= 70 ? 'Bon niveau, quelques points à revoir.' :
+            pct >= 50 ? 'Des lacunes à combler — relis le cours !' :
+            'Le cours de M. CRON t\'attend ! 📚';
+  document.getElementById('end-stars').textContent = stars;
+  document.getElementById('end-title').textContent = title;
+  document.getElementById('end-sub').textContent = sub + ' (' + pct + '%)';
+  document.getElementById('s-correct').textContent = correct;
+  document.getElementById('s-wrong').textContent = wrong;
+  document.getElementById('s-score').textContent = score;
+  document.getElementById('s-best').textContent = '×' + bestCombo;
+  document.getElementById('end-screen').classList.add('show');
+}
+
+initGame();
+</script>
+</body>
+</html>

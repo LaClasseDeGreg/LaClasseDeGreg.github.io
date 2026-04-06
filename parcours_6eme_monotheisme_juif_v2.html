@@ -1,0 +1,447 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap');
+  :root {
+    --gold: #C9A84C; --gold-light: #F0D080; --parch: #F5EDD8; --parch-dark: #E8D9B0;
+    --ink: #2C1A0E; --ink2: #4A3020; --scroll-bg: #FBF5E4; --blue-deep: #1A3A5C;
+    --teal-soft: #2E7D72; --red-warn: #8B2020; --step-done: #2E7D72;
+    --step-active: #C9A84C; --step-lock: #B0A090;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .pw { font-family: 'Lato', sans-serif; color: var(--ink); }
+  .header-band {
+    background: linear-gradient(135deg, #1A2E1A 0%, #2C1A0E 50%, #1A2A3A 100%);
+    border-radius: 12px; padding: 22px 28px 18px; margin-bottom: 8px;
+    border: 2px solid var(--gold); position: relative; overflow: hidden;
+  }
+  .header-band::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(201,168,76,0.04) 20px, rgba(201,168,76,0.04) 40px);
+  }
+  .header-band h1 { font-family: 'Cinzel', serif; font-size: 19px; color: var(--gold-light); letter-spacing: 1px; line-height: 1.3; position: relative; }
+  .header-band .subtitle { font-size: 13px; color: rgba(240,208,128,0.7); margin-top: 5px; font-style: italic; position: relative; }
+  .header-band .level-badge {
+    display: inline-block; background: rgba(201,168,76,0.2); border: 1px solid var(--gold);
+    color: var(--gold-light); font-size: 11px; padding: 2px 10px; border-radius: 20px;
+    margin-top: 8px; font-family: 'Lato', sans-serif; font-weight: 700; letter-spacing: 1px; position: relative;
+  }
+  .author-bar {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(201,168,76,0.08); border: 1px solid var(--gold);
+    border-radius: 8px; padding: 8px 16px; margin-bottom: 16px;
+  }
+  .author-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(26,58,92,0.15); border: 1.5px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cinzel', serif; font-size: 12px; font-weight: 700; color: var(--gold); flex-shrink: 0;
+  }
+  .author-info { flex: 1; }
+  .author-name { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .author-role { font-size: 11px; color: var(--ink2); opacity: 0.75; }
+  .author-seal { font-size: 18px; }
+
+  .intro-box { background: var(--scroll-bg); border: 1.5px solid var(--gold); border-radius: 10px; padding: 16px 20px; margin-bottom: 16px; border-left: 5px solid var(--gold); font-size: 14px; line-height: 1.7; color: var(--ink2); }
+  .intro-box .mission-title { font-family: 'Cinzel', serif; font-size: 12px; color: var(--blue-deep); font-weight: 700; letter-spacing: 0.5px; margin-bottom: 7px; text-transform: uppercase; }
+  .intro-box strong { color: var(--red-warn); }
+  .steps-nav { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
+  .step-btn { flex: 1; min-width: 78px; padding: 8px 5px; border: 1.5px solid var(--step-lock); border-radius: 8px; background: transparent; cursor: pointer; font-family: 'Lato', sans-serif; font-size: 11px; color: var(--step-lock); text-align: center; transition: all 0.2s; font-weight: 700; }
+  .step-btn.active { border-color: var(--step-active); color: var(--ink); background: rgba(201,168,76,0.12); }
+  .step-btn.done { border-color: var(--step-done); color: var(--step-done); background: rgba(46,125,114,0.08); }
+  .step-btn.done::after { content: ' ✓'; }
+  .step-panel { display: none; }
+  .step-panel.active { display: block; }
+  .step-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; }
+  .step-num { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', serif; font-size: 15px; font-weight: 700; flex-shrink: 0; border: 2px solid; }
+  .step-num.gold { background: rgba(201,168,76,0.15); border-color: var(--gold); color: var(--gold); }
+  .step-num.teal { background: rgba(46,125,114,0.12); border-color: var(--teal-soft); color: var(--teal-soft); }
+  .step-num.blue { background: rgba(26,58,92,0.1); border-color: var(--blue-deep); color: var(--blue-deep); }
+  .step-num.red { background: rgba(139,32,32,0.1); border-color: var(--red-warn); color: var(--red-warn); }
+  .step-title-block h2 { font-family: 'Cinzel', serif; font-size: 14px; color: var(--ink); line-height: 1.3; }
+  .step-title-block .step-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-top: 4px; }
+  .tag-scene { background: rgba(201,168,76,0.18); color: #7A5C10; }
+  .tag-app { background: rgba(46,125,114,0.15); color: var(--teal-soft); }
+  .tag-trace { background: rgba(26,58,92,0.12); color: var(--blue-deep); }
+  .tag-eval { background: rgba(139,32,32,0.12); color: var(--red-warn); }
+  .narrative-box { background: rgba(201,168,76,0.06); border-left: 4px solid var(--gold); border-radius: 0 8px 8px 0; padding: 13px 15px; margin-bottom: 13px; font-style: italic; font-size: 13.5px; line-height: 1.7; color: var(--ink2); }
+  .narrative-box .speaker { font-style: normal; font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--gold); margin-bottom: 5px; }
+  .resource-card { border: 1px solid var(--parch-dark); border-radius: 10px; margin-bottom: 11px; overflow: hidden; background: var(--scroll-bg); }
+  .resource-card .rc-header { display: flex; align-items: center; gap: 10px; padding: 9px 13px; background: rgba(201,168,76,0.1); border-bottom: 1px solid var(--parch-dark); }
+  .resource-card .rc-icon { width: 30px; height: 30px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .ic-map { background: rgba(46,125,114,0.15); } .ic-vid { background: rgba(139,32,32,0.12); }
+  .ic-game { background: rgba(201,168,76,0.18); } .ic-quiz { background: rgba(26,58,92,0.12); }
+  .ic-escape { background: rgba(80,20,80,0.12); } .ic-text { background: rgba(46,125,114,0.12); }
+  .resource-card .rc-label { font-size: 13px; font-weight: 700; color: var(--ink); flex: 1; }
+  .resource-card .rc-type { font-size: 10px; color: var(--step-lock); }
+  .resource-card .rc-body { padding: 11px 15px; font-size: 13px; line-height: 1.65; color: var(--ink2); }
+  .rc-body p { margin-bottom: 7px; }
+  .rc-body .consigne { background: rgba(26,58,92,0.07); border-left: 3px solid var(--blue-deep); padding: 7px 11px; border-radius: 0 6px 6px 0; margin: 7px 0; font-size: 12.5px; }
+  .rc-body .consigne strong { color: var(--blue-deep); }
+  .rc-link { display: inline-flex; align-items: center; gap: 6px; padding: 6px 13px; border-radius: 6px; text-decoration: none; font-size: 12px; font-weight: 700; margin-top: 5px; border: 1.5px solid; transition: all 0.2s; }
+  .rc-link:hover { opacity: 0.85; transform: translateY(-1px); }
+  .link-teal { background: rgba(46,125,114,0.1); color: var(--teal-soft); border-color: var(--teal-soft); }
+  .link-gold { background: rgba(201,168,76,0.1); color: #7A5C10; border-color: var(--gold); }
+  .link-blue { background: rgba(26,58,92,0.08); color: var(--blue-deep); border-color: var(--blue-deep); }
+  .link-red { background: rgba(139,32,32,0.08); color: var(--red-warn); border-color: var(--red-warn); }
+  .link-purple { background: rgba(80,20,100,0.08); color: #5A1080; border-color: #8A30B0; }
+  .trace-ecrite { background: #FFFEF8; border: 2px solid var(--gold); border-radius: 10px; padding: 18px 20px; margin-bottom: 13px; }
+  .te-title { font-family: 'Cinzel', serif; font-size: 13px; color: var(--blue-deep); border-bottom: 1.5px solid var(--gold); padding-bottom: 7px; margin-bottom: 12px; display: flex; align-items: center; gap: 7px; }
+  .te-section { margin-bottom: 12px; }
+  .te-section h4 { font-family: 'Cinzel', serif; font-size: 11px; font-weight: 700; color: var(--ink); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .te-section p, .te-section li { font-size: 13px; line-height: 1.75; color: var(--ink2); }
+  .te-section ul { padding-left: 17px; }
+  .te-section li { margin-bottom: 4px; }
+  .te-key { display: inline-block; background: rgba(201,168,76,0.15); border: 1px solid var(--gold); color: #6A4A08; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 4px; margin: 1px 2px; }
+  .synthese-box { background: rgba(26,58,92,0.06); border: 1.5px dashed var(--blue-deep); border-radius: 8px; padding: 12px 15px; font-size: 13px; line-height: 1.7; color: var(--ink2); margin-top: 12px; }
+  .synthese-box strong { color: var(--blue-deep); }
+  .progress-bar-wrap { margin-bottom: 16px; }
+  .pb-label { font-size: 11px; color: var(--step-lock); margin-bottom: 4px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .pb-track { background: var(--parch-dark); border-radius: 20px; height: 7px; overflow: hidden; }
+  .pb-fill { height: 100%; background: linear-gradient(90deg, var(--teal-soft), var(--gold)); border-radius: 20px; transition: width 0.5s ease; }
+  .nav-btns { display: flex; gap: 10px; margin-top: 16px; }
+  .btn-nav { padding: 8px 18px; border-radius: 7px; border: 1.5px solid; background: transparent; font-family: 'Lato', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+  .btn-prev { border-color: var(--step-lock); color: var(--step-lock); }
+  .btn-prev:hover { border-color: var(--ink2); color: var(--ink2); }
+  .btn-prev:disabled { opacity: 0.3; cursor: default; }
+  .btn-next { border-color: var(--gold); color: #7A5C10; background: rgba(201,168,76,0.1); }
+  .btn-next:hover { background: rgba(201,168,76,0.2); transform: translateX(2px); }
+  .btn-next:disabled { opacity: 0.4; cursor: default; transform: none; }
+  .video-wrap { position: relative; border-radius: 8px; overflow: hidden; margin: 9px 0; background: #000; }
+  .video-wrap iframe { display: block; width: 100%; height: 195px; border: none; }
+  .peace-banner { background: linear-gradient(135deg, #1A3A1A, #1A2A3A, #2C1A0E); border: 1.5px solid var(--gold); border-radius: 10px; padding: 15px 20px; text-align: center; margin-top: 18px; color: var(--gold-light); font-size: 13px; font-style: italic; line-height: 1.7; }
+  .peace-banner strong { color: #FFF; font-style: normal; display: block; font-family: 'Cinzel', serif; font-size: 13px; margin-bottom: 6px; }
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { display: flex; align-items: flex-start; gap: 10px; padding: 5px 0; font-size: 13px; color: var(--ink2); border-bottom: 0.5px solid var(--parch-dark); }
+  .checklist li:last-child { border: none; }
+  .checklist li::before { content: '□'; color: var(--gold); font-size: 15px; flex-shrink: 0; margin-top: -1px; }
+  .timeline-strip { display: flex; align-items: center; gap: 0; margin: 12px 0; overflow-x: auto; }
+  .tl-item { flex-shrink: 0; text-align: center; position: relative; padding: 0 8px; }
+  .tl-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--gold); border: 2px solid var(--ink); margin: 0 auto 4px; }
+  .tl-label { font-size: 10px; color: var(--ink2); line-height: 1.3; max-width: 68px; }
+  .tl-line { flex: 1; height: 2px; background: var(--gold); min-width: 10px; }
+</style>
+
+<div class="pw">
+
+  <div class="header-band">
+    <h1>🏺 Les Gardiens du Dialogue<br><span style="font-size:13px; opacity:0.8">Voyage dans le temps au cœur du monothéisme juif</span></h1>
+    <div class="subtitle">Parcours pédagogique scénarisé · Classe de 6ème · Histoire-Géographie</div>
+    <span class="level-badge">6ème · Thème 2 · La naissance du monothéisme juif</span>
+  </div>
+
+  <div class="author-bar">
+    <div class="author-avatar">GC</div>
+    <div class="author-info">
+      <div class="author-name">M. Grégory CRON</div>
+      <div class="author-role">Professeur d'Histoire-Géographie-EMC · Classe de 6ème</div>
+    </div>
+    <div class="author-seal">🏛️</div>
+  </div>
+
+  <div class="intro-box">
+    <div class="mission-title">📜 Votre Mission</div>
+    <p>Nous sommes en 2025. Une étrange machine temporelle s'est activée dans votre salle de classe. Le <strong>Conseil du Dialogue Interreligieux</strong> vous contacte : des fragments de mémoire sur la naissance du monothéisme juif ont été perdus à travers le temps. <strong>Vous, les élèves de 6ème, êtes les seuls à pouvoir les retrouver.</strong></p>
+    <p style="margin-top:7px;">En équipes de 3 "Gardiens du Dialogue", vous allez traverser 5 stations temporelles. À chaque étape : une mission, une ressource, une connaissance à sauver. La paix entre les peuples en dépend.</p>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="pb-label" id="pb-label">Station 1 sur 5 — Préparation au voyage</div>
+    <div class="pb-track"><div class="pb-fill" id="pb-fill" style="width:20%"></div></div>
+  </div>
+
+  <div class="steps-nav">
+    <button class="step-btn active" onclick="goStep(0)" id="sbtn0">🌍 Station 1</button>
+    <button class="step-btn" onclick="goStep(1)" id="sbtn1">📜 Station 2</button>
+    <button class="step-btn" onclick="goStep(2)" id="sbtn2">⏳ Station 3</button>
+    <button class="step-btn" onclick="goStep(3)" id="sbtn3">🔑 Station 4</button>
+    <button class="step-btn" onclick="goStep(4)" id="sbtn4">🕊️ Station 5</button>
+  </div>
+
+  <!-- STATION 1 -->
+  <div class="step-panel active" id="panel0">
+    <div class="step-header">
+      <div class="step-num gold">I</div>
+      <div class="step-title-block">
+        <h2>Activation du portail — Se repérer dans l'espace et le temps</h2>
+        <span class="step-tag tag-scene">Mise en scène · Déclencheur</span>
+      </div>
+    </div>
+    <div class="narrative-box">
+      <div class="speaker">📡 Message du Conseil du Dialogue · An 2025</div>
+      "Gardiens ! La machine s'éveille. Avant de voyager, vous devez caler votre boussole temporelle et géographique. Le peuple hébreu est né dans un croissant de terres fertiles, entre deux grands fleuves et une mer sacrée. Localisez ce berceau — sans lui, vous serez perdus dans l'histoire."
+    </div>
+    <div class="resource-card">
+      <div class="rc-header">
+        <div class="rc-icon ic-map">🗺️</div>
+        <div style="flex:1"><div class="rc-label">Activité 1 · Se repérer dans l'espace</div><div class="rc-type">LearningApps · Carte interactive</div></div>
+      </div>
+      <div class="rc-body">
+        <div class="consigne"><strong>Mission Gardien :</strong> Placez les éléments géographiques clés sur la carte du Proche-Orient ancien. Le Croissant fertile, Canaan, la Mésopotamie… votre portail temporel ne s'ouvrira que si vous les retrouvez tous !</div>
+        <a href="https://learningapps.org/964079" target="_blank" class="rc-link link-teal">🗺️ Ouvrir la carte interactive</a>
+      </div>
+    </div>
+    <div class="resource-card">
+      <div class="rc-header">
+        <div class="rc-icon ic-map">⏳</div>
+        <div style="flex:1"><div class="rc-label">Activité 2 · La frise chronologique</div><div class="rc-type">LearningApps · Frise temporelle</div></div>
+      </div>
+      <div class="rc-body">
+        <div class="consigne"><strong>Mission Gardien :</strong> Replacez les grandes dates de l'histoire du peuple hébreu sur la frise. Ces repères temporels sont vos coordonnées pour le voyage.</div>
+        <a href="https://learningapps.org/964037" target="_blank" class="rc-link link-teal">⏳ Ouvrir la frise chronologique</a>
+      </div>
+    </div>
+    <div class="trace-ecrite">
+      <div class="te-title">📖 Ce que je retiens — Trace écrite · Station 1</div>
+      <div class="te-section">
+        <h4>Où et quand ?</h4>
+        <p>Le peuple hébreu apparaît dans la région du <span class="te-key">Croissant fertile</span>, au Proche-Orient, vers le <span class="te-key">IIe millénaire avant J.-C.</span> Il se déplace entre la <span class="te-key">Mésopotamie</span> (Ur) et <span class="te-key">Canaan</span> (futur Israël), puis traverse l'<span class="te-key">Égypte</span>.</p>
+      </div>
+      <div class="timeline-strip">
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">~2000 av. J.-C. Abraham quitte Ur</div></div>
+        <div class="tl-line"></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">~1300 av. J.-C. L'Exode — Moïse</div></div>
+        <div class="tl-line"></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">~970 av. J.-C. Règne de Salomon</div></div>
+        <div class="tl-line"></div>
+        <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">~587 av. J.-C. Destruction du Temple</div></div>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-nav btn-prev" disabled>‹ Précédent</button>
+      <button class="btn-nav btn-next" onclick="nextStep(0)">Station suivante ›</button>
+    </div>
+  </div>
+
+  <!-- STATION 2 -->
+  <div class="step-panel" id="panel1">
+    <div class="step-header">
+      <div class="step-num teal">II</div>
+      <div class="step-title-block">
+        <h2>Le Souffle de l'Alliance — Découverte de la Torah et de la Bible hébraïque</h2>
+        <span class="step-tag tag-app">Ressource vidéo · Texte à trous</span>
+      </div>
+    </div>
+    <div class="narrative-box">
+      <div class="speaker">📡 Transmission depuis le Proche-Orient · ~1300 av. J.-C.</div>
+      "Gardiens, vous voilà au pied du Sinaï. Le vent du désert porte des mots anciens. La Torah contient les clés de la première alliance entre un dieu unique et un peuple. Écoutez, lisez, et complétez vos tablettes de mémoire…"
+    </div>
+    <div class="resource-card">
+      <div class="rc-header">
+        <div class="rc-icon ic-vid">▶️</div>
+        <div style="flex:1"><div class="rc-label">Activité 3 · Vidéo documentaire</div><div class="rc-type">YouTube · Support de découverte</div></div>
+      </div>
+      <div class="rc-body">
+        <div class="consigne"><strong>Mission Gardien :</strong> Regardez la vidéo en prenant des notes. Relevez : Qui est Abraham ? Qu'est-ce que le monothéisme ? Qu'est-ce que la Torah ?</div>
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/JW_sg2A2m7M" allowfullscreen title="Naissance du monothéisme juif"></iframe>
+        </div>
+      </div>
+    </div>
+    <div class="resource-card">
+      <div class="rc-header">
+        <div class="rc-icon ic-text">📝</div>
+        <div style="flex:1"><div class="rc-label">Activité 4 · Texte à trous</div><div class="rc-type">LearningApps · Compréhension</div></div>
+      </div>
+      <div class="rc-body">
+        <div class="consigne"><strong>Mission Gardien :</strong> Après la vidéo, complétez le texte à trous. Chaque mot retrouvé est un fragment de mémoire sauvé !</div>
+        <a href="https://learningapps.org/2314636" target="_blank" class="rc-link link-blue">📝 Compléter le texte</a>
+      </div>
+    </div>
+    <div class="trace-ecrite">
+      <div class="te-title">📖 Ce que je retiens — Trace écrite · Station 2</div>
+      <div class="te-section">
+        <h4>La naissance du monothéisme juif</h4>
+        <ul>
+          <li>Le <span class="te-key">monothéisme</span> = croyance en un dieu unique. Le judaïsme est l'une des premières religions monothéistes.</li>
+          <li><span class="te-key">Abraham</span> conclut une <span class="te-key">Alliance</span> (<em>brit</em>) avec Dieu, symbolisée par la circoncision.</li>
+          <li><span class="te-key">Moïse</span> reçoit les <span class="te-key">Dix Commandements</span> au mont Sinaï.</li>
+          <li>La <span class="te-key">Torah</span> (les 5 premiers livres de la Bible hébraïque) est le texte sacré central.</li>
+        </ul>
+      </div>
+      <div class="synthese-box"><strong>Pourquoi le dialogue ?</strong> Le judaïsme, le christianisme et l'islam partagent la figure d'Abraham. Ces trois religions sont dites "abrahamiques" — elles naissent du même souffle de foi en un dieu unique.</div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-nav btn-prev" onclick="prevStep(1)">‹ Précédent</button>
+      <button class="btn-nav btn-next" onclick="nextStep(1)">Station suivante ›</button>
+    </div>
+  </div>
+
+  <!-- STATION 3 -->
+  <div class="step-panel" id="panel2">
+    <div class="step-header">
+      <div class="step-num blue">III</div>
+      <div class="step-title-block">
+        <h2>Le Temple de la Mémoire — Rites, lieux et pratiques du judaïsme</h2>
+        <span class="step-tag tag-app">Jeu de paires · Consolidation</span>
+      </div>
+    </div>
+    <div class="narrative-box">
+      <div class="speaker">📡 Transmission depuis Jérusalem · ~970 av. J.-C.</div>
+      "Gardiens, le roi Salomon vient de construire le Premier Temple de Jérusalem. Pour le protéger à travers le temps, vous devez reconnaître tous ses symboles, ses rites, ses pratiques. Assemblez les paires !"
+    </div>
+    <div class="resource-card">
+      <div class="rc-header">
+        <div class="rc-icon ic-game">🎯</div>
+        <div style="flex:1"><div class="rc-label">Activité 5 · Associer des paires</div><div class="rc-type">LearningApps · Mémorisation</div></div>
+      </div>
+      <div class="rc-body">
+        <div class="consigne"><strong>Mission Gardien :</strong> Associez chaque notion (Shabbat, Torah, synagogue, menorah…) à sa définition. Le Temple ne peut être protégé que si vous maîtrisez tous ses secrets !</div>
+        <a href="https://learningapps.org/9890583" target="_blank" class="rc-link link-gold">🎯 Associer les paires</a>
+      </div>
+    </div>
+    <div class="trace-ecrite">
+      <div class="te-title">📖 Ce que je retiens — Trace écrite · Station 3</div>
+      <div class="te-section">
+        <h4>Les grandes pratiques du judaïsme</h4>
+        <ul>
+          <li>Le <span class="te-key">Shabbat</span> : jour de repos hebdomadaire (vendredi soir au samedi soir).</li>
+          <li>La <span class="te-key">synagogue</span> : lieu de prière, d'étude et de rassemblement.</li>
+          <li>Le <span class="te-key">rabbin</span> : guide spirituel et enseignant de la Torah.</li>
+          <li>La <span class="te-key">menorah</span> : chandelier à 7 branches, symbole du judaïsme.</li>
+          <li>Les <span class="te-key">fêtes</span> : Pessah (Pâques juive), Rosh Hashana (Nouvel An), Yom Kippour (Grand Pardon).</li>
+          <li><span class="te-key">Jérusalem</span> : ville sainte, lieu du Temple de Salomon.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-nav btn-prev" onclick="prevStep(2)">‹ Précédent</button>
+      <button class="btn-nav btn-next" onclick="nextStep(2)">Station suivante ›</button>
+    </div>
+  </div>
+
+  <!-- STATION 4 -->
+  <div class="step-panel" id="panel3">
+    <div class="step-header">
+      <div class="step-num red">IV</div>
+      <div class="step-title-block">
+        <h2>L'Escape Game du Temps — Mission de sauvetage des savoirs</h2>
+        <span class="step-tag tag-eval">Escape game · Quiz · Évaluation formative</span>
+      </div>
+    </div>
+    <div class="narrative-box">
+      <div class="speaker">📡 Alerte du Conseil · Message urgent</div>
+      "GARDIENS ! Un ennemi du dialogue a enfermé les savoirs dans un coffre numérique. Vous avez 20 minutes pour vous en emparer. L'Escape Game du judaïsme et le Quiz de révision sont vos deux derniers défis avant la cérémonie de paix. Courage !"
+    </div>
+    <div class="resource-card">
+      <div class="rc-header">
+        <div class="rc-icon ic-escape">🔐</div>
+        <div style="flex:1"><div class="rc-label">Activité 6 · Escape Game — Le judaïsme</div><div class="rc-type">Genially · Escape game interactif</div></div>
+      </div>
+      <div class="rc-body">
+        <div class="consigne"><strong>Mission Gardien :</strong> En équipe, résolvez les énigmes de l'Escape Game sur le judaïsme. Chaque cadenas brisé = un fragment de mémoire libéré !</div>
+        <a href="https://view.genially.com/665447897729d20014e5c981/interactive-content-escape-game-le-judaisme" target="_blank" class="rc-link link-purple">🔐 Lancer l'Escape Game Genially</a>
+      </div>
+    </div>
+    <div class="resource-card">
+      <div class="rc-header">
+        <div class="rc-icon ic-quiz">❓</div>
+        <div style="flex:1"><div class="rc-label">Activité 7 · Quiz de révision</div><div class="rc-type">Educaplay · Évaluation formative</div></div>
+      </div>
+      <div class="rc-body">
+        <div class="consigne"><strong>Mission Gardien :</strong> Testez vos connaissances sur la naissance du monothéisme juif. Chaque bonne réponse renforce le bouclier de mémoire du Conseil !</div>
+        <a href="https://www.educaplay.com/learning-resources/1696105-quizz_revision_la_naissance_du_monotheisme_juif.html" target="_blank" class="rc-link link-red">❓ Lancer le quiz Educaplay</a>
+      </div>
+    </div>
+    <div class="trace-ecrite">
+      <div class="te-title">📖 Bilan de mes connaissances — Checklist de Gardien</div>
+      <div class="te-section">
+        <ul class="checklist">
+          <li>Je sais situer Canaan et le Croissant fertile sur une carte</li>
+          <li>Je connais le sens du mot "monothéisme"</li>
+          <li>Je peux expliquer qui est Abraham et ce qu'est l'Alliance</li>
+          <li>Je sais ce que contient la Torah</li>
+          <li>Je reconnais les principaux lieux et rites du judaïsme</li>
+          <li>Je peux citer au moins 2 fêtes juives et leur signification</li>
+          <li>Je sais ce qu'est la Diaspora et pourquoi elle a eu lieu</li>
+        </ul>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-nav btn-prev" onclick="prevStep(3)">‹ Précédent</button>
+      <button class="btn-nav btn-next" onclick="nextStep(3)">Station finale ›</button>
+    </div>
+  </div>
+
+  <!-- STATION 5 -->
+  <div class="step-panel" id="panel4">
+    <div class="step-header">
+      <div class="step-num teal">V</div>
+      <div class="step-title-block">
+        <h2>La Cérémonie de la Paix — Retour au présent</h2>
+        <span class="step-tag tag-trace">Synthèse · Trace finale · Engagement citoyen</span>
+      </div>
+    </div>
+    <div class="narrative-box">
+      <div class="speaker">📡 Message du Conseil · Retour en 2025</div>
+      "Gardiens, vous avez accompli votre mission ! Les fragments de mémoire sont réunis. Le Conseil peut maintenant transmettre ce savoir à toutes les générations. Avant de fermer le portail, formulez votre engagement pour la paix."
+    </div>
+    <div class="trace-ecrite">
+      <div class="te-title">📖 Trace écrite finale — Ce que je retiens de ce voyage</div>
+      <div class="te-section">
+        <h4>Le judaïsme, une des premières religions monothéistes</h4>
+        <p>Le judaïsme est né au Proche-Orient, dans la région de <span class="te-key">Canaan</span>, il y a environ 4 000 ans. Il repose sur la croyance en un <span class="te-key">dieu unique</span> et sur l'<span class="te-key">Alliance</span> entre Dieu et le peuple hébreu.</p>
+      </div>
+      <div class="te-section">
+        <h4>Les textes fondateurs</h4>
+        <p>La <span class="te-key">Torah</span> est le texte sacré central. Elle contient les <span class="te-key">Dix Commandements</span> transmis à <span class="te-key">Moïse</span> et les lois qui guident la vie du croyant.</p>
+      </div>
+      <div class="te-section">
+        <h4>Les grandes figures et les lieux saints</h4>
+        <ul>
+          <li><span class="te-key">Abraham</span> : père fondateur, premier à croire en un dieu unique.</li>
+          <li><span class="te-key">Moïse</span> : libérateur du peuple esclave en Égypte, récepteur de la Loi.</li>
+          <li><span class="te-key">Jérusalem</span> : ville sainte, lieu du Temple.</li>
+          <li>La <span class="te-key">synagogue</span> : lieu de culte et d'étude.</li>
+        </ul>
+      </div>
+      <div class="te-section">
+        <h4>La Diaspora</h4>
+        <p>La destruction du Temple en <span class="te-key">70 ap. J.-C.</span> par les Romains oblige le peuple juif à se disperser : c'est la <span class="te-key">Diaspora</span>. La Torah et la synagogue deviennent les principaux liens de la communauté juive dispersée.</p>
+      </div>
+      <div class="synthese-box"><strong>Le dialogue interreligieux :</strong> Le judaïsme, le christianisme et l'islam partagent la figure d'Abraham. Connaître les religions des autres, c'est apprendre à les respecter — c'est le premier pas vers la paix.</div>
+    </div>
+    <div class="resource-card" style="border-color:var(--gold);">
+      <div class="rc-header" style="background:rgba(201,168,76,0.15);">
+        <div class="rc-icon ic-game">✍️</div>
+        <div style="flex:1"><div class="rc-label">Activité 8 · Mon engagement de Gardien</div><div class="rc-type">Production écrite · EMC · Citoyenneté</div></div>
+      </div>
+      <div class="rc-body">
+        <div class="consigne"><strong>Mission finale :</strong> Sur votre "Tablette du Gardien", rédigez 3 phrases :<br>1) Une chose apprise sur le judaïsme.<br>2) Ce que vous retenez sur le dialogue entre religions.<br>3) Un engagement personnel pour la paix.</div>
+      </div>
+    </div>
+    <div class="peace-banner">
+      <strong>🕊️ Les Gardiens du Dialogue ont accompli leur mission</strong>
+      "Ce qui unit les êtres humains est toujours plus grand que ce qui les sépare. Connaître l'histoire des autres, c'est construire la paix."
+      <div style="margin-top:10px; font-size:11px; opacity:0.7; font-style:normal;">Parcours conçu par M. Grégory CRON · Professeur d'Histoire-Géographie-EMC · Classe de 6ème</div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-nav btn-prev" onclick="prevStep(4)">‹ Précédent</button>
+      <button class="btn-nav btn-next" disabled>Mission accomplie ✓</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  var current = 0;
+  var labels = [
+    "Station 1 sur 5 — Préparation au voyage",
+    "Station 2 sur 5 — Le Souffle de l'Alliance",
+    "Station 3 sur 5 — Le Temple de la Mémoire",
+    "Station 4 sur 5 — L'Escape Game du Temps",
+    "Station 5 sur 5 — La Cérémonie de la Paix"
+  ];
+  function goStep(n) {
+    document.getElementById('panel' + current).classList.remove('active');
+    document.getElementById('sbtn' + current).classList.remove('active');
+    if (current < n) document.getElementById('sbtn' + current).classList.add('done');
+    current = n;
+    document.getElementById('panel' + current).classList.add('active');
+    document.getElementById('sbtn' + current).classList.add('active');
+    document.getElementById('sbtn' + current).classList.remove('done');
+    document.getElementById('pb-label').textContent = labels[current];
+    document.getElementById('pb-fill').style.width = ((current + 1) * 20) + '%';
+  }
+  function nextStep(from) { if (from < 4) goStep(from + 1); }
+  function prevStep(from) { if (from > 0) goStep(from - 1); }
+</script>

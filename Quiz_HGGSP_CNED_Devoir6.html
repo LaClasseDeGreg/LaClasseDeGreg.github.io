@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HGGSP 1ère — Devoir n°6 CNED · M. Grégory CRON</title>
+<style>
+:root{
+  --bg:#0d1117;--surface:#161b22;--card:#1c2333;--border:#30363d;
+  --gold:#e6a817;--gold2:#b8870f;--blue:#58a6ff;--green:#3fb950;
+  --red:#f85149;--purple:#bc8cff;--orange:#ff9640;
+  --text:#e6edf3;--muted:#7d8590;--dim:#484f58;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* ── Header ── */
+.hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 20px;position:sticky;top:0;z-index:100;}
+.hdr-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.hdr-title{flex:1;}
+.hdr-title h1{font-size:1rem;font-weight:700;color:var(--gold);}
+.hdr-title p{font-size:.75rem;color:var(--muted);margin-top:2px;}
+.timer-box{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 16px;text-align:center;min-width:100px;}
+.timer-lbl{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+.timer-val{font-size:1.4rem;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums;}
+.timer-val.warn{color:var(--red);animation:blink 1s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.prog-bar{height:3px;background:var(--border);}
+.prog-fill{height:3px;background:linear-gradient(90deg,var(--blue),var(--gold));transition:width .3s;}
+
+/* ── Layout ── */
+.main{max-width:900px;margin:0 auto;padding:20px 16px;}
+.intro-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px;}
+.intro-card h2{font-size:1rem;font-weight:700;color:var(--gold);margin-bottom:8px;}
+.intro-card p{font-size:.88rem;color:var(--muted);line-height:1.6;}
+.seq-title{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);border-bottom:1px solid var(--border);padding-bottom:8px;margin:24px 0 12px;}
+
+/* ── Question ── */
+.q-block{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:10px;}
+.q-num{font-size:.7rem;color:var(--muted);margin-bottom:6px;}
+.q-text{font-size:.95rem;font-weight:600;color:var(--text);line-height:1.5;margin-bottom:14px;}
+.opts{display:grid;gap:7px;}
+.opt{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:7px;padding:9px 14px;cursor:pointer;font-size:.88rem;text-align:left;color:var(--text);transition:all .15s;display:flex;align-items:flex-start;gap:10px;}
+.opt:hover:not(:disabled){background:rgba(88,166,255,.07);border-color:var(--blue);}
+.opt.correct{background:rgba(63,185,80,.12);border-color:var(--green);color:var(--green);}
+.opt.wrong{background:rgba(248,81,73,.1);border-color:var(--red);color:var(--red);}
+.opt:disabled{cursor:default;}
+.opt-idx{min-width:20px;font-size:.72rem;font-weight:700;color:var(--muted);padding-top:1px;}
+
+/* ── Feedback inline ── */
+.q-fb{font-size:.82rem;margin-top:10px;padding:8px 12px;border-radius:6px;display:none;line-height:1.5;}
+.q-fb.correct{background:rgba(63,185,80,.1);border-left:3px solid var(--green);color:#7ee787;}
+.q-fb.wrong{background:rgba(248,81,73,.08);border-left:3px solid var(--red);color:#ffa198;}
+.q-fb.show{display:block;}
+
+/* ── Submit ── */
+.submit-area{text-align:center;margin:28px 0;}
+.btn-submit{background:var(--gold);color:#0d1117;font-weight:800;font-size:1rem;padding:13px 36px;border:none;border-radius:10px;cursor:pointer;letter-spacing:.02em;transition:opacity .2s;}
+.btn-submit:hover{opacity:.85;}
+.btn-submit:disabled{opacity:.4;cursor:default;}
+
+/* ── Results ── */
+.results{display:none;background:var(--card);border:2px solid var(--gold);border-radius:14px;padding:32px 24px;text-align:center;margin:20px 0;}
+.results.show{display:block;}
+.res-pct{font-size:3.5rem;font-weight:900;color:var(--gold);}
+.res-label{font-size:1rem;color:var(--muted);margin-bottom:20px;}
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0;}
+.res-box{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:12px;}
+.res-val{font-size:1.5rem;font-weight:800;color:var(--gold);}
+.res-lbl{font-size:.72rem;color:var(--muted);margin-top:3px;}
+.appreciation{font-size:.95rem;line-height:1.6;color:var(--muted);background:rgba(88,166,255,.07);border:1px solid rgba(88,166,255,.2);border-radius:8px;padding:14px;margin:16px 0;text-align:left;}
+.btn-redo{background:var(--blue);color:#0d1117;font-weight:800;padding:11px 26px;border:none;border-radius:8px;cursor:pointer;margin-top:14px;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-inner">
+    <div class="hdr-title">
+      <h1>📚 HGGSP 1ère — Devoir n°6 CNED</h1>
+      <p>25 questions · 5 séquences + environnement · M. Grégory CRON</p>
+    </div>
+    <div class="timer-box">
+      <div class="timer-lbl">Temps restant</div>
+      <div class="timer-val" id="timer">50:00</div>
+    </div>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="prog" style="width:0%"></div></div>
+</div>
+
+<div class="main">
+  <div class="intro-card">
+    <h2>Instructions</h2>
+    <p>Ce devoir porte sur l'ensemble du cours (séquences 1 à 5) + une séquence sur l'environnement. Durée : <strong>50 minutes</strong>. Une seule tentative possible. La correction est automatique après soumission.</p>
+  </div>
+
+  <div id="quiz-form"></div>
+
+  <div class="submit-area">
+    <button class="btn-submit" id="btn-submit" onclick="submitQuiz()">✅ Soumettre mes réponses</button>
+  </div>
+
+  <div class="results" id="results">
+    <div class="res-pct" id="res-pct">0%</div>
+    <div class="res-label" id="res-label"></div>
+    <div class="res-grid">
+      <div class="res-box"><div class="res-val" id="r-correct">0</div><div class="res-lbl">Correctes</div></div>
+      <div class="res-box"><div class="res-val" id="r-wrong">0</div><div class="res-lbl">Incorrectes</div></div>
+      <div class="res-box"><div class="res-val" id="r-blank">0</div><div class="res-lbl">Sans réponse</div></div>
+    </div>
+    <div class="appreciation" id="appreciation"></div>
+    <button class="btn-redo" onclick="location.reload()">🔄 Recommencer</button>
+  </div>
+</div>
+
+<script>
+const SEQUENCES = [
+  {
+    title:"Séquence 1 — S'informer : regard critique sur les sources et modes de communication",
+    color:"var(--blue)",
+    questions:[
+      {q:"Quel terme, entré dans le Larousse en 2018, désigne la surcharge informationnelle reçue par un individu ?",
+       opts:["Médias","Bulle informationnelle","Infobésité","Censure","Gatekeepers"],a:2,
+       fb:"L'infobésité (ou surcharge informationnelle) désigne la quantité excessive d'informations que reçoit un individu, rendant difficile le traitement et la hiérarchisation."},
+      {q:"Qu'est-ce que la 'bulle informationnelle' (filter bubble) ?",
+       opts:["Un réseau social fermé","Un phénomène où les algorithmes ne montrent que des contenus qui confirment nos opinions","Une campagne de désinformation organisée","Un site d'information payant"],a:1,
+       fb:"La bulle informationnelle est créée par les algorithmes qui filtrent le contenu selon nos préférences, nous exposant uniquement à des informations qui confirment nos convictions."},
+      {q:"Qui sont les 'gatekeepers' dans le domaine de l'information ?",
+       opts:["Les hackers","Les journalistes et médias qui sélectionnent et hiérarchisent l'information","Les utilisateurs des réseaux sociaux","Les gouvernements qui censurent"],a:1,
+       fb:"Les gatekeepers ('gardiens de l'information') sont les journalistes, rédacteurs en chef et médias qui filtrent et hiérarchisent l'information avant de la diffuser."},
+      {q:"Qu'est-ce qu'une 'fake news' ?",
+       opts:["Une information sensationnelle","Une information délibérément fausse, conçue pour tromper","Une information humoristique","Un article d'opinion"],a:1,
+       fb:"Une fake news est une fausse information délibérément créée et diffusée pour tromper le public, souvent à des fins politiques ou économiques."},
+      {q:"Quel outil numérique contribue à accélérer la diffusion des fake news ?",
+       opts:["Les bibliothèques numériques","Les réseaux sociaux","Les encyclopédies en ligne","Les journaux papier"],a:1,
+       fb:"Les réseaux sociaux (Facebook, Twitter/X, TikTok…) favorisent la diffusion virale des fausses informations, souvent plus rapide que les démentis."},
+    ]
+  },
+  {
+    title:"Séquence 2 — Faire la guerre, faire la paix : formes de conflits et modes de résolution",
+    color:"var(--red)",
+    questions:[
+      {q:"Qu'est-ce que la 'guerre asymétrique' ?",
+       opts:["Une guerre entre deux pays de même puissance","Un conflit entre acteurs de puissance très inégale (ex. : armée régulière vs guérilla)","Une guerre limitée à un seul front","Un conflit sans pertes civiles"],a:1,
+       fb:"La guerre asymétrique oppose des belligérants aux capacités très différentes (ex. : les USA face aux talibans en Afghanistan). Les parties les plus faibles utilisent souvent la guérilla ou le terrorisme."},
+      {q:"Qu'est-ce que la dissuasion nucléaire ?",
+       opts:["L'utilisation de bombes nucléaires en premier","La menace de représailles nucléaires pour décourager toute attaque","Un traité de non-prolifération","L'interdiction des armes nucléaires"],a:1,
+       fb:"La dissuasion nucléaire repose sur la menace de représailles dévastatrices pour décourager l'adversaire d'attaquer. C'est le principe MAD (Mutual Assured Destruction)."},
+      {q:"Quel organisme international est chargé du maintien de la paix ?",
+       opts:["FMI","Conseil de sécurité de l'ONU","OTAN","G7"],a:1,
+       fb:"Le Conseil de sécurité de l'ONU (5 membres permanents : USA, Russie, Chine, France, Royaume-Uni) est responsable du maintien de la paix et de la sécurité internationale."},
+      {q:"Qu'est-ce qu'un 'État défaillant' (failed state) ?",
+       opts:["Un État avec une dette élevée","Un État qui ne contrôle plus son territoire et ne peut assurer les fonctions régaliennes de base","Un État non-membre de l'ONU","Un État en développement"],a:1,
+       fb:"Un État défaillant est incapable d'assurer ses fonctions régaliennes (sécurité, justice, service public). La Somalie, la Libye ou le Yémen en sont des exemples."},
+      {q:"Que signifie 'droit d'ingérence humanitaire' ?",
+       opts:["Le droit d'envahir un pays","Le droit d'intervenir dans un État pour protéger des populations civiles en danger","Un traité d'alliance militaire","Un accord commercial"],a:1,
+       fb:"Le droit d'ingérence humanitaire (développé par B. Kouchner) justifie une intervention internationale pour protéger des civils, même sans accord du gouvernement concerné."},
+    ]
+  },
+  {
+    title:"Séquence 3 — L'enjeu de la connaissance",
+    color:"var(--purple)",
+    questions:[
+      {q:"Qu'est-ce que la 'propriété intellectuelle' ?",
+       opts:["La possession d'une bibliothèque","L'ensemble des droits protégeant les créations de l'esprit (brevets, droits d'auteur, marques)","La propriété d'un ordinateur","Le droit à l'éducation"],a:1,
+       fb:"La propriété intellectuelle protège les créations intellectuelles : droits d'auteur (œuvres littéraires, artistiques), brevets (inventions), marques commerciales."},
+      {q:"Qu'est-ce que l'Open Source ?",
+       opts:["Un logiciel payant","Un code source librement accessible, modifiable et redistribuable","Un système de censure numérique","Un réseau social fermé"],a:1,
+       fb:"L'Open Source désigne les logiciels dont le code source est librement accessible. Linux, Firefox, Wikipedia sont des exemples emblématiques."},
+      {q:"Quel pays investit le plus dans la recherche et développement (R&D) au monde ?",
+       opts:["France","Japon","États-Unis","Chine"],a:2,
+       fb:"Les États-Unis restent le premier investisseur mondial en R&D, mais la Chine rattrape rapidement son retard. En % du PIB, Israël et la Corée du Sud sont en tête."},
+      {q:"Qu'est-ce que le 'big data' ?",
+       opts:["Un gros ordinateur","L'accumulation massive de données numériques et leur traitement par algorithmes","Un réseau social professionnel","Un type de connexion internet"],a:1,
+       fb:"Le big data désigne l'explosion des données numériques produites (réseaux sociaux, achats en ligne, capteurs…) et leur analyse par des algorithmes pour en tirer des informations utiles."},
+      {q:"Qu'est-ce que la 'fracture numérique' ?",
+       opts:["Une panne d'internet","L'inégalité d'accès aux technologies numériques selon les pays, classes sociales ou générations","Un virus informatique","Un conflit entre géants du numérique"],a:1,
+       fb:"La fracture numérique désigne les inégalités d'accès aux technologies numériques : entre pays riches/pauvres, urbains/ruraux, jeunes/âgés."},
+    ]
+  },
+  {
+    title:"Séquence 4 — L'enjeu de la connaissance : l'information",
+    color:"var(--orange)",
+    questions:[
+      {q:"Qu'est-ce que la 'géopolitique' ?",
+       opts:["La politique intérieure d'un État","L'étude des relations internationales à travers le prisme des territoires et des ressources","La géographie des villes","La politique économique mondiale"],a:1,
+       fb:"La géopolitique analyse les relations de puissance entre États à travers le prisme du territoire, des ressources, des populations et des frontières."},
+      {q:"Qu'est-ce qu'une 'puissance douce' (soft power) ?",
+       opts:["Une armée peu équipée","L'influence culturelle, diplomatique et idéologique d'un État, sans recours à la force","Un petit pays","Un pays neutre"],a:1,
+       fb:"Le soft power (concept de Joseph Nye) désigne l'influence d'un pays par sa culture, ses valeurs et sa diplomatie, par opposition au hard power (force militaire et économique)."},
+      {q:"Quel pays est souvent cité comme exemple de soft power grâce à sa culture pop (K-pop, dramas) ?",
+       opts:["Japon","Chine","Corée du Sud","Inde"],a:2,
+       fb:"La Corée du Sud exerce un soft power puissant via la K-pop (BTS, BLACKPINK), les dramas coréens et la cuisine, notamment en Asie et chez les jeunes du monde entier."},
+      {q:"Qu'est-ce que la 'mondialisation' ?",
+       opts:["La politique d'un seul pays","L'intensification des échanges économiques, culturels et humains à l'échelle planétaire","La création d'un gouvernement mondial","L'uniformisation des cultures"],a:1,
+       fb:"La mondialisation désigne l'accélération des flux de marchandises, de capitaux, d'informations et de personnes à l'échelle mondiale, favorisée par les transports et les technologies."},
+      {q:"Qu'est-ce que le G20 ?",
+       opts:["Une alliance militaire de 20 pays","Un forum de 20 pays représentant 85% du PIB mondial","Un accord commercial de 20 États","L'ONU réduite à 20 membres"],a:1,
+       fb:"Le G20 réunit les 20 plus grandes économies mondiales (19 pays + l'UE), représentant 85% du PIB mondial. Il traite des grandes questions économiques mondiales."},
+    ]
+  },
+  {
+    title:"Séquence 5 — Les territoires dans la mondialisation",
+    color:"var(--green)",
+    questions:[
+      {q:"Qu'est-ce qu'une 'mégalopole' ?",
+       opts:["Un pays très peuplé","Un réseau continu de grandes métropoles reliées entre elles","Un quartier d'affaires","Une ville souterraine"],a:1,
+       fb:"Une mégalopole est un réseau continu de grandes agglomérations. La 'BosWash' (Boston-Washington) et la 'Tokaïdo' (Tokyo-Osaka) en sont les exemples canoniques."},
+      {q:"Qu'est-ce que la 'littoralisation' ?",
+       opts:["La pollution des côtes","La concentration des activités humaines et économiques sur les littoraux","La construction de digues","La pêche intensive"],a:1,
+       fb:"La littoralisation désigne la concentration des populations, des activités économiques et des échanges sur les zones côtières, facilitant le commerce maritime mondial."},
+      {q:"Qu'est-ce qu'un 'hub' dans le contexte de la mondialisation ?",
+       opts:["Un type de bateau","Un nœud de communication (port, aéroport) qui centralise et redistribue les flux","Un centre commercial","Un quartier financier"],a:1,
+       fb:"Un hub est un point nodal dans un réseau de transport (aéroport de Dubaï, port de Singapour) qui centralise et redistribue les flux de marchandises, de personnes et d'informations."},
+      {q:"Qu'est-ce que les BRICS ?",
+       opts:["Une alliance militaire","Un groupe de pays émergents (Brésil, Russie, Inde, Chine, Afrique du Sud)","Un accord commercial européen","Un forum d'États insulaires"],a:1,
+       fb:"Les BRICS (Brésil, Russie, Inde, Chine, Afrique du Sud) sont des pays émergents qui représentent une part croissante de l'économie mondiale et défient l'ordre mondial occidental."},
+      {q:"Qu'est-ce qu'une 'Zone économique exclusive' (ZEE) ?",
+       opts:["Une zone franche commerciale","Une zone maritime de 200 miles nautiques où un État a des droits exclusifs sur les ressources","Une zone militaire interdite","Un quartier économique spécial"],a:1,
+       fb:"La ZEE s'étend jusqu'à 200 miles nautiques (370 km) des côtes. L'État côtier y a des droits exclusifs sur les ressources (pêche, pétrole, minerais des fonds marins)."},
+    ]
+  },
+  {
+    title:"Séquence 6 — Environnement et développement durable",
+    color:"var(--gold)",
+    questions:[
+      {q:"Quel accord international sur le climat a été signé en 2015 à Paris ?",
+       opts:["Protocole de Kyoto","Accords de Rio","Accord de Paris","Traité de Montréal"],a:2,
+       fb:"L'Accord de Paris (COP21, décembre 2015) engage 196 parties à limiter le réchauffement climatique à 1,5°C-2°C par rapport à l'ère préindustrielle."},
+      {q:"Quel rapport de 1987 introduit pour la première fois le concept de développement durable ?",
+       opts:["Rapport du Club de Rome","Rapport Brundtland","Rapport du GIEC","Rapport de la Banque mondiale"],a:1,
+       fb:"Le rapport Brundtland (1987) 'Notre avenir à tous' définit le développement durable : 'un développement qui répond aux besoins du présent sans compromettre ceux des générations futures'."},
+      {q:"Lors de quel sommet (1992) les États s'engagent-ils pour la première fois collectivement sur le développement durable ?",
+       opts:["Sommet de Stockholm","Sommet de Rio","Sommet de Copenhague","Sommet de Kyoto"],a:1,
+       fb:"Le Sommet de la Terre de Rio de Janeiro (1992) marque la prise de conscience mondiale : adoption de la Convention cadre sur les changements climatiques et de la Convention sur la biodiversité."},
+      {q:"Qu'est-ce que l'Anthropocène ?",
+       opts:["Une ère géologique","L'époque actuelle où l'activité humaine est devenue la principale force de transformation de la Terre","Un type de pollution","Un accord environnemental"],a:1,
+       fb:"L'Anthropocène désigne l'époque géologique actuelle où l'impact humain (déforestation, pollution, changement climatique) est devenu la force principale de transformation de la planète."},
+      {q:"Quel est le triple niveau de définition de la biodiversité ?",
+       opts:["Espèces, gènes, écosystèmes","Faune, flore, champignons","Air, eau, sol","Forêts, mers, déserts"],a:0,
+       fb:"La biodiversité se définit à trois niveaux : diversité des espèces (animaux, végétaux…), diversité génétique (au sein des espèces) et diversité des écosystèmes (forêts, océans, prairies…)."},
+    ]
+  }
+];
+
+// ── Build quiz ─────────────────────────────────────────────────────────────────
+let submitted = false;
+let timerInterval;
+let remaining = 50 * 60;
+const LETTERS = ['A','B','C','D','E','F'];
+
+function buildQuiz(){
+  const form = document.getElementById('quiz-form');
+  let html = '';
+  let qGlobal = 0;
+  SEQUENCES.forEach((seq, si) => {
+    html += `<div class="seq-title" style="color:${seq.color}">${seq.title}</div>`;
+    seq.questions.forEach((q, qi) => {
+      qGlobal++;
+      html += `<div class="q-block" id="qb-${qGlobal}">
+        <div class="q-num">Question ${qGlobal}</div>
+        <div class="q-text">${q.q}</div>
+        <div class="opts">`;
+      q.opts.forEach((opt, oi) => {
+        html += `<label class="opt" id="opt-${qGlobal}-${oi}">
+          <span class="opt-idx">${LETTERS[oi]}</span>
+          <span>${opt}</span>
+          <input type="radio" name="q${qGlobal}" value="${oi}" style="display:none" onchange="onSelect(${qGlobal})">
+        </label>`;
+      });
+      html += `</div>
+        <div class="q-fb" id="fb-${qGlobal}"></div>
+      </div>`;
+    });
+  });
+  form.innerHTML = html;
+  // progress update
+  document.querySelectorAll('input[type=radio]').forEach(r => {
+    r.addEventListener('change', updateProgress);
+  });
+}
+
+function onSelect(qn){
+  if(submitted) return;
+  // visual: mark selected
+  const opts = document.querySelectorAll(`[name="q${qn}"]`);
+  opts.forEach(r => {
+    const lbl = r.closest('.opt');
+    lbl.style.borderColor = r.checked ? 'var(--blue)' : '';
+    lbl.style.background = r.checked ? 'rgba(88,166,255,.1)' : '';
+  });
+}
+
+function updateProgress(){
+  let answered = 0;
+  const total = 25;
+  for(let i=1;i<=total;i++){
+    if(document.querySelector(`[name="q${i}"]:checked`)) answered++;
+  }
+  document.getElementById('prog').style.width = (answered/total*100)+'%';
+}
+
+function submitQuiz(){
+  if(submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('btn-submit').disabled = true;
+
+  let correct = 0, wrong = 0, blank = 0;
+  let qGlobal = 0;
+  SEQUENCES.forEach((seq,si) => {
+    seq.questions.forEach((q,qi) => {
+      qGlobal++;
+      const sel = document.querySelector(`[name="q${qGlobal}"]:checked`);
+      const fb = document.getElementById(`fb-${qGlobal}`);
+      // disable all opts
+      document.querySelectorAll(`[name="q${qGlobal}"]`).forEach(r => {
+        const lbl = r.closest('.opt');
+        lbl.style.cursor = 'default';
+        lbl.style.pointerEvents = 'none';
+        if(parseInt(r.value) === q.a){
+          lbl.classList.add('correct');
+          lbl.style.background = '';
+          lbl.style.borderColor = '';
+        }
+      });
+      if(!sel){
+        blank++;
+        fb.textContent = '⚠️ Sans réponse. ' + q.fb;
+        fb.classList.add('wrong','show');
+      } else if(parseInt(sel.value) === q.a){
+        correct++;
+        fb.textContent = '✅ ' + q.fb;
+        fb.classList.add('correct','show');
+      } else {
+        wrong++;
+        sel.closest('.opt').classList.add('wrong');
+        sel.closest('.opt').style.background = '';
+        sel.closest('.opt').style.borderColor = '';
+        fb.textContent = '❌ ' + q.fb;
+        fb.classList.add('wrong','show');
+      }
+    });
+  });
+
+  // Show results
+  const total = 25;
+  const pct = Math.round(correct/total*100);
+  document.getElementById('res-pct').textContent = pct + '%';
+  document.getElementById('r-correct').textContent = correct + '/' + total;
+  document.getElementById('r-wrong').textContent = wrong;
+  document.getElementById('r-blank').textContent = blank;
+  let lbl = pct >= 90 ? '🏆 Excellent — Maîtrise solide du cours.' :
+            pct >= 75 ? '🎯 Très bien — Bon niveau général.' :
+            pct >= 60 ? '📚 Bien — Quelques notions à revoir.' :
+            pct >= 40 ? '⚠️ Des lacunes — Reprenez le cours séquence par séquence.' :
+            '❌ Insuffisant — Reprise complète du cours recommandée.';
+  document.getElementById('res-label').textContent = lbl;
+  let appr = `Vous avez obtenu <strong>${correct} bonnes réponses sur 25</strong> (${pct}%). `;
+  if(pct >= 90) appr += "Félicitations ! Vous maîtrisez très bien l'ensemble des séquences du devoir n°6.";
+  else if(pct >= 60) appr += "Bon travail dans l'ensemble. Relisez particulièrement les séquences où vous avez fait des erreurs.";
+  else appr += "Des efforts supplémentaires sont nécessaires. Reprenez chaque séquence avec votre cours.";
+  document.getElementById('appreciation').innerHTML = appr;
+  document.getElementById('results').classList.add('show');
+  document.getElementById('results').scrollIntoView({behavior:'smooth'});
+}
+
+function startTimer(){
+  timerInterval = setInterval(() => {
+    remaining--;
+    if(remaining <= 0){ remaining = 0; clearInterval(timerInterval); submitQuiz(); }
+    const m = Math.floor(remaining/60);
+    const s = remaining % 60;
+    const el = document.getElementById('timer');
+    el.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    if(remaining <= 300) el.classList.add('warn');
+  }, 1000);
+}
+
+buildQuiz();
+startTimer();
+</script>
+</body>
+</html>
