@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maîtresse Marion Éprouvette — Mélanges & Dissolutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0a1a;
+  --panel: #130f28;
+  --border: #2d1f5e;
+  --accent: #c084fc;
+  --teal: #2dd4bf;
+  --gold: #fbbf24;
+  --green: #4ade80;
+  --red: #f87171;
+  --pink: #f472b6;
+  --glass: rgba(192,132,252,0.05);
+  --text: #ede9fe;
+  --sub: #a78bfa;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── MAGIC BG ── */
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 10%, rgba(168,85,247,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 80% 80%, rgba(45,212,191,0.08) 0%, transparent 60%);
+  pointer-events:none; z-index:0;
+}
+body::after {
+  content:'';
+  position:fixed; inset:0;
+  background:
+    linear-gradient(rgba(168,85,247,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168,85,247,0.03) 1px, transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none; z-index:0;
+}
+
+.stars { position:fixed; inset:0; pointer-events:none; z-index:0; }
+.star {
+  position:absolute; background:white; border-radius:50%;
+  animation: twinkle var(--d) ease-in-out infinite; opacity:0;
+}
+@keyframes twinkle { 0%,100%{opacity:0} 50%{opacity:var(--op)} }
+
+/* ── HEADER ── */
+header {
+  position:relative; z-index:10;
+  text-align:center; padding:1.5rem 1rem 0.5rem;
+}
+h1 {
+  font-family:'Cinzel',serif; font-size:clamp(1.1rem,4vw,1.9rem);
+  font-weight:900; letter-spacing:0.06em;
+  background:linear-gradient(135deg,var(--pink),var(--accent),var(--teal));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.subtitle { font-size:0.78rem; color:var(--sub); letter-spacing:0.2em; text-transform:uppercase; margin-top:0.2rem; }
+
+/* ── SCORE ── */
+.score-bar {
+  position:relative; z-index:10;
+  display:flex; justify-content:center; gap:1rem;
+  padding:0.7rem 1rem; flex-wrap:wrap;
+}
+.score-chip {
+  background:var(--glass); border:1px solid var(--border);
+  border-radius:999px; padding:0.35rem 1rem;
+  font-family:'Cinzel',serif; font-size:0.78rem;
+  display:flex; align-items:center; gap:0.4rem;
+  backdrop-filter:blur(12px);
+}
+.score-chip .val { color:var(--gold); font-weight:700; }
+
+/* ── MAIN ── */
+main {
+  position:relative; z-index:10;
+  max-width:860px; margin:0 auto;
+  padding:0.8rem 1rem 3rem;
+  display:flex; flex-direction:column; gap:1.1rem;
+}
+
+/* ── MAÎTRESSE ── */
+.prof-zone {
+  background:var(--glass); border:1px solid var(--border);
+  border-radius:20px; padding:1rem 1.1rem;
+  display:flex; align-items:flex-start; gap:1rem;
+  backdrop-filter:blur(12px);
+}
+.prof-wrap { flex-shrink:0; width:76px; height:90px; }
+.prof-svg { animation:profFloat 3s ease-in-out infinite; }
+@keyframes profFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+.bubble {
+  flex:1; background:rgba(192,132,252,0.07);
+  border:1px solid rgba(192,132,252,0.25);
+  border-radius:14px; padding:0.75rem 1rem;
+  position:relative; font-size:0.92rem; line-height:1.55;
+}
+.bubble::before {
+  content:''; position:absolute; left:-10px; top:18px;
+  border:5px solid transparent;
+  border-right-color:rgba(192,132,252,0.25);
+}
+
+/* ── DOTS ── */
+.dots-row { display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap; }
+.dot {
+  width:11px; height:11px; border-radius:50%;
+  background:var(--border); transition:all 0.3s; cursor:pointer;
+}
+.dot.active { background:var(--accent); box-shadow:0 0 10px var(--accent); transform:scale(1.4); }
+.dot.done { background:var(--green); }
+.dot.fail { background:var(--red); }
+
+/* ── CARD ── */
+.card {
+  background:var(--glass); border:1px solid var(--border);
+  border-radius:20px; padding:1.2rem;
+  backdrop-filter:blur(12px);
+}
+.card-title {
+  font-family:'Cinzel',serif; font-size:0.72rem;
+  letter-spacing:0.2em; text-transform:uppercase;
+  margin-bottom:0.9rem;
+  display:flex; align-items:center; gap:0.5rem;
+}
+.card-title.purple { color:var(--accent); }
+.card-title.purple::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,var(--accent),transparent); }
+.card-title.teal { color:var(--teal); }
+.card-title.teal::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,var(--teal),transparent); }
+.card-title.gold { color:var(--gold); }
+.card-title.gold::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,var(--gold),transparent); }
+.card-title.pink { color:var(--pink); }
+.card-title.pink::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,var(--pink),transparent); }
+
+/* ── LAB SCENE ── */
+.lab-scene {
+  display:flex; align-items:flex-end; justify-content:center;
+  gap:1.5rem; flex-wrap:wrap; padding:0.5rem 0 1rem;
+}
+.shelf { display:flex; flex-direction:column; gap:0.6rem; align-items:center; }
+.shelf-lbl { font-size:0.65rem; color:var(--sub); text-transform:uppercase; letter-spacing:0.1em; }
+
+.ing-btn {
+  border:none; background:none; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; gap:0.3rem;
+  transition:transform 0.2s;
+}
+.ing-btn:hover { transform:scale(1.1) rotate(-3deg); }
+.ing-btn:active { transform:scale(0.93); }
+.ing-btn.used { opacity:0.35; pointer-events:none; }
+
+.vial {
+  width:34px; height:54px;
+  border-radius:4px 4px 10px 10px;
+  border:1.5px solid rgba(255,255,255,0.25);
+  position:relative; overflow:hidden;
+}
+.vial-liq { position:absolute; bottom:0; left:0; right:0; height:75%; border-radius:0 0 8px 8px; }
+.vial-cap { width:26px; height:7px; border-radius:3px; margin-bottom:-1px; }
+.ing-name { font-size:0.62rem; font-weight:700; text-align:center; max-width:50px; line-height:1.2; }
+
+/* BEAKER */
+.beaker-wrap { display:flex; flex-direction:column; align-items:center; gap:0.4rem; }
+.beaker-svg-wrap { position:relative; width:128px; height:168px; }
+.beaker-svg { position:absolute; inset:0; width:100%; height:100%; }
+.liq-layers {
+  position:absolute; bottom:14px; left:13px; right:13px;
+  display:flex; flex-direction:column-reverse;
+  overflow:hidden; border-radius:0 0 13px 13px; max-height:118px;
+}
+.liq-layer {
+  width:100%; transition:height 0.85s cubic-bezier(0.34,1.56,0.64,1);
+  position:relative; overflow:hidden;
+}
+.liq-layer::after {
+  content:''; position:absolute; top:0; left:0; right:0;
+  height:3px; background:rgba(255,255,255,0.2); border-radius:50%;
+}
+.bubble-p {
+  position:absolute; border-radius:50%;
+  background:rgba(255,255,255,0.35);
+  animation:riseUp var(--bd) ease-in infinite; pointer-events:none;
+}
+@keyframes riseUp { 0%{transform:translateY(0) scale(1);opacity:0.6} 100%{transform:translateY(-80px) scale(0.2);opacity:0} }
+.stir-over {
+  position:absolute; inset:0 0 14px 0; border-radius:0 0 13px 13px;
+  pointer-events:none; overflow:hidden; opacity:0; transition:opacity 0.3s;
+}
+.stir-over.on { opacity:1; }
+.stir-ring {
+  position:absolute; top:50%; left:50%;
+  width:76px; height:76px; margin:-38px 0 0 -38px;
+  border:3px solid rgba(255,255,255,0.55);
+  border-top-color:transparent; border-radius:50%;
+  animation:spin 0.35s linear infinite;
+}
+@keyframes spin { to{transform:rotate(360deg)} }
+.beaker-lbl { font-family:'Cinzel',serif; font-size:0.66rem; color:var(--accent); letter-spacing:0.1em; }
+
+/* ── CLASSIFICATION BADGE ── */
+.classif-box {
+  margin-top:0.9rem; padding:0.8rem 1rem;
+  border-radius:14px; font-size:0.88rem; line-height:1.55;
+  animation:fadeSlide 0.5s ease;
+}
+@keyframes fadeSlide { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.classif-box.homogene { background:rgba(45,212,191,0.1); border:1px solid var(--teal); }
+.classif-box.heterogene { background:rgba(251,191,36,0.1); border:1px solid var(--gold); }
+.classif-box.soluble { background:rgba(74,222,128,0.1); border:1px solid var(--green); }
+.classif-box.insoluble { background:rgba(248,113,113,0.1); border:1px solid var(--red); }
+.classif-tag {
+  display:inline-block; padding:0.2rem 0.7rem; border-radius:999px;
+  font-weight:800; font-size:0.78rem; margin-bottom:0.35rem;
+}
+.tag-hom { background:rgba(45,212,191,0.2); color:var(--teal); }
+.tag-het { background:rgba(251,191,36,0.2); color:var(--gold); }
+.tag-sol { background:rgba(74,222,128,0.2); color:var(--green); }
+.tag-ins { background:rgba(248,113,113,0.2); color:var(--red); }
+
+/* ── ACTIONS ── */
+.action-row { display:flex; gap:0.6rem; justify-content:center; margin-top:0.8rem; flex-wrap:wrap; }
+.btn {
+  font-family:'Quicksand',sans-serif; font-weight:700;
+  font-size:0.82rem; padding:0.5rem 1.15rem;
+  border-radius:999px; border:none; cursor:pointer; transition:all 0.2s;
+}
+.btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,0.4); }
+.btn:active { transform:translateY(0); }
+.btn:disabled { opacity:0.35; pointer-events:none; }
+.btn-stir { background:linear-gradient(135deg,var(--accent),var(--pink)); color:#0d0a1a; }
+.btn-reset { background:transparent; border:1px solid var(--border); color:var(--sub); }
+.btn-next { background:linear-gradient(135deg,var(--gold),#f59e0b); color:#0d0a1a; display:none; }
+.btn-next.show { display:inline-block; }
+
+/* ── QUIZ (per experiment) ── */
+.quiz-q { font-size:0.93rem; font-weight:700; margin-bottom:0.75rem; line-height:1.4; }
+.quiz-opts { display:grid; grid-template-columns:1fr 1fr; gap:0.55rem; }
+.quiz-opt {
+  padding:0.58rem 0.85rem; border-radius:12px;
+  border:1px solid var(--border); background:rgba(255,255,255,0.02);
+  cursor:pointer; font-family:'Quicksand',sans-serif; font-size:0.82rem;
+  color:var(--text); text-align:left; line-height:1.3; transition:all 0.2s;
+}
+.quiz-opt:hover { border-color:var(--accent); background:rgba(192,132,252,0.08); }
+.quiz-opt.correct { border-color:var(--green); background:rgba(74,222,128,0.12); color:var(--green); }
+.quiz-opt.wrong { border-color:var(--red); background:rgba(248,113,113,0.12); color:var(--red); }
+.next-wrap { text-align:center; margin-top:1rem; }
+
+/* ── A RETENIR ── */
+.retenir-card {
+  background:linear-gradient(135deg,rgba(192,132,252,0.08),rgba(45,212,191,0.06));
+  border:1px solid var(--accent); border-radius:20px; padding:1.3rem;
+  position:relative; overflow:hidden;
+}
+.retenir-card::before {
+  content:'✨'; position:absolute; top:1rem; right:1.2rem; font-size:1.8rem;
+  animation:sparkleAnim 2s ease-in-out infinite;
+}
+@keyframes sparkleAnim { 0%,100%{opacity:0.3;transform:scale(0.8) rotate(0deg)} 50%{opacity:1;transform:scale(1.2) rotate(20deg)} }
+
+.concept-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin:0.8rem 0;
+}
+@media(max-width:480px) { .concept-grid { grid-template-columns:1fr; } }
+.concept-box {
+  border-radius:12px; padding:0.75rem 0.9rem; font-size:0.83rem; line-height:1.5;
+}
+.cb-hom { background:rgba(45,212,191,0.1); border:1px solid rgba(45,212,191,0.3); }
+.cb-het { background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.3); }
+.cb-sol { background:rgba(74,222,128,0.1); border:1px solid rgba(74,222,128,0.3); }
+.cb-ins { background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.3); }
+.cb-title { font-weight:800; font-size:0.88rem; margin-bottom:0.3rem; }
+
+/* Lavoisier */
+.lavoisier-box {
+  background:linear-gradient(135deg,rgba(251,191,36,0.08),rgba(192,132,252,0.08));
+  border:1px solid var(--gold); border-radius:16px;
+  padding:1rem 1.2rem; margin-top:0.8rem;
+}
+.lavoisier-quote {
+  font-family:'Cinzel',serif; font-size:1rem; font-weight:700;
+  color:var(--gold); text-align:center; margin:0.5rem 0;
+  line-height:1.5;
+}
+.lavoisier-sub { font-size:0.8rem; color:var(--sub); text-align:center; line-height:1.4; }
+
+/* ── FINAL QUIZ ── */
+.final-quiz-card {
+  background:var(--glass); border:1px solid var(--pink);
+  border-radius:20px; padding:1.3rem; backdrop-filter:blur(12px);
+}
+.fq-progress { font-size:0.75rem; color:var(--sub); margin-bottom:0.5rem; font-family:'Cinzel',serif; }
+.fq-score { font-family:'Cinzel',serif; font-size:0.9rem; color:var(--gold); margin-bottom:0.8rem; }
+.fq-question { font-size:0.97rem; font-weight:700; margin-bottom:0.9rem; line-height:1.45; }
+.fq-opts { display:grid; grid-template-columns:1fr 1fr; gap:0.55rem; margin-bottom:0.8rem; }
+@media(max-width:440px){ .fq-opts { grid-template-columns:1fr; } }
+.fq-opt {
+  padding:0.6rem 0.9rem; border-radius:12px;
+  border:1px solid var(--border); background:rgba(255,255,255,0.02);
+  cursor:pointer; font-family:'Quicksand',sans-serif; font-size:0.82rem;
+  color:var(--text); text-align:left; line-height:1.3; transition:all 0.2s;
+}
+.fq-opt:hover { border-color:var(--pink); background:rgba(244,114,182,0.08); }
+.fq-opt.correct { border-color:var(--green); background:rgba(74,222,128,0.12); color:var(--green); }
+.fq-opt.wrong { border-color:var(--red); background:rgba(248,113,113,0.12); color:var(--red); }
+.fq-feedback {
+  padding:0.7rem 0.9rem; border-radius:12px; font-size:0.85rem; line-height:1.5;
+  margin-bottom:0.6rem; animation:fadeSlide 0.4s ease;
+}
+.fq-feedback.ok { background:rgba(74,222,128,0.1); border:1px solid var(--green); }
+.fq-feedback.nok { background:rgba(248,113,113,0.1); border:1px solid var(--red); }
+.fq-next { text-align:center; }
+
+/* ── DISCOVERY ACTIVITIES ── */
+.activity-box {
+  background:rgba(192,132,252,0.06); border:1px solid rgba(192,132,252,0.2);
+  border-radius:14px; padding:0.85rem 1rem; margin-bottom:0.6rem;
+  font-size:0.88rem; line-height:1.55; transition:border-color 0.2s;
+}
+.activity-box:hover { border-color:var(--accent); }
+.act-title { font-weight:800; color:var(--accent); margin-bottom:0.25rem; }
+
+/* ── COMPLETION ── */
+.completion {
+  display:none; text-align:center; padding:2rem 1rem; position:relative; z-index:10;
+}
+.completion.show { display:block; }
+.big-em {
+  font-size:4rem; display:block; margin-bottom:0.8rem;
+  animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes popIn { from{transform:scale(0) rotate(-20deg);opacity:0} to{transform:scale(1) rotate(0);opacity:1} }
+.comp-title {
+  font-family:'Cinzel',serif; font-size:1.6rem;
+  background:linear-gradient(135deg,var(--gold),var(--pink));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  margin-bottom:0.5rem;
+}
+
+/* ── FLASH / PARTICLES ── */
+.flash {
+  position:fixed; top:50%; left:50%;
+  transform:translate(-50%,-50%) scale(0);
+  font-size:3.5rem; z-index:200; pointer-events:none;
+  opacity:0; transition:transform 0.2s cubic-bezier(0.34,1.56,0.64,1), opacity 0.5s;
+}
+.flash.show { transform:translate(-50%,-50%) scale(1); opacity:1; }
+.particle {
+  position:fixed; pointer-events:none; z-index:199; border-radius:50%;
+  animation:burst 0.85s ease-out forwards;
+}
+@keyframes burst { from{transform:translate(0,0) scale(1);opacity:1} to{transform:translate(var(--tx),var(--ty)) scale(0);opacity:0} }
+
+/* ── RESPONSIVE ── */
+@media(max-width:440px){
+  .quiz-opts { grid-template-columns:1fr; }
+  .concept-grid { grid-template-columns:1fr; }
+  .vial { width:28px; height:44px; }
+  .beaker-svg-wrap { width:108px; height:142px; }
+}
+
+/* ══════════════════════════════════════
+   ÉCRAN D'ACCUEIL
+══════════════════════════════════════ */
+#welcomeScreen {
+  position:fixed; inset:0; z-index:500;
+  background:var(--bg); overflow-y:auto;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:1rem;
+  animation:fadeIn 0.6s ease;
+}
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+.welcome-card {
+  max-width:480px; width:100%;
+  background:linear-gradient(135deg,rgba(192,132,252,0.09),rgba(45,212,191,0.06));
+  border:1px solid var(--accent); border-radius:24px;
+  padding:1.4rem 1.2rem 1.2rem;
+  text-align:center;
+  position:relative; overflow:hidden;
+  box-shadow:0 0 60px rgba(192,132,252,0.15);
+}
+
+.welcome-card::before {
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(192,132,252,0.12),transparent);
+  pointer-events:none;
+}
+
+.welcome-prof { display:flex; justify-content:center; margin-bottom:0.7rem; }
+
+.welcome-title {
+  font-family:'Cinzel',serif; font-size:clamp(1.1rem,5vw,1.6rem);
+  font-weight:900; letter-spacing:0.03em;
+  background:linear-gradient(135deg,var(--pink),var(--accent),var(--teal));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+  margin-bottom:0.25rem; line-height:1.25;
+}
+.welcome-sub {
+  font-size:0.72rem; color:var(--sub); text-transform:uppercase;
+  letter-spacing:0.2em; margin-bottom:0.9rem;
+}
+
+.welcome-speech {
+  background:rgba(192,132,252,0.07); border:1px solid rgba(192,132,252,0.2);
+  border-radius:14px; padding:0.8rem 1rem; margin-bottom:0.9rem;
+  font-size:0.88rem; line-height:1.6; text-align:left;
+}
+
+/* Bandeau parents */
+.parents-banner {
+  background:linear-gradient(135deg,rgba(251,191,36,0.1),rgba(244,114,182,0.08));
+  border:1.5px solid var(--gold); border-radius:14px;
+  padding:0.75rem 1rem; margin-bottom:1.1rem; text-align:left;
+}
+.parents-banner-title {
+  font-family:'Cinzel',serif; font-size:0.75rem; color:var(--gold);
+  letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.4rem;
+  display:flex; align-items:center; gap:0.4rem;
+}
+.parents-banner p { font-size:0.82rem; line-height:1.55; color:var(--text); }
+.exp-list-preview { display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.7rem; }
+.exp-pill {
+  background:rgba(251,191,36,0.12); border:1px solid rgba(251,191,36,0.35);
+  border-radius:999px; padding:0.2rem 0.6rem; font-size:0.72rem; color:var(--gold); font-weight:700;
+}
+
+.btn-start {
+  background:linear-gradient(135deg,var(--accent),var(--pink));
+  color:#0d0a1a; font-family:'Cinzel',serif; font-weight:700;
+  font-size:1rem; padding:0.85rem 2rem; border-radius:999px; border:none;
+  cursor:pointer; letter-spacing:0.06em;
+  transition:all 0.25s; box-shadow:0 8px 30px rgba(192,132,252,0.35);
+  display:flex; align-items:center; gap:0.5rem; margin:0 auto;
+  width:100%; justify-content:center;
+}
+.btn-start:hover { transform:translateY(-3px) scale(1.03); box-shadow:0 12px 40px rgba(192,132,252,0.5); }
+.btn-start:active { transform:translateY(0) scale(0.98); }
+
+/* ══════════════════════════════════════
+   BADGES DE RÉCOMPENSE
+══════════════════════════════════════ */
+.badge-toast {
+  position:fixed; top:1rem; left:50%; transform:translateX(-50%) translateY(-120px);
+  z-index:300; background:linear-gradient(135deg,var(--accent),var(--pink));
+  color:#0d0a1a; font-family:'Cinzel',serif; font-weight:700;
+  padding:0.7rem 1.5rem; border-radius:999px; font-size:0.9rem;
+  box-shadow:0 8px 30px rgba(192,132,252,0.5);
+  transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  display:flex; align-items:center; gap:0.5rem; white-space:nowrap;
+}
+.badge-toast.show { transform:translateX(-50%) translateY(0); }
+
+.badges-row {
+  display:flex; flex-wrap:wrap; gap:0.55rem;
+  justify-content:center; margin-bottom:0.3rem;
+}
+.badge-item {
+  display:flex; flex-direction:column; align-items:center; gap:0.2rem;
+  animation:badgePop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes badgePop { from{transform:scale(0) rotate(-15deg);opacity:0} to{transform:scale(1) rotate(0);opacity:1} }
+.badge-icon { font-size:2.2rem; filter:drop-shadow(0 2px 8px rgba(192,132,252,0.5)); }
+.badge-lbl { font-size:0.6rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--sub); }
+
+/* Badge locks */
+.badge-item.locked .badge-icon { filter:grayscale(1) opacity(0.3); }
+.badge-item.locked .badge-lbl { color:rgba(255,255,255,0.2); }
+
+/* ══════════════════════════════════════
+   VIDÉO RÉCOMPENSE FINALE
+══════════════════════════════════════ */
+.video-reward {
+  margin-top:1.5rem; text-align:center;
+}
+.video-reward-title {
+  font-family:'Cinzel',serif; font-size:1rem; color:var(--gold);
+  margin-bottom:0.8rem; letter-spacing:0.08em;
+  display:flex; align-items:center; justify-content:center; gap:0.5rem;
+}
+.video-unlock-anim {
+  animation:unlockPulse 1s ease-out;
+}
+@keyframes unlockPulse {
+  0%{transform:scale(0.8);opacity:0} 60%{transform:scale(1.05)} 100%{transform:scale(1);opacity:1}
+}
+.video-wrap {
+  position:relative; padding-bottom:56.25%; height:0;
+  border-radius:16px; overflow:hidden;
+  border:2px solid var(--gold); box-shadow:0 0 40px rgba(251,191,36,0.25);
+}
+.video-wrap iframe {
+  position:absolute; top:0; left:0; width:100%; height:100%; border:none;
+}
+.video-locked {
+  background:rgba(0,0,0,0.5); border:2px dashed var(--border);
+  border-radius:16px; padding:2rem 1rem; text-align:center;
+  font-size:0.9rem; color:var(--sub);
+}
+.stars-needed {
+  font-family:'Cinzel',serif; font-size:1.1rem; color:var(--gold); margin-top:0.4rem;
+}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<div class="flash" id="flash">⭐</div>
+<div class="badge-toast" id="badgeToast">🏅 Badge débloqué !</div>
+
+<!-- ═══ ÉCRAN D'ACCUEIL ═══ -->
+<div id="welcomeScreen">
+  <div class="welcome-card">
+
+    <!-- Personnage compact -->
+    <div class="welcome-prof">
+      <svg viewBox="0 0 76 92" fill="none" xmlns="http://www.w3.org/2000/svg" width="80" height="96" style="animation:profFloat 3s ease-in-out infinite">
+        <path d="M12 92 L20 54 Q38 62 56 54 L64 92 Z" fill="#3b0764"/>
+        <path d="M20 54 Q38 66 56 54 L60 75 Q38 82 16 75 Z" fill="#4c0987" opacity="0.7"/>
+        <text x="28" y="75" font-size="8" fill="#fbbf24" opacity="0.8">★</text>
+        <text x="42" y="68" font-size="6" fill="#a78bfa" opacity="0.9">✦</text>
+        <rect x="32" y="44" width="12" height="12" rx="4" fill="#c97a4a"/>
+        <ellipse cx="38" cy="32" rx="17" ry="19" fill="#d4845a"/>
+        <ellipse cx="38" cy="20" rx="19" ry="12" fill="#1a0a00"/>
+        <ellipse cx="14" cy="34" rx="8" ry="13" fill="#1a0a00"/>
+        <ellipse cx="62" cy="34" rx="8" ry="13" fill="#1a0a00"/>
+        <circle cx="12" cy="28" r="5" fill="#120700"/><circle cx="10" cy="36" r="5.5" fill="#1a0a00"/><circle cx="13" cy="44" r="4.5" fill="#120700"/>
+        <circle cx="64" cy="28" r="5" fill="#120700"/><circle cx="66" cy="36" r="5.5" fill="#1a0a00"/><circle cx="63" cy="44" r="4.5" fill="#120700"/>
+        <circle cx="25" cy="17" r="6" fill="#1a0a00"/><circle cx="38" cy="13" r="7" fill="#120700"/><circle cx="51" cy="17" r="6" fill="#1a0a00"/>
+        <polygon points="38,0 20,22 56,22" fill="#2d0060"/>
+        <rect x="17" y="20" width="42" height="6" rx="3" fill="#4c0099"/>
+        <rect x="17" y="23" width="42" height="2" fill="#fbbf24" opacity="0.7"/>
+        <text x="33" y="14" font-size="7" fill="#fbbf24">★</text>
+        <ellipse cx="30" cy="33" rx="4" ry="4.5" fill="white"/><ellipse cx="46" cy="33" rx="4" ry="4.5" fill="white"/>
+        <circle cx="31" cy="33.5" r="2.5" fill="#1a0a2e"/><circle cx="47" cy="33.5" r="2.5" fill="#1a0a2e"/>
+        <circle cx="31.8" cy="32.5" r="0.8" fill="white"/><circle cx="47.8" cy="32.5" r="0.8" fill="white"/>
+        <path d="M26 28 Q30 26 34 28" stroke="#1a0a00" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M42 28 Q46 26 50 28" stroke="#1a0a00" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="38" cy="38" rx="2.5" ry="2" fill="#c07045"/>
+        <path d="M32 43 Q38 48 44 43" stroke="#9a4020" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <ellipse cx="24" cy="40" rx="4" ry="3" fill="#f4a0a0" opacity="0.4"/><ellipse cx="52" cy="40" rx="4" ry="3" fill="#f4a0a0" opacity="0.4"/>
+        <path d="M20 56 Q8 62 5 72" stroke="#3b0764" stroke-width="6" stroke-linecap="round"/>
+        <ellipse cx="4" cy="74" rx="3.5" ry="4" fill="#d4845a"/>
+        <line x1="4" y1="70" x2="-4" y2="56" stroke="#7c3aed" stroke-width="2" stroke-linecap="round"/>
+        <polygon points="-4,53 -1,59 -7,59" fill="#fbbf24"/>
+        <path d="M56 56 Q68 62 71 70" stroke="#3b0764" stroke-width="6" stroke-linecap="round"/>
+        <ellipse cx="72" cy="72" rx="3.5" ry="4" fill="#d4845a"/>
+        <rect x="70" y="60" width="6" height="16" rx="3" fill="rgba(45,212,191,0.3)" stroke="rgba(45,212,191,0.6)" stroke-width="1"/>
+        <rect x="71" y="68" width="4" height="8" rx="2" fill="rgba(45,212,191,0.6)"/>
+      </svg>
+    </div>
+
+    <div class="welcome-title">MAÎTRESSE MARION<br>ÉPROUVETTE 🧪</div>
+    <div class="welcome-sub">Mélanges & Dissolutions — CM1</div>
+
+    <!-- Message court et percutant -->
+    <div class="welcome-speech">
+      Bienvenue dans mon labo magique ! 🧙‍♀️✨<br>
+      Tu vas explorer les <strong>mélanges</strong> et les <strong>dissolutions</strong>, et découvrir le secret de <strong>Lavoisier</strong> ! 🔬<br><br>
+      6 expériences + quiz final = 🎁 <strong>une récompense surprise</strong> t'attend !
+    </div>
+
+    <!-- BANDEAU PARENTS compact -->
+    <div class="parents-banner">
+      <div class="parents-banner-title">👪 Message aux parents</div>
+      <p>Ces expériences peuvent se faire <strong>en vrai à la maison</strong>, sous votre supervision, avec des produits du quotidien (eau, sel, sucre, huile, sable…). Les consignes détaillées sont à la fin du jeu.</p>
+    </div>
+
+    <!-- BOUTON bien visible -->
+    <button class="btn-start" onclick="startGame()">
+      🚀 Commencer le jeu !
+    </button>
+
+    <!-- Badges en tout petit en dessous -->
+    <div style="margin-top:1rem;font-size:0.7rem;color:var(--sub);letter-spacing:0.06em">
+      🏅 5 badges à débloquer en jouant&nbsp;!
+    </div>
+
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <h1>🧪 MAÎTRESSE MARION ÉPROUVETTE</h1>
+  <p class="subtitle">Mélanges & Dissolutions — CM1</p>
+</header>
+
+<div class="score-bar">
+  <div class="score-chip">⭐ Score <span class="val" id="score">0</span></div>
+  <div class="score-chip">🔬 Expérience <span class="val" id="expNum">1</span>/6</div>
+  <div class="score-chip">🏆 Record <span class="val" id="record">0</span></div>
+</div>
+
+<!-- MAIN GAME -->
+<main id="mainGame">
+
+  <div class="dots-row" id="dots"></div>
+
+  <!-- MAÎTRESSE MARION ÉPROUVETTE -->
+  <div class="prof-zone">
+    <div class="prof-wrap">
+      <svg class="prof-svg" viewBox="0 0 76 92" fill="none" xmlns="http://www.w3.org/2000/svg" width="76" height="92">
+        <!-- Body / robe de sorcière -->
+        <path d="M12 92 L20 54 Q38 62 56 54 L64 92 Z" fill="#3b0764"/>
+        <path d="M20 54 Q38 66 56 54 L60 75 Q38 82 16 75 Z" fill="#4c0987" opacity="0.7"/>
+        <!-- Étoiles sur robe -->
+        <text x="28" y="75" font-size="8" fill="#fbbf24" opacity="0.8">★</text>
+        <text x="42" y="68" font-size="6" fill="#a78bfa" opacity="0.9">✦</text>
+        <text x="20" y="82" font-size="5" fill="#2dd4bf" opacity="0.8">✦</text>
+        <!-- Cou -->
+        <rect x="32" y="44" width="12" height="12" rx="4" fill="#c97a4a"/>
+        <!-- Tête -->
+        <ellipse cx="38" cy="32" rx="17" ry="19" fill="#d4845a"/>
+        <!-- Cheveux bouclés noirs — fond -->
+        <ellipse cx="38" cy="20" rx="19" ry="12" fill="#1a0a00"/>
+        <!-- Cheveux côtés bouclés -->
+        <ellipse cx="14" cy="34" rx="8" ry="13" fill="#1a0a00"/>
+        <ellipse cx="62" cy="34" rx="8" ry="13" fill="#1a0a00"/>
+        <!-- Boucles détaillées gauche -->
+        <circle cx="12" cy="28" r="5" fill="#120700"/>
+        <circle cx="10" cy="36" r="5.5" fill="#1a0a00"/>
+        <circle cx="13" cy="44" r="4.5" fill="#120700"/>
+        <!-- Boucles détaillées droite -->
+        <circle cx="64" cy="28" r="5" fill="#120700"/>
+        <circle cx="66" cy="36" r="5.5" fill="#1a0a00"/>
+        <circle cx="63" cy="44" r="4.5" fill="#120700"/>
+        <!-- Boucles dessus -->
+        <circle cx="25" cy="17" r="6" fill="#1a0a00"/>
+        <circle cx="38" cy="13" r="7" fill="#120700"/>
+        <circle cx="51" cy="17" r="6" fill="#1a0a00"/>
+        <!-- Chapeau de sorcière pointu -->
+        <polygon points="38,0 20,22 56,22" fill="#2d0060"/>
+        <rect x="17" y="20" width="42" height="6" rx="3" fill="#4c0099"/>
+        <!-- Bande chapeau -->
+        <rect x="17" y="23" width="42" height="2" fill="#fbbf24" opacity="0.7"/>
+        <!-- Étoile chapeau -->
+        <text x="33" y="14" font-size="7" fill="#fbbf24">★</text>
+        <text x="39" y="8" font-size="5" fill="#2dd4bf">✦</text>
+        <!-- Yeux -->
+        <ellipse cx="30" cy="33" rx="4" ry="4.5" fill="white"/>
+        <ellipse cx="46" cy="33" rx="4" ry="4.5" fill="white"/>
+        <circle cx="31" cy="33.5" r="2.5" fill="#1a0a2e" id="eyeL"/>
+        <circle cx="47" cy="33.5" r="2.5" fill="#1a0a2e" id="eyeR"/>
+        <circle cx="31.8" cy="32.5" r="0.8" fill="white"/>
+        <circle cx="47.8" cy="32.5" r="0.8" fill="white"/>
+        <!-- Sourcils expressifs -->
+        <path d="M26 28 Q30 26 34 28" stroke="#1a0a00" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M42 28 Q46 26 50 28" stroke="#1a0a00" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <!-- Nez -->
+        <ellipse cx="38" cy="38" rx="2.5" ry="2" fill="#c07045"/>
+        <!-- Bouche sourire -->
+        <path d="M32 43 Q38 48 44 43" stroke="#9a4020" stroke-width="1.8" fill="none" stroke-linecap="round" id="profMouth"/>
+        <!-- Joues roses -->
+        <ellipse cx="24" cy="40" rx="4" ry="3" fill="#f4a0a0" opacity="0.4"/>
+        <ellipse cx="52" cy="40" rx="4" ry="3" fill="#f4a0a0" opacity="0.4"/>
+        <!-- Bras gauche -->
+        <path d="M20 56 Q8 62 5 72" stroke="#3b0764" stroke-width="6" stroke-linecap="round"/>
+        <ellipse cx="4" cy="74" rx="3.5" ry="4" fill="#d4845a"/>
+        <!-- Baguette magique -->
+        <line x1="4" y1="70" x2="-4" y2="56" stroke="#7c3aed" stroke-width="2" stroke-linecap="round"/>
+        <polygon points="-4,53 -1,59 -7,59" fill="#fbbf24"/>
+        <text x="-10" y="52" font-size="8">✨</text>
+        <!-- Bras droit avec éprouvette -->
+        <path d="M56 56 Q68 62 71 70" stroke="#3b0764" stroke-width="6" stroke-linecap="round"/>
+        <ellipse cx="72" cy="72" rx="3.5" ry="4" fill="#d4845a"/>
+        <!-- Éprouvette dans la main -->
+        <rect x="70" y="60" width="6" height="16" rx="3" fill="rgba(45,212,191,0.3)" stroke="rgba(45,212,191,0.6)" stroke-width="1"/>
+        <rect x="71" y="68" width="4" height="8" rx="2" fill="rgba(45,212,191,0.6)"/>
+      </svg>
+    </div>
+    <div class="bubble" id="speechBubble">
+      Bonjour, je suis <strong>Maîtresse Marion Éprouvette</strong> ! 🧙‍♀️✨ Aujourd'hui on explore les <strong>mélanges</strong> et les <strong>dissolutions</strong> dans mon labo magique. Prêt·e ? C'est parti !
+    </div>
+  </div>
+
+  <!-- EXPERIMENT CARD -->
+  <div class="card" id="expCard">
+    <div class="card-title purple">🧪 <span id="expName">Expérience 1</span></div>
+
+    <div class="lab-scene">
+      <!-- Ingrédients -->
+      <div class="shelf">
+        <div class="shelf-lbl">Ingrédients</div>
+        <div id="ingList" style="display:flex;flex-direction:column;gap:0.6rem;align-items:center"></div>
+      </div>
+
+      <!-- Bécher central -->
+      <div class="beaker-wrap">
+        <div class="beaker-svg-wrap" id="beakerWrap">
+          <svg class="beaker-svg" viewBox="0 0 128 168" fill="none">
+            <path d="M24 18 L24 138 Q24 156 42 156 L86 156 Q104 156 104 138 L104 18 Z"
+                  fill="rgba(192,132,252,0.04)" stroke="rgba(192,132,252,0.45)" stroke-width="1.8"/>
+            <line x1="27" y1="58" x2="37" y2="58" stroke="rgba(192,132,252,0.3)" stroke-width="1"/>
+            <line x1="27" y1="88" x2="37" y2="88" stroke="rgba(192,132,252,0.3)" stroke-width="1"/>
+            <line x1="27" y1="118" x2="37" y2="118" stroke="rgba(192,132,252,0.3)" stroke-width="1"/>
+            <path d="M99 18 L114 8" stroke="rgba(192,132,252,0.45)" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M31 22 L31 132" stroke="rgba(255,255,255,0.09)" stroke-width="2.5" stroke-linecap="round"/>
+            <rect x="17" y="153" width="94" height="8" rx="4" fill="rgba(192,132,252,0.1)" stroke="rgba(192,132,252,0.3)" stroke-width="1.5"/>
+          </svg>
+          <div class="liq-layers" id="liqLayers"></div>
+          <div class="stir-over" id="stirOver"><div class="stir-ring"></div></div>
+        </div>
+        <div class="beaker-lbl">BÉCHER Α-7</div>
+      </div>
+
+      <!-- État -->
+      <div style="max-width:110px;flex-shrink:0">
+        <div style="font-size:0.65rem;color:var(--sub);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem">État</div>
+        <div id="stateDisplay" style="font-size:0.8rem;line-height:1.5;color:var(--text)">Verse les ingrédients !</div>
+      </div>
+    </div>
+
+    <!-- Classification after stirring -->
+    <div id="classifBox" style="display:none"></div>
+
+    <div class="action-row">
+      <button class="btn btn-stir" id="btnStir" onclick="stirBeaker()" disabled>🌀 Mélanger !</button>
+      <button class="btn btn-reset" onclick="resetExp()">↩ Recommencer</button>
+    </div>
+  </div>
+
+  <!-- QUIZ PER EXPERIMENT -->
+  <div class="card" id="quizCard" style="display:none">
+    <div class="card-title gold">🎓 Question de Maîtresse Marion Éprouvette</div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="next-wrap">
+      <button class="btn btn-next" id="btnNext" onclick="nextExp()">Expérience suivante ➜</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- A RETENIR + QUIZ FINAL -->
+<main id="finalSection" style="display:none; max-width:860px; margin:0 auto; padding:0.8rem 1rem 3rem; gap:1.1rem; flex-direction:column;">
+
+  <!-- Maîtresse intro final -->
+  <div class="prof-zone">
+    <div class="prof-wrap">
+      <svg class="prof-svg" viewBox="0 0 76 92" fill="none" xmlns="http://www.w3.org/2000/svg" width="76" height="92">
+        <path d="M12 92 L20 54 Q38 62 56 54 L64 92 Z" fill="#3b0764"/>
+        <path d="M20 54 Q38 66 56 54 L60 75 Q38 82 16 75 Z" fill="#4c0987" opacity="0.7"/>
+        <text x="28" y="75" font-size="8" fill="#fbbf24" opacity="0.8">★</text>
+        <text x="42" y="68" font-size="6" fill="#a78bfa" opacity="0.9">✦</text>
+        <rect x="32" y="44" width="12" height="12" rx="4" fill="#c97a4a"/>
+        <ellipse cx="38" cy="32" rx="17" ry="19" fill="#d4845a"/>
+        <ellipse cx="38" cy="20" rx="19" ry="12" fill="#1a0a00"/>
+        <ellipse cx="14" cy="34" rx="8" ry="13" fill="#1a0a00"/>
+        <ellipse cx="62" cy="34" rx="8" ry="13" fill="#1a0a00"/>
+        <circle cx="12" cy="28" r="5" fill="#120700"/><circle cx="10" cy="36" r="5.5" fill="#1a0a00"/><circle cx="13" cy="44" r="4.5" fill="#120700"/>
+        <circle cx="64" cy="28" r="5" fill="#120700"/><circle cx="66" cy="36" r="5.5" fill="#1a0a00"/><circle cx="63" cy="44" r="4.5" fill="#120700"/>
+        <circle cx="25" cy="17" r="6" fill="#1a0a00"/><circle cx="38" cy="13" r="7" fill="#120700"/><circle cx="51" cy="17" r="6" fill="#1a0a00"/>
+        <polygon points="38,0 20,22 56,22" fill="#2d0060"/>
+        <rect x="17" y="20" width="42" height="6" rx="3" fill="#4c0099"/>
+        <rect x="17" y="23" width="42" height="2" fill="#fbbf24" opacity="0.7"/>
+        <text x="33" y="14" font-size="7" fill="#fbbf24">★</text>
+        <ellipse cx="30" cy="33" rx="4" ry="4.5" fill="white"/><ellipse cx="46" cy="33" rx="4" ry="4.5" fill="white"/>
+        <circle cx="31" cy="33.5" r="2.5" fill="#1a0a2e"/><circle cx="47" cy="33.5" r="2.5" fill="#1a0a2e"/>
+        <circle cx="31.8" cy="32.5" r="0.8" fill="white"/><circle cx="47.8" cy="32.5" r="0.8" fill="white"/>
+        <path d="M26 28 Q30 26 34 28" stroke="#1a0a00" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M42 28 Q46 26 50 28" stroke="#1a0a00" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <ellipse cx="38" cy="38" rx="2.5" ry="2" fill="#c07045"/>
+        <path d="M32 43 Q38 48 44 43" stroke="#9a4020" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <ellipse cx="24" cy="40" rx="4" ry="3" fill="#f4a0a0" opacity="0.4"/>
+        <ellipse cx="52" cy="40" rx="4" ry="3" fill="#f4a0a0" opacity="0.4"/>
+        <path d="M20 56 Q8 62 5 72" stroke="#3b0764" stroke-width="6" stroke-linecap="round"/>
+        <ellipse cx="4" cy="74" rx="3.5" ry="4" fill="#d4845a"/>
+        <line x1="4" y1="70" x2="-4" y2="56" stroke="#7c3aed" stroke-width="2" stroke-linecap="round"/>
+        <polygon points="-4,53 -1,59 -7,59" fill="#fbbf24"/>
+        <text x="-10" y="52" font-size="8">✨</text>
+        <path d="M56 56 Q68 62 71 70" stroke="#3b0764" stroke-width="6" stroke-linecap="round"/>
+        <ellipse cx="72" cy="72" rx="3.5" ry="4" fill="#d4845a"/>
+        <rect x="70" y="60" width="6" height="16" rx="3" fill="rgba(45,212,191,0.3)" stroke="rgba(45,212,191,0.6)" stroke-width="1"/>
+        <rect x="71" y="68" width="4" height="8" rx="2" fill="rgba(45,212,191,0.6)"/>
+      </svg>
+    </div>
+    <div class="bubble">
+      Bravo, tu as terminé toutes les expériences ! 🎉 Maintenant, découvre un nouveau concept magique de la science : la <strong>loi de conservation de la masse</strong>. Et ensuite, un grand quiz final ! 🧙‍♀️✨
+    </div>
+  </div>
+
+  <!-- A RETENIR -->
+  <div class="retenir-card">
+    <div class="card-title purple" style="margin-bottom:0.6rem">📚 À retenir</div>
+
+    <div style="font-size:0.9rem;margin-bottom:0.7rem;font-weight:700;color:var(--accent)">Les types de mélanges</div>
+    <div class="concept-grid">
+      <div class="concept-box cb-hom">
+        <div class="cb-title" style="color:var(--teal)">🔵 Mélange homogène</div>
+        On ne distingue pas les constituants. Le mélange paraît <strong>uniforme</strong>.<br>
+        <em>Ex : eau + sel, eau + sucre, eau + colorant</em>
+      </div>
+      <div class="concept-box cb-het">
+        <div class="cb-title" style="color:var(--gold)">🟡 Mélange hétérogène</div>
+        On voit clairement les différents constituants. Le mélange <strong>n'est pas uniforme</strong>.<br>
+        <em>Ex : eau + huile, eau + sable</em>
+      </div>
+      <div class="concept-box cb-sol">
+        <div class="cb-title" style="color:var(--green)">✅ Solide soluble</div>
+        Un solide <strong>soluble</strong> disparaît dans le liquide et forme une solution.<br>
+        <em>Ex : sel, sucre, colorant</em>
+      </div>
+      <div class="concept-box cb-ins">
+        <div class="cb-title" style="color:var(--red)">❌ Solide insoluble</div>
+        Un solide <strong>insoluble</strong> ne disparaît pas. Il reste en suspension ou tombe au fond.<br>
+        <em>Ex : sable, farine</em>
+      </div>
+    </div>
+
+    <!-- LAVOISIER -->
+    <div class="lavoisier-box">
+      <div style="font-size:0.72rem;color:var(--sub);text-transform:uppercase;letter-spacing:0.15em;text-align:center;margin-bottom:0.4rem">✨ Nouveau concept : Loi de conservation de la masse</div>
+      <div class="lavoisier-quote">« Rien ne se perd, rien ne se crée,<br>tout se transforme. »</div>
+      <div class="lavoisier-sub">— Antoine Lavoisier, chimiste français (1743–1794)</div>
+      <div style="margin-top:0.8rem;font-size:0.85rem;line-height:1.6;color:var(--text)">
+        🔬 Quand tu mélanges du sel dans de l'eau, le sel <strong>disparaît à l'œil</strong>... mais il est toujours là ! Sa <strong>masse</strong> ne s'est pas perdue. Si tu pèses l'eau + le sel avant et après le mélange : le total est <strong>identique</strong>. C'est ça, la loi de conservation de la masse !
+      </div>
+      <div style="margin-top:0.6rem;background:rgba(251,191,36,0.08);border-radius:10px;padding:0.6rem 0.8rem;font-size:0.83rem;color:var(--gold);font-weight:700">
+        ⚖️ Masse avant le mélange = Masse après le mélange
+      </div>
+    </div>
+
+    <!-- Activités découverte -->
+    <div style="margin-top:1rem;font-size:0.88rem;font-weight:800;color:var(--pink);margin-bottom:0.6rem">🔍 Activités de découverte à la maison</div>
+    <div class="activity-box">
+      <div class="act-title">⚖️ Activité 1 — Peser avant et après</div>
+      Prends un verre d'eau (mesure sa masse avec une balance de cuisine). Ajoute une cuillère de sel. Pèse à nouveau. Compare ! Est-ce que la masse a changé ?
+    </div>
+    <div class="activity-box">
+      <div class="act-title">🍋 Activité 2 — Limonade magique</div>
+      Mélange de l'eau + du sucre + du jus de citron. C'est un mélange homogène ou hétérogène ? Le sucre est-il soluble ? Goûte et déduis !
+    </div>
+    <div class="activity-box">
+      <div class="act-title">🌊 Activité 3 — L'huile rebelle</div>
+      Verse de l'huile et de l'eau dans une bouteille. Secoue fort. Observe pendant 2 minutes. Que se passe-t-il ? Pourquoi ?
+    </div>
+    <div class="activity-box">
+      <div class="act-title">🔎 Activité 4 — Chercheur·se en herbe</div>
+      Trouve 3 mélanges homogènes et 3 mélanges hétérogènes dans ta cuisine. Note tes observations comme un vrai scientifique !
+    </div>
+  </div>
+
+  <!-- QUIZ FINAL -->
+  <div class="final-quiz-card">
+    <div class="card-title pink">🏆 Grand Quiz Final — Maîtresse Marion Éprouvette</div>
+    <div class="fq-progress" id="fqProg">Question 1 / 8</div>
+    <div class="fq-score">⭐ Score quiz : <span id="fqScore">0</span> / 8</div>
+    <div class="fq-question" id="fqQ"></div>
+    <div class="fq-opts" id="fqOpts"></div>
+    <div class="fq-feedback" id="fqFeedback" style="display:none"></div>
+    <div class="fq-next" id="fqNext" style="display:none">
+      <button class="btn btn-stir" id="fqNextBtn" onclick="fqNext()">Question suivante ➜</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- COMPLETION -->
+<div class="completion" id="completionScreen">
+  <span class="big-em" id="compEmoji">🏆</span>
+  <div class="comp-title" id="compTitle"></div>
+  <p style="color:var(--sub);margin-bottom:1.2rem;line-height:1.6" id="compText"></p>
+
+  <!-- Badges gagnés -->
+  <div style="margin-bottom:1.5rem">
+    <div style="font-family:'Cinzel',serif;font-size:0.8rem;color:var(--sub);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:0.8rem">🏅 Tes badges</div>
+    <div class="badges-row" id="finalBadges"></div>
+  </div>
+
+  <!-- VIDÉO RÉCOMPENSE -->
+  <div class="video-reward video-unlock-anim" id="videoReward"></div>
+
+  <div style="margin-top:1.5rem">
+    <button class="btn btn-stir" onclick="restartGame()" style="font-size:1rem;padding:0.8rem 2.2rem">🔄 Rejouer depuis le début</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════
+const experiments = [
+  {
+    name:"Eau + Sel", ingredients:[
+      {name:"Eau", color:"#7ec8e3", opacity:0.72, liquid:true},
+      {name:"Sel", color:"#e8e8e8", opacity:0.85, liquid:false}
+    ],
+    resultType:"dissolution", resultColor:"#c8e8f8", resultOpacity:0.68,
+    classifType:"soluble",
+    classifHTML:`<span class="classif-tag tag-hom">🔵 Mélange HOMOGÈNE</span><br><span class="classif-tag tag-sol">✅ Solide SOLUBLE</span><br><br>Le sel a disparu dans l'eau → il est <strong>soluble</strong>. On obtient une solution <strong>homogène</strong> : on ne distingue plus les deux constituants.`,
+    profBefore:"Verse d'abord l'eau, puis le sel. Qu'est-ce qui va se passer à ton avis ? 🤔",
+    profDuring:"Touille bien... les cristaux de sel disparaissent...",
+    profAfter:"Le sel s'est <strong>dissous</strong> ! On dit qu'il est <strong>soluble</strong> dans l'eau. On obtient un mélange <strong>homogène</strong>. ✨",
+    quiz:{q:"Quand le sel disparaît dans l'eau, cela s'appelle :", opts:["Une séparation","Une dissolution","Une explosion","Une solidification"], correct:1, expl:"Exact ! Le sel se dissout dans l'eau : c'est une dissolution."}
+  },
+  {
+    name:"Eau + Huile", ingredients:[
+      {name:"Eau", color:"#7ec8e3", opacity:0.72, liquid:true},
+      {name:"Huile", color:"#f5c842", opacity:0.88, liquid:true}
+    ],
+    resultType:"separation", resultColor:null,
+    classifType:"heterogene",
+    classifHTML:`<span class="classif-tag tag-het">🟡 Mélange HÉTÉROGÈNE</span><br><br>L'huile flotte sur l'eau : les deux liquides restent <strong>séparés</strong>. On dit qu'ils sont <strong>non miscibles</strong>. C'est un mélange <strong>hétérogène</strong>.`,
+    profBefore:"L'huile et l'eau... vont-ils se mélanger ? Observe bien ! 👀",
+    profDuring:"Agite... agite... mais regarde ce qu'il se passe ! 🔎",
+    profAfter:"L'huile remonte toujours ! Huile et eau sont <strong>non miscibles</strong> → mélange <strong>hétérogène</strong>. 🛢️",
+    quiz:{q:"L'eau et l'huile forment un mélange :", opts:["Homogène","Hétérogène","Une dissolution","Une solution"], correct:1, expl:"Oui ! Huile et eau ne se mélangent pas uniformément → mélange hétérogène."}
+  },
+  {
+    name:"Eau + Sucre", ingredients:[
+      {name:"Eau", color:"#7ec8e3", opacity:0.72, liquid:true},
+      {name:"Sucre", color:"#fff9e6", opacity:0.8, liquid:false}
+    ],
+    resultType:"dissolution", resultColor:"#d4eefc", resultOpacity:0.62,
+    classifType:"soluble",
+    classifHTML:`<span class="classif-tag tag-hom">🔵 Mélange HOMOGÈNE</span><br><span class="classif-tag tag-sol">✅ Solide SOLUBLE</span><br><br>Comme le sel, le sucre est <strong>soluble</strong> dans l'eau. Il disparaît et forme une solution <strong>homogène</strong> transparente.`,
+    profBefore:"Le sucre ressemble-t-il au sel dans l'eau ? Faisons l'expérience ! 🍬",
+    profDuring:"Regarde les cristaux de sucre fondre doucement...",
+    profAfter:"Comme le sel, le sucre est <strong>soluble</strong> ! Solution transparente et homogène. 😋",
+    quiz:{q:"Le sucre est-il soluble dans l'eau ?", opts:["Non, il tombe au fond","Oui, il se dissout","Il flotte","Il change de couleur"], correct:1, expl:"Oui ! Le sucre se dissout dans l'eau : il est soluble."}
+  },
+  {
+    name:"Eau + Sable", ingredients:[
+      {name:"Eau", color:"#7ec8e3", opacity:0.72, liquid:true},
+      {name:"Sable", color:"#d4a96a", opacity:1, liquid:false}
+    ],
+    resultType:"trouble", resultColor:"#b8a07a", resultOpacity:0.78,
+    classifType:"insoluble",
+    classifHTML:`<span class="classif-tag tag-het">🟡 Mélange HÉTÉROGÈNE</span><br><span class="classif-tag tag-ins">❌ Solide INSOLUBLE</span><br><br>Le sable <strong>ne se dissout pas</strong> dans l'eau. Il reste en suspension puis tombe au fond. C'est un mélange <strong>hétérogène</strong>.`,
+    profBefore:"Le sable va-t-il se dissoudre comme le sel ? 🏖️",
+    profDuring:"L'eau devient trouble... le sable tourbillonne...",
+    profAfter:"Le sable est <strong>insoluble</strong> ! Il tombe au fond → mélange <strong>hétérogène</strong>. 🌊",
+    quiz:{q:"Contrairement au sel, le sable dans l'eau est :", opts:["Soluble","Insoluble","Miscible","Homogène"], correct:1, expl:"Exact ! Le sable est insoluble : il ne se dissout pas dans l'eau."}
+  },
+  {
+    name:"Lait + Eau", ingredients:[
+      {name:"Eau", color:"#7ec8e3", opacity:0.72, liquid:true},
+      {name:"Lait", color:"#f5f5f5", opacity:0.95, liquid:true}
+    ],
+    resultType:"homogene", resultColor:"#e8f4f8", resultOpacity:0.82,
+    classifType:"homogene",
+    classifHTML:`<span class="classif-tag tag-hom">🔵 Mélange HOMOGÈNE</span><br><br>L'eau et le lait se mélangent de façon <strong>uniforme</strong>. Le mélange est opaque mais homogène. Contrairement à l'huile, le lait est <strong>miscible</strong> avec l'eau.`,
+    profBefore:"Lait et eau... sont-ils miscibles ? Observe ! 🥛",
+    profDuring:"Le lait se mélange à l'eau... la couleur devient uniforme...",
+    profAfter:"Lait et eau forment un mélange <strong>homogène</strong> ! Ils sont miscibles. 🌫️",
+    quiz:{q:"Lait et eau forment un mélange :", opts:["Hétérogène","Homogène","Insoluble","En couches"], correct:1, expl:"Oui ! Lait et eau se mélangent de façon uniforme → mélange homogène."}
+  },
+  {
+    name:"Eau + Colorant", ingredients:[
+      {name:"Eau", color:"#7ec8e3", opacity:0.72, liquid:true},
+      {name:"Colorant", color:"#f472b6", opacity:1, liquid:true}
+    ],
+    resultType:"dissolution", resultColor:"#f9a8d4", resultOpacity:0.78,
+    classifType:"soluble",
+    classifHTML:`<span class="classif-tag tag-hom">🔵 Mélange HOMOGÈNE</span><br><span class="classif-tag tag-sol">✅ Solide SOLUBLE</span><br><br>Le colorant se <strong>diffuse</strong> et se dissout dans toute l'eau. On obtient une solution <strong>homogène</strong> et uniformément colorée. 🌈`,
+    profBefore:"Le colorant va créer quelque chose de magnifique... regarde ! 🌈",
+    profDuring:"Regarde les volutes de couleur se diffuser dans l'eau... c'est de la science ! ✨",
+    profAfter:"Le colorant s'est <strong>dissous</strong> par diffusion → mélange <strong>homogène</strong> et coloré ! 🎨",
+    quiz:{q:"Le colorant dans l'eau ressemble à :", opts:["L'huile dans l'eau","Le sable dans l'eau","Le sel dans l'eau","La farine dans l'eau"], correct:2, expl:"Oui ! Comme le sel, le colorant se dissout → c'est une dissolution."}
+  }
+];
+
+// QUIZ FINAL
+const finalQuizData = [
+  {q:"Un mélange homogène, c'est :", opts:["Un mélange avec des couches séparées","Un mélange uniforme où on ne voit pas les constituants","Un mélange qui explose","Un solide dans un liquide"], correct:1, expl:"Un mélange homogène paraît uniforme : on ne distingue pas les constituants."},
+  {q:"Un solide soluble dans l'eau :", opts:["Tombe au fond","Flotte sur l'eau","Disparaît dans l'eau","Reste en morceaux"], correct:2, expl:"Un solide soluble se dissout et disparaît dans le liquide."},
+  {q:"L'eau et l'huile forment un mélange :", opts:["Homogène","Hétérogène","Une dissolution","Une solution"], correct:1, expl:"Huile et eau ne se mélangent pas uniformément : mélange hétérogène."},
+  {q:"Que dit la loi de conservation de la masse ?", opts:["La masse augmente lors d'un mélange","La masse diminue lors d'un mélange","La masse reste identique avant et après le mélange","On ne peut pas mesurer la masse"], correct:2, expl:"Lavoisier : la masse totale est conservée avant et après le mélange."},
+  {q:"La phrase de Lavoisier est :", opts:["'Tout disparaît dans la nature'","'Rien ne se perd, rien ne se crée, tout se transforme'","'Les mélanges sont magiques'","'L'eau et l'huile ne font qu'un'"], correct:1, expl:"C'est la célèbre formule de Lavoisier sur la conservation de la matière."},
+  {q:"Le sable dans l'eau est :", opts:["Soluble et homogène","Insoluble et hétérogène","Soluble et hétérogène","Miscible et homogène"], correct:1, expl:"Le sable est insoluble (ne se dissout pas) → mélange hétérogène."},
+  {q:"Quand on mélange sel + eau, la masse totale :", opts:["Augmente","Diminue","Reste la même","Disparaît"], correct:2, expl:"Conservation de la masse : la masse totale ne change pas."},
+  {q:"Quelle expérience donne une solution homogène ?", opts:["Eau + sable","Eau + huile","Eau + sucre","Eau + cailloux"], correct:2, expl:"Le sucre est soluble → mélange homogène. Sable et cailloux sont insolubles, l'huile est non miscible."}
+];
+
+// ═══════════════════════════════════════════════
+// BADGES CONFIG
+// ═══════════════════════════════════════════════
+const BADGES = [
+  { id:'explorateur', icon:'🔬', label:'Explorateur',   condition: (s,e,fq) => e>=1 },
+  { id:'chimiste',    icon:'⚗️',  label:'Chimiste',      condition: (s,e,fq) => e>=3 },
+  { id:'dissolveur',  icon:'🌊',  label:'Dissolveur',    condition: (s,e,fq) => e>=6 },
+  { id:'champion',    icon:'🏆',  label:'Champion',      condition: (s,e,fq) => fq>=6 },
+  { id:'sorciere',    icon:'🧙‍♀️', label:'Sorcier·ère',   condition: (s,e,fq) => fq===8 && e===6 },
+];
+let earnedBadges = [];
+
+function checkBadges() {
+  const done = expStatus.filter(s=>s==='done').length;
+  BADGES.forEach(b => {
+    if(!earnedBadges.includes(b.id) && b.condition(score, done, fqScore)) {
+      earnedBadges.push(b.id);
+      showBadgeToast(b.icon + ' ' + b.label + ' débloqué !');
+    }
+  });
+}
+
+function showBadgeToast(msg) {
+  const t = document.getElementById('badgeToast');
+  t.textContent = '🏅 ' + msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let currentExp = 0;
+let score = 0;
+let record = parseInt(localStorage.getItem('eprouvRecord') || '0');
+let expStatus = new Array(experiments.length).fill('pending');
+let added = [];
+let stirred = false;
+let quizAnswered = false;
+// Final quiz
+let fqIdx = 0;
+let fqScore = 0;
+let fqAnswered = false;
+
+// ═══════════════════════════════════════════════
+// WELCOME → START
+// ═══════════════════════════════════════════════
+function startGame() {
+  const ws = document.getElementById('welcomeScreen');
+  ws.style.transition = 'opacity 0.5s, transform 0.5s';
+  ws.style.opacity = '0';
+  ws.style.transform = 'scale(0.97)';
+  setTimeout(() => ws.style.display='none', 500);
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+function init() {
+  createStars();
+  buildDots();
+  loadExp(0);
+  updateScoreBar();
+  blinkEyes();
+  loadFinalQuiz(0);
+}
+
+function createStars() {
+  const c = document.getElementById('stars');
+  for (let i=0; i<90; i++) {
+    const s = document.createElement('div');
+    s.className='star';
+    const sz = Math.random()*2.5+0.5;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*4+2).toFixed(1)}s;--op:${(Math.random()*0.6+0.1).toFixed(2)};animation-delay:${(Math.random()*5).toFixed(1)}s`;
+    c.appendChild(s);
+  }
+}
+
+function blinkEyes() {
+  setInterval(()=>{
+    ['eyeL','eyeR'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el){el.setAttribute('ry','0.3');setTimeout(()=>el.removeAttribute('ry'),130);}
+    });
+  },3500);
+}
+
+function buildDots() {
+  const c=document.getElementById('dots'); c.innerHTML='';
+  experiments.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='dot'; d.id=`dot-${i}`;
+    d.title=experiments[i].name;
+    c.appendChild(d);
+  });
+  refreshDots();
+}
+
+function refreshDots() {
+  experiments.forEach((_,i)=>{
+    const d=document.getElementById(`dot-${i}`); if(!d) return;
+    d.className='dot';
+    if(i===currentExp) d.classList.add('active');
+    else if(expStatus[i]==='done') d.classList.add('done');
+    else if(expStatus[i]==='fail') d.classList.add('fail');
+  });
+}
+
+function updateScoreBar() {
+  document.getElementById('score').textContent=score;
+  document.getElementById('expNum').textContent=currentExp+1;
+  document.getElementById('record').textContent=record;
+}
+
+// ═══════════════════════════════════════════════
+// LOAD EXPERIMENT
+// ═══════════════════════════════════════════════
+function loadExp(idx) {
+  currentExp=idx; added=[]; stirred=false; quizAnswered=false;
+  const exp=experiments[idx];
+
+  document.getElementById('expName').textContent=`Expérience ${idx+1} — ${exp.name}`;
+  document.getElementById('speechBubble').innerHTML=exp.profBefore;
+  document.getElementById('quizCard').style.display='none';
+  document.getElementById('classifBox').style.display='none';
+  document.getElementById('btnStir').disabled=true;
+  document.getElementById('stirOver').classList.remove('on');
+  document.getElementById('stateDisplay').textContent='Verse les ingrédients !';
+  document.getElementById('liqLayers').innerHTML='';
+  document.getElementById('btnNext').classList.remove('show');
+
+  buildIngredients(exp.ingredients);
+  refreshDots(); updateScoreBar();
+}
+
+function buildIngredients(ings) {
+  const c=document.getElementById('ingList'); c.innerHTML='';
+  ings.forEach((ing,i)=>{
+    const btn=document.createElement('button');
+    btn.className='ing-btn'; btn.id=`ing-${i}`;
+    btn.onclick=()=>addIng(i);
+
+    const cap=document.createElement('div');
+    cap.className='vial-cap'; cap.style.cssText=`background:${ing.color};opacity:0.8`;
+
+    const vial=document.createElement('div'); vial.className='vial';
+    const liq=document.createElement('div'); liq.className='vial-liq';
+    liq.style.background=ing.liquid
+      ? ing.color
+      : `repeating-linear-gradient(45deg,${ing.color},${ing.color} 3px,rgba(255,255,255,0.25) 3px,rgba(255,255,255,0.25) 6px)`;
+    liq.style.opacity=ing.opacity;
+    vial.appendChild(liq);
+
+    const name=document.createElement('div'); name.className='ing-name';
+    name.style.color=ing.color; name.textContent=ing.name;
+
+    const hint=document.createElement('div');
+    hint.style.cssText='font-size:0.58rem;color:rgba(255,255,255,0.35)';
+    hint.textContent='▶ Verser';
+
+    btn.append(cap,vial,name,hint);
+    c.appendChild(btn);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// ADD INGREDIENT
+// ═══════════════════════════════════════════════
+function addIng(idx) {
+  const exp=experiments[currentExp];
+  if(added.includes(idx)) return;
+  added.push(idx);
+  document.getElementById(`ing-${idx}`).classList.add('used');
+
+  const ing=exp.ingredients[idx];
+  addLayer(ing);
+
+  const names=added.map(i=>exp.ingredients[i].name);
+  document.getElementById('stateDisplay').textContent=
+    names.join(' + ')+(added.length<exp.ingredients.length?'\n\nAjoute encore !':'\n\nPrêt à mélanger !');
+
+  if(added.length===exp.ingredients.length){
+    document.getElementById('btnStir').disabled=false;
+    document.getElementById('speechBubble').innerHTML=exp.profDuring;
+    spawnSparkles();
+  }
+}
+
+function addLayer(ing) {
+  const layers=document.getElementById('liqLayers');
+  const exp=experiments[currentExp];
+  const h=Math.floor(105/exp.ingredients.length);
+
+  const layer=document.createElement('div'); layer.className='liq-layer';
+  layer.style.height='0';
+  layer.style.background=ing.liquid
+    ? ing.color
+    : `repeating-linear-gradient(45deg,${ing.color}cc,${ing.color}cc 4px,rgba(255,255,255,0.1) 4px,rgba(255,255,255,0.1) 8px)`;
+  layer.style.opacity=ing.opacity;
+  layers.appendChild(layer);
+
+  requestAnimationFrame(()=>{
+    layer.style.transition='height 0.85s cubic-bezier(0.34,1.56,0.64,1)';
+    layer.style.height=h+'px';
+  });
+
+  if(ing.liquid) spawnBubbles(layers, ing.color);
+}
+
+function spawnBubbles(container, color) {
+  for(let i=0;i<5;i++){
+    setTimeout(()=>{
+      const b=document.createElement('div'); b.className='bubble-p';
+      const sz=Math.random()*6+2;
+      b.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*80+10}%;bottom:${Math.random()*30}%;background:${color}55;--bd:${(Math.random()*1.2+0.5).toFixed(1)}s;animation-delay:${(Math.random()*0.4).toFixed(2)}s`;
+      container.appendChild(b);
+      setTimeout(()=>b.remove(),2000);
+    },i*140);
+  }
+}
+
+function spawnSparkles() {
+  ['✨','💫','⭐'].forEach((e,i)=>{
+    setTimeout(()=>{
+      const s=document.createElement('span');
+      s.style.cssText=`position:fixed;z-index:50;font-size:1.3rem;top:${20+i*15}%;left:${i%2===0?'8':'88'}%;animation:sparkleAnim 1.5s ease-in-out;pointer-events:none`;
+      s.textContent=e; document.body.appendChild(s);
+      setTimeout(()=>s.remove(),1500);
+    },i*200);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// STIR
+// ═══════════════════════════════════════════════
+function stirBeaker() {
+  if(stirred) return; stirred=true;
+  const exp=experiments[currentExp];
+  document.getElementById('stirOver').classList.add('on');
+  document.getElementById('btnStir').disabled=true;
+
+  setTimeout(()=>{
+    document.getElementById('stirOver').classList.remove('on');
+    showResult(exp);
+  }, 1800);
+}
+
+function showResult(exp) {
+  const layers=document.getElementById('liqLayers');
+
+  if(exp.resultType==='separation'){
+    layers.innerHTML='';
+    const w=document.createElement('div'); w.className='liq-layer';
+    w.style.height='62px'; w.style.background=exp.ingredients[0].color; w.style.opacity='0.72';
+    const o=document.createElement('div'); o.className='liq-layer';
+    o.style.height='38px'; o.style.background=exp.ingredients[1].color; o.style.opacity='0.88';
+    o.style.borderBottom='2px dashed rgba(255,255,255,0.25)';
+    layers.appendChild(w); layers.appendChild(o);
+  } else {
+    layers.innerHTML='';
+    const m=document.createElement('div'); m.className='liq-layer';
+    m.style.height='0'; m.style.background=exp.resultColor; m.style.opacity=exp.resultOpacity;
+    layers.appendChild(m);
+    requestAnimationFrame(()=>{ m.style.transition='height 0.85s cubic-bezier(0.34,1.56,0.64,1)'; m.style.height='100px'; });
+    if(exp.resultType==='dissolution') for(let i=0;i<8;i++) spawnBubbles(layers,exp.resultColor);
+  }
+
+  document.getElementById('speechBubble').innerHTML=exp.profAfter;
+
+  // Show classification box
+  setTimeout(()=>{
+    const cb=document.getElementById('classifBox');
+    cb.className=`classif-box ${exp.classifType}`;
+    cb.innerHTML=exp.classifHTML;
+    cb.style.display='block';
+
+    // Show quiz
+    setTimeout(()=>showQuiz(exp), 600);
+  }, 700);
+}
+
+// ═══════════════════════════════════════════════
+// QUIZ PER EXPERIMENT
+// ═══════════════════════════════════════════════
+function showQuiz(exp) {
+  const qz=document.getElementById('quizCard'); qz.style.display='block';
+  document.getElementById('quizQ').textContent=exp.quiz.q;
+  const opts=document.getElementById('quizOpts'); opts.innerHTML='';
+  exp.quiz.opts.forEach((o,i)=>{
+    const btn=document.createElement('button'); btn.className='quiz-opt';
+    btn.textContent=o; btn.onclick=()=>answerQuiz(i,exp.quiz.correct,exp.quiz.expl);
+    opts.appendChild(btn);
+  });
+}
+
+function answerQuiz(chosen, correct, expl) {
+  if(quizAnswered) return; quizAnswered=true;
+  const btns=document.querySelectorAll('.quiz-opt');
+  btns.forEach((b,i)=>{ b.disabled=true; if(i===correct) b.classList.add('correct'); else if(i===chosen) b.classList.add('wrong'); });
+
+  if(chosen===correct){
+    score+=10; expStatus[currentExp]='done';
+    showFlash('⭐'); burst();
+    document.getElementById('speechBubble').innerHTML=`✅ ${expl} Tu gagnes <strong>10 points</strong> ! 🌟`;
+  } else {
+    expStatus[currentExp]='fail'; showFlash('❌');
+    document.getElementById('speechBubble').innerHTML=`Pas tout à fait... ${expl} Continue ! 💪`;
+  }
+  if(score>record){ record=score; localStorage.setItem('eprouvRecord',record); }
+  updateScoreBar(); refreshDots();
+  checkBadges();
+
+  setTimeout(()=>{
+    const nb=document.getElementById('btnNext');
+    nb.textContent=currentExp<experiments.length-1?'Expérience suivante ➜':'📚 Voir le bilan + quiz final !';
+    nb.classList.add('show');
+  }, 700);
+}
+
+function nextExp() {
+  if(currentExp>=experiments.length-1){
+    showFinalSection(); return;
+  }
+  loadExp(currentExp+1);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function resetExp() { loadExp(currentExp); }
+
+// ═══════════════════════════════════════════════
+// FINAL SECTION
+// ═══════════════════════════════════════════════
+function showFinalSection() {
+  document.getElementById('mainGame').style.display='none';
+  const fs=document.getElementById('finalSection');
+  fs.style.display='flex';
+  fs.style.flexDirection='column';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════════════
+// FINAL QUIZ
+// ═══════════════════════════════════════════════
+function loadFinalQuiz(idx) {
+  fqIdx=idx; fqAnswered=false;
+  document.getElementById('fqFeedback').style.display='none';
+  document.getElementById('fqNext').style.display='none';
+
+  if(idx>=finalQuizData.length){ showCompletion(); return; }
+
+  const q=finalQuizData[idx];
+  document.getElementById('fqProg').textContent=`Question ${idx+1} / ${finalQuizData.length}`;
+  document.getElementById('fqScore').textContent=fqScore;
+  document.getElementById('fqQ').textContent=q.q;
+
+  const opts=document.getElementById('fqOpts'); opts.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const btn=document.createElement('button'); btn.className='fq-opt';
+    btn.textContent=o; btn.onclick=()=>answerFQ(i,q.correct,q.expl);
+    opts.appendChild(btn);
+  });
+}
+
+function answerFQ(chosen, correct, expl) {
+  if(fqAnswered) return; fqAnswered=true;
+  const btns=document.querySelectorAll('.fq-opt');
+  btns.forEach((b,i)=>{ b.disabled=true; if(i===correct) b.classList.add('correct'); else if(i===chosen) b.classList.add('wrong'); });
+
+  const ok=chosen===correct;
+  if(ok){ fqScore++; score+=5; if(score>record){record=score;localStorage.setItem('eprouvRecord',record);} showFlash('⭐'); }
+  else { showFlash('❌'); }
+
+  document.getElementById('fqScore').textContent=fqScore;
+  const fb=document.getElementById('fqFeedback');
+  fb.className='fq-feedback '+(ok?'ok':'nok');
+  fb.innerHTML=(ok?'✅ ':'')+expl;
+  fb.style.display='block';
+  checkBadges();
+
+  const nextEl=document.getElementById('fqNext');
+  const nextBtn=document.getElementById('fqNextBtn');
+  nextEl.style.display='block';
+  nextBtn.textContent=fqIdx<finalQuizData.length-1?'Question suivante ➜':'🏆 Voir mon résultat final !';
+}
+
+function fqNext() { loadFinalQuiz(fqIdx+1); }
+
+// ═══════════════════════════════════════════════
+// COMPLETION
+// ═══════════════════════════════════════════════
+function showCompletion() {
+  document.getElementById('finalSection').style.display='none';
+  const cs=document.getElementById('completionScreen'); cs.classList.add('show');
+
+  const done=expStatus.filter(s=>s==='done').length;
+  const pct=Math.round(fqScore/finalQuizData.length*100);
+  let emoji='🏆',title='',text='';
+
+  if(pct===100 && done===6){ emoji='🧙‍♀️✨'; title='GÉNIE DU LABO !'; text=`Score parfait : ${score} pts ! Maîtresse Marion Éprouvette est extrêmement fière de toi. Tu maîtrises tout : mélanges, dissolutions ET la loi de Lavoisier !`; }
+  else if(pct>=62){ emoji='🔬⭐'; title='Très bien !'; text=`${fqScore}/${finalQuizData.length} au quiz final — ${score} pts. Tu comprends bien l'essentiel. Relis les parties "À retenir" pour parfaire tes connaissances !`; }
+  else { emoji='🧪💪'; title='Continue à apprendre !'; text=`${fqScore}/${finalQuizData.length} au quiz final — ${score} pts. N'hésite pas à rejouer pour progresser. Maîtresse Marion Éprouvette croit en toi !`; }
+
+  document.getElementById('compEmoji').textContent=emoji;
+  document.getElementById('compTitle').textContent=title;
+  document.getElementById('compText').textContent=text;
+
+  // Afficher badges gagnés
+  checkBadges();
+  const fb = document.getElementById('finalBadges');
+  fb.innerHTML = '';
+  BADGES.forEach(b => {
+    const div = document.createElement('div');
+    div.className = 'badge-item' + (earnedBadges.includes(b.id) ? '' : ' locked');
+    div.innerHTML = `<div class="badge-icon">${b.icon}</div><div class="badge-lbl">${earnedBadges.includes(b.id) ? b.label : '???'}</div>`;
+    fb.appendChild(div);
+  });
+
+  // VIDÉO RÉCOMPENSE
+  const vr = document.getElementById('videoReward');
+  const minScore = 30; // au moins 3 bonnes réponses expériences pour débloquer
+  if(score >= minScore) {
+    vr.innerHTML = `
+      <div class="video-reward-title">🎬 Ta récompense est débloquée ! Bravo ! 🎉</div>
+      <div class="video-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/e-SDs9hWn2s?rel=0&modestbranding=1"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <p style="font-size:0.8rem;color:var(--sub);margin-top:0.6rem">🎥 Vidéo scientifique offerte par Maîtresse Marion Éprouvette ✨</p>`;
+  } else {
+    const needed = minScore - score;
+    vr.innerHTML = `
+      <div class="video-reward-title">🔒 Récompense vidéo</div>
+      <div class="video-locked">
+        <div style="font-size:2rem;margin-bottom:0.5rem">🎬</div>
+        Une vidéo surprise t'attend...<br>
+        <div class="stars-needed">Il te manque encore ${needed} points pour la débloquer !</div>
+        <div style="font-size:0.8rem;margin-top:0.5rem;color:var(--sub)">Rejoue et améliore ton score 💪</div>
+      </div>`;
+  }
+
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function restartGame() {
+  score=0; fqScore=0; fqIdx=0; earnedBadges=[];
+  expStatus=new Array(experiments.length).fill('pending');
+  document.getElementById('completionScreen').classList.remove('show');
+  document.getElementById('mainGame').style.display='block';
+  const fs=document.getElementById('finalSection');
+  fs.style.display='none';
+  loadExp(0); updateScoreBar();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════
+function showFlash(e) {
+  const f=document.getElementById('flash'); f.textContent=e;
+  f.classList.add('show'); setTimeout(()=>f.classList.remove('show'),900);
+}
+
+function burst() {
+  const colors=['#c084fc','#f472b6','#2dd4bf','#fbbf24','#4ade80'];
+  for(let i=0;i<22;i++){
+    const p=document.createElement('div'); p.className='particle';
+    const sz=Math.random()*10+4, ang=Math.random()*360, dist=Math.random()*180+80;
+    p.style.cssText=`width:${sz}px;height:${sz}px;background:${colors[Math.floor(Math.random()*colors.length)]};left:50%;top:50%;--tx:${Math.cos(ang*Math.PI/180)*dist}px;--ty:${Math.sin(ang*Math.PI/180)*dist}px;animation-duration:${(Math.random()*0.5+0.5).toFixed(2)}s`;
+    document.body.appendChild(p); setTimeout(()=>p.remove(),1000);
+  }
+}
+
+init();
+</script>
+
+<!-- ═══ FOOTER CRÉDITS ═══ -->
+<style>
+.site-footer {
+  position: relative; z-index: 10;
+  text-align: center;
+  padding: 1.5rem 1rem 2rem;
+  margin-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.site-footer-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+.footer-credit {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  color: var(--sub);
+  letter-spacing: 0.08em;
+}
+.footer-credit strong {
+  color: var(--accent);
+}
+.footer-link {
+  font-size: 0.72rem;
+  color: var(--teal);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  font-family: 'Cinzel', serif;
+  transition: color 0.2s;
+  display: flex; align-items: center; gap: 0.3rem;
+}
+.footer-link:hover { color: var(--gold); }
+.footer-sep {
+  width: 40px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 0.2rem 0;
+}
+</style>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div class="footer-sep"></div>
+    <div class="footer-credit">
+      ✨ Cette activité a été conçue par <strong>Marion Cron</strong> ✨
+    </div>
+    <a class="footer-link" href="https://laclassedegreg.github.io" target="_blank" rel="noopener">
+      🔬 laclassedegreg.github.io
+    </a>
+    <div class="footer-sep"></div>
+  </div>
+</footer>
+
+</body>
+</html>
