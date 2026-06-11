@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Réviser le DNB - La classe de Greg</title>
+<style>
+:root{
+  --ink:#1e2340;
+  --ink-soft:#5a6080;
+  --bg:#eef0f6;
+  --card:#ffffff;
+  --radius:18px;
+  --shadow:0 6px 24px rgba(30,35,64,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{direction:ltr}
+body{
+  font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;
+  background:radial-gradient(1200px 600px at 50% -10%,#e7ebff 0%,var(--bg) 60%) , var(--bg);
+  color:var(--ink);line-height:1.6;direction:ltr;text-align:left;min-height:100vh;
+}
+h1,h2,h3,.serif{font-family:Georgia,'Times New Roman',serif}
+
+header{
+  background:linear-gradient(135deg,#3a3f6b 0%,#23284a 100%);
+  color:#fff;padding:30px 20px 34px;text-align:center;
+  box-shadow:0 4px 18px rgba(0,0,0,.18);
+}
+header .eyebrow{font-size:.85rem;letter-spacing:2px;text-transform:uppercase;opacity:.8}
+header h1{font-size:2rem;margin:8px 0 6px}
+header p{opacity:.9;font-size:1rem;max-width:620px;margin:0 auto}
+.contacts{margin-top:16px;display:flex;gap:18px;justify-content:center;flex-wrap:wrap;font-size:.85rem}
+.contacts a,.contacts span{color:#fff;text-decoration:none;opacity:.92}
+.contacts a{border-bottom:1px solid rgba(255,255,255,.45)}
+.contacts a:hover{opacity:1;border-bottom-color:#fff}
+
+main{max-width:1000px;margin:0 auto;padding:34px 18px 50px}
+.intro{text-align:center;color:var(--ink-soft);margin-bottom:28px;font-size:1.02rem}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.card{
+  display:flex;flex-direction:column;text-decoration:none;color:inherit;
+  background:var(--card);border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow);border:2px solid transparent;
+  transition:transform .2s,box-shadow .2s,border-color .2s;
+}
+.card:hover,.card:focus{transform:translateY(-6px);box-shadow:0 14px 32px rgba(30,35,64,.18)}
+.card .banner{height:86px;display:flex;align-items:center;justify-content:center;font-size:2.6rem}
+.card .body{padding:18px 20px 22px}
+.card h2{font-size:1.18rem;margin-bottom:6px}
+.card p{font-size:.9rem;color:var(--ink-soft);margin-bottom:14px}
+.card .go{
+  display:inline-block;font-size:.85rem;font-weight:600;color:#fff;
+  padding:8px 18px;border-radius:30px;
+}
+
+/* Histoire */
+.c-histoire .banner{background:linear-gradient(135deg,#667eea,#764ba2)}
+.c-histoire:hover{border-color:#667eea}
+.c-histoire .go{background:linear-gradient(135deg,#667eea,#764ba2)}
+.c-histoire h2{color:#4c5fd7}
+/* Géographie */
+.c-geo .banner{background:linear-gradient(135deg,#00b894,#00876c)}
+.c-geo:hover{border-color:#00b894}
+.c-geo .go{background:linear-gradient(135deg,#00b894,#00876c)}
+.c-geo h2{color:#019875}
+/* EMC */
+.c-emc .banner{background:linear-gradient(135deg,#8b5cf6,#5b21b6)}
+.c-emc:hover{border-color:#8b5cf6}
+.c-emc .go{background:linear-gradient(135deg,#8b5cf6,#5b21b6)}
+.c-emc h2{color:#6d28d9}
+/* Développement construit */
+.c-dev .banner{background:linear-gradient(135deg,#ff3c6f,#00e5ff)}
+.c-dev:hover{border-color:#ff3c6f}
+.c-dev .go{background:linear-gradient(135deg,#ff3c6f,#00b3cc)}
+.c-dev h2{color:#e11d63}
+
+.note{
+  margin-top:34px;background:#fff;border-radius:14px;padding:18px 22px;
+  box-shadow:var(--shadow);font-size:.9rem;color:var(--ink-soft);
+}
+.note strong{color:var(--ink)}
+
+footer{text-align:center;padding:24px 16px 36px;color:var(--ink-soft);font-size:.82rem}
+
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+@media(max-width:560px){header h1{font-size:1.6rem}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">La classe de Greg</div>
+  <h1>Réviser le Brevet</h1>
+  <p>Quatre applications pour préparer le DNB en Histoire, Géographie, EMC et pour maîtriser le développement construit. Choisis ta révision et c'est parti !</p>
+  <div class="contacts">
+    <span>Gregory CRON</span>
+    <a href="mailto:laclassedegreg@gmail.com">laclassedegreg@gmail.com</a>
+    <a href="https://www.linkedin.com/in/gregorycron" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+</header>
+
+<main>
+  <p class="intro">Clique sur une matière pour lancer l'application. Tout fonctionne sur ordinateur, tablette et téléphone.</p>
+
+  <div class="grid">
+
+    <a class="card c-histoire" href="DNBHISTOIRE.html">
+      <div class="banner">📜</div>
+      <div class="body">
+        <h2>Histoire</h2>
+        <p>Les 10 chapitres du programme : guerres mondiales, totalitarismes, guerre froide, décolonisation, République…</p>
+        <span class="go">Réviser l'Histoire →</span>
+      </div>
+    </a>
+
+    <a class="card c-geo" href="DNBGEO.html">
+      <div class="banner">🌍</div>
+      <div class="body">
+        <h2>Géographie</h2>
+        <p>Les 7 chapitres : aires urbaines, espaces productifs, aménagement, outre-mer, Union européenne, la France dans le monde.</p>
+        <span class="go">Réviser la Géographie →</span>
+      </div>
+    </a>
+
+    <a class="card c-emc" href="DNBEMC.html">
+      <div class="banner">⚖️</div>
+      <div class="body">
+        <h2>EMC</h2>
+        <p>Les 9 chapitres : valeurs et symboles, citoyenneté, vote, institutions, laïcité, égalité, défense, engagement, médias.</p>
+        <span class="go">Réviser l'EMC →</span>
+      </div>
+    </a>
+
+    <a class="card c-dev" href="DNBMETHODO.html">
+      <div class="banner">✍️</div>
+      <div class="body">
+        <h2>Développement construit</h2>
+        <p>La méthode pas à pas pour réussir le développement construit le jour du Brevet : introduction, parties, conclusion.</p>
+        <span class="go">Travailler la méthode →</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="note">
+    <strong>Bon à savoir :</strong> ta progression, tes badges et ton score sont enregistrés directement sur ton appareil. Tu peux fermer puis revenir : tu retrouveras ton avancée. Reviens souvent, même 10 minutes, c'est la régularité qui fait la réussite !
+  </div>
+</main>
+
+<footer>
+  La classe de Greg · Gregory CRON · laclassedegreg@gmail.com
+</footer>
+
+</body>
+</html>
