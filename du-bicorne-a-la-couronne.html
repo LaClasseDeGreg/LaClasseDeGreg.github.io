@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Du bicorne à la couronne · LaClasseDeGreg</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fond:#173d31; --fond2:#102d24; --papier:#efe2c2; --papier2:#e6d6ae;
+  --encre:#2a1f14; --doux:#5e4a33; --or:#b8902f; --orclair:#d9b95c;
+  --sceau:#8e1b1b; --vert:#1f5a3f; --ligne:#9fb6d6; --marge:#d88a8a;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --fond:#0d211a; --fond2:#08160f; --papier:#26211a; --papier2:#2f291f;
+    --encre:#efe4cc; --doux:#c3b08f; --or:#d6ae4c; --orclair:#e8c96e;
+    --sceau:#c24545; --vert:#5fb38a; --ligne:#3c4f6b; --marge:#8c4a4a;
+  }
+}
+:root[data-theme="dark"]{
+  --fond:#0d211a; --fond2:#08160f; --papier:#26211a; --papier2:#2f291f;
+  --encre:#efe4cc; --doux:#c3b08f; --or:#d6ae4c; --orclair:#e8c96e;
+  --sceau:#c24545; --vert:#5fb38a; --ligne:#3c4f6b; --marge:#8c4a4a;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;min-height:100%;color:var(--encre);
+  font:1.15rem/1.6 "EB Garamond",Garamond,Georgia,serif;
+  background:var(--fond);
+  background-image:radial-gradient(circle at 50% 0,var(--fond) 0,var(--fond2) 90%);
+}
+.cadre{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 3rem}
+.registre{
+  background:var(--papier);border:2px solid var(--or);border-radius:4px;
+  outline:1px solid var(--or);outline-offset:-10px;
+  padding:2rem clamp(1.1rem,4vw,2.6rem);position:relative;
+  box-shadow:0 18px 40px rgba(0,0,0,.35);
+}
+.entete{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  font-size:.9rem;color:var(--doux);margin-bottom:1rem}
+h1,h2,h3{font-family:Cinzel,"Trajan Pro",Georgia,serif;font-weight:700;color:var(--encre);margin:.2em 0 .4em;line-height:1.2}
+h1{font-size:clamp(1.9rem,6vw,2.8rem);text-align:center;letter-spacing:.02em}
+h2{font-size:1.35rem}
+h3{font-size:1.05rem;color:var(--vert)}
+.sous{text-align:center;font-style:italic;color:var(--doux);margin:0 0 1.5rem}
+.filet{border:0;height:1px;background:var(--or);margin:1.4rem auto;width:60%}
+.abeilles{display:flex;gap:.25rem;flex-wrap:wrap;justify-content:center;margin:.4rem 0 1.2rem;font-size:1.3rem}
+.abeilles span{opacity:.22;filter:grayscale(1);transition:opacity .3s,filter .3s}
+.abeilles span.gagnee{opacity:1;filter:none}
+.grade{text-align:center;font-family:Cinzel,Georgia,serif;font-size:.95rem;color:var(--vert)}
+.scene{font-style:italic;border-left:3px solid var(--or);padding:.2rem 0 .2rem 1rem;margin:0 0 1rem;color:var(--doux)}
+.question{font-weight:600;font-size:1.2rem;margin:0 0 .8rem}
+.options{display:grid;gap:.6rem;margin:0 0 1rem;padding:0;list-style:none}
+.options button{
+  width:100%;text-align:left;font:inherit;font-size:1.05rem;color:var(--encre);
+  background:var(--papier2);border:1px solid var(--or);border-radius:3px;
+  padding:.7rem 1rem;cursor:pointer;
+}
+.options button:hover:not(:disabled){background:var(--papier);border-color:var(--encre)}
+.options button:focus-visible,.bouton:focus-visible{outline:3px solid var(--orclair);outline-offset:2px}
+.options button:disabled{cursor:default}
+.options button.juste{border:2px solid var(--vert);font-weight:600}
+.options button.faux{border:2px solid var(--sceau);text-decoration:line-through;opacity:.75}
+.verdict{display:flex;gap:1rem;align-items:flex-start;margin:0 0 1.2rem}
+.sceau{
+  flex:0 0 auto;width:4.2rem;height:4.2rem;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#b83232,var(--sceau) 60%,#5a0f0f);
+  color:#f5dcae;display:grid;place-items:center;font-family:Cinzel,serif;font-weight:700;font-size:1.5rem;
+  box-shadow:inset 0 0 0 3px rgba(0,0,0,.18),0 3px 6px rgba(0,0,0,.3);
+  animation:tampon .45s cubic-bezier(.2,1.6,.4,1)
+}
+.sceau.rate{background:radial-gradient(circle at 35% 30%,#8b7a5a,#5e4a33 60%,#3a2d1d);font-size:1.3rem}
+@keyframes tampon{from{transform:scale(2.2) rotate(-25deg);opacity:0}to{transform:scale(1) rotate(-8deg);opacity:1}}
+@media (prefers-reduced-motion:reduce){.sceau{animation:none;transform:rotate(-8deg)}}
+.cahier{
+  background:#fbfaf4;color:#1d2433;border-radius:2px;margin:0 0 1.2rem;
+  padding:.9rem 1rem .9rem 3rem;position:relative;
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(1.8rem - 1px),var(--ligne) calc(1.8rem - 1px),var(--ligne) 1.8rem);
+  line-height:1.8rem;font-size:1.08rem;box-shadow:0 2px 8px rgba(0,0,0,.2)
+}
+.cahier::before{content:"";position:absolute;left:2.2rem;top:0;bottom:0;width:2px;background:var(--marge)}
+.cahier .etiq{font-family:Cinzel,serif;font-size:.85rem;color:#8e1b1b;margin:0}
+.cahier .titre{font-weight:600;color:#1f5a3f;margin:0}
+.cahier p{margin:0}
+.cahier .vocab{margin-top:.2rem;color:#2d3e75}
+.cahier .vocab b{text-decoration:underline}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cahier{background-color:#e9e6da}}
+.bouton{
+  display:inline-block;font-family:Cinzel,Georgia,serif;font-weight:700;font-size:1rem;
+  background:var(--vert);color:#f6ecd2;border:2px solid var(--or);border-radius:3px;
+  padding:.75rem 1.3rem;cursor:pointer
+}
+.bouton:disabled{opacity:.45;cursor:not-allowed}
+.bouton.second{background:transparent;color:var(--encre)}
+.coche{display:flex;gap:.6rem;align-items:center;margin:0 0 1rem;font-weight:600;cursor:pointer}
+.coche input{width:1.3rem;height:1.3rem;accent-color:var(--vert)}
+.consigne{background:var(--papier2);border:1px dashed var(--or);padding:.8rem 1rem;margin:1rem 0}
+.consigne strong{color:var(--sceau)}
+.progression{font-size:.9rem;color:var(--doux);text-align:right;margin:0 0 .6rem}
+.acte{font-family:Cinzel,serif;color:var(--sceau);font-size:.95rem;margin:0}
+.centre{text-align:center}
+.actions{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;margin-top:1.2rem}
+.defi{margin-top:1.4rem}
+footer{text-align:center;color:#d8c9a3;font-size:.85rem;margin-top:1.2rem}
+footer a{color:#e8c96e}
+[hidden]{display:none!important}
+@media print{
+  body{background:#fff}.registre{box-shadow:none;border:0;outline:0}
+  .actions,footer,.abeilles,.grade,#scoreFin{display:none}
+}
+</style>
+</head>
+<body>
+<main class="cadre">
+  <div class="registre" id="app" aria-live="polite"></div>
+  <footer>Grégory Cron · <a href="mailto:laclassedegreg@gmail.com">laclassedegreg@gmail.com</a> · LaClasseDeGreg</footer>
+</main>
+
+<script>
+const INTRO_TRACE = {
+  titre:"Chapitre 1, cours 3. Du Consulat à l'Empire, ordre social et ordre politique (1799-1815)",
+  texte:"Problématique. Comment Napoléon installe-t-il un nouveau régime ?"
+};
+
+const Q = [
+{acte:"Acte I. Rétablir l'ordre politique", partie:"I. Rétablir l'ordre politique",
+ scene:"Saint-Cloud, un matin gris de brumaire. Des grenadiers envahissent la salle des députés. Ton chef te glisse à l'oreille qu'un général vient de prendre le pouvoir. À toi de dater l'événement dans le registre.",
+ q:"À quelle date le général Bonaparte renverse-t-il le Directoire ?",
+ o:["Le 14 juillet 1789","Le 9 novembre 1799, soit le 18 brumaire an VIII","Le 2 décembre 1804","Le 18 juin 1815"], r:1,
+ e:"Le Directoire est un régime instable, ce qui renforce le poids des militaires. Bonaparte en profite pour renverser le régime. Pour mémoire, le 14 juillet 1789 c'est la prise de la Bastille, le 2 décembre 1804 le sacre et le 18 juin 1815 Waterloo.",
+ t:"Le Directoire est un régime instable, ce qui renforce le rôle politique des militaires. Le 9 novembre 1799 (18 brumaire an VIII), le général Napoléon Bonaparte renverse le régime par un coup d'État et fonde le Consulat."},
+
+{acte:"Acte I. Rétablir l'ordre politique",
+ scene:"Te voilà installé·e aux Tuileries. Trois consuls siègent autour de la table, mais tous les regards se tournent toujours vers le même homme.",
+ q:"Qui détient réellement le pouvoir exécutif sous le Consulat ?",
+ o:["Les trois consuls, à parts égales","Le Premier consul, Bonaparte","Les assemblées élues","Le roi Louis XVIII"], r:1,
+ e:"Bonaparte, Premier consul, concentre l'essentiel du pouvoir exécutif. Cambacérès et Lebrun ne font que le seconder. La nouvelle Constitution, adoptée par plébiscite, affaiblit les assemblées.",
+ t:"Devenu Premier consul, Bonaparte assume l'essentiel du pouvoir exécutif, les deux autres consuls, Cambacérès et Lebrun, ne faisant que le seconder. La nouvelle Constitution, adoptée par plébiscite, réduit le rôle des assemblées."},
+
+{acte:"Acte I. Rétablir l'ordre politique",
+ scene:"1804. On t'apporte la Constitution de l'an XII (doc. 1) à recopier. Tu lis l'article 1 et ta plume reste en l'air ✒️ « Le Gouvernement de la République est confié à un Empereur ». Une république avec un empereur ?",
+ q:"Par quelles étapes Bonaparte passe-t-il du Consulat à l'Empire ?",
+ o:["Il est élu empereur au suffrage universel dès 1799","Consul à vie en 1802, puis empereur en 1804 grâce au Sénat et à un plébiscite","Il est couronné roi après une guerre civile","Il est désigné empereur par Louis XVI"], r:1,
+ e:"Son pouvoir grandit par étapes. Consul à vie en 1802, il reçoit en 1804 le titre d'empereur du Sénat, décision approuvée par plébiscite. Le texte parle encore de République, curieux paradoxe que tu peux retenir !",
+ t:"En 1802, Bonaparte se fait nommer consul à vie. En 1804, le Sénat lui accorde le titre d'empereur, décision approuvée par plébiscite. Il devient Napoléon Ier, empereur des Français.",
+ v:["Plébiscite","vote par lequel un dirigeant politique demande aux citoyens de lui manifester leur confiance."]},
+
+{acte:"Acte II. Stabiliser les acquis de la Révolution", partie:"II. Stabiliser les acquis de la Révolution",
+ scene:"Hautes-Alpes, 1810. Le préfet t'envoie un courrier étrange (doc. 2), une liste de jeunes filles à marier avec leur âge, leur famille et leur fortune. « Émilie Pinet, 15 ans, environ 300 000 francs de bien »...",
+ q:"Que révèle ce document sur le régime napoléonien ?",
+ o:["Le préfet organise un concours de beauté","Le régime surveille la population, jusqu'à la vie privée des familles","Les femmes ont obtenu le droit de vote","Les mariages sont interdits sans l'accord du pape"], r:1,
+ e:"Le régime est autoritaire. Il s'appuie sur une administration centralisée (le préfet), une police secrète et des indicateurs. Les libertés individuelles reculent et la répression frappe aussi bien les royalistes que les jacobins.",
+ t:"Napoléon exerce un pouvoir autoritaire, fondé sur une administration centralisée, une police secrète et des indicateurs. Les libertés individuelles sont limitées et la répression politique frappe à la fois les royalistes et les jacobins."},
+
+{acte:"Acte II. Stabiliser les acquis de la Révolution",
+ scene:"Un gros volume sort des presses impériales. Dans les salons parisiens, on ne parle que de lui 📕",
+ q:"Que garantit en particulier le Code civil de 1804 ?",
+ o:["Le droit de vote des femmes","Le retour des privilèges de la noblesse","Le droit de propriété et la liberté de conscience","L'interdiction de toutes les religions"], r:2,
+ e:"Le Code civil conserve des acquis de la Révolution, notamment le droit de propriété et la liberté de conscience. En gardant les plébiscites, Napoléon affiche aussi le respect de la souveraineté populaire.",
+ t:"Napoléon réaffirme pourtant certains principes révolutionnaires. Le Code civil (1804) garantit notamment le droit de propriété et la liberté de conscience. Le maintien des plébiscites lui permet d'afficher le respect de la souveraineté populaire.",
+ v:["Liberté de conscience","liberté de pratiquer toute religion ou de n'en pratiquer aucune, selon ses convictions."]},
+
+{acte:"Acte II. Stabiliser les acquis de la Révolution",
+ scene:"Ton chef rentre d'une longue négociation avec les envoyés du pape. Il a l'air soulagé, dix ans de querelles religieuses touchent à leur fin 🕊️ Attention, question piège !",
+ q:"Quelle réforme N'A PAS été réalisée par Napoléon ?",
+ o:["Le Concordat signé avec le pape (1801)","La création des préfectures","La séparation des Églises et de l'État","La fondation de la Banque de France"], r:2,
+ e:"La séparation des Églises et de l'État date de 1905. Napoléon, lui, signe le Concordat, fonde la Banque de France et crée les préfectures. Écho des temps, le Concordat s'applique encore en Alsace-Moselle, territoire allemand en 1905 !",
+ t:"Pour consolider la situation intérieure, Napoléon fonde la Banque de France, signe un Concordat avec le pape (1801) pour apaiser les tensions religieuses et réorganise l'administration en créant les préfectures. Le régime contribue ainsi à moderniser le pays.",
+ v:["Concordat","accord entre la papauté et un État."]},
+
+{acte:"Acte III. La France des notables", partie:"III. La France des notables",
+ scene:"Jour de vote dans un chef-lieu de département. Devant l'urne, tu remarques qu'il n'y a ni femmes ni paysans en sabots 🗳️",
+ q:"Qui peut participer à la vie politique sous l'Empire ?",
+ o:["Tous les Français, hommes et femmes","Seuls les nobles d'Ancien Régime","Seuls les militaires","Seuls les hommes, et parmi eux les propriétaires les plus riches"], r:3,
+ e:"L'Empire garde le régime censitaire masculin hérité de la Révolution. Pour peser dans la vie politique, il faut être un homme et posséder des biens.",
+ t:"L'Empire maintient le régime censitaire masculin apparu sous la Révolution. Seuls les hommes et les propriétaires les plus riches participent à la vie politique.",
+ v:["Suffrage censitaire","système dans lequel seuls les citoyens payant un certain montant d'impôt peuvent voter."]},
+
+{acte:"Acte III. La France des notables",
+ scene:"Grand bal aux Tuileries 💃 Tu croises un ancien marquis rentré d'exil qui trinque avec un riche banquier parisien.",
+ q:"Sur qui le régime impérial s'appuie-t-il ?",
+ o:["Sur les ouvriers des faubourgs","Sur les notables, anciens nobles ralliés et bourgeois","Sur les sans-culottes jacobins","Sur les puissances étrangères"], r:1,
+ e:"Les notables soutiennent le régime. Anciens nobles prêts à accepter une partie des acquis révolutionnaires et membres de la grande ou moyenne bourgeoisie y trouvent l'ordre et la protection de leurs biens.",
+ t:"Le régime trouve de nombreux soutiens parmi les notables, anciens nobles prêts à accepter une partie des acquis révolutionnaires et membres de la grande ou de la moyenne bourgeoisie."},
+
+{acte:"Acte III. La France des notables",
+ scene:"En rentrant par le faubourg Saint-Antoine, tu aperçois un agent de police qui note le nom des ouvriers attroupés devant un atelier 👀",
+ q:"Quelle est la situation des milieux populaires sous l'Empire ?",
+ o:["Ils s'enrichissent grâce aux conquêtes","Ils dirigent les préfectures","Leur situation reste précaire et les ouvriers sont étroitement surveillés","Ils ne paient plus d'impôts"], r:2,
+ e:"Malgré une relative amélioration économique, paysans et ouvriers restent fragiles. Les petits propriétaires risquent l'appauvrissement et les ouvriers sont surveillés, car le régime craint les émeutes.",
+ t:"En revanche, la situation des milieux populaires demeure précaire. Les petits propriétaires sont menacés par l'appauvrissement et les ouvriers sont étroitement surveillés par un régime qui craint les émeutes."},
+
+{acte:"Épilogue. Le mot de la fin", partie:"Conclusion",
+ scene:"Dernière page du registre. Cambacérès te demande de résumer le régime en une phrase pour les archives. Choisis bien, la postérité te lira 📜",
+ q:"Quelle phrase résume le mieux le régime napoléonien ?",
+ o:["Un retour pur et simple à la monarchie absolue","Une démocratie où le peuple gouverne librement","Un régime autoritaire qui conserve une partie des acquis de la Révolution au profit des notables","Une république dirigée par des assemblées puissantes"], r:2,
+ e:"Napoléon cherche à concilier principes révolutionnaires et pouvoir personnel autoritaire. Il stabilise et modernise la France, mais au prix des libertés. La suite, ce sont les conquêtes militaires, au cours 4 !",
+ t:"Napoléon installe un régime autoritaire fondé sur son pouvoir personnel, tout en conservant une partie des acquis de la Révolution. Il stabilise et modernise la France au profit des notables. Il se lance aussi dans de vastes conquêtes militaires (cours 4)."}
+];
+
+const GRADES = [[0,"Simple commis aux écritures"],[3,"Auditeur au Conseil d'État"],[6,"Préfet de l'Empire"],[9,"Grand dignitaire de l'Empire"]];
+const app = document.getElementById("app");
+let i = 0, score = 0;
+
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const grade = n => GRADES.filter(g => n >= g[0]).pop()[1];
+const ruche = () => `<div class="abeilles" aria-label="${score} abeilles sur ${Q.length}">${Q.map((_,k)=>`<span class="${k<score?'gagnee':''}">🐝</span>`).join("")}</div><p class="grade">Ton grade, ${grade(score)}</p>`;
+const bloc = (x) => `${x.partie?`<p class="titre">${esc(x.partie)}</p>`:""}<p>${esc(x.t)}</p>${x.v?`<p class="vocab"><b>${esc(x.v[0])}</b>, ${esc(x.v[1])}</p>`:""}`;
+
+function accueil(){
+  app.innerHTML = `
+  <div class="entete"><span>LaClasseDeGreg</span><span>4e, Histoire, chapitre 1</span></div>
+  <h1>Du bicorne à la couronne</h1>
+  <p class="sous">Du Consulat à l'Empire, ordre social et ordre politique (1799-1815)</p>
+  <p class="scene">Paris, novembre 1799. Tu viens d'être recruté·e comme jeune secrétaire au service du consul Cambacérès. Ta mission, tenir le registre officiel du nouveau régime. Chaque bonne réponse te rapporte une abeille impériale 🐝 et te fait monter en grade. Un secrétaire distrait, lui, finit vite fiché par la police secrète...</p>
+  <div class="consigne">Après chaque réponse, une trace écrite apparaît. Tu la recopies <strong>OBLIGATOIREMENT</strong> dans ton cahier avant de passer à la suite. Mises bout à bout, tes traces forment la leçon complète. Durée conseillée, 30 minutes. Défi, finir avec au moins 8 abeilles ! 😉</div>
+  <h3>Commence par recopier le titre et la problématique</h3>
+  <div class="cahier"><p class="etiq">Dans mon cahier</p><p class="titre">${esc(INTRO_TRACE.titre)}</p><p>${esc(INTRO_TRACE.texte)}</p></div>
+  <label class="coche"><input type="checkbox" id="ok"> J'ai recopié le titre et la problématique ✍️</label>
+  <div class="centre"><button class="bouton" id="go" disabled>Entrer aux Tuileries</button></div>`;
+  const ok = document.getElementById("ok"), go = document.getElementById("go");
+  ok.onchange = () => go.disabled = !ok.checked;
+  go.onclick = question;
+}
+
+function question(){
+  const x = Q[i];
+  app.innerHTML = `
+  <p class="progression">Épreuve ${i+1} sur ${Q.length}</p>
+  ${ruche()}
+  <p class="acte">${esc(x.acte)}</p>
+  <p class="scene">${esc(x.scene)}</p>
+  <p class="question" id="lq">${esc(x.q)}</p>
+  <ul class="options" role="group" aria-labelledby="lq">${x.o.map((o,k)=>`<li><button data-k="${k}">${esc(o)}</button></li>`).join("")}</ul>
+  <div id="suite"></div>`;
+  app.querySelectorAll(".options button").forEach(b => b.onclick = () => repondre(+b.dataset.k));
+  app.querySelector(".options button").focus();
+}
+
+function repondre(k){
+  const x = Q[i], juste = k === x.r;
+  if (juste) score++;
+  app.querySelectorAll(".options button").forEach((b,n) => {
+    b.disabled = true;
+    if (n === x.r) b.classList.add("juste");
+    else if (n === k) b.classList.add("faux");
+  });
+  const der = i === Q.length-1;
+  document.getElementById("suite").innerHTML = `
+  <div class="verdict"><div class="sceau ${juste?'':'rate'}" aria-hidden="true">${juste?'N':'?'}</div>
+  <p><strong>${juste?"Bravo, une abeille de plus ! 🐝":"Raté, mais rien n'est perdu."}</strong> ${esc(x.e)}</p></div>
+  <div class="cahier"><p class="etiq">Dans mon cahier</p>${bloc(x)}</div>
+  <label class="coche"><input type="checkbox" id="ok"> J'ai recopié la trace écrite ✍️</label>
+  <div class="centre"><button class="bouton" id="next" disabled>${der?"Sceller le registre":"Épreuve suivante"}</button></div>`;
+  app.querySelector(".abeilles").replaceWith(Object.assign(document.createElement("div"),{innerHTML:ruche()}).firstElementChild);
+  app.querySelector(".grade").textContent = "Ton grade, " + grade(score);
+  const ok = document.getElementById("ok"), nx = document.getElementById("next");
+  ok.onchange = () => nx.disabled = !ok.checked;
+  nx.onclick = () => { i++; der ? fin() : question(); window.scrollTo(0,0); };
+  ok.focus();
+}
+
+function fin(){
+  app.innerHTML = `
+  <h1>Registre scellé</h1>
+  <div id="scoreFin">${ruche()}<p class="centre">Tu termines avec <strong>${score} abeilles sur ${Q.length}</strong>. ${score>=8?"Le Premier consul lui-même salue ton travail 👑":"Relis ta leçon et retente ta chance, la couronne n'attend que toi 💪"}</p></div>
+  <hr class="filet">
+  <h2>Ma leçon complète</h2>
+  <p>Vérifie que ton cahier contient bien tout ceci, dans cet ordre.</p>
+  <div class="cahier">
+    <p class="titre">${esc(INTRO_TRACE.titre)}</p><p>${esc(INTRO_TRACE.texte)}</p>
+    ${Q.map(bloc).join("")}
+  </div>
+  <div class="consigne defi"><strong>Facultatif mais conseillé.</strong> Dans le serment de l'Empereur (doc. 1, article 53), relève deux expressions qui montrent que Napoléon veut conserver des acquis de la Révolution.</div>
+  <div class="actions">
+    <button class="bouton" id="rejouer">Rejouer</button>
+    <button class="bouton second" id="imprimer">Imprimer la leçon</button>
+  </div>`;
+  document.getElementById("rejouer").onclick = () => { i = 0; score = 0; accueil(); };
+  document.getElementById("imprimer").onclick = () => window.print();
+}
+
+accueil();
+</script>
+</body>
+</html>
