@@ -1186,16 +1186,19 @@ function choose(){
     <div class="roles">${cards}</div>
     <div style="margin-top:22px;display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end">
       <p style="margin:0"><label for="cls" style="display:block;margin-bottom:6px">Ta classe</label>
-        <select class="name" id="cls" style="width:auto"><option value="">Choisis…</option>${Object.keys(ELEVES).map(c=>`<option ${S.classe===c?"selected":""} value="${c}">Première ${c.slice(1)}</option>`).join("")}</select></p>
-      <p style="margin:0"><label for="elv" style="display:block;margin-bottom:6px">Ton nom</label>
-        <select class="name" id="elv" ${S.classe?"":"disabled"}><option value="">Choisis…</option>${(ELEVES[S.classe]||[]).map(n=>`<option ${S.eleve===n?"selected":""}>${esc(n)}</option>`).join("")}</select></p>
+        <select class="name" id="cls" style="width:auto"><option value="">Choisis…</option>${Object.keys(ELEVES).map(c=>`<option ${S.classe===c?"selected":""} value="${c}">Première ${c.slice(1)}</option>`).join("")}<option value="visit" ${S.classe==="visit"?"selected":""}>Je suis visiteur, je découvre le jeu</option></select></p>
+      <p style="margin:0" ${S.classe==="visit"?"":"hidden"}><label for="vis" style="display:block;margin-bottom:6px">Ton prénom et ton nom</label>
+        <input class="name" id="vis" maxlength="60" autocomplete="name" value="${S.classe==="visit"?esc(S.eleve):""}"></p>
+      <p style="margin:0" ${S.classe==="visit"?"hidden":""}><label for="elv" style="display:block;margin-bottom:6px">Ton nom</label>
+        <select class="name" id="elv" ${S.classe&&S.classe!=="visit"?"":"disabled"}><option value="">Choisis…</option>${(ELEVES[S.classe]||[]).map(n=>`<option ${S.eleve===n?"selected":""}>${esc(n)}</option>`).join("")}</select></p>
     </div>
-    <p class="muted" style="color:#9aa0d0">Ton nom permet à ton professeur de suivre ta progression. Ta partie est enregistrée au fil des registres.</p>
-    <p class="act"><button class="cta" id="start" type="button" ${S.role&&S.eleve?"":"disabled"}>Commencer la nuit</button></p>
+    <p class="muted" style="color:#9aa0d0">${S.classe==="visit"?"En mode visiteur, ton nom et ta progression apparaissent dans la liste des visiteurs du professeur.":"Ton nom permet à ton professeur de suivre ta progression. Ta partie est enregistrée au fil des registres."}</p>
+    <p class="act"><button class="cta" id="start" type="button" ${S.role&&S.eleve.length>=2?"":"disabled"}>Commencer la nuit</button></p>
   </div>`;
   app.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>{S.g=b.dataset.g;render();});
   app.querySelectorAll("[data-r]").forEach(b=>b.onclick=()=>{S.role=b.dataset.r;render();});
-  $("#cls").onchange=e=>{S.classe=e.target.value;S.eleve="";render();};
+  $("#cls").onchange=e=>{S.classe=e.target.value;S.eleve="";S.prenom="";render(); if(S.classe==="visit") $("#vis").focus();};
+  $("#vis").oninput=e=>{S.eleve=e.target.value.trim().slice(0,60);S.prenom=S.eleve;$("#start").disabled=!(S.role&&S.eleve.length>=2);};
   $("#elv").onchange=e=>{S.eleve=e.target.value;S.prenom=S.eleve;$("#start").disabled=!(S.role&&S.eleve);};
   $("#start").onclick=()=>{ if(!S.role||!S.eleve) return; S.step="stage"; S.stage=0; S.start=Date.now(); startClock(); save(); report(); render(); top(); };
 }
@@ -1426,7 +1429,7 @@ function scoreOf(st){const total=STAGES.reduce((n,s)=>n+s.qs.length,0);const goo
 function report(){
   if(!SCRIPT_URL||SCRIPT_URL.indexOf("http")!==0||!S.eleve) return;
   const sc=scoreOf(S);
-  const p={session:S.sid,classe:S.classe,eleve:S.eleve,temoin:who()[0],registres:S.seals.filter(Boolean).length,
+  const p={session:S.sid,classe:S.classe==="visit"?"Visiteurs":S.classe,eleve:S.eleve,temoin:who()[0],registres:S.seals.filter(Boolean).length,
     sceaux_intacts:S.seals.filter(x=>x==="ok").length,bonnes:sc.good,repondues:Object.keys(S.ans).length,total:sc.total,
     pourcentage:sc.pct,note20:sc.note,temps_min:Math.round((S.elapsed||0)/6)/10,erreurs:S.errs.length,
     termine:S.done?"oui":"non",fouche:S.suspect===null?"":(SUSPECTS[S.suspect].n==="Fouché"?"oui":"non")};
@@ -1456,10 +1459,12 @@ function prof(){
   }
   dash();
 }
+function listFor(c){return c==="Visiteurs"?[...new Set(PROF.rows.filter(r=>r.classe==="Visiteurs").map(r=>String(r.eleve)))].sort((a,b)=>a.localeCompare(b,"fr")):ELEVES[c];}
+function tabs(){return Object.keys(ELEVES).concat("Visiteurs");}
 function dash(){
   const rows=PROF.rows, cls=profFilter;
   const byEl={}; rows.filter(r=>r.classe===cls).forEach(r=>{(byEl[r.eleve]=byEl[r.eleve]||[]).push(r);});
-  const lines=ELEVES[cls].map(n=>{const a=(byEl[n]||[]).sort((x,y)=>String(y.derniere_activite).localeCompare(String(x.derniere_activite)));
+  const lines=listFor(cls).map(n=>{const a=(byEl[n]||[]).sort((x,y)=>String(y.derniere_activite).localeCompare(String(x.derniere_activite)));
     if(!a.length) return {n,st:0};
     const last=a[0], fin=a.filter(x=>x.termine==="oui"), best=(fin.length?fin:a).reduce((m,x)=>+x.note20>+m.note20?x:m);
     return {n,st:fin.length?2:1,last,best,tries:a.length,reg:Math.max(...a.map(x=>+x.registres||0))};});
@@ -1469,10 +1474,10 @@ function dash(){
   const bar=r=>`<span style="display:inline-block;width:110px;height:10px;background:#e2d3ad;border-radius:5px;vertical-align:middle"><i style="display:block;height:100%;width:${Math.round(r/7*100)}%;background:${r>=7?"#1F7A3E":"#C9A24A"};border-radius:5px"></i></span> ${r} sur 7`;
   const badge=s=>s===2?'<span class="tag" style="background:#1F7A3E;color:#fff">Terminé</span>':s===1?'<span class="tag" style="background:#C9A24A;color:#2a1a00">En cours</span>':'<span class="tag" style="background:#ddd;color:#555">Pas commencé</span>';
   $("#dash").innerHTML=`
-  <div class="act" role="tablist">${Object.keys(ELEVES).map(c=>`<button class="btn ${c===cls?"":"alt"}" data-c="${c}" type="button">Première ${c.slice(1)}</button>`).join("")}
+  <div class="act" role="tablist">${tabs().map(c=>`<button class="btn ${c===cls?"":"alt"}" data-c="${c}" type="button">${c==="Visiteurs"?"Visiteurs":"Première "+c.slice(1)}</button>`).join("")}
     <button class="btn alt" id="refresh" type="button">Actualiser</button><button class="btn alt" id="csv" type="button">Exporter en CSV</button></div>
   <div class="score" style="margin-top:14px">
-    <div><b>${done.length} sur ${lines.length}</b>élèves ont terminé</div>
+    <div><b>${done.length} sur ${lines.length}</b>${cls==="Visiteurs"?"visiteurs ont terminé":"élèves ont terminé"}</div>
     <div><b>${started.length-done.length}</b>en cours</div>
     <div><b>${lines.length-started.length}</b>pas encore commencé</div>
     <div><b>${avg===null?"…":fmtN(avg)+" / 20"}</b>moyenne des élèves ayant terminé</div>
@@ -1493,8 +1498,8 @@ function dash(){
   document.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{profFilter=b.dataset.c;dash();});
   $("#refresh").onclick=async()=>{try{const r=await fetch(SCRIPT_URL+"?pwd="+encodeURIComponent(PROF.pw)+"&t="+Date.now());const d=await r.json();if(d.ok){PROF.rows=d.rows;PROF.at=new Date();dash();}}catch(e){}};
   $("#csv").onclick=()=>{const head=["Classe","Élève","Statut","Registres","Note sur 20","Pourcentage","Sceaux intacts","Fouché démasqué","Tentatives","Temps (min)"];
-    const out=[head.join(";")].concat(Object.keys(ELEVES).flatMap(c=>{const save=profFilter;profFilter=c;const by={};PROF.rows.filter(r=>r.classe===c).forEach(r=>{(by[r.eleve]=by[r.eleve]||[]).push(r);});profFilter=save;
-      return ELEVES[c].map(n=>{const a=by[n]||[];if(!a.length)return [c,n,"Pas commencé","","","","","","0",""].join(";");
+    const out=[head.join(";")].concat(tabs().flatMap(c=>{const save=profFilter;profFilter=c;const by={};PROF.rows.filter(r=>r.classe===c).forEach(r=>{(by[r.eleve]=by[r.eleve]||[]).push(r);});profFilter=save;
+      return listFor(c).map(n=>{const a=by[n]||[];if(!a.length)return [c,n,"Pas commencé","","","","","","0",""].join(";");
         const fin=a.filter(x=>x.termine==="oui");const b=(fin.length?fin:a).reduce((m,x)=>+x.note20>+m.note20?x:m);
         return [c,n,fin.length?"Terminé":"En cours",Math.max(...a.map(x=>+x.registres||0)),String(b.note20).replace(".",","),b.pourcentage,b.sceaux_intacts,b.fouche,a.length,String(b.temps_min).replace(".",",")].join(";");});}));
     const blob=new Blob(["\ufeff"+out.join("\n")],{type:"text/csv"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="suivi_escape_game_revolution.csv";document.body.appendChild(a);a.click();a.remove();};
