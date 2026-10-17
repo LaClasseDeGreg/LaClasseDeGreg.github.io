@@ -19,6 +19,14 @@ Version en ligne de la newsletter EDD et ODD du Lycée français Victor Hugo de 
 
 Ce numéro est publié dans le dépôt `laclassedegreg.github.io`, dossier `oddysee-hugo-ed1`, à l'adresse `https://laclassedegreg.github.io/oddysee-hugo-ed1/`. Pour l'édition 2, créez un dossier `oddysee-hugo-ed2` à côté, l'édition 1 reste ainsi en ligne.
 
+## Versions en trois langues
+
+- français `index.html`, à l'adresse `https://laclassedegreg.github.io/oddysee-hugo-ed1/`
+- anglais `en/index.html`, à l'adresse `https://laclassedegreg.github.io/oddysee-hugo-ed1/en/`
+- bulgare `bg/index.html`, à l'adresse `https://laclassedegreg.github.io/oddysee-hugo-ed1/bg/`
+
+Un sélecteur FR, EN, BG en haut de chaque page permet de passer d'une langue à l'autre. Les trois pages partagent les mêmes photos du dossier `assets/img`, et chaque langue a son PDF A4 et son livret A3 dans `assets`.
+
 Important, déposez toujours le dossier décompressé et jamais le fichier zip, GitHub Pages ne sait pas ouvrir une archive.
 
 ## Préparer le numéro suivant
