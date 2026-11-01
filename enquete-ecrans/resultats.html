@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Résultats · Écran, boulot, dodo</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#16256B;--red:#C8102E;--ink:#1b2033;--muted:#5a6072;--line:#dde1ec;--bg:#f4f6fb;--soft:#eef1f9;--c1:#16256B;--c2:#C8102E}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Sans 3",Calibri,"Segoe UI",system-ui,sans-serif;font-size:16px;line-height:1.45}
+.top{background:#fff;border-bottom:3px solid var(--red)}
+.top .in{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
+.top img{height:34px}
+.hero{background:var(--navy);color:#fff}
+.hero .in{max-width:1100px;margin:0 auto;padding:20px 16px}
+.hero h1{margin:0;font-size:clamp(24px,4vw,34px)}
+.hero p{margin:4px 0 0;opacity:.9}
+main{max-width:1100px;margin:0 auto;padding:16px 16px 40px}
+.card{background:#fff;border-radius:14px;box-shadow:0 1px 2px rgba(22,37,107,.06),0 8px 24px rgba(22,37,107,.08);padding:18px;margin-bottom:16px}
+.card h2{margin:0 0 10px;color:var(--navy);font-size:20px}
+.card h3{margin:0 0 6px;font-size:15.5px}
+.login{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input[type=password],select{font:inherit;padding:9px 12px;border:1.5px solid var(--line);border-radius:10px}
+.btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:10px 16px;background:var(--red);color:#fff;cursor:pointer}
+.btn.ghost{background:#fff;color:var(--navy);border:1.5px solid var(--line)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:700px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--soft);border-radius:12px;padding:12px}
+.kpi b{display:block;font-size:28px;color:var(--navy);line-height:1.1}
+.kpi span{font-size:13.5px;color:var(--muted)}
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.tabs button{font:inherit;font-weight:700;border:1.5px solid var(--line);background:#fff;color:var(--navy);border-radius:999px;padding:7px 14px;cursor:pointer}
+.tabs button[aria-pressed=true]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.charts{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:820px){.charts{grid-template-columns:1fr}}
+.chart{border:1px solid var(--line);border-radius:12px;padding:14px}
+.n{font-size:12.5px;color:var(--muted);margin-bottom:8px}
+.row{display:grid;grid-template-columns:minmax(110px,40%) 1fr 54px;gap:8px;align-items:center;margin:5px 0;font-size:14px}
+.track{background:var(--soft);border-radius:6px;height:16px;overflow:hidden}
+.fill{height:100%;background:var(--c1);border-radius:6px}
+.pct{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;color:var(--navy)}
+table.x{width:100%;border-collapse:collapse;font-size:13.5px}
+table.x th,table.x td{border-bottom:1px solid var(--line);padding:6px 6px;text-align:right}
+table.x th:first-child,table.x td:first-child{text-align:left}
+table.x thead th{color:var(--muted);font-weight:600}
+.heat{font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:14px;font-size:13px;color:var(--muted);margin-bottom:6px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.pair .fill.e{background:var(--c1)} .pair .fill.p{background:var(--c2)}
+.pair .row{grid-template-columns:minmax(110px,32%) 1fr 54px}
+.bars2{display:flex;flex-direction:column;gap:3px}
+.quotes li{margin:0 0 6px}
+.muted{color:var(--muted);font-size:14px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header class="top"><div class="in"><img src="assets/logo-lvh.png" alt="Lycée français Victor Hugo"><img src="assets/logo-aefe.png" alt="AEFE"></div></header>
+<section class="hero"><div class="in"><h1>Opération Écran, boulot, dodo, les résultats</h1><p>Tableau de bord réservé à l'équipe de l'enquête. Données anonymes, actualisées à chaque chargement.</p></div></section>
+<main>
+  <section class="card" id="loginCard">
+    <h2>Accès</h2>
+    <p class="muted">Saisissez la clé de lecture de l'enquête. Elle n'est jamais enregistrée dans la page.</p>
+    <div class="login"><input type="password" id="cle" placeholder="Clé de lecture" autocomplete="off"><button class="btn" id="go">Afficher les résultats</button><span id="msg" class="muted"></span></div>
+  </section>
+
+  <div id="dash" hidden>
+    <section class="card">
+      <div class="kpis">
+        <div class="kpi"><b id="kE">0</b><span>réponses d'élèves</span></div>
+        <div class="kpi"><b id="kP">0</b><span>réponses de parents</span></div>
+        <div class="kpi"><b id="kS">0</b><span>élèves au-delà de 3 h d'écran un jour de classe</span></div>
+        <div class="kpi"><b id="kT">0</b><span>élèves gardant le téléphone dans la chambre la nuit</span></div>
+      </div>
+      <p class="muted" id="maj"></p>
+      <div class="filters">
+        <label>Niveau <select id="fNiv"><option value="">Tous</option></select></label>
+        <label>Genre <select id="fGen"><option value="">Tous</option></select></label>
+        <button class="btn ghost" id="csvE">Exporter les élèves (CSV)</button>
+        <button class="btn ghost" id="csvP">Exporter les parents (CSV)</button>
+      </div>
+      <div class="tabs" role="group">
+        <button data-tab="eleves" aria-pressed="true">Élèves</button>
+        <button data-tab="parents" aria-pressed="false">Parents</button>
+        <button data-tab="croises" aria-pressed="false">Tableaux croisés</button>
+        <button data-tab="regards" aria-pressed="false">Regards croisés élèves et parents</button>
+        <button data-tab="verbatims" aria-pressed="false">Verbatims</button>
+      </div>
+    </section>
+    <section class="card" id="view"></section>
+  </div>
+</main>
+<script>
+/* Même adresse que dans index.html */
+const ENDPOINT = "";
+
+const ORD = {
+ niveauE:["6e","5e","4e","3e","2de","1re","Terminale"],
+ niveauP:["Maternelle","Élémentaire, du CP au CM2","6e","5e","4e","3e","2de","1re","Terminale"],
+ temps:["Moins d'1 h","1 à 2 h","2 à 3 h","3 à 4 h","4 à 5 h","Plus de 5 h","Je ne sais pas"],
+ sommeil:["Moins de 6 h","6 à 7 h","7 à 8 h","8 à 9 h","Plus de 9 h"],
+ coucher:["Avant 21 h","Entre 21 h et 22 h","Entre 22 h et 23 h","Entre 23 h et minuit","Après minuit"],
+ freq:["Jamais","Rarement","Parfois","Souvent","Toujours","Très souvent"],
+ accord:["Oui","Plutôt oui","Plutôt non","Non"],
+ effet:["Pas du tout","Un peu","Assez","Beaucoup"],
+ resultats:["Très satisfaisants","Satisfaisants","Moyens","Insuffisants"],
+ devoirs:["Moins de 30 min","30 min à 1 h","1 à 2 h","Plus de 2 h"],
+ sport:["Aucune","Moins d'1 h","1 à 3 h","3 à 5 h","Plus de 5 h"]
+};
+const QE = [
+ ["niveau","Niveau",ORD.niveauE],["genre","Genre"],["equipements","Écrans personnels",null,1],
+ ["temps_semaine","Temps d'écran un jour de classe, hors travail scolaire",ORD.temps],["temps_weekend","Temps d'écran un jour de week-end",ORD.temps],
+ ["activites","Activités principales sur les écrans",null,1],["tel_chambre","Téléphone dans la chambre la nuit"],
+ ["dernier_ecran","Dernier écran avant de dormir"],["reveil_nuit","Réveil nocturne pour consulter le téléphone",ORD.freq],
+ ["coucher","Heure du coucher en semaine",ORD.coucher],["duree_sommeil","Durée de sommeil en semaine",ORD.sommeil],
+ ["devoirs","Temps de devoirs par jour",ORD.devoirs],["tel_devoirs","Téléphone à portée de main pendant les devoirs",ORD.freq],
+ ["resultats","Résultats scolaires perçus",ORD.resultats],["sport","Sport hors EPS par semaine",ORD.sport],
+ ["be_repose","Reposé·e au réveil",ORD.freq],["be_concentration","Concentration en classe",ORD.freq],["be_humeur","Bonne humeur",ORD.freq],
+ ["be_stress","Stress lié au travail scolaire",ORD.freq],["be_seul","Sentiment de solitude",ORD.freq],
+ ["trop_ecrans","Pense passer trop de temps sur les écrans",ORD.accord],["essai_reduire","A essayé de réduire son temps d'écran"]
+];
+const QP = [
+ ["lien","Répondant"],["niveau","Niveau de l'enfant",ORD.niveauP],["genre","Genre de l'enfant"],["age_smartphone","Âge du premier smartphone"],
+ ["temps_semaine","Temps d'écran estimé un jour de classe",ORD.temps],["temps_weekend","Temps d'écran estimé un jour de week-end",ORD.temps],
+ ["regles","Règles à la maison",null,1],["respect_regles","Respect des règles"],["tel_chambre","Téléphone dans la chambre la nuit"],
+ ["coucher","Heure du coucher de l'enfant",ORD.coucher],["sommeil_suffisant","L'enfant dort suffisamment",ORD.accord],
+ ["eff_sommeil","Effet négatif perçu sur le sommeil",ORD.effet],["eff_resultats","Effet négatif perçu sur la concentration et les résultats",ORD.effet],
+ ["eff_humeur","Effet négatif perçu sur l'humeur",ORD.effet],["eff_famille","Effet négatif perçu sur la vie de famille",ORD.effet],
+ ["tensions","Tensions liées aux écrans",ORD.freq],["temps_parent","Temps d'écran du parent hors travail",ORD.temps],
+ ["ecrans_repas","Écrans pendant les repas",ORD.freq],["attentes","Attentes envers le lycée",null,1]
+];
+let DATA = null, tab = "eleves";
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pct = (a,b) => b ? Math.round(a/b*1000)/10 : 0;
+const fmt = x => String(x).replace(".",",")+" %";
+
+function counts(rows,key,multi,order){
+  const c = {}; let n = 0;
+  rows.forEach(r=>{ const v = String(r[key]||"").trim(); if(!v) return; n++;
+    (multi ? v.split(" | ") : [v]).forEach(x=>{ c[x]=(c[x]||0)+1; }); });
+  let keys = Object.keys(c);
+  if (order) keys.sort((a,b)=>(order.indexOf(a)<0?99:order.indexOf(a))-(order.indexOf(b)<0?99:order.indexOf(b)));
+  else keys.sort((a,b)=>c[b]-c[a]);
+  return {n, items: keys.map(k=>[k,c[k]])};
+}
+function bars(title,res,note){
+  let h = '<div class="chart"><h3>'+esc(title)+'</h3><div class="n">'+res.n+' réponses'+(note?', '+esc(note):'')+'</div>';
+  if (!res.n) return h+'<p class="muted">Pas encore de réponse.</p></div>';
+  res.items.forEach(([k,v])=>{ const p = pct(v,res.n);
+    h += '<div class="row"><span>'+esc(k)+'</span><div class="track"><div class="fill" style="width:'+p+'%"></div></div><span class="pct">'+fmt(p)+'</span></div>'; });
+  return h+'</div>';
+}
+function filtered(rows){
+  const fn = $("fNiv").value, fg = $("fGen").value;
+  return rows.filter(r=>(!fn||r.niveau===fn)&&(!fg||r.genre===fg));
+}
+function cross(rows,rowKey,colKey,rowOrd,colOrd,title,note){
+  const R = rowOrd.filter(r=>rows.some(x=>x[rowKey]===r)), C = colOrd.filter(c=>rows.some(x=>x[colKey]===c));
+  let h = '<div class="chart" style="overflow-x:auto"><h3>'+esc(title)+'</h3><div class="n">Pourcentages en ligne'+(note?', '+esc(note):'')+'</div>';
+  if (!R.length||!C.length) return h+'<p class="muted">Pas encore assez de réponses.</p></div>';
+  h += '<table class="x"><thead><tr><th></th>'+C.map(c=>'<th>'+esc(c)+'</th>').join("")+'<th>Effectif</th></tr></thead><tbody>';
+  R.forEach(r=>{ const sub = rows.filter(x=>x[rowKey]===r&&x[colKey]);
+    h += '<tr><td>'+esc(r)+'</td>'+C.map(c=>{ const p = pct(sub.filter(x=>x[colKey]===c).length, sub.length);
+      return '<td class="heat" style="background:rgba(22,37,107,'+(p/140).toFixed(2)+');color:'+(p>55?'#fff':'inherit')+'">'+fmt(p)+'</td>'; }).join("")+'<td>'+sub.length+'</td></tr>'; });
+  return h+'</tbody></table></div>';
+}
+function render(){
+  const E = filtered(DATA.Eleves), P = filtered(DATA.Parents);
+  let h = "";
+  if (tab==="eleves"){ h = '<h2>Élèves</h2><div class="charts">'+QE.map(q=>bars(q[1],counts(E,q[0],q[3],q[2]),q[3]?'plusieurs réponses possibles, en % des répondants':'')).join("")+'</div>'; }
+  if (tab==="parents"){ h = '<h2>Parents</h2><div class="charts">'+QP.map(q=>bars(q[1],counts(P,q[0],q[3],q[2]),q[3]?'plusieurs réponses possibles, en % des répondants':'')).join("")+'</div>'; }
+  if (tab==="croises"){
+    h = '<h2>Tableaux croisés, élèves</h2><p class="muted">Lecture, sur 100 élèves de la ligne, combien se trouvent dans chaque colonne. Une association ne prouve pas une causalité.</p><div class="charts">'
+     + cross(E,"temps_semaine","duree_sommeil",ORD.temps,ORD.sommeil,"Temps d'écran un jour de classe et durée de sommeil")
+     + cross(E,"tel_chambre","duree_sommeil",["Oui","Non","Je n'ai pas de téléphone"],ORD.sommeil,"Téléphone dans la chambre et durée de sommeil")
+     + cross(E,"temps_semaine","be_concentration",ORD.temps,ORD.freq,"Temps d'écran et concentration en classe")
+     + cross(E,"duree_sommeil","be_repose",ORD.sommeil,ORD.freq,"Durée de sommeil et sentiment d'être reposé·e")
+     + cross(E,"temps_semaine","resultats",ORD.temps,ORD.resultats,"Temps d'écran et résultats scolaires perçus")
+     + cross(E,"niveau","temps_semaine",ORD.niveauE,ORD.temps,"Niveau et temps d'écran un jour de classe")
+     + cross(E,"genre","temps_semaine",["Fille","Garçon","Autre","Préfère ne pas répondre"],ORD.temps,"Genre et temps d'écran un jour de classe")
+     + cross(E,"genre","be_stress",["Fille","Garçon","Autre","Préfère ne pas répondre"],ORD.freq,"Genre et stress lié au travail scolaire")
+     + '</div>';
+  }
+  if (tab==="regards"){
+    const pair = (key,ord,title)=>{ const a=counts(E,key,0,ord), b=counts(P,key,0,ord);
+      const cats = ord.filter(o=>a.items.some(i=>i[0]===o)||b.items.some(i=>i[0]===o));
+      let s = '<div class="chart pair"><h3>'+esc(title)+'</h3><div class="legend"><span><i style="background:var(--c1)"></i>Élèves ('+a.n+')</span><span><i style="background:var(--c2)"></i>Parents ('+b.n+')</span></div>';
+      cats.forEach(c=>{ const pa=pct((a.items.find(i=>i[0]===c)||[0,0])[1],a.n), pb=pct((b.items.find(i=>i[0]===c)||[0,0])[1],b.n);
+        s += '<div class="row"><span>'+esc(c)+'</span><div class="bars2"><div class="track"><div class="fill e" style="width:'+pa+'%"></div></div><div class="track"><div class="fill p" style="width:'+pb+'%"></div></div></div><span class="pct">'+fmt(pa)+'<br><span style="color:var(--c2)">'+fmt(pb)+'</span></span></div>'; });
+      return s+'</div>'; };
+    h = '<h2>Ce que disent les élèves, ce que pensent les parents</h2><p class="muted">Comparaison des déclarations des élèves et des estimations des parents. Les deux groupes ne sont pas forcément les mêmes familles.</p><div class="charts">'
+      + pair("temps_semaine",ORD.temps,"Temps d'écran un jour de classe") + pair("temps_weekend",ORD.temps,"Temps d'écran un jour de week-end")
+      + pair("coucher",ORD.coucher,"Heure du coucher en semaine") + pair("tel_chambre",["Oui","Non","Je n'ai pas de téléphone","Il n'a pas de téléphone","Je ne sais pas"],"Téléphone dans la chambre la nuit") + '</div>';
+  }
+  if (tab==="verbatims"){
+    const list = (rows,key,title)=>{ const v = rows.map(r=>String(r[key]||"").trim()).filter(Boolean);
+      return '<div class="chart"><h3>'+esc(title)+' ('+v.length+')</h3>'+(v.length?'<ul class="quotes">'+v.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>':'<p class="muted">Aucun pour le moment.</p>')+'</div>'; };
+    h = '<h2>Réponses libres</h2><div class="charts">'+list(E,"aide","Élèves, ce qui les aiderait")+list(E,"idee","Élèves, idées pour le lycée")+list(P,"remarque","Parents, remarques et suggestions")+'</div>';
+  }
+  $("view").innerHTML = h;
+  const allE = filtered(DATA.Eleves);
+  $("kE").textContent = DATA.Eleves.length; $("kP").textContent = DATA.Parents.length;
+  const s3 = counts(allE,"temps_semaine"); const over = s3.items.filter(i=>["3 à 4 h","4 à 5 h","Plus de 5 h"].includes(i[0])).reduce((a,i)=>a+i[1],0);
+  $("kS").textContent = fmt(pct(over,s3.n));
+  const tc = counts(allE,"tel_chambre"); $("kT").textContent = fmt(pct((tc.items.find(i=>i[0]==="Oui")||[0,0])[1], tc.n));
+}
+function csv(rows){
+  if (!rows.length) return "";
+  const keys = Object.keys(rows[0]);
+  const q = v => '"'+String(v==null?"":v).replace(/"/g,'""')+'"';
+  return "﻿"+keys.join(";")+"\n"+rows.map(r=>keys.map(k=>q(r[k])).join(";")).join("\n");
+}
+function download(name,text){ const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([text],{type:"text/csv;charset=utf-8"})); a.download=name; a.click(); }
+async function load(){
+  const cle = $("cle").value.trim(); if (!cle) return;
+  if (!ENDPOINT){ $("msg").textContent = "Le service de collecte n'est pas encore branché."; return; }
+  $("msg").textContent = "Chargement…";
+  try{
+    const r = await fetch(ENDPOINT+"?cle="+encodeURIComponent(cle)); const d = await r.json();
+    if (!d.ok){ $("msg").textContent = "Clé incorrecte."; return; }
+    DATA = d; $("loginCard").hidden = true; $("dash").hidden = false;
+    const niv = [...new Set(d.Eleves.map(r=>r.niveau).concat(d.Parents.map(r=>r.niveau)))].filter(Boolean).sort((a,b)=>ORD.niveauP.indexOf(a)-ORD.niveauP.indexOf(b));
+    const gen = [...new Set(d.Eleves.map(r=>r.genre).concat(d.Parents.map(r=>r.genre)))].filter(Boolean);
+    $("fNiv").innerHTML = '<option value="">Tous</option>'+niv.map(x=>'<option>'+esc(x)+'</option>').join("");
+    $("fGen").innerHTML = '<option value="">Tous</option>'+gen.map(x=>'<option>'+esc(x)+'</option>').join("");
+    $("maj").textContent = "Données chargées le "+new Date().toLocaleString("fr-FR")+".";
+    render();
+  }catch(e){ $("msg").textContent = "Connexion impossible, réessayez."; }
+}
+$("go").addEventListener("click",load);
+$("cle").addEventListener("keydown",e=>{ if(e.key==="Enter") load(); });
+$("fNiv").addEventListener("change",render); $("fGen").addEventListener("change",render);
+document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>{ tab=b.dataset.tab; document.querySelectorAll("[data-tab]").forEach(x=>x.setAttribute("aria-pressed",String(x===b))); render(); }));
+$("csvE").addEventListener("click",()=>download("enquete_eleves.csv",csv(DATA.Eleves)));
+$("csvP").addEventListener("click",()=>download("enquete_parents.csv",csv(DATA.Parents)));
+</script>
+</body>
+</html>
