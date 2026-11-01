@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Écran, boulot, dodo · Enquête LVH Sofia</title>
+<meta name="description" content="Enquête anonyme sur les écrans, le sommeil, le travail scolaire et le bien-être, Lycée français Victor Hugo de Sofia, 2026">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#16256B;--navy-2:#1f3290;--red:#C8102E;--ink:#1b2033;--muted:#5a6072;
+  --line:#dde1ec;--bg:#f4f6fb;--card:#ffffff;--soft:#eef1f9;--ok:#1f7a4d;
+  --radius:14px;--shadow:0 1px 2px rgba(22,37,107,.06),0 8px 24px rgba(22,37,107,.08);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Sans 3",Calibri,"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;font-size:17px;line-height:1.5}
+a{color:var(--navy)}
+.top{background:#fff;border-bottom:3px solid var(--red)}
+.top .in{max-width:760px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.top img{height:38px;width:auto;display:block}
+.top img.aefe{height:34px}
+.langs{display:flex;gap:6px;justify-content:center;flex-wrap:nowrap}
+@media (max-width:560px){.top .in{flex-wrap:wrap;row-gap:8px}.top img{height:30px}.top img.aefe{height:28px}.langs{order:3;width:100%}}
+.langs button{border:1.5px solid var(--line);background:#fff;color:var(--navy);font:inherit;font-weight:700;font-size:14px;padding:6px 12px;border-radius:999px;cursor:pointer}
+.langs button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff}
+.hero .in{max-width:760px;margin:0 auto;padding:26px 16px 30px}
+.kicker{font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.85;font-weight:700}
+.hero h1{margin:6px 0 6px;font-size:clamp(28px,6vw,40px);line-height:1.1;font-weight:800}
+.hero p{margin:0;opacity:.92;max-width:60ch}
+main{max-width:760px;margin:-14px auto 0;padding:0 16px 48px;position:relative}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 20px;margin-bottom:16px}
+.card h2{margin:0 0 4px;font-size:22px;color:var(--navy)}
+.card .sub{color:var(--muted);margin:0 0 14px;font-size:15px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0 6px}
+.fact{background:var(--soft);border-radius:10px;padding:10px 12px;font-size:14px;color:var(--muted)}
+.fact b{display:block;color:var(--navy);font-size:16px}
+@media (max-width:560px){.facts{grid-template-columns:1fr}}
+.who{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+@media (max-width:560px){.who{grid-template-columns:1fr}}
+.who button{font:inherit;text-align:left;border:2px solid var(--line);background:#fff;border-radius:12px;padding:16px;cursor:pointer;transition:border-color .15s,transform .15s}
+.who button:hover{border-color:var(--navy);transform:translateY(-1px)}
+.who button b{display:block;color:var(--navy);font-size:19px}
+.who button span{color:var(--muted);font-size:14px}
+.note{font-size:13.5px;color:var(--muted);margin-top:14px}
+.progress{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 8px}
+.bar{height:8px;background:#dfe3ef;border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),#e2475f);transition:width .3s}
+.step-label{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:5px}
+.q{padding:16px 0;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:0;padding-top:4px}
+.q .lab{font-weight:700;margin-bottom:4px;display:block}
+.q .hint{font-size:14px;color:var(--muted);margin:0 0 8px}
+.req{color:var(--red);margin-left:3px}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.opt{position:relative}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt label{display:inline-block;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:9px 13px;cursor:pointer;font-size:15.5px;line-height:1.3;transition:background .12s,border-color .12s}
+.opt input:focus-visible+label{outline:3px solid #9fb0ff;outline-offset:2px}
+.opt input:checked+label{background:var(--navy);border-color:var(--navy);color:#fff}
+.grid{width:100%;border-collapse:collapse;margin-top:10px;font-size:15px}
+.grid th{font-size:12.5px;color:var(--muted);font-weight:600;padding:4px 2px;text-align:center}
+.grid td{padding:8px 2px;border-top:1px solid var(--line);text-align:center}
+.grid td:first-child{text-align:left;padding-right:8px}
+.grid input{width:20px;height:20px;accent-color:var(--navy)}
+@media (max-width:620px){
+  .grid thead{display:none}
+  .grid,.grid tbody,.grid tr,.grid td{display:block;width:100%}
+  .grid tr{border-top:1px solid var(--line);padding:10px 0}
+  .grid td{border:0;padding:2px 0;text-align:left}
+  .grid td.c{display:inline-block;width:auto;margin:4px 6px 0 0}
+  .grid td.c label{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-radius:10px;padding:6px 10px;font-size:14px}
+  .grid td.c .sr{position:static;width:auto;height:auto;clip:auto;overflow:visible;white-space:normal}
+}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+textarea{width:100%;min-height:90px;font:inherit;font-size:16px;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;resize:vertical}
+textarea:focus{outline:3px solid #9fb0ff;border-color:var(--navy)}
+.err{display:none;color:var(--red);font-size:14px;font-weight:600;margin-top:6px}
+.q.invalid .err{display:block}
+.q.invalid .lab{color:var(--red)}
+.nav{display:flex;gap:10px;justify-content:space-between;margin-top:10px}
+.btn{font:inherit;font-weight:700;border-radius:12px;padding:12px 20px;border:0;cursor:pointer;font-size:16px}
+.btn.primary{background:var(--red);color:#fff;margin-left:auto}
+.btn.primary:hover{background:#a50d26}
+.btn.ghost{background:#fff;color:var(--navy);border:1.5px solid var(--line)}
+.btn[disabled]{opacity:.6;cursor:wait}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.done{text-align:center;padding:34px 20px}
+.done .ok{width:64px;height:64px;border-radius:50%;background:#e6f4ec;color:var(--ok);display:grid;place-items:center;margin:0 auto 14px;font-size:34px;font-weight:800}
+.help{background:#fff6f7;border-left:4px solid var(--red);border-radius:8px;padding:10px 12px;font-size:14.5px;margin-top:16px;text-align:left}
+.test{background:#fff3cd;color:#664d03;text-align:center;font-size:13px;padding:6px}
+footer{max-width:760px;margin:0 auto;padding:0 16px 30px;color:var(--muted);font-size:13px;text-align:center}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="test" id="testbar" hidden></div>
+<header class="top">
+  <div class="in">
+    <img src="assets/logo-lvh.png" alt="Lycée français Victor Hugo, Sofia">
+    <div class="langs" role="group" aria-label="Langue / Език / Language">
+      <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+      <button type="button" data-lang="bg" aria-pressed="false">БГ</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <img class="aefe" src="assets/logo-aefe.png" alt="AEFE">
+  </div>
+</header>
+<section class="hero">
+  <div class="in">
+    <div class="kicker" data-t="kicker"></div>
+    <h1 data-t="title"></h1>
+    <p data-t="subtitle"></p>
+  </div>
+</section>
+
+<main>
+  <!-- Accueil -->
+  <section class="card" id="welcome">
+    <h2 data-t="welcomeH"></h2>
+    <p data-t="welcomeP"></p>
+    <div class="facts">
+      <div class="fact"><b data-t="f1b"></b><span data-t="f1"></span></div>
+      <div class="fact"><b data-t="f2b"></b><span data-t="f2"></span></div>
+      <div class="fact"><b data-t="f3b"></b><span data-t="f3"></span></div>
+    </div>
+    <div class="who">
+      <button type="button" data-profile="eleve"><b data-t="whoE"></b><span data-t="whoEs"></span></button>
+      <button type="button" data-profile="parent"><b data-t="whoP"></b><span data-t="whoPs"></span></button>
+    </div>
+    <p class="note" data-t="privacy"></p>
+  </section>
+
+  <!-- Questionnaire -->
+  <form id="survey" hidden novalidate>
+    <div class="progress"><div class="bar"><i id="barfill"></i></div><div class="step-label"><span id="steptitle"></span><span id="stepcount"></span></div></div>
+    <div id="steps"></div>
+    <div class="hp" aria-hidden="true"><label>Site web <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+    <div class="nav">
+      <button type="button" class="btn ghost" id="prev" data-t="prev"></button>
+      <button type="button" class="btn primary" id="next" data-t="next"></button>
+    </div>
+  </form>
+
+  <!-- Merci -->
+  <section class="card done" id="thanks" hidden>
+    <div class="ok" aria-hidden="true">✓</div>
+    <h2 data-t="thanksH"></h2>
+    <p data-t="thanksP"></p>
+    <p id="againWrap" hidden><button type="button" class="btn ghost" id="again" data-t="again"></button></p>
+    <div class="help" id="helpbox" hidden data-t="helpE"></div>
+  </section>
+</main>
+<footer data-t="footer"></footer>
+
+<script>
+/* Adresse de l'application Web Google Apps Script qui enregistre les réponses */
+const ENDPOINT = "";
+
+const T = {
+fr:{kicker:"Enquête sociologique · Lycée français Victor Hugo de Sofia",title:"Opération Écran, boulot, dodo",subtitle:"Les écrans, le sommeil, le travail scolaire et le bien-être, une enquête menée par les élèves de Seconde en sciences économiques et sociales.",
+welcomeH:"Merci de prendre quelques minutes",welcomeP:"Vos réponses aideront le lycée à mieux comprendre la place des écrans dans la vie des élèves et des familles. Les résultats, uniquement statistiques, seront présentés à la direction et au conseil d'établissement.",
+f1b:"5 minutes",f1:"environ",f2b:"Anonyme",f2:"ni nom, ni courriel",f3b:"3 langues",f3:"français, български, English",
+whoE:"Je suis élève",whoEs:"de la 6e à la Terminale",whoP:"Je suis parent",whoPs:"un questionnaire par enfant scolarisé au lycée",
+privacy:"Aucune donnée personnelle n'est recueillie, ni nom, ni adresse électronique, ni adresse IP. Vous pouvez laisser de côté les questions facultatives et vous arrêter à tout moment. Contact, M. Grégory Cron, professeur de SES.",
+prev:"Retour",next:"Continuer",send:"Envoyer mes réponses",sending:"Envoi en cours…",step:"Étape",of:"sur",required:"Merci de répondre à cette question.",max3:"Trois choix au maximum.",optional:"facultatif",
+thanksH:"Merci, vos réponses sont enregistrées",thanksP:"Les élèves de Seconde vont maintenant analyser l'ensemble des réponses. Les résultats seront partagés avec la communauté du lycée.",again:"Répondre pour un autre enfant",
+helpE:"Si tu ne te sens pas bien en ce moment, n'hésite pas à en parler à la vie scolaire, à l'infirmerie, à ton professeur principal ou à un adulte de confiance.",
+netErr:"L'envoi n'a pas abouti. Vérifiez votre connexion puis réessayez.",footer:"Lycée français Victor Hugo de Sofia · établissement conventionné AEFE · Enquête SES 2026",
+already:"Ce questionnaire a déjà été envoyé depuis cet appareil. Vous pouvez répondre à nouveau seulement s'il s'agit d'une autre personne ou d'un autre enfant."},
+bg:{kicker:"Социологическо проучване · Френски лицей „Виктор Юго“, София",title:"Операция „Екран, работа, сън“",subtitle:"Екраните, сънят, ученето и благосъстоянието, проучване, проведено от учениците от 9. клас (Seconde) по икономически и социални науки.",
+welcomeH:"Благодарим ви, че отделяте няколко минути",welcomeP:"Вашите отговори ще помогнат на лицея да разбере по-добре мястото на екраните в живота на учениците и семействата. Резултатите, само в статистически вид, ще бъдат представени на ръководството и на училищния съвет.",
+f1b:"5 минути",f1:"приблизително",f2b:"Анонимно",f2:"без име и имейл",f3b:"3 езика",f3:"français, български, English",
+whoE:"Аз съм ученик",whoEs:"от 6e до Terminale",whoP:"Аз съм родител",whoPs:"по един въпросник за всяко дете в лицея",
+privacy:"Не се събират никакви лични данни, нито име, нито имейл адрес, нито IP адрес. Можете да пропуснете въпросите по желание и да спрете по всяко време. За контакт, г-н Грегори Крон, учител по икономически и социални науки.",
+prev:"Назад",next:"Напред",send:"Изпращане на отговорите",sending:"Изпращане…",step:"Стъпка",of:"от",required:"Моля, отговорете на този въпрос.",max3:"Най-много три отговора.",optional:"по желание",
+thanksH:"Благодарим ви, отговорите са записани",thanksP:"Учениците от 9. клас ще анализират всички отговори. Резултатите ще бъдат споделени с общността на лицея.",again:"Отговор за друго дете",
+helpE:"Ако в момента не се чувстваш добре, не се колебай да поговориш с учебната част (vie scolaire), с медицинската сестра, с класния си ръководител или с възрастен, на когото имаш доверие.",
+netErr:"Изпращането не бе успешно. Проверете връзката си и опитайте отново.",footer:"Френски лицей „Виктор Юго“, София · училище в мрежата на AEFE · Проучване 2026",
+already:"Този въпросник вече е изпратен от това устройство. Отговорете отново само ако сте друг човек или отговаряте за друго дете."},
+en:{kicker:"Sociological survey · Lycée français Victor Hugo, Sofia",title:"Operation Screen, School, Sleep",subtitle:"Screens, sleep, schoolwork and well-being, a survey run by our Seconde (Year 11) economics and social sciences students.",
+welcomeH:"Thank you for taking a few minutes",welcomeP:"Your answers will help the school better understand the place of screens in the lives of students and families. The results, in statistical form only, will be presented to the school leadership and the school board.",
+f1b:"5 minutes",f1:"approximately",f2b:"Anonymous",f2:"no name, no email",f3b:"3 languages",f3:"français, български, English",
+whoE:"I am a student",whoEs:"from 6e to Terminale",whoP:"I am a parent",whoPs:"one questionnaire per child at the school",
+privacy:"No personal data is collected, no name, no email address, no IP address. You may skip the optional questions and stop at any time. Contact, Mr Grégory Cron, economics and social sciences teacher.",
+prev:"Back",next:"Continue",send:"Send my answers",sending:"Sending…",step:"Step",of:"of",required:"Please answer this question.",max3:"Three choices at most.",optional:"optional",
+thanksH:"Thank you, your answers have been saved",thanksP:"Our Seconde students will now analyse all the answers. The results will be shared with the school community.",again:"Answer for another child",
+helpE:"If you are not feeling well at the moment, please talk to the vie scolaire team, the school nurse, your form tutor or an adult you trust.",
+netErr:"Sending failed. Please check your connection and try again.",footer:"Lycée français Victor Hugo, Sofia · AEFE partner school · Survey 2026",
+already:"This questionnaire has already been sent from this device. Please answer again only if you are a different person or answering for another child."}
+};
+
+/* Listes de réponses, libellés FR, BG, EN */
+const O = {
+lvlE:[["6e","6e","6e"],["5e","5e","5e"],["4e","4e","4e"],["3e","3e","3e"],["2de","2de","2de"],["1re","1re","1re"],["Terminale","Terminale","Terminale"]],
+lvlP:[["Maternelle","Детска градина (maternelle)","Nursery (maternelle)"],["Élémentaire, du CP au CM2","Начален етап, от CP до CM2","Primary, CP to CM2"],["6e","6e","6e"],["5e","5e","5e"],["4e","4e","4e"],["3e","3e","3e"],["2de","2de","2de"],["1re","1re","1re"],["Terminale","Terminale","Terminale"]],
+genreE:[["Fille","Момиче","Girl"],["Garçon","Момче","Boy"],["Autre","Друго","Other"],["Préfère ne pas répondre","Предпочитам да не отговарям","Prefer not to say"]],
+genreP:[["Une fille","Момиче","A girl"],["Un garçon","Момче","A boy"],["Autre","Друго","Other"],["Préfère ne pas répondre","Предпочитам да не отговарям","Prefer not to say"]],
+langues:[["Français","Френски","French"],["Bulgare","Български","Bulgarian"],["Anglais","Английски","English"],["Autre langue","Друг език","Another language"]],
+equip:[["Smartphone","Смартфон","Smartphone"],["Tablette","Таблет","Tablet"],["Ordinateur","Компютър","Computer"],["Console de jeux","Игрова конзола","Games console"],["Télévision dans la chambre","Телевизор в стаята","TV in my bedroom"],["Aucun écran personnel","Нямам личен екран","No personal screen"]],
+temps:[["Moins d'1 h","По-малко от 1 ч","Less than 1 h"],["1 à 2 h","От 1 до 2 ч","1 to 2 h"],["2 à 3 h","От 2 до 3 ч","2 to 3 h"],["3 à 4 h","От 3 до 4 ч","3 to 4 h"],["4 à 5 h","От 4 до 5 ч","4 to 5 h"],["Plus de 5 h","Повече от 5 ч","More than 5 h"]],
+tempsNSP:[["Moins d'1 h","По-малко от 1 ч","Less than 1 h"],["1 à 2 h","От 1 до 2 ч","1 to 2 h"],["2 à 3 h","От 2 до 3 ч","2 to 3 h"],["3 à 4 h","От 3 до 4 ч","3 to 4 h"],["4 à 5 h","От 4 до 5 ч","4 to 5 h"],["Plus de 5 h","Повече от 5 ч","More than 5 h"],["Je ne sais pas","Не знам","I don't know"]],
+activites:[["Réseaux sociaux","Социални мрежи","Social media"],["Vidéos et séries","Видеа и сериали","Videos and series"],["Jeux vidéo","Видеоигри","Video games"],["Messagerie","Чат и съобщения","Messaging"],["Travail scolaire","Учене","Schoolwork"],["Musique et podcasts","Музика и подкасти","Music and podcasts"],["Création, photo, vidéo, dessin, code","Творчество, снимки, видео, рисуване, програмиране","Creating, photo, video, drawing, coding"]],
+telChambreE:[["Oui","Да","Yes"],["Non","Не","No"],["Je n'ai pas de téléphone","Нямам телефон","I don't have a phone"]],
+telChambreP:[["Oui","Да","Yes"],["Non","Не","No"],["Il n'a pas de téléphone","Детето няма телефон","My child has no phone"],["Je ne sais pas","Не знам","I don't know"]],
+dernier:[["Dans les 15 minutes avant de dormir","През последните 15 минути преди сън","In the 15 minutes before sleep"],["Entre 15 et 30 minutes avant","Между 15 и 30 минути преди това","15 to 30 minutes before"],["Entre 30 minutes et 1 heure avant","Между 30 минути и 1 час преди това","30 minutes to 1 hour before"],["Plus d'une heure avant","Повече от час преди това","More than an hour before"]],
+freq:[["Jamais","Никога","Never"],["Rarement","Рядко","Rarely"],["Parfois","Понякога","Sometimes"],["Souvent","Често","Often"],["Toujours","Винаги","Always"]],
+freqT:[["Jamais","Никога","Never"],["Rarement","Рядко","Rarely"],["Parfois","Понякога","Sometimes"],["Souvent","Често","Often"],["Très souvent","Много често","Very often"]],
+coucher:[["Avant 21 h","Преди 21 ч","Before 9 pm"],["Entre 21 h et 22 h","Между 21 и 22 ч","9 to 10 pm"],["Entre 22 h et 23 h","Между 22 и 23 ч","10 to 11 pm"],["Entre 23 h et minuit","Между 23 ч и полунощ","11 pm to midnight"],["Après minuit","След полунощ","After midnight"]],
+sommeil:[["Moins de 6 h","По-малко от 6 ч","Less than 6 h"],["6 à 7 h","От 6 до 7 ч","6 to 7 h"],["7 à 8 h","От 7 до 8 ч","7 to 8 h"],["8 à 9 h","От 8 до 9 ч","8 to 9 h"],["Plus de 9 h","Повече от 9 ч","More than 9 h"]],
+devoirs:[["Moins de 30 min","По-малко от 30 мин","Less than 30 min"],["30 min à 1 h","От 30 мин до 1 ч","30 min to 1 h"],["1 à 2 h","От 1 до 2 ч","1 to 2 h"],["Plus de 2 h","Повече от 2 ч","More than 2 h"]],
+resultats:[["Très satisfaisants","Много добри","Very good"],["Satisfaisants","Добри","Good"],["Moyens","Средни","Average"],["Insuffisants","Слаби","Poor"]],
+sport:[["Aucune","Никакви","None"],["Moins d'1 h","По-малко от 1 ч","Less than 1 h"],["1 à 3 h","От 1 до 3 ч","1 to 3 h"],["3 à 5 h","От 3 до 5 ч","3 to 5 h"],["Plus de 5 h","Повече от 5 ч","More than 5 h"]],
+accord:[["Oui","Да","Yes"],["Plutôt oui","По-скоро да","Mostly yes"],["Plutôt non","По-скоро не","Mostly no"],["Non","Не","No"]],
+reduire:[["Oui, et j'y suis arrivé·e","Да и успях","Yes, and it worked"],["Oui, mais sans y arriver","Да, но не успях","Yes, but it didn't work"],["Non","Не","No"]],
+lien:[["Mère","Майка","Mother"],["Père","Баща","Father"],["Autre responsable légal","Друг законен представител","Other legal guardian"]],
+ageTel:[["Il n'a pas de smartphone","Детето няма смартфон","My child has no smartphone"],["Avant 9 ans","Преди 9 години","Before age 9"],["À 9 ou 10 ans","На 9 или 10 години","At 9 or 10"],["À 11 ou 12 ans","На 11 или 12 години","At 11 or 12"],["À 13 ou 14 ans","На 13 или 14 години","At 13 or 14"],["À 15 ans ou plus","На 15 или повече години","At 15 or older"]],
+regles:[["Une durée maximale par jour","Максимално време на ден","A daily time limit"],["Des horaires définis","Определени часове","Set times of day"],["Pas d'écran pendant les repas","Без екрани по време на хранене","No screens at meals"],["Le téléphone hors de la chambre la nuit","Телефонът е извън стаята през нощта","Phone out of the bedroom at night"],["Un contrôle parental","Родителски контрол","Parental controls"],["Pas de règle particulière","Няма конкретни правила","No particular rule"]],
+respect:[["Toujours","Винаги","Always"],["Souvent","Често","Often"],["Parfois","Понякога","Sometimes"],["Rarement","Рядко","Rarely"],["Jamais","Никога","Never"],["Sans objet","Не се отнася","Not applicable"]],
+effet:[["Pas du tout","Изобщо не","Not at all"],["Un peu","Малко","A little"],["Assez","Доста","Quite a lot"],["Beaucoup","Много","A lot"]],
+attentes:[["Des ateliers de prévention pour les élèves","Превантивни работилници за учениците","Prevention workshops for students"],["Une réunion d'information pour les parents","Информационна среща за родителите","An information meeting for parents"],["Une charte du numérique construite avec les élèves","Харта за дигиталните технологии, създадена с учениците","A digital charter written with students"],["Des règles plus strictes sur le téléphone au lycée","По-строги правила за телефона в лицея","Stricter phone rules at school"],["Rien de particulier","Нищо конкретно","Nothing in particular"]]
+};
+
+/* Questionnaires. t = single, m = multiple, g = grille, x = texte libre. opt = facultatif */
+const S = {
+eleve:[
+ {title:["Toi","За теб","About you"],qs:[
+  {id:"niveau",t:"t",o:"lvlE",l:["En quelle classe es-tu ?","В кой клас (по френската система) си?","Which year are you in (French system)?"]},
+  {id:"genre",t:"t",o:"genreE",l:["Tu es…","Ти си…","You are…"]},
+  {id:"langues",t:"m",o:"langues",opt:1,l:["Quelle(s) langue(s) parles-tu à la maison ?","На какъв език (езици) говориш вкъщи?","Which language(s) do you speak at home?"]},
+  {id:"equipements",t:"m",o:"equip",l:["De quels écrans disposes-tu personnellement ?","Какви лични устройства с екран имаш?","Which screens do you personally own?"]}
+ ]},
+ {title:["Tes écrans","Твоите екрани","Your screens"],qs:[
+  {id:"temps_semaine",t:"t",o:"temps",l:["Un jour de classe, combien de temps passes-tu sur les écrans en dehors du travail scolaire ?","В учебен ден колко време прекарваш пред екрани извън ученето?","On a school day, how much time do you spend on screens, not counting schoolwork?"]},
+  {id:"temps_weekend",t:"t",o:"temps",l:["Un jour de week-end, combien de temps passes-tu sur les écrans ?","В почивен ден колко време прекарваш пред екрани?","On a weekend day, how much time do you spend on screens?"]},
+  {id:"activites",t:"m",o:"activites",max:3,l:["Que fais-tu le plus sur les écrans ?","Какво правиш най-често на екрана?","What do you do most on screens?"],h:["Trois choix au maximum","Най-много три отговора","Three choices at most"]},
+  {id:"tel_chambre",t:"t",o:"telChambreE",l:["La nuit, ton téléphone reste-t-il dans ta chambre ?","През нощта телефонът ти остава ли в стаята ти?","At night, does your phone stay in your bedroom?"]},
+  {id:"dernier_ecran",t:"t",o:"dernier",l:["Quand regardes-tu un écran pour la dernière fois avant de dormir ?","Кога за последно гледаш екран, преди да заспиш?","When do you last look at a screen before going to sleep?"]},
+  {id:"reveil_nuit",t:"t",o:"freq",l:["T'arrive-t-il de te réveiller la nuit pour regarder ton téléphone ?","Случва ли се да се събудиш през нощта, за да погледнеш телефона си?","Do you ever wake up at night to check your phone?"]}
+ ]},
+ {title:["Sommeil et travail","Сън и учене","Sleep and schoolwork"],qs:[
+  {id:"coucher",t:"t",o:"coucher",l:["À quelle heure te couches-tu un soir de semaine ?","В колко часа си лягаш в делничен ден?","What time do you go to bed on a school night?"]},
+  {id:"duree_sommeil",t:"t",o:"sommeil",l:["Combien d'heures dors-tu en moyenne une nuit de semaine ?","Колко часа спиш средно в делнична нощ?","How many hours do you sleep on average on a school night?"]},
+  {id:"devoirs",t:"t",o:"devoirs",l:["Combien de temps consacres-tu chaque jour à tes devoirs et révisions ?","Колко време на ден отделяш за домашни и преговор?","How much time do you spend on homework and revision each day?"]},
+  {id:"tel_devoirs",t:"t",o:"freq",l:["Quand tu fais tes devoirs, ton téléphone est-il à portée de main ?","Когато пишеш домашни, телефонът ти близо до теб ли е?","When you do your homework, is your phone within reach?"]},
+  {id:"resultats",t:"t",o:"resultats",l:["Comment juges-tu tes résultats scolaires ?","Как оценяваш училищните си резултати?","How would you rate your school results?"]},
+  {id:"sport",t:"t",o:"sport",l:["Combien d'heures de sport fais-tu par semaine en dehors des cours d'EPS ?","Колко часа спорт правиш седмично извън часовете по физическо?","How many hours of sport do you do each week, outside PE lessons?"]}
+ ]},
+ {title:["Comment vas-tu ?","Как си?","How are you?"],qs:[
+  {id:"bien_etre",t:"g",o:"freq",opt:1,l:["Au cours des deux dernières semaines…","През последните две седмици…","Over the last two weeks…"],h:["Réponds ligne par ligne, tu peux laisser une ligne vide","Отговори ред по ред, можеш да оставиш ред празен","Answer row by row, you may leave a row blank"],
+   rows:[["be_repose","je me suis senti·e reposé·e au réveil","се чувствах отпочинал(а), когато се събуждах","I felt rested when I woke up"],["be_concentration","j'ai réussi à me concentrer en classe","успявах да се концентрирам в час","I was able to concentrate in class"],["be_humeur","je me suis senti·e de bonne humeur","бях в добро настроение","I felt in a good mood"],["be_stress","je me suis senti·e stressé·e par le travail scolaire","чувствах се стресиран(а) от ученето","I felt stressed by schoolwork"],["be_seul","je me suis senti·e seul·e","чувствах се самотен(а)","I felt lonely"]]},
+  {id:"trop_ecrans",t:"t",o:"accord",l:["Penses-tu passer trop de temps sur les écrans ?","Смяташ ли, че прекарваш твърде много време пред екрани?","Do you think you spend too much time on screens?"]},
+  {id:"essai_reduire",t:"t",o:"reduire",l:["As-tu déjà essayé de réduire ton temps d'écran ?","Опитвал(а) ли си да намалиш времето пред екрани?","Have you ever tried to cut down your screen time?"]},
+  {id:"aide",t:"x",opt:1,l:["Qu'est-ce qui t'aiderait à mieux gérer ton temps d'écran ?","Какво би ти помогнало да управляваш по-добре времето си пред екрана?","What would help you manage your screen time better?"]},
+  {id:"idee",t:"x",opt:1,l:["As-tu une idée à proposer au lycée sur ce sujet ?","Имаш ли идея, която да предложиш на лицея по тази тема?","Do you have an idea to suggest to the school on this topic?"]}
+ ]}
+],
+parent:[
+ {title:["Votre enfant","Вашето дете","Your child"],qs:[
+  {id:"lien",t:"t",o:"lien",l:["Vous répondez en tant que…","Отговаряте като…","You are answering as…"]},
+  {id:"niveau",t:"t",o:"lvlP",l:["En quelle classe est l'enfant pour lequel vous répondez ?","В кой клас е детето, за което отговаряте?","Which year is the child you are answering for in?"],h:["Si plusieurs de vos enfants sont scolarisés au lycée, merci de remplir un questionnaire par enfant","Ако имате няколко деца в лицея, моля, попълнете отделен въпросник за всяко","If several of your children attend the school, please fill in one questionnaire per child"]},
+  {id:"genre",t:"t",o:"genreP",l:["Votre enfant est…","Вашето дете е…","Your child is…"]},
+  {id:"langues",t:"m",o:"langues",opt:1,l:["Quelle(s) langue(s) parlez-vous à la maison ?","На какъв език (езици) говорите вкъщи?","Which language(s) do you speak at home?"]},
+  {id:"age_smartphone",t:"t",o:"ageTel",l:["À quel âge votre enfant a-t-il eu son premier smartphone ?","На каква възраст детето ви получи първия си смартфон?","At what age did your child get their first smartphone?"]}
+ ]},
+ {title:["Ses écrans","Неговите екрани","Their screens"],qs:[
+  {id:"temps_semaine",t:"t",o:"tempsNSP",l:["Selon vous, combien de temps votre enfant passe-t-il sur les écrans un jour de classe, en dehors du travail scolaire ?","Според вас колко време прекарва детето ви пред екрани в учебен ден, извън ученето?","In your view, how much time does your child spend on screens on a school day, not counting schoolwork?"]},
+  {id:"temps_weekend",t:"t",o:"tempsNSP",l:["Et un jour de week-end ?","А в почивен ден?","And on a weekend day?"]},
+  {id:"regles",t:"m",o:"regles",l:["Quelles règles avez-vous mises en place à la maison ?","Какви правила сте въвели вкъщи?","Which rules have you set at home?"]},
+  {id:"respect_regles",t:"t",o:"respect",l:["Ces règles sont-elles respectées ?","Спазват ли се тези правила?","Are these rules followed?"]},
+  {id:"tel_chambre",t:"t",o:"telChambreP",l:["La nuit, le téléphone de votre enfant reste-t-il dans sa chambre ?","През нощта телефонът на детето ви остава ли в стаята му?","At night, does your child's phone stay in their bedroom?"]}
+ ]},
+ {title:["Sommeil et vie de famille","Сън и семеен живот","Sleep and family life"],qs:[
+  {id:"coucher",t:"t",o:"coucher",l:["À quelle heure votre enfant se couche-t-il un soir de semaine ?","В колко часа си ляга детето ви в делничен ден?","What time does your child go to bed on a school night?"]},
+  {id:"sommeil_suffisant",t:"t",o:"accord",l:["Pensez-vous que votre enfant dort suffisamment ?","Смятате ли, че детето ви спи достатъчно?","Do you think your child gets enough sleep?"]},
+  {id:"effets",t:"g",o:"effet",l:["Selon vous, les écrans ont-ils un effet négatif sur…","Според вас имат ли екраните отрицателно въздействие върху…","In your view, do screens have a negative effect on…"],
+   rows:[["eff_sommeil","le sommeil de votre enfant","съня на детето ви","your child's sleep"],["eff_resultats","sa concentration et ses résultats","концентрацията и успеха му","their concentration and results"],["eff_humeur","son humeur","настроението му","their mood"],["eff_famille","la vie de famille","семейния живот","family life"]]},
+  {id:"tensions",t:"t",o:"freqT",l:["Les écrans sont-ils une source de tension à la maison ?","Екраните източник на напрежение вкъщи ли са?","Are screens a source of tension at home?"]},
+  {id:"temps_parent",t:"t",o:"temps",l:["Et vous, combien de temps passez-vous chaque jour sur les écrans en dehors de votre travail ?","А вие колко време на ден прекарвате пред екрани извън работата си?","And you, how much time do you spend on screens each day outside work?"]},
+  {id:"ecrans_repas",t:"t",o:"freq",l:["Des écrans sont-ils allumés pendant les repas en famille ?","Включени ли са екрани по време на семейните хранения?","Are screens on during family meals?"]}
+ ]},
+ {title:["Votre avis","Вашето мнение","Your view"],qs:[
+  {id:"attentes",t:"m",o:"attentes",opt:1,l:["Qu'attendriez-vous du lycée sur ce sujet ?","Какво бихте очаквали от лицея по тази тема?","What would you expect from the school on this topic?"]},
+  {id:"remarque",t:"x",opt:1,l:["Une remarque, une suggestion ?","Забележка или предложение?","Any comment or suggestion?"]}
+ ]}
+]};
+
+const LI = {fr:0,bg:1,en:2};
+let lang = "fr", profile = null, step = 0, sending = false;
+const answers = {};
+const qs = new URLSearchParams(location.search);
+if (["fr","bg","en"].includes(qs.get("lang"))) lang = qs.get("lang");
+else { const nl = (navigator.language||"fr").slice(0,2); if (nl==="bg") lang="bg"; else if (nl==="en") lang="en"; }
+
+function tr(k){return T[lang][k]||T.fr[k]||"";}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-t]").forEach(el=>{el.textContent = tr(el.dataset.t);});
+  document.querySelectorAll(".langs button").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.lang===lang)));
+  if (profile) renderStep();
+  if (!ENDPOINT){ const tb=document.getElementById("testbar"); tb.hidden=false; tb.textContent="Mode test, les réponses ne sont pas encore enregistrées"; }
+}
+
+function renderStep(){
+  const sec = S[profile][step], i = LI[lang], n = S[profile].length;
+  document.getElementById("barfill").style.width = Math.round((step)/n*100)+"%";
+  document.getElementById("steptitle").textContent = sec.title[i];
+  document.getElementById("stepcount").textContent = tr("step")+" "+(step+1)+" "+tr("of")+" "+n;
+  let h = '<section class="card"><h2>'+esc(sec.title[i])+'</h2>';
+  sec.qs.forEach(q=>{
+    const req = !q.opt;
+    h += '<div class="q" data-q="'+q.id+'"><span class="lab" id="l_'+q.id+'">'+esc(q.l[i])+(req?'<span class="req" aria-hidden="true">*</span>':' <span class="hint">('+esc(tr("optional"))+')</span>')+'</span>';
+    if (q.h) h += '<p class="hint">'+esc(q.h[i])+'</p>';
+    if (q.t==="t"||q.t==="m"){
+      const type = q.t==="t"?"radio":"checkbox";
+      h += '<div class="opts" role="'+(q.t==="t"?"radiogroup":"group")+'" aria-labelledby="l_'+q.id+'">';
+      O[q.o].forEach((o,k)=>{
+        const cur = answers[q.id]; const on = q.t==="t" ? cur===k : (Array.isArray(cur)&&cur.includes(k));
+        h += '<div class="opt"><input type="'+type+'" id="'+q.id+'_'+k+'" name="'+q.id+'" value="'+k+'"'+(on?' checked':'')+'><label for="'+q.id+'_'+k+'">'+esc(o[i])+'</label></div>';
+      });
+      h += '</div>';
+    } else if (q.t==="g"){
+      h += '<table class="grid"><thead><tr><th></th>'+O[q.o].map(o=>'<th>'+esc(o[i])+'</th>').join("")+'</tr></thead><tbody>';
+      q.rows.forEach(r=>{
+        h += '<tr><td>'+esc(r[i+1])+'</td>';
+        O[q.o].forEach((o,k)=>{ const on = answers[r[0]]===k;
+          h += '<td class="c"><label><input type="radio" name="'+r[0]+'" value="'+k+'"'+(on?' checked':'')+' aria-label="'+esc(r[i+1]+", "+o[i])+'"><span class="sr">'+esc(o[i])+'</span></label></td>'; });
+        h += '</tr>';
+      });
+      h += '</tbody></table>';
+    } else if (q.t==="x"){
+      h += '<textarea name="'+q.id+'" maxlength="600" aria-labelledby="l_'+q.id+'">'+esc(answers[q.id]||"")+'</textarea>';
+    }
+    h += '<div class="err" role="alert">'+esc(q.max?tr("max3"):tr("required"))+'</div></div>';
+  });
+  h += '</section>';
+  document.getElementById("steps").innerHTML = h;
+  document.getElementById("prev").style.visibility = "visible";
+  const last = step===n-1;
+  document.getElementById("next").textContent = last ? tr("send") : tr("next");
+}
+
+function collect(){
+  const sec = S[profile][step];
+  sec.qs.forEach(q=>{
+    if (q.t==="t"){ const c=document.querySelector('input[name="'+q.id+'"]:checked'); answers[q.id] = c?Number(c.value):undefined; }
+    else if (q.t==="m"){ answers[q.id] = [...document.querySelectorAll('input[name="'+q.id+'"]:checked')].map(c=>Number(c.value)); }
+    else if (q.t==="g"){ q.rows.forEach(r=>{ const c=document.querySelector('input[name="'+r[0]+'"]:checked'); answers[r[0]] = c?Number(c.value):undefined; }); }
+    else if (q.t==="x"){ answers[q.id] = document.querySelector('textarea[name="'+q.id+'"]').value.trim(); }
+  });
+}
+
+function validate(){
+  let ok = true, first = null;
+  S[profile][step].qs.forEach(q=>{
+    const box = document.querySelector('.q[data-q="'+q.id+'"]'); let bad = false;
+    if (!q.opt){
+      if (q.t==="t" && answers[q.id]===undefined) bad = true;
+      if (q.t==="m" && !(answers[q.id]||[]).length) bad = true;
+    }
+    if (q.max && (answers[q.id]||[]).length>q.max) bad = true;
+    box.classList.toggle("invalid", bad);
+    if (bad){ ok=false; if(!first) first=box; }
+  });
+  if (first) first.scrollIntoView({behavior:"smooth",block:"center"});
+  return ok;
+}
+
+function payload(){
+  const out = {profil:profile, langue:lang, version:"2026-11-01"};
+  S[profile].forEach(sec=>sec.qs.forEach(q=>{
+    const fr = k=>O[q.o][k][0];
+    if (q.t==="t") out[q.id] = answers[q.id]===undefined ? "" : fr(answers[q.id]);
+    else if (q.t==="m") out[q.id] = (answers[q.id]||[]).map(fr).join(" | ");
+    else if (q.t==="g") q.rows.forEach(r=>{ out[r[0]] = answers[r[0]]===undefined ? "" : O[q.o][answers[r[0]]][0]; });
+    else if (q.t==="x") out[q.id] = (answers[q.id]||"").slice(0,600);
+  }));
+  return out;
+}
+
+async function send(){
+  if (sending) return; sending = true;
+  const btn = document.getElementById("next"); btn.disabled = true; btn.textContent = tr("sending");
+  const data = payload();
+  if (document.querySelector('input[name="website"]').value) { finish(); return; }
+  try {
+    if (ENDPOINT) await fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)});
+    else console.log("Mode test", data);
+    try { localStorage.setItem("ebd_envoye_"+profile, String(Date.now())); } catch(e){}
+    finish();
+  } catch(e){
+    alert(tr("netErr")); btn.disabled=false; btn.textContent=tr("send"); sending=false;
+  }
+}
+
+function finish(){
+  document.getElementById("survey").hidden = true;
+  document.getElementById("thanks").hidden = false;
+  document.getElementById("barfill").style.width = "100%";
+  document.getElementById("againWrap").hidden = profile!=="parent";
+  document.getElementById("helpbox").hidden = profile!=="eleve";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function start(p){
+  profile = p; step = 0; sending = false;
+  for (const k in answers) delete answers[k];
+  let prior = null; try { prior = localStorage.getItem("ebd_envoye_"+p); } catch(e){}
+  if (prior && !confirm(tr("already"))) return;
+  document.getElementById("welcome").hidden = true;
+  document.getElementById("thanks").hidden = true;
+  const f = document.getElementById("survey"); f.hidden = false;
+  document.getElementById("next").disabled = false;
+  renderStep(); window.scrollTo({top:0});
+}
+
+document.querySelectorAll(".langs button").forEach(b=>b.addEventListener("click",()=>{ if (profile) collect(); lang=b.dataset.lang; applyLang(); }));
+document.querySelectorAll("[data-profile]").forEach(b=>b.addEventListener("click",()=>start(b.dataset.profile)));
+document.getElementById("next").addEventListener("click",()=>{
+  collect(); if (!validate()) return;
+  if (step < S[profile].length-1){ step++; renderStep(); window.scrollTo({top:0,behavior:"smooth"}); }
+  else send();
+});
+document.getElementById("prev").addEventListener("click",()=>{
+  collect();
+  if (step>0){ step--; renderStep(); window.scrollTo({top:0,behavior:"smooth"}); }
+  else { document.getElementById("survey").hidden = true; document.getElementById("welcome").hidden = false; profile = null; }
+});
+document.getElementById("steps").addEventListener("change",e=>{
+  const box = e.target.closest(".q"); if (box) box.classList.remove("invalid");
+});
+document.getElementById("again").addEventListener("click",()=>{ try{localStorage.removeItem("ebd_envoye_parent");}catch(e){} start("parent"); });
+
+applyLang();
+if (qs.get("p")==="eleve"||qs.get("p")==="parent") start(qs.get("p"));
+</script>
+</body>
+</html>
