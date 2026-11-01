@@ -25,8 +25,15 @@ a{color:var(--navy)}
 .top img.aefe{height:34px}
 .langs{display:flex;gap:6px;justify-content:center;flex-wrap:nowrap}
 @media (max-width:560px){.top .in{flex-wrap:wrap;row-gap:8px}.top img{height:30px}.top img.aefe{height:28px}.langs{order:3;width:100%}}
-.langs button{border:1.5px solid var(--line);background:#fff;color:var(--navy);font:inherit;font-weight:700;font-size:14px;padding:6px 12px;border-radius:999px;cursor:pointer}
+.langs{gap:10px}
+.langs button{border:2px solid var(--navy);background:#fff;color:var(--navy);font:inherit;font-weight:800;font-size:18px;padding:11px 20px;min-height:48px;border-radius:999px;cursor:pointer;transition:background .15s,color .15s}
 .langs button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+@keyframes langPulse{0%{box-shadow:0 0 0 0 rgba(200,16,46,.6)}70%{box-shadow:0 0 0 14px rgba(200,16,46,0)}100%{box-shadow:0 0 0 0 rgba(200,16,46,0)}}
+@keyframes langBlink{0%,100%{background:#fff;border-color:var(--navy)}50%{background:#fde8ec;border-color:var(--red)}}
+.langs.attn button{animation:langPulse 1.3s ease-out infinite}
+.langs.attn button[aria-pressed="false"]{animation:langPulse 1.3s ease-out infinite,langBlink 1.3s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.langs.attn button{animation:none;border-color:var(--red)}}
+@media (max-width:560px){.langs button{font-size:17px;padding:10px 0;flex:1;max-width:130px}}
 .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff}
 .hero .in{max-width:760px;margin:0 auto;padding:26px 16px 30px}
 .kicker{font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.85;font-weight:700}
@@ -102,10 +109,10 @@ footer{max-width:760px;margin:0 auto;padding:0 16px 30px;color:var(--muted);font
 <header class="top">
   <div class="in">
     <img src="assets/logo-lvh.png" alt="Lycée français Victor Hugo, Sofia">
-    <div class="langs" role="group" aria-label="Langue / Език / Language">
-      <button type="button" data-lang="fr" aria-pressed="true">FR</button>
-      <button type="button" data-lang="bg" aria-pressed="false">БГ</button>
-      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    <div class="langs attn" id="langs" role="group" aria-label="Langue / Език / Language">
+      <button type="button" data-lang="fr" aria-pressed="true">Français</button>
+      <button type="button" data-lang="bg" aria-pressed="false">Български</button>
+      <button type="button" data-lang="en" aria-pressed="false">English</button>
     </div>
     <img class="aefe" src="assets/logo-aefe.png" alt="AEFE">
   </div>
@@ -413,6 +420,7 @@ function start(p){
   for (const k in answers) delete answers[k];
   let prior = null; try { prior = localStorage.getItem("ebd_envoye_"+p); } catch(e){}
   if (prior && !confirm(tr("already"))) return;
+  stopBlink();
   document.getElementById("welcome").hidden = true;
   document.getElementById("thanks").hidden = true;
   const f = document.getElementById("survey"); f.hidden = false;
@@ -420,7 +428,8 @@ function start(p){
   renderStep(); window.scrollTo({top:0});
 }
 
-document.querySelectorAll(".langs button").forEach(b=>b.addEventListener("click",()=>{ if (profile) collect(); lang=b.dataset.lang; applyLang(); }));
+function stopBlink(){ document.getElementById("langs").classList.remove("attn"); }
+document.querySelectorAll(".langs button").forEach(b=>b.addEventListener("click",()=>{ if (profile) collect(); lang=b.dataset.lang; applyLang(); stopBlink(); }));
 document.querySelectorAll("[data-profile]").forEach(b=>b.addEventListener("click",()=>start(b.dataset.profile)));
 document.getElementById("next").addEventListener("click",()=>{
   collect(); if (!validate()) return;
