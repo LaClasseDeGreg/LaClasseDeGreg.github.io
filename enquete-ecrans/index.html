@@ -84,6 +84,8 @@ main{max-width:760px;margin:-14px auto 0;padding:0 16px 48px;position:relative}
   .grid td.c .sr{position:static;width:auto;height:auto;clip:auto;overflow:visible;white-space:normal}
 }
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+input.code{width:100%;max-width:320px;font:inherit;font-size:17px;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;letter-spacing:.04em}
+input.code:focus{outline:3px solid #9fb0ff;border-color:var(--navy)}
 textarea{width:100%;min-height:90px;font:inherit;font-size:16px;border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;resize:vertical}
 textarea:focus{outline:3px solid #9fb0ff;border-color:var(--navy)}
 .err{display:none;color:var(--red);font-size:14px;font-weight:600;margin-top:6px}
@@ -229,6 +231,10 @@ ageTel:[["Il n'a pas de smartphone","Детето няма смартфон","My
 regles:[["Une durée maximale par jour","Максимално време на ден","A daily time limit"],["Des horaires définis","Определени часове","Set times of day"],["Pas d'écran pendant les repas","Без екрани по време на хранене","No screens at meals"],["Le téléphone hors de la chambre la nuit","Телефонът е извън стаята през нощта","Phone out of the bedroom at night"],["Un contrôle parental","Родителски контрол","Parental controls"],["Pas de règle particulière","Няма конкретни правила","No particular rule"]],
 respect:[["Toujours","Винаги","Always"],["Souvent","Често","Often"],["Parfois","Понякога","Sometimes"],["Rarement","Рядко","Rarely"],["Jamais","Никога","Never"],["Sans objet","Не се отнася","Not applicable"]],
 effet:[["Pas du tout","Изобщо не","Not at all"],["Un peu","Малко","A little"],["Assez","Доста","Quite a lot"],["Beaucoup","Много","A lot"]],
+regleMaison:[["Oui, et elles sont respectées","Да и се спазват","Yes, and they are followed"],["Oui, mais pas toujours respectées","Да, но не винаги се спазват","Yes, but not always followed"],["Non","Не","No"]],
+regleLycee:[["Utilisable librement, sauf en cours","Свободно, освен по време на час","Free to use, except during lessons"],["Utilisable seulement à certains moments ou dans certains lieux","Само в определени моменти или на определени места","Only at certain times or in certain places"],["Rangé toute la journée, éteint ou au casier","Прибран през целия ден, изключен или в шкафче","Put away all day, switched off or in a locker"],["Sans avis","Нямам мнение","No opinion"]],
+resultatsNSP:[["Très satisfaisants","Много добри","Very good"],["Satisfaisants","Добри","Good"],["Moyens","Средни","Average"],["Insuffisants","Слаби","Poor"],["Je ne sais pas","Не знам","I don't know"]],
+devoirsNSP:[["Moins de 30 min","По-малко от 30 мин","Less than 30 min"],["30 min à 1 h","От 30 мин до 1 ч","30 min to 1 h"],["1 à 2 h","От 1 до 2 ч","1 to 2 h"],["Plus de 2 h","Повече от 2 ч","More than 2 h"],["Je ne sais pas","Не знам","I don't know"]],
 attentes:[["Des ateliers de prévention pour les élèves","Превантивни работилници за учениците","Prevention workshops for students"],["Une réunion d'information pour les parents","Информационна среща за родителите","An information meeting for parents"],["Une charte du numérique construite avec les élèves","Харта за дигиталните технологии, създадена с учениците","A digital charter written with students"],["Des règles plus strictes sur le téléphone au lycée","По-строги правила за телефона в лицея","Stricter phone rules at school"],["Rien de particulier","Нищо конкретно","Nothing in particular"]]
 };
 
@@ -239,6 +245,7 @@ eleve:[
   {id:"niveau",t:"t",o:"lvlE",l:["En quelle classe es-tu ?","В кой клас (по френската система) си?","Which year are you in (French system)?"]},
   {id:"genre",t:"t",o:"genreE",l:["Tu es…","Ти си…","You are…"]},
   {id:"langues",t:"m",o:"langues",opt:1,l:["Quelle(s) langue(s) parles-tu à la maison ?","На какъв език (езици) говориш вкъщи?","Which language(s) do you speak at home?"]},
+  {id:"code_famille",t:"c",opt:1,l:["Code famille","Семеен код","Family code"],h:["Si l'un de tes parents répond aussi, choisissez ensemble un mot ou un nombre secret, sans vos noms, et écrivez-le chacun dans votre questionnaire. Nous pourrons rapprocher vos réponses sans savoir qui vous êtes.","Ако някой от родителите ти също отговаря, изберете заедно тайна дума или число, без имената си, и я напишете всеки в своя въпросник. Така ще можем да свържем отговорите ви, без да знаем кои сте.","If one of your parents also answers, choose a secret word or number together, without your names, and each type it into your questionnaire. This lets us match your answers without knowing who you are."]},
   {id:"equipements",t:"m",o:"equip",l:["De quels écrans disposes-tu personnellement ?","Какви лични устройства с екран имаш?","Which screens do you personally own?"]}
  ]},
  {title:["Tes écrans","Твоите екрани","Your screens"],qs:[
@@ -257,6 +264,14 @@ eleve:[
   {id:"resultats",t:"t",o:"resultats",l:["Comment juges-tu tes résultats scolaires ?","Как оценяваш училищните си резултати?","How would you rate your school results?"]},
   {id:"sport",t:"t",o:"sport",l:["Combien d'heures de sport fais-tu par semaine en dehors des cours d'EPS ?","Колко часа спорт правиш седмично извън часовете по физическо?","How many hours of sport do you do each week, outside PE lessons?"]}
  ]},
+ {title:["À la maison et au lycée","Вкъщи и в лицея","At home and at school"],qs:[
+  {id:"parents_temps",t:"t",o:"tempsNSP",l:["Selon toi, combien de temps tes parents passent-ils chaque jour sur les écrans en dehors de leur travail ?","Според теб колко време на ден прекарват родителите ти пред екрани извън работата си?","In your view, how much time do your parents spend on screens each day outside work?"]},
+  {id:"parents_tel_repas",t:"t",o:"freq",l:["Tes parents utilisent-ils leur téléphone pendant les repas ?","Използват ли родителите ти телефона си по време на хранене?","Do your parents use their phones during meals?"]},
+  {id:"parents_technoference",t:"t",o:"freq",l:["Quand tu parles à tes parents, leur arrive-t-il de regarder leur téléphone en même temps ?","Когато говориш с родителите си, случва ли се да гледат телефона си в същото време?","When you talk to your parents, do they ever look at their phone at the same time?"]},
+  {id:"regles_maison",t:"t",o:"regleMaison",l:["Y a-t-il des règles sur les écrans chez toi ?","Има ли вкъщи правила за използването на екрани?","Are there rules about screens at home?"]},
+  {id:"tel_classe",t:"t",o:"freq",l:["Au lycée, t'arrive-t-il d'utiliser ton téléphone en classe sans autorisation ?","В лицея случва ли се да използваш телефона си в час без разрешение?","At school, do you ever use your phone in class without permission?"]},
+  {id:"regle_lycee",t:"t",o:"regleLycee",l:["Selon toi, au lycée, le téléphone devrait être…","Според теб в лицея телефонът трябва да бъде…","In your view, at school, phones should be…"]}
+ ]},
  {title:["Comment vas-tu ?","Как си?","How are you?"],qs:[
   {id:"bien_etre",t:"g",o:"freq",opt:1,l:["Au cours des deux dernières semaines…","През последните две седмици…","Over the last two weeks…"],h:["Réponds ligne par ligne, tu peux laisser une ligne vide","Отговори ред по ред, можеш да оставиш ред празен","Answer row by row, you may leave a row blank"],
    rows:[["be_repose","je me suis senti·e reposé·e au réveil","се чувствах отпочинал(а), когато се събуждах","I felt rested when I woke up"],["be_concentration","j'ai réussi à me concentrer en classe","успявах да се концентрирам в час","I was able to concentrate in class"],["be_humeur","je me suis senti·e de bonne humeur","бях в добро настроение","I felt in a good mood"],["be_stress","je me suis senti·e stressé·e par le travail scolaire","чувствах се стресиран(а) от ученето","I felt stressed by schoolwork"],["be_seul","je me suis senti·e seul·e","чувствах се самотен(а)","I felt lonely"]]},
@@ -272,6 +287,7 @@ parent:[
   {id:"niveau",t:"t",o:"lvlP",l:["En quelle classe est l'enfant pour lequel vous répondez ?","В кой клас е детето, за което отговаряте?","Which year is the child you are answering for in?"],h:["Si plusieurs de vos enfants sont scolarisés au lycée, merci de remplir un questionnaire par enfant","Ако имате няколко деца в лицея, моля, попълнете отделен въпросник за всяко","If several of your children attend the school, please fill in one questionnaire per child"]},
   {id:"genre",t:"t",o:"genreP",l:["Votre enfant est…","Вашето дете е…","Your child is…"]},
   {id:"langues",t:"m",o:"langues",opt:1,l:["Quelle(s) langue(s) parlez-vous à la maison ?","На какъв език (езици) говорите вкъщи?","Which language(s) do you speak at home?"]},
+  {id:"code_famille",t:"c",opt:1,l:["Code famille","Семеен код","Family code"],h:["Si votre enfant répond aussi, choisissez ensemble un mot ou un nombre secret, sans vos noms, et saisissez-le chacun dans votre questionnaire. Nous pourrons rapprocher vos réponses sans savoir qui vous êtes.","Ако детето ви също отговаря, изберете заедно тайна дума или число, без имената си, и я въведете всеки в своя въпросник. Така ще можем да свържем отговорите ви, без да знаем кои сте.","If your child also answers, choose a secret word or number together, without your names, and each enter it in your questionnaire. This lets us match your answers without knowing who you are."]},
   {id:"age_smartphone",t:"t",o:"ageTel",l:["À quel âge votre enfant a-t-il eu son premier smartphone ?","На каква възраст детето ви получи първия си смартфон?","At what age did your child get their first smartphone?"]}
  ]},
  {title:["Ses écrans","Неговите екрани","Their screens"],qs:[
@@ -281,6 +297,11 @@ parent:[
   {id:"respect_regles",t:"t",o:"respect",l:["Ces règles sont-elles respectées ?","Спазват ли се тези правила?","Are these rules followed?"]},
   {id:"tel_chambre",t:"t",o:"telChambreP",l:["La nuit, le téléphone de votre enfant reste-t-il dans sa chambre ?","През нощта телефонът на детето ви остава ли в стаята му?","At night, does your child's phone stay in their bedroom?"]}
  ]},
+ {title:["Sa scolarité","Училището","School life"],qs:[
+  {id:"enfant_resultats",t:"t",o:"resultatsNSP",l:["Comment jugez-vous les résultats scolaires de votre enfant ?","Как оценявате училищните резултати на детето си?","How would you rate your child's school results?"]},
+  {id:"enfant_devoirs",t:"t",o:"devoirsNSP",l:["Combien de temps votre enfant consacre-t-il chaque jour à ses devoirs ?","Колко време на ден отделя детето ви за домашни?","How much time does your child spend on homework each day?"]},
+  {id:"enfant_fatigue",t:"t",o:"freq",l:["Votre enfant vous semble-t-il fatigué le matin ?","Изглежда ли ви детето уморено сутрин?","Does your child seem tired in the morning?"]}
+ ]},
  {title:["Sommeil et vie de famille","Сън и семеен живот","Sleep and family life"],qs:[
   {id:"coucher",t:"t",o:"coucher",l:["À quelle heure votre enfant se couche-t-il un soir de semaine ?","В колко часа си ляга детето ви в делничен ден?","What time does your child go to bed on a school night?"]},
   {id:"sommeil_suffisant",t:"t",o:"accord",l:["Pensez-vous que votre enfant dort suffisamment ?","Смятате ли, че детето ви спи достатъчно?","Do you think your child gets enough sleep?"]},
@@ -288,9 +309,11 @@ parent:[
    rows:[["eff_sommeil","le sommeil de votre enfant","съня на детето ви","your child's sleep"],["eff_resultats","sa concentration et ses résultats","концентрацията и успеха му","their concentration and results"],["eff_humeur","son humeur","настроението му","their mood"],["eff_famille","la vie de famille","семейния живот","family life"]]},
   {id:"tensions",t:"t",o:"freqT",l:["Les écrans sont-ils une source de tension à la maison ?","Екраните източник на напрежение вкъщи ли са?","Are screens a source of tension at home?"]},
   {id:"temps_parent",t:"t",o:"temps",l:["Et vous, combien de temps passez-vous chaque jour sur les écrans en dehors de votre travail ?","А вие колко време на ден прекарвате пред екрани извън работата си?","And you, how much time do you spend on screens each day outside work?"]},
-  {id:"ecrans_repas",t:"t",o:"freq",l:["Des écrans sont-ils allumés pendant les repas en famille ?","Включени ли са екрани по време на семейните хранения?","Are screens on during family meals?"]}
+  {id:"ecrans_repas",t:"t",o:"freq",l:["Des écrans sont-ils allumés pendant les repas en famille ?","Включени ли са екрани по време на семейните хранения?","Are screens on during family meals?"]},
+  {id:"parent_technoference",t:"t",o:"freq",l:["Vous arrive-t-il de regarder votre téléphone pendant que votre enfant vous parle ?","Случва ли се да гледате телефона си, докато детето ви говори?","Do you ever look at your phone while your child is talking to you?"]}
  ]},
  {title:["Votre avis","Вашето мнение","Your view"],qs:[
+  {id:"regle_lycee",t:"t",o:"regleLycee",l:["Selon vous, au lycée, le téléphone devrait être…","Според вас в лицея телефонът трябва да бъде…","In your view, at school, phones should be…"]},
   {id:"attentes",t:"m",o:"attentes",opt:1,l:["Qu'attendriez-vous du lycée sur ce sujet ?","Какво бихте очаквали от лицея по тази тема?","What would you expect from the school on this topic?"]},
   {id:"remarque",t:"x",opt:1,l:["Une remarque, une suggestion ?","Забележка или предложение?","Any comment or suggestion?"]}
  ]}
@@ -341,6 +364,8 @@ function renderStep(){
         h += '</tr>';
       });
       h += '</tbody></table>';
+    } else if (q.t==="c"){
+      h += '<input type="text" class="code" name="'+q.id+'" maxlength="40" autocomplete="off" autocapitalize="off" spellcheck="false" value="'+esc(answers[q.id]||"")+'" aria-labelledby="l_'+q.id+'">';
     } else if (q.t==="x"){
       h += '<textarea name="'+q.id+'" maxlength="600" aria-labelledby="l_'+q.id+'">'+esc(answers[q.id]||"")+'</textarea>';
     }
@@ -360,6 +385,7 @@ function collect(){
     else if (q.t==="m"){ answers[q.id] = [...document.querySelectorAll('input[name="'+q.id+'"]:checked')].map(c=>Number(c.value)); }
     else if (q.t==="g"){ q.rows.forEach(r=>{ const c=document.querySelector('input[name="'+r[0]+'"]:checked'); answers[r[0]] = c?Number(c.value):undefined; }); }
     else if (q.t==="x"){ answers[q.id] = document.querySelector('textarea[name="'+q.id+'"]').value.trim(); }
+    else if (q.t==="c"){ answers[q.id] = document.querySelector('input[name="'+q.id+'"]').value.trim(); }
   });
 }
 
@@ -380,13 +406,14 @@ function validate(){
 }
 
 function payload(){
-  const out = {profil:profile, langue:lang, version:"2026-11-01"};
+  const out = {profil:profile, langue:lang, version:"2026-11-01b"};
   S[profile].forEach(sec=>sec.qs.forEach(q=>{
     const fr = k=>O[q.o][k][0];
     if (q.t==="t") out[q.id] = answers[q.id]===undefined ? "" : fr(answers[q.id]);
     else if (q.t==="m") out[q.id] = (answers[q.id]||[]).map(fr).join(" | ");
     else if (q.t==="g") q.rows.forEach(r=>{ out[r[0]] = answers[r[0]]===undefined ? "" : O[q.o][answers[r[0]]][0]; });
     else if (q.t==="x") out[q.id] = (answers[q.id]||"").slice(0,600);
+    else if (q.t==="c") out[q.id] = (answers[q.id]||"").toLowerCase().replace(/\s+/g," ").slice(0,40);
   }));
   return out;
 }
@@ -398,7 +425,7 @@ async function send(){
   if (document.querySelector('input[name="website"]').value) { finish(); return; }
   try {
     if (ENDPOINT) await fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)});
-    else console.log("Mode test", data);
+    else console.log("Mode test", JSON.stringify(data));
     try { localStorage.setItem("ebd_envoye_"+profile, String(Date.now())); } catch(e){}
     finish();
   } catch(e){

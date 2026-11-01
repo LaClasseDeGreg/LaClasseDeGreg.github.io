@@ -9,59 +9,83 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#16256B;--red:#C8102E;--ink:#1b2033;--muted:#5a6072;--line:#dde1ec;--bg:#f4f6fb;--soft:#eef1f9;--c1:#16256B;--c2:#C8102E}
+:root{--navy:#16256B;--red:#C8102E;--ink:#1b2033;--muted:#5a6072;--line:#dde1ec;--bg:#f4f6fb;--soft:#eef1f9}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Source Sans 3",Calibri,"Segoe UI",system-ui,sans-serif;font-size:16px;line-height:1.45}
 .top{background:#fff;border-bottom:3px solid var(--red)}
-.top .in{max-width:1100px;margin:0 auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
+.top .in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
 .top img{height:34px}
 .hero{background:var(--navy);color:#fff}
-.hero .in{max-width:1100px;margin:0 auto;padding:20px 16px}
+.hero .in{max-width:1180px;margin:0 auto;padding:20px 16px}
 .hero h1{margin:0;font-size:clamp(24px,4vw,34px)}
 .hero p{margin:4px 0 0;opacity:.9}
-main{max-width:1100px;margin:0 auto;padding:16px 16px 40px}
+main{max-width:1180px;margin:0 auto;padding:16px 16px 40px}
 .card{background:#fff;border-radius:14px;box-shadow:0 1px 2px rgba(22,37,107,.06),0 8px 24px rgba(22,37,107,.08);padding:18px;margin-bottom:16px}
-.card h2{margin:0 0 10px;color:var(--navy);font-size:20px}
-.card h3{margin:0 0 6px;font-size:15.5px}
+.card h2{margin:0 0 6px;color:var(--navy);font-size:21px}
+.card h3{margin:0 0 4px;font-size:15.5px}
 .login{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-input[type=password],select{font:inherit;padding:9px 12px;border:1.5px solid var(--line);border-radius:10px}
+input[type=password],input[type=number],select{font:inherit;padding:9px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff}
+input[type=number]{width:110px}
 .btn{font:inherit;font-weight:700;border:0;border-radius:10px;padding:10px 16px;background:var(--red);color:#fff;cursor:pointer}
 .btn.ghost{background:#fff;color:var(--navy);border:1.5px solid var(--line)}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-@media(max-width:700px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}}
 .kpi{background:var(--soft);border-radius:12px;padding:12px}
-.kpi b{display:block;font-size:28px;color:var(--navy);line-height:1.1}
+.kpi b{display:block;font-size:27px;color:var(--navy);line-height:1.1}
 .kpi span{font-size:13.5px;color:var(--muted)}
-.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
-.tabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
 .tabs button{font:inherit;font-weight:700;border:1.5px solid var(--line);background:#fff;color:var(--navy);border-radius:999px;padding:7px 14px;cursor:pointer}
 .tabs button[aria-pressed=true]{background:var(--navy);color:#fff;border-color:var(--navy)}
-.charts{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-@media(max-width:820px){.charts{grid-template-columns:1fr}}
-.chart{border:1px solid var(--line);border-radius:12px;padding:14px}
-.n{font-size:12.5px;color:var(--muted);margin-bottom:8px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:980px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.grid2,.grid3{grid-template-columns:1fr}}
+.chart{border:1px solid var(--line);border-radius:12px;padding:14px;break-inside:avoid}
+.n{font-size:12.5px;color:var(--muted);margin-bottom:6px}
+.pie{display:flex;gap:14px;align-items:center}
+.pie svg{flex:0 0 150px;width:150px;height:150px}
+.leg{flex:1;font-size:13.5px}
+.leg div{display:grid;grid-template-columns:12px 1fr auto;gap:6px;align-items:center;margin:3px 0}
+.leg i{width:12px;height:12px;border-radius:3px;display:block}
+.leg b{font-variant-numeric:tabular-nums;color:var(--navy)}
+@media(max-width:420px){.pie{flex-direction:column}.leg{width:100%}}
 .row{display:grid;grid-template-columns:minmax(110px,40%) 1fr 54px;gap:8px;align-items:center;margin:5px 0;font-size:14px}
-.track{background:var(--soft);border-radius:6px;height:16px;overflow:hidden}
-.fill{height:100%;background:var(--c1);border-radius:6px}
+.track{background:var(--soft);border-radius:6px;height:15px;overflow:hidden}
+.fill{height:100%;background:var(--navy);border-radius:6px}
 .pct{text-align:right;font-variant-numeric:tabular-nums;font-weight:700;color:var(--navy)}
 table.x{width:100%;border-collapse:collapse;font-size:13.5px}
-table.x th,table.x td{border-bottom:1px solid var(--line);padding:6px 6px;text-align:right}
+table.x th,table.x td{border-bottom:1px solid var(--line);padding:6px;text-align:right;vertical-align:top}
 table.x th:first-child,table.x td:first-child{text-align:left}
 table.x thead th{color:var(--muted);font-weight:600}
-.heat{font-variant-numeric:tabular-nums}
-.legend{display:flex;gap:14px;font-size:13px;color:var(--muted);margin-bottom:6px}
-.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
-.pair .fill.e{background:var(--c1)} .pair .fill.p{background:var(--c2)}
-.pair .row{grid-template-columns:minmax(110px,32%) 1fr 54px}
-.bars2{display:flex;flex-direction:column;gap:3px}
-.quotes li{margin:0 0 6px}
+.badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700}
+.b0{background:#eceef3;color:#5a6072}.b1{background:#e6ecff;color:#16256B}.b2{background:#fde8ec;color:#a50d26}.b3{background:#C8102E;color:#fff}
 .muted{color:var(--muted);font-size:14px}
+.quotes li{margin:0 0 6px}
+.report{max-width:820px;margin:0 auto}
+.report h1{color:var(--navy);font-size:28px;margin:0 0 4px}
+.report h2{color:var(--navy);border-bottom:2px solid var(--red);padding-bottom:3px;margin-top:22px}
+.report p,.report li{font-size:15px}
+.report .fig{font-size:13px;color:var(--muted)}
+.rephead{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid var(--red);padding-bottom:8px;margin-bottom:14px}
+.rephead img{height:30px}
+.noprint{}
 [hidden]{display:none!important}
+@media print{
+  @page{size:A4;margin:14mm}
+  body{background:#fff;font-size:12pt}
+  .top,.hero,.noprint,#loginCard,.tabs,.filters,.kpis{display:none!important}
+  .card{box-shadow:none;padding:0;margin:0}
+  main{padding:0}
+  .chart{border:1px solid #ccc}
+  .grid2,.grid3{grid-template-columns:repeat(2,1fr)!important}
+  .pagebreak{break-before:page}
+}
 </style>
 </head>
 <body>
 <header class="top"><div class="in"><img src="assets/logo-lvh.png" alt="Lycée français Victor Hugo"><img src="assets/logo-aefe.png" alt="AEFE"></div></header>
-<section class="hero"><div class="in"><h1>Opération Écran, boulot, dodo, les résultats</h1><p>Tableau de bord réservé à l'équipe de l'enquête. Données anonymes, actualisées à chaque chargement.</p></div></section>
+<section class="hero"><div class="in"><h1>Opération Écran, boulot, dodo, les résultats en direct</h1><p>Tableau de bord réservé à l'équipe de l'enquête. Données anonymes, actualisées à chaque chargement.</p></div></section>
 <main>
   <section class="card" id="loginCard">
     <h2>Accès</h2>
@@ -70,26 +94,31 @@ table.x thead th{color:var(--muted);font-weight:600}
   </section>
 
   <div id="dash" hidden>
-    <section class="card">
+    <section class="card noprint">
       <div class="kpis">
         <div class="kpi"><b id="kE">0</b><span>réponses d'élèves</span></div>
         <div class="kpi"><b id="kP">0</b><span>réponses de parents</span></div>
-        <div class="kpi"><b id="kS">0</b><span>élèves au-delà de 3 h d'écran un jour de classe</span></div>
+        <div class="kpi"><b id="kD">0</b><span>familles appariées par code</span></div>
+        <div class="kpi"><b id="kS">0</b><span>temps d'écran moyen estimé des élèves un jour de classe</span></div>
         <div class="kpi"><b id="kT">0</b><span>élèves gardant le téléphone dans la chambre la nuit</span></div>
       </div>
-      <p class="muted" id="maj"></p>
       <div class="filters">
         <label>Niveau <select id="fNiv"><option value="">Tous</option></select></label>
         <label>Genre <select id="fGen"><option value="">Tous</option></select></label>
-        <button class="btn ghost" id="csvE">Exporter les élèves (CSV)</button>
-        <button class="btn ghost" id="csvP">Exporter les parents (CSV)</button>
+        <button class="btn ghost" id="refresh">Actualiser</button>
+        <label class="muted"><input type="checkbox" id="auto"> Actualiser toutes les 2 minutes</label>
+        <button class="btn ghost" id="csvE">CSV élèves</button>
+        <button class="btn ghost" id="csvP">CSV parents</button>
+        <span class="muted" id="maj"></span>
       </div>
       <div class="tabs" role="group">
-        <button data-tab="eleves" aria-pressed="true">Élèves</button>
+        <button data-tab="synthese" aria-pressed="true">Synthèse</button>
+        <button data-tab="eleves" aria-pressed="false">Élèves</button>
         <button data-tab="parents" aria-pressed="false">Parents</button>
-        <button data-tab="croises" aria-pressed="false">Tableaux croisés</button>
-        <button data-tab="regards" aria-pressed="false">Regards croisés élèves et parents</button>
+        <button data-tab="croises" aria-pressed="false">Croisements</button>
+        <button data-tab="familles" aria-pressed="false">Familles appariées</button>
         <button data-tab="verbatims" aria-pressed="false">Verbatims</button>
+        <button data-tab="rapport" aria-pressed="false">Rapport imprimable</button>
       </div>
     </section>
     <section class="card" id="view"></section>
@@ -99,6 +128,7 @@ table.x thead th{color:var(--muted);font-weight:600}
 /* Même adresse que dans index.html */
 const ENDPOINT = "";
 
+const PAL = ["#16256B","#C8102E","#2E86AB","#E0A100","#6B4FA0","#3C8D5A","#E07A8E","#7A869A","#9AA5D6","#B5651D"];
 const ORD = {
  niveauE:["6e","5e","4e","3e","2de","1re","Terminale"],
  niveauP:["Maternelle","Élémentaire, du CP au CM2","6e","5e","4e","3e","2de","1re","Terminale"],
@@ -108,133 +138,298 @@ const ORD = {
  freq:["Jamais","Rarement","Parfois","Souvent","Toujours","Très souvent"],
  accord:["Oui","Plutôt oui","Plutôt non","Non"],
  effet:["Pas du tout","Un peu","Assez","Beaucoup"],
- resultats:["Très satisfaisants","Satisfaisants","Moyens","Insuffisants"],
- devoirs:["Moins de 30 min","30 min à 1 h","1 à 2 h","Plus de 2 h"],
- sport:["Aucune","Moins d'1 h","1 à 3 h","3 à 5 h","Plus de 5 h"]
+ resultats:["Très satisfaisants","Satisfaisants","Moyens","Insuffisants","Je ne sais pas"],
+ devoirs:["Moins de 30 min","30 min à 1 h","1 à 2 h","Plus de 2 h","Je ne sais pas"],
+ sport:["Aucune","Moins d'1 h","1 à 3 h","3 à 5 h","Plus de 5 h"],
+ regleMaison:["Oui, et elles sont respectées","Oui, mais pas toujours respectées","Non"],
+ regleLycee:["Utilisable librement, sauf en cours","Utilisable seulement à certains moments ou dans certains lieux","Rangé toute la journée, éteint ou au casier","Sans avis"],
+ genre:["Fille","Garçon","Une fille","Un garçon","Autre","Préfère ne pas répondre"]
+};
+/* Codages numériques pour les moyennes et les corrélations */
+const NUM = {
+ temps:{"Moins d'1 h":0.5,"1 à 2 h":1.5,"2 à 3 h":2.5,"3 à 4 h":3.5,"4 à 5 h":4.5,"Plus de 5 h":5.5},
+ sommeil:{"Moins de 6 h":5.5,"6 à 7 h":6.5,"7 à 8 h":7.5,"8 à 9 h":8.5,"Plus de 9 h":9.5},
+ freq:{"Jamais":0,"Rarement":1,"Parfois":2,"Souvent":3,"Toujours":4,"Très souvent":4},
+ resultats:{"Très satisfaisants":4,"Satisfaisants":3,"Moyens":2,"Insuffisants":1},
+ coucher:{"Avant 21 h":0,"Entre 21 h et 22 h":1,"Entre 22 h et 23 h":2,"Entre 23 h et minuit":3,"Après minuit":4},
+ devoirs:{"Moins de 30 min":0.25,"30 min à 1 h":0.75,"1 à 2 h":1.5,"Plus de 2 h":2.5},
+ accord:{"Oui":3,"Plutôt oui":2,"Plutôt non":1,"Non":0},
+ effet:{"Pas du tout":0,"Un peu":1,"Assez":2,"Beaucoup":3},
+ oui:{"Oui":1,"Non":0},
+ regleMaison:{"Oui, et elles sont respectées":2,"Oui, mais pas toujours respectées":1,"Non":0}
 };
 const QE = [
- ["niveau","Niveau",ORD.niveauE],["genre","Genre"],["equipements","Écrans personnels",null,1],
+ ["niveau","Niveau",ORD.niveauE],["genre","Genre",ORD.genre],["equipements","Écrans personnels",null,1],
  ["temps_semaine","Temps d'écran un jour de classe, hors travail scolaire",ORD.temps],["temps_weekend","Temps d'écran un jour de week-end",ORD.temps],
  ["activites","Activités principales sur les écrans",null,1],["tel_chambre","Téléphone dans la chambre la nuit"],
  ["dernier_ecran","Dernier écran avant de dormir"],["reveil_nuit","Réveil nocturne pour consulter le téléphone",ORD.freq],
  ["coucher","Heure du coucher en semaine",ORD.coucher],["duree_sommeil","Durée de sommeil en semaine",ORD.sommeil],
  ["devoirs","Temps de devoirs par jour",ORD.devoirs],["tel_devoirs","Téléphone à portée de main pendant les devoirs",ORD.freq],
  ["resultats","Résultats scolaires perçus",ORD.resultats],["sport","Sport hors EPS par semaine",ORD.sport],
+ ["parents_temps","Temps d'écran des parents, selon l'élève",ORD.temps],["parents_tel_repas","Parents au téléphone pendant les repas",ORD.freq],
+ ["parents_technoference","Parents sur leur téléphone quand l'élève leur parle",ORD.freq],["regles_maison","Règles sur les écrans à la maison",ORD.regleMaison],
+ ["tel_classe","Téléphone utilisé en classe sans autorisation",ORD.freq],["regle_lycee","Règle souhaitée au lycée",ORD.regleLycee],
  ["be_repose","Reposé·e au réveil",ORD.freq],["be_concentration","Concentration en classe",ORD.freq],["be_humeur","Bonne humeur",ORD.freq],
  ["be_stress","Stress lié au travail scolaire",ORD.freq],["be_seul","Sentiment de solitude",ORD.freq],
  ["trop_ecrans","Pense passer trop de temps sur les écrans",ORD.accord],["essai_reduire","A essayé de réduire son temps d'écran"]
 ];
 const QP = [
- ["lien","Répondant"],["niveau","Niveau de l'enfant",ORD.niveauP],["genre","Genre de l'enfant"],["age_smartphone","Âge du premier smartphone"],
- ["temps_semaine","Temps d'écran estimé un jour de classe",ORD.temps],["temps_weekend","Temps d'écran estimé un jour de week-end",ORD.temps],
+ ["lien","Répondant"],["niveau","Niveau de l'enfant",ORD.niveauP],["genre","Genre de l'enfant",ORD.genre],["age_smartphone","Âge du premier smartphone"],
+ ["temps_semaine","Temps d'écran de l'enfant un jour de classe, estimé",ORD.temps],["temps_weekend","Temps d'écran de l'enfant le week-end, estimé",ORD.temps],
  ["regles","Règles à la maison",null,1],["respect_regles","Respect des règles"],["tel_chambre","Téléphone dans la chambre la nuit"],
- ["coucher","Heure du coucher de l'enfant",ORD.coucher],["sommeil_suffisant","L'enfant dort suffisamment",ORD.accord],
+ ["enfant_resultats","Résultats scolaires de l'enfant, selon le parent",ORD.resultats],["enfant_devoirs","Temps de devoirs de l'enfant",ORD.devoirs],
+ ["enfant_fatigue","Enfant fatigué le matin",ORD.freq],["coucher","Heure du coucher de l'enfant",ORD.coucher],["sommeil_suffisant","L'enfant dort suffisamment",ORD.accord],
  ["eff_sommeil","Effet négatif perçu sur le sommeil",ORD.effet],["eff_resultats","Effet négatif perçu sur la concentration et les résultats",ORD.effet],
  ["eff_humeur","Effet négatif perçu sur l'humeur",ORD.effet],["eff_famille","Effet négatif perçu sur la vie de famille",ORD.effet],
  ["tensions","Tensions liées aux écrans",ORD.freq],["temps_parent","Temps d'écran du parent hors travail",ORD.temps],
- ["ecrans_repas","Écrans pendant les repas",ORD.freq],["attentes","Attentes envers le lycée",null,1]
+ ["ecrans_repas","Écrans pendant les repas",ORD.freq],["parent_technoference","Parent sur son téléphone quand l'enfant lui parle",ORD.freq],
+ ["regle_lycee","Règle souhaitée au lycée",ORD.regleLycee],["attentes","Attentes envers le lycée",null,1]
 ];
-let DATA = null, tab = "eleves";
+let DATA = null, tab = "synthese", timer = null;
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const pct = (a,b) => b ? Math.round(a/b*1000)/10 : 0;
 const fmt = x => String(x).replace(".",",")+" %";
+const f1 = x => (Math.round(x*10)/10).toString().replace(".",",");
 
+/* Comptages */
 function counts(rows,key,multi,order){
   const c = {}; let n = 0;
-  rows.forEach(r=>{ const v = String(r[key]||"").trim(); if(!v) return; n++;
+  rows.forEach(r=>{ const v = String(r[key]==null?"":r[key]).trim(); if(!v) return; n++;
     (multi ? v.split(" | ") : [v]).forEach(x=>{ c[x]=(c[x]||0)+1; }); });
   let keys = Object.keys(c);
   if (order) keys.sort((a,b)=>(order.indexOf(a)<0?99:order.indexOf(a))-(order.indexOf(b)<0?99:order.indexOf(b)));
   else keys.sort((a,b)=>c[b]-c[a]);
   return {n, items: keys.map(k=>[k,c[k]])};
 }
-function bars(title,res,note){
-  let h = '<div class="chart"><h3>'+esc(title)+'</h3><div class="n">'+res.n+' réponses'+(note?', '+esc(note):'')+'</div>';
+function share(rows,key,vals){ const r = counts(rows,key); const k = r.items.filter(i=>vals.includes(i[0])).reduce((a,i)=>a+i[1],0); return {p:pct(k,r.n), n:r.n}; }
+function mean(rows,key,map){ const v = rows.map(r=>map[r[key]]).filter(x=>x!==undefined); return v.length ? v.reduce((a,b)=>a+b,0)/v.length : null; }
+
+/* Indice de bien-être élève, de 0 à 100 */
+function wellbeing(r){
+  const f = NUM.freq, parts = [];
+  if (f[r.be_repose]!==undefined) parts.push(f[r.be_repose]);
+  if (f[r.be_concentration]!==undefined) parts.push(f[r.be_concentration]);
+  if (f[r.be_humeur]!==undefined) parts.push(f[r.be_humeur]);
+  if (f[r.be_stress]!==undefined) parts.push(4-f[r.be_stress]);
+  if (f[r.be_seul]!==undefined) parts.push(4-f[r.be_seul]);
+  return parts.length>=3 ? parts.reduce((a,b)=>a+b,0)/parts.length*25 : undefined;
+}
+
+/* Corrélation de Spearman */
+function ranks(a){ const idx = a.map((v,i)=>[v,i]).sort((x,y)=>x[0]-y[0]); const r = new Array(a.length);
+  for (let i=0;i<idx.length;){ let j=i; while(j+1<idx.length && idx[j+1][0]===idx[i][0]) j++; const avg=(i+j)/2+1; for(let k=i;k<=j;k++) r[idx[k][1]]=avg; i=j+1; } return r; }
+function spearman(pairs){
+  if (pairs.length<8) return null;
+  const x = ranks(pairs.map(p=>p[0])), y = ranks(pairs.map(p=>p[1])), n = pairs.length;
+  const mx = x.reduce((a,b)=>a+b,0)/n, my = y.reduce((a,b)=>a+b,0)/n;
+  let sxy=0,sx=0,sy=0; for(let i=0;i<n;i++){ sxy+=(x[i]-mx)*(y[i]-my); sx+=(x[i]-mx)**2; sy+=(y[i]-my)**2; }
+  return sx&&sy ? sxy/Math.sqrt(sx*sy) : null;
+}
+function corr(rows,fx,fy){ const p = []; rows.forEach(r=>{ const a=fx(r), b=fy(r); if(a!==undefined&&b!==undefined) p.push([a,b]); }); return {r:spearman(p), n:p.length}; }
+function force(r){ if (r===null) return ["Effectif insuffisant","b0"]; const a=Math.abs(r); return a<0.1?["Lien négligeable","b0"]:a<0.3?["Lien faible","b1"]:a<0.5?["Lien modéré","b2"]:["Lien fort","b3"]; }
+const g = (key,map)=>r=>map[r[key]];
+
+/* Graphiques */
+function seqColors(n){ const a=[201,209,240], b=[22,37,107]; return Array.from({length:n},(_,i)=>{ const t=n===1?1:i/(n-1); return "rgb("+a.map((v,k)=>Math.round(v+(b[k]-v)*t)).join(",")+")"; }); }
+function pie(title,res,ordinal){
+  let h = '<div class="chart"><h3>'+esc(title)+'</h3><div class="n">'+res.n+' réponses</div>';
   if (!res.n) return h+'<p class="muted">Pas encore de réponse.</p></div>';
-  res.items.forEach(([k,v])=>{ const p = pct(v,res.n);
-    h += '<div class="row"><span>'+esc(k)+'</span><div class="track"><div class="fill" style="width:'+p+'%"></div></div><span class="pct">'+fmt(p)+'</span></div>'; });
+  const cols = ordinal ? seqColors(res.items.length) : PAL;
+  let a0 = -Math.PI/2, svg = '<svg viewBox="0 0 120 120" role="img" aria-label="'+esc(title)+'">';
+  const tot = res.items.reduce((s,i)=>s+i[1],0);
+  res.items.forEach(([k,v],i)=>{ const frac=v/tot, a1=a0+frac*2*Math.PI, c=cols[i%cols.length];
+    if (frac>=0.9999) svg += '<circle cx="60" cy="60" r="56" fill="'+c+'"/>';
+    else { const x0=60+56*Math.cos(a0), y0=60+56*Math.sin(a0), x1=60+56*Math.cos(a1), y1=60+56*Math.sin(a1);
+      svg += '<path d="M60,60 L'+x0.toFixed(2)+','+y0.toFixed(2)+' A56,56 0 '+(frac>0.5?1:0)+',1 '+x1.toFixed(2)+','+y1.toFixed(2)+' Z" fill="'+c+'" stroke="#fff" stroke-width="1.5"/>'; }
+    a0=a1; });
+  svg += '<circle cx="60" cy="60" r="28" fill="#fff"/><text x="60" y="58" text-anchor="middle" font-size="16" font-weight="800" fill="#16256B">'+res.n+'</text><text x="60" y="72" text-anchor="middle" font-size="8" fill="#5a6072">réponses</text></svg>';
+  h += '<div class="pie">'+svg+'<div class="leg">'+res.items.map(([k,v],i)=>'<div><i style="background:'+cols[i%cols.length]+'"></i><span>'+esc(k)+'</span><b>'+fmt(pct(v,res.n))+'</b></div>').join("")+'</div></div>';
   return h+'</div>';
 }
-function filtered(rows){
-  const fn = $("fNiv").value, fg = $("fGen").value;
-  return rows.filter(r=>(!fn||r.niveau===fn)&&(!fg||r.genre===fg));
+function bars(title,res){
+  let h = '<div class="chart"><h3>'+esc(title)+'</h3><div class="n">'+res.n+' répondants, plusieurs réponses possibles</div>';
+  if (!res.n) return h+'<p class="muted">Pas encore de réponse.</p></div>';
+  res.items.forEach(([k,v])=>{ const p=pct(v,res.n); h += '<div class="row"><span>'+esc(k)+'</span><div class="track"><div class="fill" style="width:'+p+'%"></div></div><span class="pct">'+fmt(p)+'</span></div>'; });
+  return h+'</div>';
 }
-function cross(rows,rowKey,colKey,rowOrd,colOrd,title,note){
+function chartFor(rows,q){ return q[3] ? bars(q[1],counts(rows,q[0],1,q[2])) : pie(q[1],counts(rows,q[0],0,q[2]), !!q[2] && q[2]!==ORD.genre && q[2]!==ORD.regleLycee && q[2]!==ORD.niveauE && q[2]!==ORD.niveauP); }
+function cross(rows,rowKey,colKey,rowOrd,colOrd,title){
   const R = rowOrd.filter(r=>rows.some(x=>x[rowKey]===r)), C = colOrd.filter(c=>rows.some(x=>x[colKey]===c));
-  let h = '<div class="chart" style="overflow-x:auto"><h3>'+esc(title)+'</h3><div class="n">Pourcentages en ligne'+(note?', '+esc(note):'')+'</div>';
+  let h = '<div class="chart" style="overflow-x:auto"><h3>'+esc(title)+'</h3><div class="n">Pourcentages en ligne</div>';
   if (!R.length||!C.length) return h+'<p class="muted">Pas encore assez de réponses.</p></div>';
   h += '<table class="x"><thead><tr><th></th>'+C.map(c=>'<th>'+esc(c)+'</th>').join("")+'<th>Effectif</th></tr></thead><tbody>';
   R.forEach(r=>{ const sub = rows.filter(x=>x[rowKey]===r&&x[colKey]);
     h += '<tr><td>'+esc(r)+'</td>'+C.map(c=>{ const p = pct(sub.filter(x=>x[colKey]===c).length, sub.length);
-      return '<td class="heat" style="background:rgba(22,37,107,'+(p/140).toFixed(2)+');color:'+(p>55?'#fff':'inherit')+'">'+fmt(p)+'</td>'; }).join("")+'<td>'+sub.length+'</td></tr>'; });
+      return '<td style="background:rgba(22,37,107,'+(p/140).toFixed(2)+');color:'+(p>55?'#fff':'inherit')+'">'+fmt(p)+'</td>'; }).join("")+'<td>'+sub.length+'</td></tr>'; });
   return h+'</tbody></table></div>';
 }
+
+/* Données filtrées et appariement des familles */
+function filtered(rows){ const fn=$("fNiv").value, fg=$("fGen").value; return rows.filter(r=>(!fn||r.niveau===fn)&&(!fg||r.genre===fg||(fg==="Fille"&&r.genre==="Une fille")||(fg==="Garçon"&&r.genre==="Un garçon"))); }
+const normCode = c => String(c||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9а-я]/g,"");
+function dyads(E,P){
+  const byCode = {}; P.forEach(p=>{ const c=normCode(p.code_famille); if(c.length>=3) (byCode[c]=byCode[c]||[]).push(p); });
+  const out = []; E.forEach(e=>{ const c=normCode(e.code_famille); if(c.length>=3 && byCode[c]) byCode[c].forEach(p=>out.push({e,p,code:c})); });
+  return out;
+}
+
+/* Corrélations clés */
+function correlations(E,P,D){
+  return [
+   ["Élèves","Temps d'écran un jour de classe et durée de sommeil",corr(E,g("temps_semaine",NUM.temps),g("duree_sommeil",NUM.sommeil))],
+   ["Élèves","Temps d'écran et concentration en classe",corr(E,g("temps_semaine",NUM.temps),g("be_concentration",NUM.freq))],
+   ["Élèves","Temps d'écran et résultats perçus",corr(E,g("temps_semaine",NUM.temps),g("resultats",NUM.resultats))],
+   ["Élèves","Temps d'écran et indice de bien-être",corr(E,g("temps_semaine",NUM.temps),wellbeing)],
+   ["Élèves","Durée de sommeil et concentration",corr(E,g("duree_sommeil",NUM.sommeil),g("be_concentration",NUM.freq))],
+   ["Élèves","Téléphone dans la chambre et durée de sommeil",corr(E,g("tel_chambre",NUM.oui),g("duree_sommeil",NUM.sommeil))],
+   ["Élèves","Téléphone pendant les devoirs et résultats perçus",corr(E,g("tel_devoirs",NUM.freq),g("resultats",NUM.resultats))],
+   ["Élèves","Temps d'écran des parents perçu et temps d'écran de l'élève",corr(E,g("parents_temps",NUM.temps),g("temps_semaine",NUM.temps))],
+   ["Élèves","Parents sur leur téléphone quand l'élève parle et bien-être",corr(E,g("parents_technoference",NUM.freq),wellbeing)],
+   ["Élèves","Règles à la maison et temps d'écran",corr(E,g("regles_maison",NUM.regleMaison),g("temps_semaine",NUM.temps))],
+   ["Parents","Temps d'écran du parent et temps d'écran estimé de l'enfant",corr(P,g("temps_parent",NUM.temps),g("temps_semaine",NUM.temps))],
+   ["Parents","Temps d'écran du parent et résultats de l'enfant",corr(P,g("temps_parent",NUM.temps),g("enfant_resultats",NUM.resultats))],
+   ["Parents","Temps d'écran du parent et fatigue de l'enfant",corr(P,g("temps_parent",NUM.temps),g("enfant_fatigue",NUM.freq))],
+   ["Parents","Parent sur son téléphone quand l'enfant parle et résultats",corr(P,g("parent_technoference",NUM.freq),g("enfant_resultats",NUM.resultats))],
+   ["Parents","Écrans pendant les repas et tensions familiales",corr(P,g("ecrans_repas",NUM.freq),g("tensions",NUM.freq))],
+   ["Familles appariées","Temps d'écran du parent et temps d'écran déclaré par l'élève",corr(D,d=>NUM.temps[d.p.temps_parent],d=>NUM.temps[d.e.temps_semaine])],
+   ["Familles appariées","Temps d'écran du parent et résultats déclarés par l'élève",corr(D,d=>NUM.temps[d.p.temps_parent],d=>NUM.resultats[d.e.resultats])],
+   ["Familles appariées","Temps d'écran du parent et sommeil de l'élève",corr(D,d=>NUM.temps[d.p.temps_parent],d=>NUM.sommeil[d.e.duree_sommeil])]
+  ];
+}
+function corrTable(list){
+  let h = '<table class="x"><thead><tr><th>Source</th><th style="text-align:left">Relation étudiée</th><th>Effectif</th><th>Coefficient</th><th>Lecture</th></tr></thead><tbody>';
+  list.forEach(([s,l,c])=>{ const [t,b]=force(c.r); h += '<tr><td>'+esc(s)+'</td><td style="text-align:left">'+esc(l)+'</td><td>'+c.n+'</td><td>'+(c.r===null?'·':String(Math.round(c.r*100)/100).replace(".",","))+'</td><td><span class="badge '+b+'">'+t+(c.r!==null&&Math.abs(c.r)>=0.1?(c.r>0?', positif':', négatif'):'')+'</span></td></tr>'; });
+  return h+'</tbody></table>';
+}
+
+function keyFigures(E,P,D){
+  const s3 = share(E,"temps_semaine",["3 à 4 h","4 à 5 h","Plus de 5 h"]);
+  const ch = share(E,"tel_chambre",["Oui"]);
+  const late = share(E,"dernier_ecran",["Dans les 15 minutes avant de dormir"]);
+  const sl = share(E,"duree_sommeil",["Moins de 6 h","6 à 7 h"]);
+  const nuit = share(E,"reveil_nuit",["Parfois","Souvent","Toujours"]);
+  const dev = share(E,"tel_devoirs",["Souvent","Toujours"]);
+  const cls = share(E,"tel_classe",["Parfois","Souvent","Toujours"]);
+  const trop = share(E,"trop_ecrans",["Oui","Plutôt oui"]);
+  const techno = share(E,"parents_technoference",["Souvent","Toujours"]);
+  const pTemps = mean(P,"temps_parent",NUM.temps), eTemps = mean(E,"temps_semaine",NUM.temps);
+  const pRest = share(P,"regle_lycee",["Rangé toute la journée, éteint ou au casier"]), eRest = share(E,"regle_lycee",["Rangé toute la journée, éteint ou au casier"]);
+  const items = [];
+  if (s3.n) items.push(s3.p+" % des élèves déclarent plus de 3 heures d'écran un jour de classe, en dehors du travail scolaire ("+s3.n+" réponses).");
+  if (eTemps!==null) items.push("Le temps d'écran moyen estimé des élèves est d'environ "+f1(eTemps)+" heures un jour de classe.");
+  if (ch.n) items.push(ch.p+" % des élèves gardent leur téléphone dans leur chambre la nuit, et "+late.p+" % regardent un écran dans le quart d'heure qui précède le sommeil.");
+  if (nuit.n) items.push(nuit.p+" % se réveillent au moins parfois la nuit pour consulter leur téléphone.");
+  if (sl.n) items.push(sl.p+" % dorment moins de 7 heures une nuit de semaine.");
+  if (dev.n) items.push(dev.p+" % ont souvent ou toujours leur téléphone à portée de main pendant les devoirs, et "+cls.p+" % disent l'utiliser au moins parfois en classe sans autorisation.");
+  if (trop.n) items.push(trop.p+" % des élèves estiment eux-mêmes passer trop de temps sur les écrans.");
+  if (techno.n) items.push(techno.p+" % des élèves disent que leurs parents regardent souvent ou toujours leur téléphone quand ils leur parlent.");
+  if (pTemps!==null) items.push("Les parents déclarent en moyenne environ "+f1(pTemps)+" heures d'écran par jour hors travail.");
+  if (eRest.n||pRest.n) items.push("Un téléphone rangé toute la journée au lycée est souhaité par "+eRest.p+" % des élèves et "+pRest.p+" % des parents.");
+  if (D.length) items.push(D.length+" familles ont utilisé le même code, ce qui permet de rapprocher les réponses d'un parent et de son enfant.");
+  return items;
+}
+
 function render(){
-  const E = filtered(DATA.Eleves), P = filtered(DATA.Parents);
+  if (!DATA) return;
+  const E = filtered(DATA.Eleves), P = filtered(DATA.Parents), D = dyads(E,P);
+  const allD = dyads(DATA.Eleves,DATA.Parents);
+  $("kE").textContent = DATA.Eleves.length; $("kP").textContent = DATA.Parents.length; $("kD").textContent = allD.length;
+  const mt = mean(E,"temps_semaine",NUM.temps); $("kS").textContent = mt===null?"·":f1(mt)+" h";
+  $("kT").textContent = fmt(share(E,"tel_chambre",["Oui"]).p);
   let h = "";
-  if (tab==="eleves"){ h = '<h2>Élèves</h2><div class="charts">'+QE.map(q=>bars(q[1],counts(E,q[0],q[3],q[2]),q[3]?'plusieurs réponses possibles, en % des répondants':'')).join("")+'</div>'; }
-  if (tab==="parents"){ h = '<h2>Parents</h2><div class="charts">'+QP.map(q=>bars(q[1],counts(P,q[0],q[3],q[2]),q[3]?'plusieurs réponses possibles, en % des répondants':'')).join("")+'</div>'; }
+  if (tab==="synthese"){
+    h = '<h2>Chiffres clés</h2><ul>'+keyFigures(E,P,D).map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>'
+      + '<h2>Ce qui va ensemble</h2><p class="muted">Corrélations de rang de Spearman, de moins 1 à plus 1. Un lien n\'est pas une preuve de cause, l\'âge et le milieu familial peuvent jouer sur les deux variables.</p>'+corrTable(correlations(E,P,D))
+      + '<h2>La règle souhaitée au lycée</h2><div class="grid2">'+pie("Élèves",counts(E,"regle_lycee",0,ORD.regleLycee))+pie("Parents",counts(P,"regle_lycee",0,ORD.regleLycee))+'</div>';
+  }
+  if (tab==="eleves") h = '<h2>Élèves</h2><div class="grid3">'+QE.map(q=>chartFor(E,q)).join("")+'</div>';
+  if (tab==="parents") h = '<h2>Parents</h2><div class="grid3">'+QP.map(q=>chartFor(P,q)).join("")+'</div>';
   if (tab==="croises"){
-    h = '<h2>Tableaux croisés, élèves</h2><p class="muted">Lecture, sur 100 élèves de la ligne, combien se trouvent dans chaque colonne. Une association ne prouve pas une causalité.</p><div class="charts">'
+    const G = ["Fille","Garçon","Autre","Préfère ne pas répondre"];
+    h = '<h2>Croisements</h2><p class="muted">Lecture, sur 100 élèves de la ligne, combien se trouvent dans chaque colonne.</p><div class="grid2">'
      + cross(E,"temps_semaine","duree_sommeil",ORD.temps,ORD.sommeil,"Temps d'écran un jour de classe et durée de sommeil")
      + cross(E,"tel_chambre","duree_sommeil",["Oui","Non","Je n'ai pas de téléphone"],ORD.sommeil,"Téléphone dans la chambre et durée de sommeil")
      + cross(E,"temps_semaine","be_concentration",ORD.temps,ORD.freq,"Temps d'écran et concentration en classe")
-     + cross(E,"duree_sommeil","be_repose",ORD.sommeil,ORD.freq,"Durée de sommeil et sentiment d'être reposé·e")
-     + cross(E,"temps_semaine","resultats",ORD.temps,ORD.resultats,"Temps d'écran et résultats scolaires perçus")
-     + cross(E,"niveau","temps_semaine",ORD.niveauE,ORD.temps,"Niveau et temps d'écran un jour de classe")
-     + cross(E,"genre","temps_semaine",["Fille","Garçon","Autre","Préfère ne pas répondre"],ORD.temps,"Genre et temps d'écran un jour de classe")
-     + cross(E,"genre","be_stress",["Fille","Garçon","Autre","Préfère ne pas répondre"],ORD.freq,"Genre et stress lié au travail scolaire")
+     + cross(E,"tel_devoirs","resultats",ORD.freq,ORD.resultats,"Téléphone pendant les devoirs et résultats perçus")
+     + cross(E,"regles_maison","temps_semaine",ORD.regleMaison,ORD.temps,"Règles à la maison et temps d'écran")
+     + cross(E,"parents_technoference","be_humeur",ORD.freq,ORD.freq,"Parents sur leur téléphone et bonne humeur de l'élève")
+     + cross(E,"niveau","temps_semaine",ORD.niveauE,ORD.temps,"Niveau et temps d'écran")
+     + cross(E,"genre","be_stress",G,ORD.freq,"Genre et stress lié au travail scolaire")
+     + cross(P,"temps_parent","enfant_resultats",ORD.temps,ORD.resultats,"Parents, leur temps d'écran et les résultats de l'enfant")
+     + cross(P,"temps_parent","enfant_fatigue",ORD.temps,ORD.freq,"Parents, leur temps d'écran et la fatigue de l'enfant")
      + '</div>';
   }
-  if (tab==="regards"){
-    const pair = (key,ord,title)=>{ const a=counts(E,key,0,ord), b=counts(P,key,0,ord);
-      const cats = ord.filter(o=>a.items.some(i=>i[0]===o)||b.items.some(i=>i[0]===o));
-      let s = '<div class="chart pair"><h3>'+esc(title)+'</h3><div class="legend"><span><i style="background:var(--c1)"></i>Élèves ('+a.n+')</span><span><i style="background:var(--c2)"></i>Parents ('+b.n+')</span></div>';
-      cats.forEach(c=>{ const pa=pct((a.items.find(i=>i[0]===c)||[0,0])[1],a.n), pb=pct((b.items.find(i=>i[0]===c)||[0,0])[1],b.n);
-        s += '<div class="row"><span>'+esc(c)+'</span><div class="bars2"><div class="track"><div class="fill e" style="width:'+pa+'%"></div></div><div class="track"><div class="fill p" style="width:'+pb+'%"></div></div></div><span class="pct">'+fmt(pa)+'<br><span style="color:var(--c2)">'+fmt(pb)+'</span></span></div>'; });
-      return s+'</div>'; };
-    h = '<h2>Ce que disent les élèves, ce que pensent les parents</h2><p class="muted">Comparaison des déclarations des élèves et des estimations des parents. Les deux groupes ne sont pas forcément les mêmes familles.</p><div class="charts">'
-      + pair("temps_semaine",ORD.temps,"Temps d'écran un jour de classe") + pair("temps_weekend",ORD.temps,"Temps d'écran un jour de week-end")
-      + pair("coucher",ORD.coucher,"Heure du coucher en semaine") + pair("tel_chambre",["Oui","Non","Je n'ai pas de téléphone","Il n'a pas de téléphone","Je ne sais pas"],"Téléphone dans la chambre la nuit") + '</div>';
+  if (tab==="familles"){
+    h = '<h2>Familles appariées par le code famille</h2><p class="muted">'+D.length+' paires parent et élève. Les codes ne permettent pas de savoir qui sont les familles.</p>';
+    if (!D.length) h += '<p>Aucune paire pour le moment. Les paires apparaissent dès qu\'un parent et un élève saisissent le même code.</p>';
+    else {
+      const agree = D.filter(d=>NUM.temps[d.p.temps_semaine]!==undefined&&NUM.temps[d.e.temps_semaine]!==undefined);
+      const under = agree.filter(d=>NUM.temps[d.p.temps_semaine]<NUM.temps[d.e.temps_semaine]).length, same = agree.filter(d=>NUM.temps[d.p.temps_semaine]===NUM.temps[d.e.temps_semaine]).length;
+      h += '<div class="grid3"><div class="chart"><h3>Le parent estime-t-il bien le temps d\'écran de son enfant ?</h3><div class="n">'+agree.length+' paires comparables</div>'
+        + '<div class="row"><span>Sous-estime</span><div class="track"><div class="fill" style="width:'+pct(under,agree.length)+'%;background:#C8102E"></div></div><span class="pct">'+fmt(pct(under,agree.length))+'</span></div>'
+        + '<div class="row"><span>Estime juste</span><div class="track"><div class="fill" style="width:'+pct(same,agree.length)+'%"></div></div><span class="pct">'+fmt(pct(same,agree.length))+'</span></div>'
+        + '<div class="row"><span>Surestime</span><div class="track"><div class="fill" style="width:'+pct(agree.length-under-same,agree.length)+'%;background:#2E86AB"></div></div><span class="pct">'+fmt(pct(agree.length-under-same,agree.length))+'</span></div></div>'
+        + pie("Temps d'écran des parents appariés",counts(D.map(d=>d.p),"temps_parent",0,ORD.temps),1)
+        + pie("Temps d'écran des élèves appariés",counts(D.map(d=>d.e),"temps_semaine",0,ORD.temps),1)+'</div>'
+        + '<h3 style="margin-top:14px">Corrélations sur les paires</h3>'+corrTable(correlations([],[],D).slice(-3));
+    }
   }
   if (tab==="verbatims"){
     const list = (rows,key,title)=>{ const v = rows.map(r=>String(r[key]||"").trim()).filter(Boolean);
       return '<div class="chart"><h3>'+esc(title)+' ('+v.length+')</h3>'+(v.length?'<ul class="quotes">'+v.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>':'<p class="muted">Aucun pour le moment.</p>')+'</div>'; };
-    h = '<h2>Réponses libres</h2><div class="charts">'+list(E,"aide","Élèves, ce qui les aiderait")+list(E,"idee","Élèves, idées pour le lycée")+list(P,"remarque","Parents, remarques et suggestions")+'</div>';
+    h = '<h2>Réponses libres</h2><div class="grid3">'+list(E,"aide","Élèves, ce qui les aiderait")+list(E,"idee","Élèves, idées pour le lycée")+list(P,"remarque","Parents, remarques et suggestions")+'</div>';
   }
+  if (tab==="rapport") h = report(E,P,D);
   $("view").innerHTML = h;
-  const allE = filtered(DATA.Eleves);
-  $("kE").textContent = DATA.Eleves.length; $("kP").textContent = DATA.Parents.length;
-  const s3 = counts(allE,"temps_semaine"); const over = s3.items.filter(i=>["3 à 4 h","4 à 5 h","Plus de 5 h"].includes(i[0])).reduce((a,i)=>a+i[1],0);
-  $("kS").textContent = fmt(pct(over,s3.n));
-  const tc = counts(allE,"tel_chambre"); $("kT").textContent = fmt(pct((tc.items.find(i=>i[0]==="Oui")||[0,0])[1], tc.n));
+  const pr = $("printBtn"); if (pr) pr.addEventListener("click",()=>window.print());
 }
-function csv(rows){
-  if (!rows.length) return "";
-  const keys = Object.keys(rows[0]);
-  const q = v => '"'+String(v==null?"":v).replace(/"/g,'""')+'"';
-  return "﻿"+keys.join(";")+"\n"+rows.map(r=>keys.map(k=>q(r[k])).join(";")).join("\n");
+
+function report(E,P,D){
+  const d = new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"});
+  const niv = counts(E,"niveau",0,ORD.niveauE).items.map(i=>i[0]+" ("+i[1]+")").join(", ");
+  const lg = counts(DATA.Eleves.concat(DATA.Parents),"langue").items.map(i=>({fr:"français",bg:"bulgare",en:"anglais"}[i[0]]||i[0])+" "+i[1]).join(", ");
+  const regE = counts(E,"regle_lycee",0,ORD.regleLycee), regP = counts(P,"regle_lycee",0,ORD.regleLycee);
+  const att = counts(P,"attentes",1);
+  return '<div class="report"><div class="noprint" style="text-align:right;margin-bottom:10px"><button class="btn" id="printBtn">Imprimer ou enregistrer en PDF</button></div>'
+   + '<div class="rephead"><img src="assets/logo-lvh.png" alt=""><img src="assets/logo-aefe.png" alt=""></div>'
+   + '<h1>Opération Écran, boulot, dodo</h1><p><b>Rapport d\'enquête à l\'attention de la direction</b><br>Les écrans, le sommeil, le travail scolaire et le bien-être au Lycée français Victor Hugo de Sofia<br>Enquête menée par les élèves de Seconde en sciences économiques et sociales, sous la direction de M. Grégory Cron. Données arrêtées le '+d+'.</p>'
+   + '<h2>1. Méthode</h2><p>Questionnaire en ligne anonyme, diffusé par Pronote du 1er au 3 novembre 2026 à l\'ensemble des élèves du secondaire et des familles, en français, en bulgare et en anglais. '+DATA.Eleves.length+' élèves et '+DATA.Parents.length+' parents ont répondu, répartition par langue '+esc(lg)+'. Élèves par niveau '+esc(niv||"non renseigné")+'. Un code famille facultatif a permis d\'apparier '+D.length+' paires parent et enfant sans lever l\'anonymat.</p>'
+   + '<h2>2. Chiffres clés</h2><ul>'+keyFigures(E,P,D).map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>'
+   + '<div class="grid2">'+pie("Temps d\'écran des élèves un jour de classe",counts(E,"temps_semaine",0,ORD.temps),1)+pie("Durée de sommeil des élèves en semaine",counts(E,"duree_sommeil",0,ORD.sommeil),1)+pie("Téléphone dans la chambre la nuit",counts(E,"tel_chambre"))+pie("Temps d\'écran des parents hors travail",counts(P,"temps_parent",0,ORD.temps),1)+'</div>'
+   + '<h2 class="pagebreak">3. Ce qui va ensemble</h2><p>Le tableau mesure la force des liens entre deux réponses. Un coefficient proche de zéro signale une absence de lien, un coefficient proche de 1 ou de moins 1 un lien fort. Ces liens décrivent des tendances au sein de l\'échantillon et ne démontrent pas de relation de cause à effet.</p>'+corrTable(correlations(E,P,D))
+   + '<h2>4. La règle souhaitée au lycée</h2><div class="grid2">'+pie("Élèves",regE)+pie("Parents",regP)+'</div>'+(att.n?bars("Ce que les parents attendent du lycée",att):'')
+   + '<h2>5. Limites de l\'enquête</h2><ul><li>Les répondants se sont portés volontaires, les familles les plus attentives à la question sont sans doute surreprésentées.</li><li>Les temps d\'écran et de sommeil sont déclarés, donc approximatifs, et les moyennes sont calculées à partir du centre de chaque tranche.</li><li>L\'âge, le milieu social et la langue parlée à la maison influencent à la fois les usages et les résultats scolaires, un lien observé peut donc venir d\'un troisième facteur.</li><li>Les effectifs de certains croisements restent faibles et appellent la prudence.</li></ul>'
+   + '<h2>6. Pistes de réflexion pour une politique d\'usage</h2><ul><li>Le téléphone la nuit et le dernier écran avant le sommeil constituent le levier le plus directement lié au repos des élèves, une campagne commune avec les familles sur le téléphone hors de la chambre peut s\'appuyer sur ces données.</li><li>La règle au lycée gagnera à être construite à partir des positions exprimées ici par les élèves et les parents, par exemple dans une charte du numérique discutée en conseil de la vie lycéenne.</li><li>Les usages des adultes comptent aussi, l\'exemple donné à la maison et au lycée fait partie de la réponse éducative.</li></ul>'
+   + '<p class="fig">Rapport généré automatiquement à partir des réponses enregistrées, à relire et à compléter par l\'équipe avant diffusion.</p></div>';
 }
+
+function csv(rows){ if (!rows.length) return ""; const keys=[...new Set(rows.flatMap(r=>Object.keys(r)))]; const q=v=>'"'+String(v==null?"":v).replace(/"/g,'""')+'"';
+  return "﻿"+keys.join(";")+"\n"+rows.map(r=>keys.map(k=>q(r[k])).join(";")).join("\n"); }
 function download(name,text){ const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([text],{type:"text/csv;charset=utf-8"})); a.download=name; a.click(); }
+
+let KEY = "";
 async function load(){
-  const cle = $("cle").value.trim(); if (!cle) return;
+  const cle = KEY || $("cle").value.trim(); if (!cle) return;
   if (!ENDPOINT){ $("msg").textContent = "Le service de collecte n'est pas encore branché."; return; }
   $("msg").textContent = "Chargement…";
   try{
     const r = await fetch(ENDPOINT+"?cle="+encodeURIComponent(cle)); const d = await r.json();
     if (!d.ok){ $("msg").textContent = "Clé incorrecte."; return; }
-    DATA = d; $("loginCard").hidden = true; $("dash").hidden = false;
-    const niv = [...new Set(d.Eleves.map(r=>r.niveau).concat(d.Parents.map(r=>r.niveau)))].filter(Boolean).sort((a,b)=>ORD.niveauP.indexOf(a)-ORD.niveauP.indexOf(b));
-    const gen = [...new Set(d.Eleves.map(r=>r.genre).concat(d.Parents.map(r=>r.genre)))].filter(Boolean);
-    $("fNiv").innerHTML = '<option value="">Tous</option>'+niv.map(x=>'<option>'+esc(x)+'</option>').join("");
-    $("fGen").innerHTML = '<option value="">Tous</option>'+gen.map(x=>'<option>'+esc(x)+'</option>').join("");
-    $("maj").textContent = "Données chargées le "+new Date().toLocaleString("fr-FR")+".";
+    KEY = cle; DATA = {Eleves:d.Eleves||[], Parents:d.Parents||[]};
+    $("loginCard").hidden = true; $("dash").hidden = false;
+    const keepN=$("fNiv").value, keepG=$("fGen").value;
+    const niv = [...new Set(DATA.Eleves.map(r=>r.niveau).concat(DATA.Parents.map(r=>r.niveau)))].filter(Boolean).sort((a,b)=>ORD.niveauP.indexOf(a)-ORD.niveauP.indexOf(b));
+    $("fNiv").innerHTML = '<option value="">Tous</option>'+niv.map(x=>'<option'+(x===keepN?' selected':'')+'>'+esc(x)+'</option>').join("");
+    $("fGen").innerHTML = '<option value="">Tous</option>'+["Fille","Garçon","Autre","Préfère ne pas répondre"].map(x=>'<option'+(x===keepG?' selected':'')+'>'+x+'</option>').join("");
+    $("maj").textContent = "Mis à jour à "+new Date().toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});
     render();
   }catch(e){ $("msg").textContent = "Connexion impossible, réessayez."; }
 }
 $("go").addEventListener("click",load);
 $("cle").addEventListener("keydown",e=>{ if(e.key==="Enter") load(); });
+$("refresh").addEventListener("click",load);
+$("auto").addEventListener("change",e=>{ clearInterval(timer); if (e.target.checked) timer=setInterval(load,120000); });
 $("fNiv").addEventListener("change",render); $("fGen").addEventListener("change",render);
 document.querySelectorAll("[data-tab]").forEach(b=>b.addEventListener("click",()=>{ tab=b.dataset.tab; document.querySelectorAll("[data-tab]").forEach(x=>x.setAttribute("aria-pressed",String(x===b))); render(); }));
 $("csvE").addEventListener("click",()=>download("enquete_eleves.csv",csv(DATA.Eleves)));
