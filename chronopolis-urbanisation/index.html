@@ -1,0 +1,1257 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Chronopolis · L'urbanisation du monde · 4e</title>
+<meta name="description" content="Parcours de révision gamifié sur l'urbanisation du monde, 4e. LaClasseDeGreg, Lycée français Victor Hugo de Sofia.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@500;700;800;900&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a1030; --night:#160a33; --night2:#2a1066; --pink:#ff2e88; --yellow:#ffd60a; --cyan:#00e5ff;
+  --lime:#a3ff3b; --orange:#ff7a00; --violet:#7b2ff7; --ok:#16a34a; --ko:#e11d48; --paper:#fffaf0;
+  --ch:#7b2ff7; --r:18px; --shadow:6px 6px 0 var(--ink);
+  --body:"Nunito",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;font-family:var(--body);font-size:17px;line-height:1.45;color:var(--ink);
+  background:var(--night);
+  background-image:radial-gradient(circle at 20% 10%,rgba(123,47,247,.55),transparent 45%),radial-gradient(circle at 85% 30%,rgba(255,46,136,.35),transparent 40%),radial-gradient(circle at 50% 100%,rgba(0,229,255,.25),transparent 50%),radial-gradient(rgba(255,255,255,.08) 1.2px,transparent 1.3px);
+  background-size:auto,auto,auto,18px 18px;background-attachment:fixed}
+body.facile{--body:"Atkinson Hyperlegible",Verdana,Arial,sans-serif;font-size:20px;line-height:1.7;letter-spacing:.02em}
+button{font:inherit;cursor:pointer;color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:1000px;margin:0 auto;padding:0 14px 40px}
+[hidden]{display:none!important}
+/* Barre du haut */
+.top{position:sticky;top:0;z-index:30;background:rgba(22,10,51,.92);backdrop-filter:blur(6px);border-bottom:3px solid var(--yellow)}
+.top .in{max-width:1000px;margin:0 auto;padding:8px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:#fff}
+.logo{font-family:"Bangers",cursive;font-size:28px;letter-spacing:2px;color:var(--yellow);text-shadow:3px 3px 0 var(--pink);line-height:1}
+.who{font-weight:800;font-size:14px;opacity:.9}
+.energy{flex:1;min-width:150px;display:flex;align-items:center;gap:8px}
+.ebar{flex:1;height:16px;background:#3b2a73;border:2px solid #fff;border-radius:999px;overflow:hidden;position:relative}
+.ebar i{position:absolute;inset:0;width:0;background:linear-gradient(90deg,var(--cyan),var(--lime),var(--yellow));transition:width .8s cubic-bezier(.2,1.4,.4,1)}
+.etxt{font-weight:900;font-size:13px;min-width:44px;text-align:right}
+.tbtn{background:#fff;color:var(--ink);border:2px solid var(--ink);border-radius:10px;padding:5px 10px;font-weight:800;font-size:13px;display:inline-flex;gap:6px;align-items:center;box-shadow:2px 2px 0 var(--pink)}
+.tbtn[aria-pressed="true"]{background:var(--yellow)}
+.tbtn svg{width:16px;height:16px}
+/* Cartes BD */
+.card{background:var(--paper);border:4px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin:18px 0}
+.h1{font-family:"Bangers",cursive;letter-spacing:1.5px;font-weight:400}
+.btn{background:var(--pink);color:#fff;border:3px solid var(--ink);border-radius:14px;padding:12px 20px;font-weight:900;font-size:17px;box-shadow:4px 4px 0 var(--ink);transition:transform .08s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+.btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.btn.y{background:var(--yellow);color:var(--ink)} .btn.c{background:var(--cyan);color:var(--ink)} .btn.w{background:#fff;color:var(--ink)} .btn.g{background:var(--ok)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.muted{opacity:.75;font-size:14px}
+/* Accueil */
+.hero{text-align:center;color:#fff;padding:30px 0 6px}
+.hero .t{font-family:"Bangers",cursive;font-size:clamp(54px,12vw,110px);line-height:.9;letter-spacing:4px;color:var(--yellow);text-shadow:5px 5px 0 var(--pink),10px 10px 0 var(--violet);animation:glitch 4s infinite}
+.hero .s{font-weight:900;font-size:clamp(17px,3vw,22px);margin-top:12px}
+.hero .s b{color:var(--cyan)}
+@keyframes glitch{0%,92%,100%{transform:none}93%{transform:translate(-3px,1px) skewX(-6deg)}95%{transform:translate(3px,-1px) skewX(5deg)}97%{transform:translate(-1px,0)}}
+.trio{display:flex;justify-content:center;gap:4px;margin:6px 0 -6px}
+.trio .ch{width:120px;animation:bob 3s ease-in-out infinite}
+.trio .ch:nth-child(2){animation-delay:.5s}.trio .ch:nth-child(3){animation-delay:1s}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-8px) rotate(2deg)}}
+.step{font-family:"Bangers",cursive;font-size:24px;letter-spacing:1px;margin:0 0 8px;color:var(--violet)}
+.pills{display:flex;gap:10px;flex-wrap:wrap}
+.pill{border:3px solid var(--ink);border-radius:14px;background:#fff;padding:10px 16px;font-weight:900;box-shadow:3px 3px 0 var(--ink)}
+.pill[aria-pressed="true"]{background:var(--yellow);transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+select,input[type=text],input[type=password],textarea{font:inherit;border:3px solid var(--ink);border-radius:12px;padding:10px 12px;background:#fff;width:100%}
+.guides{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:700px){.guides{grid-template-columns:1fr}}
+.gcard{border:3px solid var(--ink);border-radius:16px;background:#fff;padding:10px;text-align:left;box-shadow:4px 4px 0 var(--ink);display:flex;gap:10px;align-items:center}
+.gcard .av{width:88px;flex:none;border-radius:12px;background:var(--yellow);border:3px solid var(--ink);overflow:hidden}
+.gcard b{font-family:"Bangers",cursive;font-size:22px;letter-spacing:1px;font-weight:400;display:block}
+.gcard span{font-size:14px;display:block}
+.gcard[aria-pressed="true"]{background:#e9ffd0;outline:4px solid var(--lime)}
+/* Scène */
+.scene-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:20px 0 10px;color:#fff}
+.tag{background:var(--ch);color:#fff;border:3px solid var(--ink);border-radius:999px;padding:4px 14px;font-weight:900;font-size:14px;box-shadow:3px 3px 0 var(--ink)}
+.stitle{font-family:"Bangers",cursive;font-size:clamp(30px,6vw,46px);letter-spacing:1.5px;line-height:1;text-shadow:3px 3px 0 var(--ink),5px 5px 0 var(--ch);margin:0;flex-basis:100%}
+.pg{font-weight:900;font-size:13px;opacity:.85}
+.photos{position:relative;border:4px solid var(--ink);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);background:#000}
+.photos .grid{display:grid;grid-template-columns:1fr}
+.photos .grid.two{grid-template-columns:1fr 1fr}
+.photos img{width:100%;height:clamp(200px,42vw,380px);object-fit:cover}
+.photos .grid.two img{height:clamp(170px,32vw,320px)}
+.photos .grid.two img+img{border-left:4px solid var(--ink)}
+.peek{position:absolute;bottom:-6px;left:10px;width:clamp(96px,18vw,150px);filter:drop-shadow(4px 4px 0 rgba(0,0,0,.5));animation:peek .7s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes peek{from{transform:translateY(110%)}to{transform:none}}
+.onom{position:absolute;top:12px;right:12px;font-family:"Bangers",cursive;font-size:clamp(28px,5vw,44px);color:var(--yellow);-webkit-text-stroke:2px var(--ink);text-shadow:4px 4px 0 var(--ink);transform:rotate(-8deg);animation:pop .5s .3s both}
+@keyframes pop{0%{transform:scale(0) rotate(-30deg)}70%{transform:scale(1.2) rotate(-6deg)}100%{transform:scale(1) rotate(-8deg)}}
+.credit{font-size:12px;color:#ddd;margin:6px 4px 0}
+.stage{border:4px solid var(--ink);border-radius:var(--r);box-shadow:var(--shadow);background:linear-gradient(160deg,#2a1066,#140733);padding:14px;display:flex;justify-content:center;align-items:flex-end;gap:6px;min-height:200px;position:relative;overflow:hidden}
+.stage .ch{width:clamp(90px,20vw,160px);animation:bob 3s ease-in-out infinite}
+.stage .ch:nth-child(2){animation-delay:.4s}.stage .ch:nth-child(3){animation-delay:.8s}
+.stage .portal{width:clamp(120px,24vw,190px);align-self:center}
+.spin{transform-origin:100px 100px;animation:spin 2.4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* Dialogues */
+.dlg{margin:16px 0}
+.bub{display:flex;gap:10px;align-items:flex-start;margin:10px 0;opacity:0;transform:translateY(10px) scale(.98);transition:opacity .35s,transform .35s}
+.bub.on{opacity:1;transform:none}
+.bub .av{width:58px;height:64px;flex:none;border:3px solid var(--ink);border-radius:14px;background:var(--yellow);overflow:hidden}
+.bub .av.portail{background:#2a1066}
+.bub .tx{background:#fff;border:3px solid var(--ink);border-radius:16px;padding:9px 13px;position:relative;box-shadow:3px 3px 0 var(--ink)}
+.bub .tx:before{content:"";position:absolute;left:-12px;top:16px;border:9px solid transparent;border-right-color:var(--ink)}
+.bub .tx:after{content:"";position:absolute;left:-7px;top:18px;border:7px solid transparent;border-right-color:#fff}
+.bub .nm{font-family:"Bangers",cursive;letter-spacing:1px;font-size:17px;color:var(--ch);display:block;line-height:1.1}
+.bub.portail .tx{background:#e9fbff}
+.dlg-tools{display:flex;gap:8px;justify-content:flex-end}
+.small{font-size:13px;padding:6px 10px}
+/* Défi */
+.defi{position:relative}
+.defi .badge{position:absolute;top:-18px;left:14px;background:var(--yellow);border:3px solid var(--ink);border-radius:10px;padding:2px 12px;font-family:"Bangers",cursive;letter-spacing:1px;font-size:20px;transform:rotate(-3deg)}
+.cons{font-weight:800;margin:6px 0 12px}
+.qn{font-size:13px;font-weight:900;color:var(--ch);text-transform:uppercase;letter-spacing:.05em}
+.q{font-weight:900;font-size:1.12em;margin:4px 0 12px}
+.opts{display:grid;gap:9px}
+.opt{display:flex;gap:10px;align-items:center;text-align:left;border:3px solid var(--ink);border-radius:14px;background:#fff;padding:10px 12px;font-weight:700;box-shadow:3px 3px 0 var(--ink);transition:transform .08s}
+.opt:hover:not([disabled]){transform:translate(-1px,-1px);background:#fff8d6}
+.opt .L{flex:none;width:30px;height:30px;border-radius:50%;border:3px solid var(--ink);display:grid;place-items:center;font-weight:900;background:var(--cyan)}
+.opt.good{background:#dcfce7;border-color:var(--ok)} .opt.good .L{background:var(--ok);color:#fff}
+.opt.bad{background:#ffe4e6;border-color:var(--ko)} .opt.bad .L{background:var(--ko);color:#fff}
+.opt[disabled]{cursor:default}
+.fb{border:3px solid var(--ink);border-radius:14px;padding:10px 13px;margin-top:12px;animation:pop2 .35s both}
+@keyframes pop2{from{transform:scale(.9);opacity:0}to{transform:none;opacity:1}}
+.fb.ok{background:#dcfce7} .fb.ko{background:#ffe4e6}
+.fb b.k{font-family:"Bangers",cursive;letter-spacing:1px;font-size:20px;font-weight:400;display:block}
+.fb p{margin:5px 0 0}
+.vf{display:flex;gap:10px;margin-top:6px}
+.vf .opt{flex:1;justify-content:center}
+.next{margin-top:14px;display:flex;justify-content:flex-end}
+.retiens{background:linear-gradient(135deg,#fff3b0,#ffe066);border:4px solid var(--ink);border-radius:var(--r);padding:12px 16px;box-shadow:var(--shadow);margin:16px 0;position:relative}
+.retiens b{font-family:"Bangers",cursive;font-size:22px;letter-spacing:1px;font-weight:400;display:block}
+.gain{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-weight:900}
+.gem{width:46px;height:46px;animation:gem 1.2s ease-out both}
+@keyframes gem{0%{transform:scale(0) rotate(-90deg)}60%{transform:scale(1.4) rotate(10deg)}100%{transform:scale(1)}}
+/* Placement sur carte */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{border:3px solid var(--ink);border-radius:999px;background:#fff;padding:7px 13px;font-weight:800;font-size:15px;box-shadow:2px 2px 0 var(--ink);touch-action:none}
+.chip.sel{background:var(--yellow);transform:translateY(-2px) scale(1.04);box-shadow:3px 5px 0 var(--ink)}
+.chip.used{opacity:.35}
+.mapbox{position:relative;border:4px solid var(--ink);border-radius:var(--r);overflow:hidden;background:#9fd7ff;box-shadow:var(--shadow)}
+.mapbox svg{display:block;width:100%;height:auto}
+.spot{position:absolute;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;border:4px solid var(--ink);background:var(--pink);box-shadow:0 0 0 0 rgba(255,46,136,.7);animation:pulse 1.6s infinite;padding:0}
+.spot.filled{background:var(--cyan);animation:none}
+.spot.good{background:var(--ok);animation:none} .spot.bad{background:var(--ko);animation:none}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,46,136,.7)}70%{box-shadow:0 0 0 14px rgba(255,46,136,0)}100%{box-shadow:0 0 0 0 rgba(255,46,136,0)}}
+.slab{position:absolute;transform:translate(-50%,0);background:#fff;border:2px solid var(--ink);border-radius:8px;padding:2px 6px;font-size:12px;font-weight:800;white-space:nowrap;pointer-events:none;max-width:46vw;overflow:hidden;text-overflow:ellipsis}
+.slab.good{background:#dcfce7}
+@media(max-width:600px){.spot{width:24px;height:24px;border-width:3px}.slab{font-size:10px;max-width:34vw;padding:1px 4px}}.slab.bad{background:#ffe4e6;text-decoration:line-through}
+.here{position:absolute;transform:translate(-50%,-50%);font-weight:900;font-size:11px;color:var(--ink);background:var(--yellow);border:2px solid var(--ink);border-radius:8px;padding:1px 5px;white-space:nowrap}
+.corr{margin-top:12px;display:grid;gap:8px}
+.corr .it{border:3px solid var(--ink);border-radius:12px;padding:8px 11px;background:#fff}
+.corr .it.good{background:#ecfdf3}.corr .it.bad{background:#fff1f2}
+.corr .it b{display:block}
+/* Tri */
+.bins{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.bin{border:3px dashed var(--ink);border-radius:16px;padding:10px;min-height:120px;background:#fff}
+.bin h4{margin:0 0 8px;font-family:"Bangers",cursive;letter-spacing:1px;font-size:20px;font-weight:400}
+.bin.rich{background:#f0fff4}.bin.poor{background:#fff7ed}
+.bin.target{outline:4px solid var(--yellow);cursor:pointer}
+.card2{display:block;width:100%;text-align:left;border:3px solid var(--ink);border-radius:12px;background:#fff;padding:8px 10px;margin:6px 0;font-weight:700;font-size:15px;box-shadow:2px 2px 0 var(--ink)}
+.card2.sel{background:var(--yellow)}
+.card2.good{background:#dcfce7}.card2.bad{background:#ffe4e6}
+/* Ordre */
+.ord .card2 .n{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--cyan);border:2px solid var(--ink);margin-right:8px;font-weight:900}
+/* Texte à trous */
+.filltext{line-height:2.3;font-size:1.05em}
+.blank{border:3px dashed var(--ink);border-radius:10px;background:#fff;padding:1px 10px;font-weight:900;min-width:110px;display:inline-block;text-align:center;line-height:1.5}
+.blank.sel{background:var(--yellow);border-style:solid}
+.blank.filled{border-style:solid;background:#e0f7ff}
+.blank.good{background:#dcfce7;border-color:var(--ok)}.blank.bad{background:#ffe4e6;border-color:var(--ko)}
+.bank{position:sticky;bottom:0;background:var(--paper);padding:8px 0;border-top:3px solid var(--ink);margin-top:10px}
+/* Schéma */
+.schema{display:grid;grid-template-columns:1.1fr 1fr;gap:12px;align-items:start}
+@media(max-width:760px){.schema{grid-template-columns:1fr}}
+.legend{display:grid;gap:7px}
+.lrow{display:flex;gap:8px;align-items:center;border:3px solid var(--ink);border-radius:12px;background:#fff;padding:5px 8px;text-align:left;width:100%;min-height:52px}
+.lrow svg{width:46px;height:40px;flex:none}
+.lrow .slot{flex:1;border:2px dashed #888;border-radius:8px;padding:5px 8px;font-weight:800;font-size:14px;min-height:30px}
+.lrow.ex{background:#f1f5f9}.lrow.ex .slot{border-style:solid;color:#334}
+.lrow.filled .slot{border-style:solid;background:#e0f7ff}
+.lrow.good{background:#ecfdf3}.lrow.bad{background:#fff1f2}
+/* Rédaction */
+textarea{min-height:130px;resize:vertical}
+.crit{display:grid;gap:7px;margin-top:10px}
+.crit div{border:3px solid var(--ink);border-radius:12px;padding:7px 11px;background:#fff}
+.crit .y{background:#dcfce7}.crit .n{background:#fff1f2}
+.modele{background:#eef6ff;border:3px solid var(--ink);border-radius:12px;padding:10px 12px;margin-top:10px}
+/* Vidéo */
+.vid{position:relative;padding-top:56.25%;border:4px solid var(--ink);border-radius:var(--r);overflow:hidden;background:#000;box-shadow:var(--shadow)}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+/* Effets */
+#flash{position:fixed;inset:0;pointer-events:none;z-index:80;opacity:0;background:#fff}
+#flash.go{animation:flash .6s ease-out}
+@keyframes flash{0%{opacity:0}15%{opacity:1}100%{opacity:0}}
+#burst{position:fixed;left:50%;top:42%;z-index:81;pointer-events:none;transform:translate(-50%,-50%) scale(0)}
+#burst.go{animation:burst .9s cubic-bezier(.2,1.6,.4,1) forwards}
+@keyframes burst{0%{transform:translate(-50%,-50%) scale(0) rotate(-20deg);opacity:1}40%{transform:translate(-50%,-50%) scale(1.1) rotate(4deg);opacity:1}80%{opacity:1}100%{transform:translate(-50%,-50%) scale(1) rotate(0);opacity:0}}
+.shake{animation:shake .45s}
+@keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:79}
+/* Bilan */
+.big{font-family:"Bangers",cursive;font-size:clamp(46px,10vw,80px);letter-spacing:2px;line-height:1;color:var(--violet)}
+.badges{display:flex;flex-wrap:wrap;gap:10px}
+.bdg{border:3px solid var(--ink);border-radius:14px;padding:8px 12px;background:#fff;font-weight:900;box-shadow:3px 3px 0 var(--ink);display:flex;gap:8px;align-items:center}
+.bdg svg{width:28px;height:28px}
+.bdg.off{opacity:.35;filter:grayscale(1)}
+.nbar{display:grid;grid-template-columns:minmax(150px,40%) 1fr 50px;gap:8px;align-items:center;margin:5px 0;font-size:14px;font-weight:700}
+.nbar .tr{height:14px;border:2px solid var(--ink);border-radius:8px;background:#fff;overflow:hidden}
+.nbar .tr i{display:block;height:100%}
+.errs .it{border-left:6px solid var(--ko);background:#fff;border-radius:8px;padding:6px 10px;margin:6px 0;font-size:15px}
+.arcade{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.arc{border:3px solid var(--ink);border-radius:14px;background:#fff;padding:10px;box-shadow:3px 3px 0 var(--ink);text-align:left;font-weight:700}
+.arc b{display:block;font-weight:900}
+.modal{position:fixed;inset:0;background:rgba(10,4,30,.8);z-index:90;display:grid;place-items:center;padding:14px}
+.modal .box{background:var(--paper);border:4px solid var(--ink);border-radius:var(--r);width:min(960px,100%);max-height:92vh;overflow:auto;padding:14px;box-shadow:var(--shadow)}
+.modal iframe.la{width:100%;height:min(70vh,560px);border:3px solid var(--ink);border-radius:12px}
+footer{color:#cfc6ff;text-align:center;font-size:13px;padding:24px 14px}
+footer a,footer button.lk{color:#fff;background:none;border:0;text-decoration:underline;font-size:13px}
+footer img{height:38px;margin:0 auto 8px;background:#fff;border-radius:8px;padding:3px}
+/* Espace professeur */
+.prof table{width:100%;border-collapse:collapse;font-size:14px;background:#fff}
+.prof th,.prof td{border-bottom:1px solid #ddd;padding:6px;text-align:left;vertical-align:top}
+.prof th{background:var(--ink);color:#fff;position:sticky;top:0}
+.prof .heat td.c{text-align:center;font-weight:800}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.tabs button{border:3px solid var(--ink);border-radius:999px;background:#fff;padding:5px 12px;font-weight:800}
+.tabs button[aria-pressed="true"]{background:var(--yellow)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(max-width:640px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{border:3px solid var(--ink);border-radius:12px;background:#fff;padding:8px}
+.kpi b{display:block;font-size:26px;color:var(--violet)}
+.scroll{overflow:auto;max-height:65vh;border:3px solid var(--ink);border-radius:12px}
+@media print{.top,footer,.noprint,#flash,#burst,#confetti{display:none!important} body{background:#fff} .card{box-shadow:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="flash"></div><div id="burst"></div><canvas id="confetti"></canvas>
+<header class="top" id="topbar" hidden>
+ <div class="in">
+  <div class="logo">CHRONOPOLIS</div>
+  <div class="who" id="who"></div>
+  <div class="energy" title="Énergie du Chronoportail"><div class="ebar"><i id="ebar"></i></div><div class="etxt" id="etxt">0 %</div></div>
+  <button class="tbtn" id="bCours" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5M8 13h8M8 17h6"/></svg>Mon cours</button>
+  <button class="tbtn" id="bSon" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M17 9a4 4 0 0 1 0 6"/></svg>Son</button>
+  <button class="tbtn" id="bFacile" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Lecture facile</button>
+ </div>
+</header>
+<main class="wrap" id="app"></main>
+<footer>
+ <img src="img/logo-lvh.png" alt="Lycée français Victor Hugo de Sofia">
+ <div>Chronopolis, parcours de révision de géographie 4e, L'urbanisation du monde</div>
+ <div>LaClasseDeGreg · Grégory Cron · Lycée français Victor Hugo de Sofia · 2026-2027</div>
+ <div class="muted">Photographies Unsplash, personnages dessinés pour LaClasseDeGreg.</div>
+ <div style="margin-top:8px"><button class="lk" id="bProf" type="button">Espace professeur</button></div>
+</footer>
+<script>
+"use strict";
+/* Adresse de l'application Web Google Apps Script qui enregistre les résultats (voir LISEZ-MOI) */
+const SCRIPT_URL = "";
+const JEU = "chronopolis-urbanisation-4e";
+const ELEVES = {"4A": ["Alex C.", "Andrea F.", "Antoine S.", "Ema M.", "Hristo S.", "Ian C.", "Kaya B.", "Kristina K.", "Livia G.", "Maria K.", "Maria Magdalena G.", "Nikita P.", "Sasha C.", "Sofia B.", "Stefania Sofia N.", "Stoyan K.", "Victor M.", "Victor T.", "Victoria Y.", "Vladimir Y."], "4C": ["Adriana D.", "Alexandre K.", "Alice R.", "Anton L.", "Arthur R.", "Boris V.", "Boyana P.", "Dariel P.", "Dea T.", "Elena V.", "Ema S.", "Gabriel V.", "Georgi S.", "Lia M.", "Lubov B.", "Maxim L.", "Paulina K.", "Philippe D.", "Rayan B.", "Sirma D.", "Victoria I."]};
+const MAPS = {"world":"M311.8,485.2 L319.3,488.2 L318.1,490.0 L315.4,490.2 L314.0,488.9 L310.7,491.5 L307.7,491.1 L299.3,487.5 L292.6,481.6 L302.5,486.0 L304.8,481.9 L307.4,480.4 L309.3,480.8 L311.8,485.2 Z M337.4,475.4 L339.6,477.0 L338.8,478.2 L335.0,479.3 L333.8,478.0 L331.4,479.6 L330.0,478.0 L333.3,475.9 L335.7,476.8 L337.4,475.4 Z M695.2,470.4 L691.0,470.6 L691.5,466.5 L695.9,468.1 L695.2,470.4 Z M903.9,438.5 L906.6,439.8 L911.9,438.8 L912.1,443.1 L910.9,447.2 L909.9,446.2 L908.0,448.7 L905.7,448.4 L902.0,439.9 L902.1,438.2 L903.9,438.5 Z M980.6,439.0 L981.2,440.5 L983.2,439.0 L984.0,440.5 L984.0,442.0 L979.8,447.8 L980.8,449.5 L976.3,450.9 L973.9,456.8 L970.4,459.4 L963.0,457.9 L962.5,456.6 L964.0,454.0 L973.7,446.5 L980.0,437.5 L980.6,439.0 Z M985.0,422.0 L987.0,425.7 L987.1,423.3 L988.4,424.3 L988.8,427.0 L991.0,428.1 L995.9,427.5 L994.4,432.7 L992.2,432.7 L988.9,440.3 L986.8,441.7 L985.1,440.3 L986.7,437.4 L985.8,435.4 L982.8,434.0 L982.9,432.7 L984.9,431.4 L985.3,426.4 L979.5,416.2 L980.6,415.9 L984.2,418.8 L985.0,422.0 Z M964.2,372.0 L963.2,372.9 L959.7,370.3 L955.6,364.7 L958.4,365.9 L964.2,372.0 Z M995.5,354.8 L996.4,355.8 L996.0,357.7 L992.7,357.7 L993.5,354.9 L995.5,354.8 Z M998.2,352.9 L996.5,353.6 L996.1,352.3 L1000.0,350.2 L1000.0,352.0 L998.2,352.9 Z M966.2,351.7 L965.3,352.1 L964.5,349.6 L966.2,351.7 Z M964.2,346.2 L964.6,349.1 L963.3,348.8 L962.9,345.1 L964.2,346.2 Z M639.0,341.3 L639.9,349.0 L639.4,350.0 L638.5,347.9 L638.0,349.0 L638.3,353.1 L632.1,377.8 L630.8,381.9 L626.1,384.3 L622.3,382.1 L620.4,374.2 L620.6,369.1 L621.9,368.4 L623.5,362.3 L622.1,355.0 L623.5,350.8 L628.6,349.2 L632.5,345.0 L633.0,341.7 L634.1,342.1 L636.7,335.9 L639.0,341.3 Z M898.8,342.0 L899.8,344.8 L901.6,343.5 L903.8,346.4 L906.6,360.6 L913.5,365.7 L915.8,372.7 L916.9,371.9 L918.0,373.4 L918.7,372.9 L919.2,376.7 L924.6,383.1 L925.4,386.0 L925.3,390.2 L926.6,393.3 L924.7,405.9 L923.5,409.1 L921.4,410.9 L917.6,420.3 L916.7,426.5 L915.1,427.8 L912.0,427.9 L906.4,432.3 L902.4,430.1 L902.9,428.2 L898.9,431.5 L890.7,428.6 L888.9,426.4 L887.7,421.9 L886.3,420.5 L883.7,420.0 L884.6,418.3 L883.9,415.7 L882.6,418.1 L880.1,418.8 L883.0,413.0 L882.8,410.4 L878.8,414.6 L877.7,417.5 L875.6,416.0 L875.7,414.1 L872.5,410.2 L873.0,409.3 L864.8,405.3 L850.4,407.9 L845.1,410.6 L843.5,413.9 L833.0,414.2 L827.8,418.1 L824.0,417.9 L819.5,415.0 L819.6,412.9 L821.4,411.6 L821.4,405.8 L819.6,398.1 L814.8,386.1 L816.1,387.7 L815.1,384.4 L817.3,386.8 L815.0,379.9 L817.1,370.6 L817.3,373.3 L818.5,370.8 L824.2,366.8 L826.2,367.0 L831.3,364.1 L835.7,363.2 L839.6,357.8 L839.8,354.5 L841.7,351.4 L842.9,354.5 L844.1,353.8 L843.1,352.1 L843.9,350.4 L845.2,351.2 L845.5,348.5 L849.1,343.7 L850.3,344.1 L853.0,342.2 L856.6,346.0 L860.1,346.3 L859.5,344.4 L862.8,337.6 L864.5,336.4 L868.3,336.1 L868.2,334.3 L866.2,333.1 L867.7,332.6 L875.8,336.6 L879.1,335.2 L880.4,337.0 L877.7,340.4 L876.4,346.4 L889.5,356.1 L891.3,354.9 L892.4,351.4 L893.6,346.6 L893.6,337.2 L895.9,331.0 L898.7,338.7 L898.8,342.0 Z M950.3,330.3 L951.1,331.5 L949.2,331.5 L948.1,329.3 L950.3,330.3 Z M835.3,329.4 L830.5,327.0 L833.1,326.3 L835.3,329.4 Z M946.8,328.1 L944.0,327.8 L943.6,325.9 L946.8,328.1 Z M949.1,327.1 L948.7,327.8 L946.1,322.6 L947.0,322.6 L949.1,327.1 Z M845.7,329.1 L842.9,329.4 L844.4,326.0 L847.5,323.8 L853.7,322.8 L847.5,326.4 L845.7,329.1 Z M827.5,321.8 L830.2,322.4 L830.9,323.9 L824.3,325.1 L825.2,323.1 L826.8,323.0 L827.5,321.8 Z M841.4,321.8 L841.0,323.7 L836.8,324.8 L833.1,324.3 L833.1,323.0 L835.3,322.3 L837.1,323.3 L841.4,321.8 Z M944.1,322.6 L944.2,323.4 L939.5,319.4 L944.1,322.6 Z M937.6,319.1 L935.8,318.5 L934.8,316.4 L937.6,319.1 Z M801.7,317.1 L807.1,317.4 L807.7,315.9 L812.8,317.7 L813.8,320.0 L818.0,320.6 L821.4,322.8 L818.2,324.1 L815.2,322.7 L800.8,320.6 L795.7,319.1 L795.2,317.6 L792.7,317.3 L794.6,313.9 L798.0,314.1 L801.4,315.8 L801.7,317.1 Z M874.2,315.1 L872.8,317.5 L873.6,312.3 L874.2,315.1 Z M933.0,317.2 L931.0,316.2 L929.6,310.9 L933.4,316.2 L933.0,317.2 Z M922.2,312.4 L917.3,315.4 L912.0,313.4 L912.2,312.3 L916.2,312.5 L917.1,310.7 L917.3,312.6 L918.9,312.3 L921.2,309.8 L920.9,307.7 L923.2,308.3 L922.2,312.4 Z M853.5,305.2 L852.4,306.4 L850.5,305.7 L850.0,304.2 L852.8,304.0 L853.5,305.2 Z M862.4,303.9 L863.4,306.6 L861.1,305.2 L855.3,305.0 L855.9,303.0 L862.4,303.9 Z M925.4,308.9 L924.5,309.9 L923.4,306.4 L918.5,302.6 L919.3,301.8 L922.9,304.4 L925.4,308.9 Z M872.6,297.0 L873.4,302.7 L876.3,304.9 L878.6,301.1 L881.8,298.9 L884.2,298.9 L901.6,306.6 L905.1,310.3 L905.5,312.4 L910.1,314.6 L910.8,316.5 L908.3,316.9 L908.9,319.2 L913.2,325.4 L914.7,325.3 L914.6,326.8 L918.9,329.6 L918.6,330.7 L910.9,329.0 L905.7,321.7 L902.1,320.1 L898.0,322.3 L898.4,324.9 L896.2,326.2 L891.8,325.4 L889.3,322.5 L886.5,321.8 L885.8,322.8 L882.3,322.9 L883.4,320.0 L885.2,319.0 L883.1,312.1 L875.5,308.8 L871.3,305.5 L869.4,307.5 L868.8,304.7 L866.6,302.9 L871.6,301.7 L871.4,300.8 L867.3,300.8 L866.2,298.6 L863.7,298.0 L862.6,296.2 L867.7,294.2 L872.2,295.6 L872.6,297.0 Z M847.9,287.8 L845.7,291.3 L843.6,292.0 L833.8,292.0 L833.4,294.7 L835.9,297.9 L837.4,296.3 L842.6,295.1 L842.4,296.7 L841.2,296.2 L837.5,299.7 L840.2,304.2 L839.6,305.5 L842.1,309.6 L842.1,311.9 L840.6,313.0 L839.5,311.7 L840.9,308.8 L838.2,310.2 L837.5,309.2 L837.8,307.8 L835.8,305.7 L836.0,302.2 L834.2,303.3 L834.5,312.6 L832.8,313.1 L831.6,312.1 L831.9,305.3 L830.8,305.3 L829.9,302.9 L833.4,290.8 L835.8,288.2 L841.5,289.7 L844.7,289.6 L847.4,287.0 L847.9,287.8 Z M857.5,288.8 L857.3,291.9 L855.9,291.6 L855.5,293.8 L856.6,295.6 L855.8,296.1 L853.9,289.2 L855.4,285.1 L855.6,287.0 L857.2,287.4 L857.5,288.8 Z M793.9,313.8 L790.9,313.8 L785.0,307.9 L775.7,292.2 L773.9,286.3 L764.9,275.1 L764.7,273.3 L770.8,274.1 L779.6,285.4 L782.4,285.4 L788.4,292.5 L787.3,295.4 L789.9,296.7 L791.4,301.2 L793.4,301.5 L794.7,303.8 L793.9,313.8 Z M827.4,286.3 L830.5,289.6 L827.3,290.1 L826.4,295.7 L823.8,298.2 L822.6,307.2 L822.2,305.9 L819.1,307.5 L818.0,305.3 L814.6,304.0 L811.3,305.3 L810.3,303.6 L806.2,303.3 L805.8,298.5 L803.0,294.5 L803.0,288.1 L804.6,285.7 L806.7,286.9 L808.8,286.2 L809.4,283.2 L813.9,281.8 L824.2,268.1 L825.4,268.1 L826.9,271.5 L831.1,273.5 L830.9,274.9 L829.0,275.1 L829.5,276.9 L827.5,278.1 L825.9,281.3 L827.9,284.7 L827.4,286.3 Z M851.0,262.8 L851.5,267.2 L850.5,270.4 L849.5,266.8 L848.2,268.6 L849.1,271.3 L848.3,272.9 L845.1,270.9 L844.3,268.3 L845.1,266.6 L843.4,264.9 L839.1,268.2 L838.7,267.2 L839.8,264.2 L843.0,261.8 L844.0,263.4 L846.1,262.4 L846.6,260.9 L848.5,260.8 L848.4,258.0 L850.6,259.7 L851.0,262.8 Z M725.6,270.7 L723.2,271.5 L721.9,268.7 L721.4,263.6 L722.6,257.8 L724.6,259.8 L727.2,266.0 L726.8,269.7 L725.6,270.7 Z M330.7,256.8 L327.9,256.8 L328.7,254.4 L330.8,254.1 L330.7,256.8 Z M844.4,256.1 L841.7,260.6 L839.9,258.2 L841.5,254.0 L843.1,253.8 L842.6,256.2 L844.7,252.7 L844.4,256.1 Z M829.2,259.6 L825.5,263.0 L832.0,252.3 L832.5,255.2 L829.2,259.6 Z M838.6,250.4 L842.0,251.5 L841.9,253.0 L838.9,255.6 L838.6,250.4 Z M848.6,249.4 L849.4,253.4 L847.3,252.5 L848.0,255.9 L846.7,256.7 L845.3,251.8 L846.9,252.1 L846.9,250.7 L845.2,248.0 L847.9,248.1 L848.6,249.4 Z M837.6,246.2 L836.8,249.3 L834.2,244.8 L836.6,244.9 L837.6,246.2 Z M837.0,226.8 L838.7,227.8 L839.6,226.9 L840.3,231.8 L839.6,234.8 L838.0,236.0 L838.1,241.7 L840.8,241.7 L844.3,243.6 L844.7,248.1 L841.5,244.5 L840.8,245.8 L839.0,243.6 L835.1,243.4 L836.1,241.0 L835.3,240.2 L834.9,241.4 L833.5,239.4 L833.0,234.4 L834.1,235.6 L835.3,226.8 L837.0,226.8 Z M317.8,227.8 L317.1,228.7 L313.4,228.8 L313.2,227.2 L315.9,226.7 L317.8,227.8 Z M286.4,229.0 L284.0,229.1 L282.4,227.8 L282.7,226.9 L286.4,227.1 L288.3,229.0 L286.4,229.0 Z M298.4,221.9 L305.7,222.7 L310.2,226.4 L309.2,227.8 L305.7,227.0 L304.1,227.9 L303.7,227.0 L301.7,230.0 L299.0,227.8 L294.7,228.5 L293.2,227.3 L293.4,226.2 L298.1,227.0 L299.1,226.2 L297.8,223.3 L296.1,222.7 L296.7,221.7 L298.4,221.9 Z M806.5,226.1 L804.1,227.9 L801.8,226.8 L801.7,223.7 L803.1,222.1 L807.7,221.2 L808.4,222.5 L806.5,226.1 Z M67.9,224.7 L66.8,224.8 L67.1,220.5 L70.0,223.2 L67.9,224.7 Z M62.1,216.7 L60.3,215.8 L61.0,215.3 L62.1,216.7 Z M57.4,214.4 L56.1,214.1 L57.3,213.5 L57.4,214.4 Z M278.7,211.6 L279.8,212.9 L282.4,212.5 L287.4,217.1 L290.0,217.8 L289.8,218.8 L293.9,220.4 L293.6,221.2 L284.0,221.9 L285.9,220.0 L283.0,218.8 L281.3,215.7 L272.7,213.6 L271.8,212.9 L272.8,212.0 L270.1,211.8 L266.5,214.6 L264.0,214.7 L267.3,211.5 L271.5,210.0 L278.7,211.6 Z M284.6,208.0 L282.2,205.1 L282.8,202.8 L283.6,203.0 L284.6,208.0 Z M836.6,211.5 L835.4,214.4 L833.6,208.7 L837.5,202.5 L838.8,203.6 L836.6,211.5 Z M283.8,197.9 L280.8,198.5 L280.6,197.2 L283.8,197.0 L283.8,197.9 Z M286.1,197.9 L285.6,200.4 L283.9,196.3 L286.1,197.9 Z M874.0,170.9 L874.4,172.1 L872.8,174.3 L871.6,173.1 L869.5,176.1 L867.7,175.0 L869.2,171.2 L870.8,171.6 L872.0,170.1 L874.0,170.9 Z M596.0,165.5 L594.2,167.0 L594.5,167.9 L591.6,169.4 L589.6,167.5 L596.0,165.5 Z M565.8,165.3 L567.4,166.5 L573.0,166.8 L572.7,167.8 L568.7,168.1 L565.3,166.9 L565.8,165.3 Z M543.1,156.3 L541.9,162.1 L534.5,158.5 L534.9,156.7 L543.1,156.3 Z M525.6,145.7 L527.2,148.2 L526.9,152.9 L524.5,153.9 L523.4,153.0 L522.7,146.6 L525.6,145.7 Z M891.6,160.2 L891.0,164.8 L889.6,167.4 L886.0,169.0 L881.2,169.3 L877.2,173.3 L875.3,172.0 L875.2,169.3 L863.9,171.8 L866.7,174.5 L864.8,180.5 L863.0,182.0 L861.7,180.6 L862.4,177.4 L859.5,173.9 L862.1,172.8 L868.4,166.3 L873.9,165.2 L876.9,166.0 L879.8,159.6 L881.6,161.3 L887.3,156.4 L889.0,152.0 L888.6,148.0 L889.7,145.7 L892.7,145.1 L894.1,152.9 L891.6,156.5 L891.6,160.2 Z M526.6,142.3 L525.6,145.1 L524.4,144.3 L523.7,141.9 L526.1,139.3 L526.6,142.3 Z M899.8,135.1 L901.7,135.9 L903.7,134.3 L904.3,138.3 L900.2,139.3 L897.7,142.9 L893.4,140.4 L891.9,144.3 L888.8,144.4 L888.4,140.8 L889.8,138.1 L892.7,137.9 L894.4,130.2 L899.8,135.1 Z M323.2,126.6 L327.7,127.0 L325.3,128.7 L321.1,126.0 L322.2,124.9 L323.2,126.6 Z M328.3,117.5 L323.4,116.4 L320.8,114.7 L325.4,115.3 L328.3,117.5 Z M156.9,119.6 L155.5,120.1 L151.0,118.5 L147.1,114.9 L144.3,114.3 L143.4,111.5 L150.7,113.2 L156.9,119.6 Z M344.1,111.8 L342.2,115.0 L344.0,113.7 L345.9,114.5 L344.9,115.8 L351.5,117.0 L350.6,119.6 L352.5,119.0 L353.8,123.1 L352.6,126.2 L349.5,125.7 L350.1,122.8 L349.3,122.3 L346.1,125.4 L344.5,125.3 L346.4,123.6 L343.7,122.7 L335.4,122.8 L334.9,121.8 L336.7,120.5 L335.5,119.6 L337.8,117.4 L340.7,111.7 L342.4,109.7 L346.1,108.6 L344.1,111.8 Z M131.4,99.9 L134.0,99.6 L133.2,103.6 L135.6,106.5 L134.5,106.5 L130.4,102.1 L130.1,99.4 L131.4,99.9 Z M899.0,111.6 L901.8,117.9 L897.7,116.8 L896.0,121.9 L898.7,125.6 L898.6,128.1 L896.5,125.9 L894.7,128.7 L894.9,110.9 L893.3,107.4 L893.6,102.5 L896.1,100.8 L895.0,99.2 L896.3,98.7 L899.0,111.6 Z M481.1,106.2 L476.2,108.3 L472.3,107.8 L474.5,104.1 L473.1,100.4 L479.0,96.0 L481.3,95.8 L484.3,98.0 L482.8,100.5 L483.2,103.0 L481.1,106.2 Z M535.3,94.3 L533.6,97.1 L530.7,95.1 L530.3,93.6 L534.4,92.5 L535.3,94.3 Z M75.0,88.9 L72.2,90.2 L70.4,87.6 L74.4,85.8 L76.2,86.1 L77.4,87.2 L75.0,88.9 Z M491.7,83.4 L488.7,87.3 L494.6,86.8 L493.8,89.7 L491.3,93.0 L494.2,93.2 L496.9,97.8 L498.8,98.3 L501.3,103.8 L504.7,104.5 L504.3,106.8 L502.9,107.8 L504.0,109.7 L501.5,111.6 L493.1,112.5 L491.8,111.8 L490.0,113.5 L487.4,113.1 L485.4,114.4 L484.0,113.7 L488.0,110.0 L490.5,109.2 L486.2,108.6 L485.4,107.2 L488.3,106.1 L486.7,104.1 L487.3,101.8 L491.4,102.1 L491.8,100.1 L489.9,97.8 L486.5,97.2 L485.9,96.2 L486.9,94.6 L486.0,93.6 L484.5,95.3 L484.3,91.9 L482.9,90.1 L486.1,83.5 L491.7,83.4 Z M40.1,78.9 L38.4,79.4 L34.8,77.8 L39.8,77.5 L40.1,78.9 Z M279.8,70.9 L278.7,72.7 L276.8,71.4 L278.0,70.1 L279.8,70.9 Z M272.5,68.9 L269.3,70.9 L266.7,69.8 L268.7,68.2 L272.5,68.9 Z M23.0,65.1 L31.4,66.8 L29.1,67.9 L25.9,66.5 L23.5,66.7 L23.0,65.1 Z M263.4,58.4 L264.0,59.9 L265.4,59.4 L273.2,62.7 L273.5,64.4 L275.5,64.1 L277.5,65.3 L275.0,66.4 L270.7,65.5 L269.1,63.9 L262.4,67.7 L261.5,65.6 L257.7,65.9 L260.1,64.2 L261.4,58.1 L263.4,58.4 Z M459.7,55.5 L459.1,57.8 L462.2,60.3 L458.6,63.0 L448.2,66.1 L436.8,64.4 L439.5,62.8 L433.5,61.1 L438.4,60.4 L438.3,59.4 L432.4,58.5 L434.3,56.2 L438.5,55.7 L442.8,58.1 L447.1,56.2 L450.6,57.2 L455.1,55.3 L459.7,55.5 Z M289.3,53.0 L286.1,53.2 L285.5,51.5 L286.6,49.5 L289.2,49.0 L291.3,50.0 L291.1,52.0 L289.3,53.0 Z M13.8,55.1 L15.7,55.9 L15.1,53.3 L22.6,53.9 L28.1,57.2 L25.3,58.8 L20.7,59.2 L20.7,62.6 L19.6,63.4 L11.2,61.0 L10.5,59.4 L4.6,59.3 L3.0,58.1 L3.6,56.7 L0.3,57.6 L1.6,59.3 L0.0,60.8 L0.0,46.6 L14.1,52.8 L13.8,55.1 Z M234.3,46.0 L232.6,47.3 L222.8,45.0 L227.2,42.3 L234.3,46.0 Z M1000.0,39.9 L997.0,40.1 L996.5,38.9 L1000.0,37.4 L1000.0,39.9 Z M3.6,39.7 L0.0,39.9 L0.0,37.4 L6.7,38.3 L3.6,39.7 Z M248.5,44.7 L248.5,48.3 L252.2,45.5 L255.5,47.8 L254.7,50.5 L257.4,52.9 L262.3,47.2 L262.4,43.3 L270.5,44.1 L274.2,45.8 L274.4,47.6 L272.3,49.5 L274.3,51.4 L273.9,53.2 L268.5,55.7 L264.6,56.2 L261.8,55.1 L257.4,61.5 L254.2,63.9 L250.2,64.2 L248.0,65.7 L247.9,68.0 L244.6,68.4 L241.2,71.3 L238.2,75.4 L237.0,82.3 L241.1,82.9 L243.6,89.0 L247.5,88.3 L263.9,95.3 L271.5,95.9 L271.9,102.6 L273.9,106.6 L278.0,110.0 L280.2,108.8 L281.7,105.1 L280.2,99.5 L278.3,97.6 L282.7,95.9 L287.4,90.9 L285.3,85.5 L281.9,82.8 L285.2,79.1 L283.0,70.3 L285.0,69.5 L292.6,70.8 L294.9,69.8 L301.7,74.5 L306.7,74.8 L307.5,82.3 L310.1,82.9 L312.1,85.0 L316.1,83.0 L320.6,77.4 L329.5,89.4 L328.3,91.6 L334.5,95.7 L340.7,97.8 L341.8,100.8 L345.1,102.6 L345.3,106.6 L341.3,109.2 L336.7,110.5 L333.2,113.4 L315.6,113.5 L313.2,116.0 L309.7,117.6 L302.5,125.6 L304.8,125.0 L309.3,120.4 L315.1,117.4 L319.3,117.0 L321.7,118.8 L319.1,121.2 L320.9,127.7 L324.5,129.5 L329.1,129.0 L331.9,125.0 L332.1,127.6 L333.9,128.9 L321.5,134.8 L318.4,137.3 L316.3,137.1 L316.2,134.1 L321.0,131.1 L313.5,131.7 L314.0,132.8 L305.2,136.8 L303.6,139.2 L303.3,141.7 L304.2,143.6 L305.3,143.6 L305.0,142.3 L305.9,143.1 L305.7,144.2 L295.2,146.7 L300.2,146.7 L294.6,147.3 L293.9,151.0 L291.9,153.8 L290.2,151.8 L291.5,155.7 L289.1,159.9 L289.7,157.4 L288.2,156.0 L287.9,153.0 L288.0,156.8 L286.2,156.3 L288.1,157.4 L289.6,165.9 L287.9,168.5 L280.4,173.2 L274.1,180.6 L274.1,185.6 L277.6,196.9 L276.7,202.8 L274.5,202.9 L273.0,200.5 L269.8,193.3 L269.6,188.9 L266.4,185.4 L263.6,187.0 L260.0,184.3 L252.3,184.6 L251.1,185.1 L252.2,188.2 L249.6,188.9 L247.6,188.8 L245.5,186.9 L239.3,186.7 L231.7,191.8 L229.5,195.1 L230.2,200.5 L228.1,212.7 L232.5,223.9 L237.7,228.1 L244.3,226.1 L247.9,224.0 L249.2,217.9 L254.0,216.1 L258.2,215.9 L258.8,218.4 L256.6,222.7 L256.0,227.6 L254.7,226.8 L254.6,233.8 L253.0,236.1 L255.2,236.8 L263.9,235.7 L268.3,238.3 L268.9,241.7 L267.2,253.2 L271.6,260.7 L273.8,261.5 L279.0,258.5 L286.6,262.0 L289.8,259.1 L290.3,254.9 L291.9,253.3 L296.1,252.8 L300.7,248.4 L302.4,249.6 L301.8,251.6 L300.1,252.1 L301.0,255.5 L299.8,257.6 L300.8,260.5 L302.0,260.2 L302.7,257.6 L301.7,253.7 L305.1,252.2 L304.7,250.5 L305.7,249.4 L306.7,251.9 L308.7,252.0 L310.6,255.2 L316.0,254.8 L319.7,256.9 L321.3,254.9 L328.1,254.6 L325.7,255.6 L326.7,257.3 L331.0,259.4 L331.5,262.2 L335.8,264.3 L337.6,268.5 L341.3,271.5 L350.1,272.3 L353.1,273.5 L356.5,278.0 L357.5,277.8 L359.7,286.1 L361.2,286.7 L361.3,289.1 L359.2,292.1 L360.0,293.1 L364.9,293.7 L365.0,297.3 L367.2,294.9 L375.3,298.4 L376.6,300.5 L376.2,302.5 L379.4,301.4 L384.8,303.3 L388.9,303.1 L396.6,310.1 L401.1,311.2 L403.5,319.1 L402.4,325.0 L392.6,339.5 L390.9,356.7 L386.3,371.2 L384.0,372.8 L383.4,374.9 L376.0,376.3 L367.6,381.7 L365.3,385.3 L364.2,395.3 L350.5,415.7 L347.4,417.7 L343.8,417.4 L339.4,415.9 L337.7,414.0 L337.5,415.8 L341.0,418.9 L340.7,421.3 L342.4,422.9 L342.3,424.6 L339.6,429.2 L335.5,431.1 L326.8,431.5 L327.4,438.1 L325.7,439.4 L322.9,439.9 L320.2,438.6 L319.1,439.5 L319.5,443.1 L321.4,444.1 L322.9,443.0 L323.7,444.9 L318.9,448.2 L317.9,453.7 L315.3,453.7 L313.1,455.5 L312.3,458.2 L315.0,460.8 L317.7,461.6 L316.7,464.8 L313.4,466.8 L311.6,471.0 L307.9,474.0 L308.8,477.8 L310.7,479.8 L307.1,479.6 L303.2,481.8 L302.8,485.1 L298.5,484.0 L291.8,479.5 L290.0,466.7 L291.2,463.3 L294.1,460.5 L289.9,459.5 L292.5,456.3 L293.5,450.4 L296.6,451.6 L298.0,444.2 L296.1,443.3 L295.3,447.7 L293.5,447.2 L295.3,435.5 L296.6,433.1 L295.6,425.6 L296.8,425.4 L301.6,408.6 L301.4,395.9 L303.0,391.6 L305.1,363.4 L304.5,358.4 L301.7,356.3 L301.5,354.9 L288.9,345.2 L288.2,341.2 L278.4,318.6 L274.3,314.8 L275.2,313.2 L273.9,309.8 L278.4,302.3 L277.8,300.8 L276.8,302.4 L275.1,300.9 L275.2,296.6 L276.2,296.1 L277.5,290.1 L281.0,287.9 L282.1,283.5 L283.5,283.2 L285.8,279.1 L284.7,278.3 L284.8,269.0 L282.7,266.0 L282.8,263.1 L280.2,260.7 L279.0,261.0 L276.4,264.0 L277.8,265.9 L275.3,267.1 L274.8,264.9 L273.6,265.3 L273.0,263.9 L269.9,263.2 L269.9,264.0 L268.0,262.7 L267.7,260.5 L264.0,256.8 L263.6,258.7 L262.1,257.4 L261.9,253.3 L256.5,246.8 L257.5,246.5 L257.0,245.4 L254.2,245.8 L246.6,243.1 L240.7,237.1 L237.0,235.0 L231.8,237.0 L219.9,231.5 L216.9,228.9 L212.5,227.5 L207.0,221.6 L206.3,219.9 L207.2,219.5 L207.6,216.3 L205.5,211.5 L198.9,203.0 L196.5,201.5 L196.4,198.4 L193.4,195.8 L192.7,193.4 L191.2,193.1 L188.3,189.4 L185.7,181.5 L181.2,179.3 L181.5,185.1 L190.0,197.6 L192.6,206.1 L194.0,206.2 L196.0,210.1 L194.4,211.3 L193.6,209.2 L188.4,204.5 L188.1,200.0 L180.4,193.8 L181.7,193.8 L182.9,190.8 L179.1,187.3 L174.2,174.8 L170.8,171.3 L164.9,169.3 L154.4,148.9 L155.0,142.9 L154.1,140.1 L155.8,130.3 L153.6,120.8 L154.0,120.1 L158.0,121.3 L159.5,124.7 L160.2,123.7 L158.8,117.9 L151.0,112.8 L146.0,111.3 L144.5,108.2 L144.9,106.0 L141.3,104.4 L140.8,101.6 L137.5,99.0 L137.4,97.1 L133.4,94.7 L132.6,91.5 L129.1,88.6 L127.6,85.3 L120.5,85.0 L111.5,80.2 L104.0,78.3 L100.1,78.6 L91.3,75.4 L88.3,76.2 L88.8,78.6 L78.6,81.6 L78.2,79.5 L79.4,76.0 L82.4,74.9 L81.6,74.0 L72.2,80.9 L74.2,82.6 L71.6,85.2 L65.8,87.8 L65.1,89.4 L60.8,91.2 L59.9,92.9 L42.3,98.6 L41.8,98.0 L50.5,93.2 L54.0,92.8 L61.9,87.2 L63.8,82.4 L60.6,83.5 L59.7,82.9 L58.2,84.2 L56.4,82.4 L55.6,83.7 L54.6,81.9 L50.1,83.3 L50.3,79.9 L48.6,78.6 L44.9,79.3 L40.7,76.8 L40.7,74.7 L38.6,73.2 L42.9,67.3 L47.0,67.6 L49.3,65.9 L53.4,65.1 L52.9,63.5 L51.3,62.8 L53.4,61.5 L47.9,63.1 L41.8,62.7 L37.7,61.8 L33.0,58.3 L43.1,55.1 L45.4,55.1 L45.0,56.9 L50.9,56.7 L40.6,49.8 L36.8,48.7 L38.3,46.8 L43.2,46.7 L46.8,45.1 L47.4,43.4 L50.3,41.7 L60.8,39.9 L65.1,38.0 L69.3,38.8 L71.3,40.4 L77.2,39.9 L77.0,40.7 L81.3,41.3 L97.4,42.9 L101.1,42.3 L120.8,46.8 L126.6,44.2 L130.8,44.6 L139.5,42.2 L141.4,43.6 L143.4,42.8 L144.1,41.1 L150.7,44.7 L154.4,42.3 L154.8,45.0 L159.2,43.4 L162.6,43.6 L173.3,46.4 L179.9,46.8 L183.6,48.6 L179.7,50.3 L184.7,51.1 L194.6,50.1 L197.6,52.2 L200.6,50.4 L197.7,48.9 L199.5,47.7 L205.1,47.1 L210.2,49.9 L213.3,49.7 L218.2,51.3 L226.5,50.8 L226.2,48.6 L228.7,47.9 L233.0,49.1 L233.0,52.5 L234.8,49.7 L237.0,49.8 L238.2,46.2 L232.0,42.5 L232.2,38.6 L235.5,36.0 L242.0,38.1 L245.8,42.2 L243.3,43.9 L248.5,44.7 Z M182.9,31.7 L181.5,33.4 L187.7,32.3 L191.5,34.1 L194.7,32.3 L197.2,33.5 L199.5,37.0 L200.9,35.5 L198.9,31.8 L204.1,31.9 L207.2,33.3 L209.8,39.3 L219.5,42.8 L219.2,44.3 L214.6,44.6 L216.4,46.0 L215.5,47.3 L205.7,45.8 L185.2,48.1 L183.7,46.4 L177.5,45.8 L174.1,43.0 L187.7,41.5 L172.5,40.9 L171.0,39.6 L177.5,38.2 L168.3,37.3 L172.6,33.2 L180.0,31.0 L182.9,31.7 Z M209.7,30.6 L207.3,33.0 L202.9,30.5 L207.6,29.9 L209.7,30.6 Z M287.9,31.8 L288.2,32.8 L279.2,33.1 L275.3,31.0 L275.5,29.7 L283.2,29.8 L287.9,31.8 Z M259.5,31.6 L261.7,33.8 L264.3,30.9 L271.3,29.5 L276.1,33.2 L275.7,35.5 L283.8,33.0 L293.8,36.5 L294.2,38.1 L299.3,37.3 L302.2,39.6 L308.9,41.0 L314.0,45.8 L308.9,47.4 L319.8,50.5 L323.8,53.8 L328.2,54.1 L327.3,56.6 L322.4,60.7 L314.7,55.8 L311.1,56.2 L310.7,58.3 L318.6,62.9 L320.4,66.5 L319.4,69.0 L308.9,65.2 L316.2,71.7 L302.7,68.2 L299.3,66.4 L300.3,65.4 L292.1,61.9 L292.2,62.9 L284.1,63.5 L281.8,62.2 L283.6,59.6 L294.6,59.1 L293.6,57.8 L298.2,52.6 L297.4,51.0 L292.1,48.0 L286.5,46.8 L288.3,45.9 L285.3,43.7 L280.7,42.3 L274.2,43.8 L253.7,41.4 L251.4,40.1 L254.3,38.5 L250.3,38.5 L249.4,34.9 L251.6,31.7 L254.4,30.2 L261.6,29.3 L259.5,31.6 Z M221.2,29.1 L229.5,29.4 L230.2,30.5 L227.6,32.2 L231.8,33.7 L231.3,36.9 L224.1,38.0 L215.3,33.9 L215.3,32.8 L221.0,33.2 L217.9,30.9 L221.2,29.1 Z M898.9,31.4 L888.5,30.8 L894.6,29.1 L898.9,31.4 Z M241.1,33.0 L238.1,35.6 L235.0,35.5 L233.3,30.6 L237.5,28.1 L248.6,29.1 L244.4,32.3 L241.1,33.0 Z M165.4,37.9 L158.1,39.6 L156.6,38.1 L150.2,36.2 L155.7,29.7 L153.0,27.5 L162.4,27.0 L173.5,27.9 L179.1,30.4 L168.8,33.9 L165.4,36.4 L165.4,37.9 Z M918.7,24.7 L915.5,26.1 L905.9,24.4 L906.6,23.2 L918.7,24.7 Z M240.0,25.1 L238.5,26.5 L231.1,25.3 L232.5,23.7 L236.5,22.7 L240.0,25.1 Z M903.0,23.0 L900.8,25.6 L886.0,26.4 L880.5,24.1 L882.0,21.6 L885.6,20.9 L893.0,21.1 L903.0,23.0 Z M226.4,18.9 L228.5,20.5 L227.3,25.0 L222.8,25.4 L219.8,24.8 L219.8,22.7 L215.3,23.0 L215.1,20.2 L226.4,18.9 Z M199.4,20.7 L200.5,22.0 L205.9,21.5 L206.4,23.3 L204.7,25.0 L188.3,27.1 L184.0,27.2 L183.7,26.0 L189.5,24.4 L173.0,24.2 L179.4,19.7 L187.2,20.9 L192.2,23.0 L197.0,23.3 L193.1,19.9 L195.6,18.6 L198.5,19.0 L199.4,20.7 Z M659.8,40.3 L649.1,40.1 L648.4,38.5 L643.3,37.6 L642.9,35.7 L645.8,34.9 L645.7,32.9 L651.2,29.9 L648.6,29.5 L655.3,26.3 L654.5,24.7 L669.9,20.5 L689.3,18.1 L691.3,19.5 L671.1,24.1 L662.4,27.5 L653.9,34.4 L654.5,37.4 L659.8,40.3 Z M237.0,17.5 L240.1,18.7 L245.5,18.6 L247.9,19.8 L247.3,21.2 L252.3,22.8 L274.6,22.5 L277.6,23.8 L278.2,25.3 L272.4,27.0 L250.7,26.7 L243.3,25.6 L242.0,21.8 L239.2,20.3 L230.2,18.7 L231.3,17.3 L237.0,17.5 Z M177.2,15.6 L176.8,18.3 L174.7,19.5 L162.5,21.8 L158.7,21.0 L169.2,16.0 L177.2,15.6 Z M797.1,17.9 L797.9,19.7 L808.5,18.9 L817.0,22.0 L816.3,23.8 L803.9,27.9 L811.4,29.3 L813.9,28.7 L815.4,30.9 L821.0,29.5 L829.9,30.0 L830.6,31.7 L842.2,32.2 L842.4,29.5 L852.7,30.1 L857.2,32.0 L858.5,34.3 L856.8,35.8 L860.3,38.6 L864.7,40.0 L867.4,36.3 L871.8,37.9 L876.6,36.9 L881.9,38.0 L884.0,37.0 L888.5,37.5 L886.5,34.2 L890.2,32.7 L915.3,35.0 L917.6,37.1 L924.9,39.8 L941.7,39.8 L944.0,41.2 L943.6,43.8 L947.1,44.9 L966.2,44.3 L971.0,47.5 L974.5,46.4 L972.2,44.1 L973.5,42.5 L988.1,43.3 L996.1,45.0 L1000.0,46.6 L1000.0,60.8 L996.4,62.4 L992.8,62.1 L995.3,64.0 L998.6,69.4 L997.9,70.3 L992.7,69.6 L982.4,72.7 L974.2,77.4 L973.1,79.0 L969.2,76.5 L961.9,79.3 L960.7,78.0 L958.0,79.5 L954.3,79.0 L950.0,84.8 L950.1,86.3 L953.3,87.1 L952.9,92.3 L950.4,92.4 L949.2,95.4 L950.3,96.9 L945.5,98.8 L944.5,102.8 L940.4,103.7 L939.5,107.3 L935.5,110.7 L931.8,95.1 L933.1,90.1 L935.4,88.0 L935.6,86.3 L939.9,85.5 L949.6,77.3 L954.6,74.5 L956.9,69.5 L953.5,69.8 L951.8,72.7 L944.8,76.6 L942.5,72.2 L935.3,73.4 L928.4,79.4 L930.7,81.6 L920.2,82.9 L920.4,80.3 L916.1,79.8 L912.6,81.6 L904.1,80.9 L895.0,82.0 L875.4,97.4 L879.7,97.8 L881.1,100.1 L883.8,100.9 L885.6,99.1 L888.6,99.3 L892.6,103.3 L892.7,106.3 L890.5,109.9 L889.1,119.8 L883.9,127.5 L874.6,137.9 L870.9,140.0 L869.2,140.0 L867.4,138.3 L861.0,143.1 L860.3,146.8 L854.3,150.9 L853.8,152.8 L856.5,155.0 L859.6,161.5 L859.6,165.6 L858.6,167.6 L851.3,170.0 L851.6,165.4 L850.3,161.7 L852.4,161.1 L850.5,158.0 L849.1,157.4 L848.0,158.3 L846.4,156.8 L847.8,154.8 L848.1,151.6 L845.2,150.3 L836.3,153.9 L837.7,152.3 L837.2,150.9 L839.4,148.5 L837.9,146.6 L830.6,152.7 L827.9,152.8 L826.5,154.5 L827.9,156.9 L830.2,157.5 L830.3,159.1 L832.5,160.2 L835.6,157.6 L839.9,159.1 L840.3,161.0 L836.4,162.0 L831.0,168.2 L834.0,170.1 L838.6,179.7 L838.6,182.3 L836.8,183.3 L839.1,186.3 L838.0,192.1 L836.5,192.4 L829.6,205.2 L821.9,211.5 L818.8,211.9 L817.1,213.5 L816.1,212.3 L814.6,214.1 L807.7,216.4 L806.8,220.2 L805.2,220.4 L805.2,216.4 L801.5,215.3 L796.4,218.9 L794.1,222.3 L793.5,224.8 L798.2,233.2 L802.4,238.3 L803.7,244.9 L803.3,251.2 L792.1,262.1 L791.1,259.9 L791.9,257.4 L789.8,255.4 L787.5,254.9 L785.0,249.3 L782.5,247.7 L780.1,247.8 L780.5,245.0 L778.0,245.0 L775.6,259.9 L777.4,260.0 L779.1,266.3 L786.0,273.1 L787.2,275.5 L787.5,282.9 L789.5,288.2 L787.6,288.5 L781.6,283.0 L778.3,273.9 L778.0,269.8 L773.6,262.9 L773.2,265.0 L772.6,263.0 L774.3,252.0 L769.9,232.4 L764.9,236.7 L761.6,235.6 L762.6,231.2 L762.0,227.8 L759.8,223.7 L760.2,222.4 L758.6,221.9 L756.6,219.0 L753.9,211.6 L751.4,211.4 L750.8,214.9 L747.3,214.1 L746.9,215.4 L741.6,216.1 L741.8,218.8 L740.3,220.9 L736.3,223.3 L728.3,232.1 L728.3,233.7 L723.1,236.1 L721.8,255.9 L720.4,256.0 L719.1,258.8 L720.0,259.9 L717.4,261.0 L715.4,264.4 L712.8,261.1 L708.0,247.4 L706.8,240.7 L704.3,235.7 L701.8,216.6 L697.7,218.7 L695.8,218.3 L692.1,214.0 L693.5,212.7 L692.6,211.3 L687.3,207.3 L684.4,202.1 L670.8,203.3 L659.4,200.9 L658.3,196.5 L656.9,195.9 L652.0,198.3 L643.1,193.3 L639.2,185.2 L637.7,185.8 L635.9,184.6 L634.9,186.0 L633.3,185.8 L635.6,194.0 L639.3,197.5 L639.2,200.2 L641.1,204.4 L641.7,200.0 L643.3,200.7 L642.7,204.9 L643.9,207.1 L650.0,206.7 L656.6,198.6 L656.7,203.8 L657.9,206.3 L663.1,208.7 L666.1,213.2 L662.5,219.9 L660.6,220.6 L660.3,225.2 L657.2,226.5 L656.3,229.0 L653.5,229.9 L653.5,231.3 L645.5,234.3 L644.9,237.2 L637.7,240.3 L635.2,242.8 L626.7,245.4 L625.0,247.5 L620.8,247.7 L618.3,238.5 L618.5,232.9 L613.7,223.3 L608.7,216.8 L608.5,212.2 L606.9,208.3 L604.1,206.1 L597.6,192.6 L596.2,192.6 L597.0,187.5 L594.2,194.1 L590.1,186.2 L594.7,199.5 L599.1,207.4 L598.7,210.3 L602.4,214.3 L604.1,226.4 L606.7,228.6 L609.1,236.0 L620.3,248.6 L620.2,250.1 L618.7,250.9 L622.5,255.6 L623.9,255.6 L642.0,249.9 L641.8,254.9 L637.4,268.6 L632.6,277.8 L629.3,282.7 L619.8,291.8 L615.5,298.9 L611.8,302.0 L608.9,309.6 L607.8,316.0 L609.6,317.3 L608.9,323.2 L612.4,331.3 L613.3,345.3 L609.6,352.6 L603.9,355.7 L596.6,363.5 L596.4,366.1 L598.8,371.8 L598.5,379.0 L590.5,384.7 L591.4,386.5 L589.5,395.5 L578.4,409.9 L571.6,414.1 L562.7,413.8 L554.5,417.2 L550.7,413.8 L549.8,409.3 L550.7,408.7 L550.6,405.9 L542.3,389.6 L539.6,371.8 L532.8,357.4 L532.7,349.3 L534.7,341.2 L537.9,335.9 L538.0,331.2 L535.8,325.6 L536.8,323.4 L533.1,310.8 L524.4,296.8 L527.2,281.9 L526.1,279.5 L524.9,278.9 L523.6,275.8 L516.4,277.6 L512.0,270.5 L505.2,270.9 L494.5,276.0 L487.1,274.4 L479.1,277.4 L475.0,275.6 L465.5,266.9 L458.8,254.0 L453.9,249.4 L453.6,244.3 L451.0,240.3 L454.3,235.2 L455.1,228.2 L454.8,221.1 L452.6,217.9 L452.9,214.7 L454.8,211.9 L455.6,208.1 L458.1,205.3 L459.9,199.1 L464.9,192.7 L467.5,192.3 L473.4,186.0 L472.7,181.5 L474.2,176.6 L476.0,174.1 L480.8,171.0 L483.5,165.1 L485.6,165.2 L487.2,166.7 L494.0,167.3 L504.1,162.1 L514.8,161.7 L517.4,160.3 L523.4,160.9 L526.4,159.5 L528.4,159.9 L528.3,161.7 L530.6,160.4 L530.8,161.1 L529.4,162.8 L530.4,165.4 L530.0,168.5 L528.2,170.2 L528.7,172.2 L530.2,172.3 L531.9,174.5 L542.3,177.6 L543.6,180.8 L553.0,184.8 L555.7,182.2 L555.1,179.5 L555.9,177.7 L559.8,175.6 L563.6,176.3 L564.5,177.9 L569.2,178.9 L569.9,180.1 L573.6,180.1 L580.3,182.6 L586.0,180.2 L588.0,180.6 L588.8,182.4 L589.4,181.2 L593.8,182.3 L596.0,180.2 L600.0,169.1 L600.4,164.9 L599.4,163.3 L600.4,162.0 L596.4,161.4 L594.5,163.5 L590.3,163.9 L588.1,162.0 L585.1,161.9 L584.4,163.3 L582.5,163.8 L579.8,161.9 L576.8,161.9 L573.1,156.4 L574.5,153.6 L572.7,151.9 L575.8,148.5 L580.1,148.4 L581.2,145.6 L586.5,146.1 L593.1,142.8 L597.7,142.7 L606.5,146.6 L612.1,146.4 L615.4,144.5 L615.8,143.0 L615.1,140.6 L601.9,131.3 L603.9,130.7 L606.2,127.7 L604.6,126.3 L608.7,124.8 L608.7,124.1 L597.1,127.6 L597.3,129.8 L601.5,130.5 L600.9,131.7 L594.1,134.4 L592.6,133.7 L593.2,132.0 L590.2,131.0 L593.3,129.1 L592.5,128.3 L588.2,127.4 L588.0,126.0 L585.4,126.5 L582.3,132.0 L580.1,132.5 L579.3,136.8 L576.9,140.8 L578.1,144.2 L580.5,145.4 L580.0,146.2 L576.7,146.4 L573.2,149.5 L572.4,147.1 L569.2,146.6 L565.9,147.5 L567.8,149.6 L566.4,150.1 L564.8,150.1 L563.4,148.3 L562.9,149.1 L564.9,152.9 L563.8,153.7 L566.7,156.4 L566.8,158.4 L564.2,157.4 L565.0,159.2 L563.3,159.6 L564.3,162.8 L562.5,162.8 L560.2,161.3 L558.7,156.0 L553.9,149.1 L554.3,143.9 L544.5,137.5 L542.2,134.8 L541.4,131.9 L539.6,131.3 L538.8,132.8 L537.9,131.7 L538.7,130.0 L536.5,129.5 L534.2,130.8 L535.0,135.4 L542.1,143.0 L544.2,143.0 L544.9,143.8 L544.1,144.5 L551.3,149.4 L550.8,150.7 L546.9,148.4 L545.7,150.7 L547.7,152.1 L547.4,153.9 L546.2,154.1 L544.7,157.2 L543.6,157.5 L544.7,153.7 L542.8,149.8 L537.9,145.8 L533.6,143.9 L529.2,139.5 L528.3,136.0 L524.7,134.4 L518.1,138.8 L512.7,137.9 L508.6,139.0 L508.4,143.2 L505.8,145.6 L502.3,146.4 L499.2,152.5 L500.3,154.5 L498.1,158.4 L496.0,159.1 L494.0,161.9 L487.9,161.9 L485.1,164.5 L483.7,164.2 L481.9,160.9 L475.3,161.2 L475.4,156.2 L473.5,154.5 L475.6,147.3 L475.0,140.7 L473.9,139.2 L477.8,136.6 L494.7,137.8 L496.2,135.6 L496.7,128.5 L491.8,123.0 L487.5,121.6 L487.2,119.0 L490.8,118.2 L495.5,119.1 L494.6,115.1 L497.3,116.6 L503.7,113.8 L504.6,110.9 L510.6,108.5 L513.1,103.2 L519.7,101.1 L522.6,101.7 L524.4,99.9 L522.6,94.6 L522.5,90.9 L523.7,88.9 L529.4,86.7 L528.5,89.7 L530.3,91.2 L526.8,94.7 L527.6,97.9 L530.4,98.7 L530.4,100.0 L534.8,98.3 L539.2,100.9 L549.0,97.0 L554.6,98.5 L555.2,96.9 L559.1,95.7 L558.6,90.1 L559.9,87.8 L562.6,86.6 L564.8,89.3 L567.0,89.2 L567.9,84.3 L566.8,84.8 L565.1,83.5 L564.8,81.5 L571.8,80.0 L577.7,80.4 L580.9,78.5 L578.0,76.8 L563.5,79.1 L559.2,76.0 L559.8,72.5 L558.5,69.3 L559.8,67.2 L570.6,60.3 L570.3,58.8 L566.4,57.1 L561.6,58.1 L558.9,60.6 L559.4,62.8 L549.6,68.8 L547.6,73.8 L552.2,78.3 L549.6,82.3 L546.7,83.1 L544.1,92.5 L540.7,92.1 L539.2,95.0 L536.0,95.1 L530.6,82.7 L528.8,80.5 L523.3,84.6 L519.6,85.4 L515.7,83.6 L513.9,71.5 L529.2,62.5 L541.0,50.7 L553.3,43.5 L559.4,41.9 L564.0,42.1 L568.2,39.2 L578.2,38.6 L586.9,41.2 L583.3,42.2 L586.4,44.4 L589.3,43.2 L593.8,45.4 L601.4,46.2 L611.9,50.2 L614.1,51.9 L614.2,54.3 L611.2,56.2 L606.6,57.1 L594.2,54.4 L592.2,54.9 L596.7,57.5 L597.1,62.8 L602.8,64.8 L603.2,63.1 L601.4,61.5 L603.3,60.2 L610.0,62.4 L612.3,61.6 L610.5,58.9 L616.9,55.4 L622.1,56.9 L623.7,54.4 L621.4,52.3 L622.7,50.2 L620.7,48.0 L628.5,49.1 L630.1,51.1 L626.5,51.5 L626.6,53.5 L628.7,54.8 L633.0,54.0 L633.7,51.7 L649.2,46.9 L651.3,47.1 L648.6,49.3 L652.0,49.7 L654.0,48.4 L659.2,48.3 L663.3,46.9 L666.5,49.0 L669.7,46.6 L666.8,44.6 L668.2,43.4 L676.4,44.5 L690.3,49.7 L692.2,47.8 L689.3,45.2 L685.9,44.8 L686.8,43.1 L685.3,39.2 L690.4,35.9 L692.2,32.7 L694.3,32.0 L701.6,32.9 L702.2,34.9 L699.6,37.8 L701.3,39.0 L702.2,41.5 L701.6,46.4 L704.6,48.5 L698.0,56.0 L701.2,56.5 L705.3,54.3 L708.5,50.9 L706.9,48.8 L708.2,46.5 L705.1,46.2 L704.4,44.2 L706.7,40.6 L703.1,37.7 L708.0,35.3 L707.4,32.7 L708.8,32.7 L710.2,34.6 L709.1,38.1 L712.1,38.7 L710.8,36.2 L715.5,34.8 L721.3,34.6 L726.4,36.6 L723.9,33.6 L723.6,29.8 L741.2,28.8 L738.9,26.9 L742.1,24.6 L758.1,22.2 L759.0,21.3 L768.6,21.7 L774.8,19.8 L779.9,19.9 L783.3,16.8 L789.9,15.4 L794.6,16.5 L790.8,17.4 L797.1,17.9 Z M636.4,145.4 L637.8,148.0 L640.0,149.1 L637.7,149.4 L635.7,154.2 L636.7,158.6 L641.2,161.2 L645.2,161.8 L649.5,160.8 L649.7,153.7 L647.5,152.5 L648.2,150.1 L646.4,149.9 L647.0,146.9 L649.6,147.7 L652.0,146.6 L649.2,142.4 L647.0,143.3 L646.7,145.9 L645.8,140.0 L642.6,138.8 L639.7,133.5 L642.4,133.9 L642.5,131.3 L647.3,131.2 L647.3,125.5 L642.2,124.8 L636.4,127.1 L635.1,129.3 L632.4,129.9 L629.7,133.5 L632.2,136.9 L631.9,139.3 L636.4,145.4 Z M239.3,16.0 L232.9,15.9 L232.1,14.9 L237.7,14.9 L239.3,16.0 Z M193.9,15.4 L188.7,16.4 L184.6,15.2 L190.9,13.7 L194.8,14.3 L193.9,15.4 Z M568.7,14.8 L562.5,16.3 L557.6,15.4 L559.5,14.5 L557.8,13.4 L563.6,12.7 L564.7,14.0 L568.7,14.8 Z M195.4,12.1 L187.4,12.8 L190.3,11.3 L195.4,12.1 Z M233.8,14.1 L229.7,14.8 L227.4,14.0 L226.0,11.2 L234.6,12.8 L233.8,14.1 Z M222.1,13.1 L223.1,14.6 L207.8,12.9 L210.5,11.9 L207.2,11.0 L207.0,9.6 L219.9,11.4 L222.1,13.1 Z M791.9,13.2 L776.2,14.6 L781.3,9.9 L783.6,9.5 L792.7,11.7 L791.9,13.2 Z M550.7,8.2 L559.8,10.9 L552.9,12.3 L551.3,14.9 L548.9,15.6 L547.6,18.5 L544.2,18.7 L538.2,16.5 L540.7,15.2 L531.2,11.2 L529.0,8.4 L536.6,7.1 L538.1,8.4 L542.1,8.3 L543.1,7.1 L547.2,7.0 L550.7,8.2 Z M570.7,5.7 L576.1,6.9 L572.0,8.9 L564.0,9.3 L555.8,8.7 L555.3,7.7 L551.3,7.6 L548.2,6.0 L556.8,5.0 L560.9,5.9 L563.7,4.8 L570.7,5.7 Z M642.0,5.2 L632.2,7.1 L629.2,6.3 L630.8,5.1 L624.6,5.0 L634.2,4.3 L634.8,5.3 L639.0,3.9 L643.1,4.6 L642.0,5.2 Z M777.6,11.1 L771.5,11.6 L763.8,10.6 L759.2,9.2 L757.1,6.6 L753.3,5.9 L766.5,2.7 L778.3,7.9 L777.6,11.1 Z M258.3,8.4 L261.6,9.5 L252.7,13.3 L247.8,13.5 L242.0,13.1 L239.0,11.6 L239.1,10.3 L241.3,9.4 L236.2,9.4 L231.4,6.6 L235.2,3.9 L238.1,3.7 L236.8,2.8 L243.3,2.7 L246.9,4.6 L256.1,6.0 L258.3,8.4 Z M309.7,-4.0 L328.2,-2.2 L328.1,-1.3 L312.1,1.8 L318.1,1.8 L307.0,4.9 L302.3,7.9 L286.4,9.6 L290.2,10.0 L288.3,10.6 L290.6,12.4 L278.4,17.1 L278.8,17.9 L283.6,17.8 L283.6,18.7 L276.2,20.8 L251.4,19.7 L251.1,18.0 L256.2,17.2 L254.8,14.6 L264.0,15.9 L260.2,13.6 L255.7,13.0 L262.8,10.7 L263.6,9.5 L259.7,8.1 L258.5,6.2 L268.3,6.8 L272.6,5.5 L256.7,5.3 L251.8,4.1 L246.2,1.6 L245.6,0.4 L262.5,-2.3 L268.9,-1.1 L271.1,-3.1 L279.7,-4.0 L309.7,-4.0 Z M424.7,-5.4 L442.1,-2.6 L437.0,-1.2 L411.4,-0.7 L431.0,0.8 L436.4,-0.3 L438.7,0.9 L435.6,3.0 L456.2,0.3 L464.5,1.0 L466.1,2.5 L453.2,5.9 L444.3,6.5 L450.7,6.7 L445.3,11.6 L445.4,15.6 L448.7,17.9 L439.8,19.2 L444.9,21.1 L445.6,24.1 L442.6,24.4 L446.2,27.5 L440.0,27.8 L443.2,29.2 L442.3,30.5 L434.5,31.0 L438.0,33.5 L438.1,35.1 L432.6,33.6 L431.1,34.5 L438.5,37.6 L439.6,40.5 L434.6,41.2 L429.0,37.7 L430.0,40.2 L426.8,42.0 L437.9,42.4 L422.9,48.3 L411.7,49.6 L405.0,54.7 L399.0,57.2 L389.4,59.1 L387.0,61.3 L385.6,66.1 L381.1,69.0 L382.2,71.8 L379.5,78.2 L375.6,78.4 L371.5,75.5 L365.9,75.5 L356.6,65.6 L354.8,60.1 L350.9,56.8 L351.9,54.2 L350.1,52.9 L352.8,48.7 L357.0,47.4 L358.7,43.1 L351.5,45.4 L348.1,44.2 L349.0,39.9 L357.2,40.8 L350.0,37.3 L347.2,37.8 L344.9,36.9 L348.0,33.6 L340.8,26.0 L337.2,24.6 L337.3,23.2 L329.8,21.1 L309.7,21.2 L301.7,17.8 L314.5,16.5 L296.4,14.1 L296.8,12.7 L317.5,9.3 L318.5,8.0 L311.0,6.7 L313.5,5.3 L327.1,2.4 L326.0,0.8 L341.1,-0.7 L349.6,-0.7 L352.7,0.4 L360.0,-1.6 L376.3,1.2 L369.7,-0.7 L370.1,-2.2 L379.4,-4.4 L389.2,-4.2 L392.7,-5.5 L424.7,-5.4 Z","worldWH":[1000,500],"cities":{"shanghai":[837.4,181.3],"caire":[586.8,185.6],"paris":[506.5,118.4],"nairobi":[602.3,297.5],"la":[171.6,171.2],"sofia":[564.8,140.4]},"sh":{"coast":"M713.5,862.1 L704.1,857.6 L703.2,854.4 L706.5,850.6 L699.5,842.0 L690.8,846.9 L676.1,851.0 L669.3,856.4 L653.5,858.4 L644.3,861.5 L636.0,866.6 L628.6,875.2 L649.4,891.0 L661.6,897.2 L694.8,904.8 L701.0,901.6 L703.6,887.7 L710.0,883.4 L695.6,878.9 L695.6,875.2 L713.5,862.1 M795.8,776.1 L783.3,775.6 L780.1,772.1 L780.5,763.8 L770.0,773.6 L764.2,774.9 L750.8,766.4 L740.2,767.0 L738.3,760.1 L734.7,760.4 L732.9,762.1 L731.0,768.3 L731.5,779.2 L733.7,782.6 L738.3,784.7 L731.0,788.4 L737.5,796.8 L748.0,796.1 L769.6,788.4 L777.7,789.9 L798.4,798.8 L808.2,801.0 L804.8,785.0 L802.0,778.7 L795.8,776.1 M507.5,224.9 L490.4,225.2 L485.1,228.7 L494.9,257.5 L500.1,268.6 L505.9,274.5 L514.3,273.6 L522.1,267.5 L527.9,258.2 L530.1,248.0 L528.1,237.4 L522.9,230.3 L515.7,226.2 L507.5,224.9 M362.0,953.5 L337.5,918.0 L297.8,874.2 L270.9,855.0 L207.6,841.0 L172.3,847.5 L154.0,854.5 L133.1,880.3 L74.2,923.3 L53.5,934.8 L37.8,938.5 L22.0,948.1 L1.7,945.3 L-11.0,939.0 L-18.8,922.0 L-50.6,914.6 L-76.5,939.3 M-94.6,950.3 L-81.5,931.5 L-59.4,910.7 L-64.0,904.4 L-77.7,898.9 L-84.8,886.9 L-99.0,848.2 L-101.9,834.4 L-117.3,826.5 M-118.6,806.3 L-94.0,809.1 L-78.0,813.6 L-63.1,824.5 L-54.0,834.2 L-49.3,853.8 L-41.3,866.4 L-32.1,873.8 L-20.2,872.1 L-9.4,866.8 L0.3,851.9 L19.6,828.9 L26.1,825.8 L33.5,825.3 L33.5,821.5 L28.0,816.8 L23.0,809.2 L36.8,806.9 L40.5,805.1 L46.0,796.8 L45.5,791.6 L42.3,786.4 L40.5,778.2 L41.9,766.2 L50.8,745.9 L65.6,724.0 L87.5,707.4 L101.4,700.3 L139.4,694.2 L144.3,690.1 L153.4,673.3 L158.7,668.0 L168.4,662.6 L181.3,650.9 L191.1,645.0 L213.0,636.5 L248.4,628.2 L257.2,621.9 L288.0,589.6 L356.0,560.1 L401.3,548.1 L493.6,538.1 L543.2,535.7 L570.3,525.4 L579.2,501.0 L565.6,460.8 L527.6,390.5 L476.5,321.4 L449.6,281.1 L401.6,248.5 L357.7,230.3 L307.2,194.1 L291.7,178.3 L262.5,163.5 L241.6,147.1 L202.8,89.8 L151.3,39.2 L111.5,15.5 L84.1,4.2 L50.6,-4.7 L23.3,-8.0 L-9.3,-16.7 L-52.2,-31.3 L-60.9,-38.3 L-66.4,-49.2 L-68.3,-66.6 L-50.6,-44.8 L-21.7,-35.8 L-12.9,-47.2 L-21.9,-74.3 L-36.1,-99.5 L-51.2,-137.0 L-82.2,-148.9 L-92.5,-149.3 L-126.3,-144.9 M-54.6,-171.6 L-20.1,-163.6 L-1.6,-144.9 L28.5,-105.6 L35.6,-89.6 L38.9,-87.5 L47.0,-85.5 L48.7,-80.8 L46.5,-56.8 L51.7,-45.1 L65.7,-38.6 L79.8,-42.5 L97.6,-41.6 L109.1,-38.1 L121.6,-31.1 L136.2,-27.8 L172.2,-52.0 L194.1,-69.5 L224.2,-84.4 L240.1,-79.9 L323.8,-36.6 L331.3,-33.9 L342.9,-20.1 L372.1,-9.3 L389.0,0.9 L424.1,15.9 L438.2,17.7 L461.9,23.0 L497.0,35.4 L525.1,35.6 L547.1,26.1 L555.1,14.0 L550.8,-2.6 L526.4,-45.5 L526.6,-68.2 L512.6,-92.8 L501.0,-106.6 L499.3,-121.5 L469.8,-147.2 L450.7,-160.0 L445.8,-165.3 L428.0,-175.6 M510.7,85.2 L447.6,71.8 L417.8,58.6 L370.5,21.7 L352.0,13.0 L334.4,-0.2 L321.3,-12.5 L275.4,-37.0 L242.8,-47.6 L212.7,-54.6 L189.7,-47.7 L177.3,-33.1 L170.3,-27.6 L167.6,-20.6 L192.4,7.4 L223.9,27.6 L232.7,47.1 L238.6,56.6 L254.2,65.2 L270.0,69.5 L284.9,81.8 L326.0,102.1 L342.9,109.0 L355.2,117.7 L370.7,132.4 L428.8,145.9 L452.2,159.1 L479.5,170.6 L497.0,182.0 L514.5,186.5 L546.1,176.2 L579.4,163.3 L583.9,147.7 L580.6,125.8 L549.2,102.9 L510.7,85.2 M768.4,904.8 L774.3,901.4 L783.5,892.7 L786.4,891.8 L787.9,893.1 L788.4,899.9 L794.2,906.3 L800.7,903.6 L801.8,897.2 L800.3,890.4 L796.3,885.2 L787.4,883.7 L757.3,886.7 L746.2,898.7 L738.5,901.3 L733.8,905.6 L733.4,908.7 L742.3,908.0 L747.7,905.9 L759.9,906.6 L768.4,904.8 M862.8,617.5 L860.3,615.9 L839.7,621.2 L833.8,619.7 L826.1,611.6 L817.3,605.4 L811.7,604.2 L811.3,607.2 L814.2,613.7 L813.1,621.1 L810.3,627.6 L812.8,631.2 L824.7,633.6 L827.5,633.6 L834.5,628.5 L860.4,628.9 L863.7,627.4 L861.3,621.5 L862.8,617.5 M468.7,225.7 L449.8,208.4 L432.2,198.5 L394.7,183.7 L380.8,182.5 L377.3,185.2 L384.7,192.5 L447.2,235.4 L463.2,251.7 L470.8,257.6 L477.8,254.9 L478.9,244.9 L474.8,234.5 L468.7,225.7","yz":"","hp":"M118.2,492.0 L179.8,462.0 L231.2,468.0 L272.3,456.0 L292.8,420.0 L313.4,378.0 L328.8,342.0 L333.9,324.0 L328.8,309.0 L336.5,301.8 L349.4,300.0 L359.6,288.0 L354.5,264.0 L339.1,240.0 L333.9,216.0","pts":{"vieille":[329.8,313.8],"lujiazui":[336.5,307.2],"songjiang":[192.7,430.8],"pudong_aero":[490.6,360.0],"yangshan":[626.8,675.0],"bridge_a":[554.9,534.0],"bridge_b":[616.5,666.0],"chongming":[385.3,78.0]},"WH":[900,780],"land":"M67.2,-0.7 L84.1,4.2 L111.5,15.5 L151.3,39.2 L202.8,89.8 L241.6,147.1 L262.5,163.5 L291.7,178.3 L307.2,194.1 L357.7,230.3 L401.6,248.5 L449.6,281.1 L476.5,321.4 L527.6,390.5 L565.6,460.8 L579.2,501.0 L570.3,525.4 L543.2,535.7 L493.6,538.1 L401.3,548.1 L356.0,560.1 L288.0,589.6 L257.2,621.9 L248.4,628.2 L213.0,636.5 L191.1,645.0 L181.3,650.9 L168.4,662.6 L158.7,668.0 L153.4,673.3 L144.3,690.1 L139.4,694.2 L129.7,696.6 L101.4,700.3 L87.5,707.4 L65.6,724.0 L50.8,745.9 L41.9,766.2 L40.5,778.2 L42.3,786.4 L45.5,791.6 L46.0,796.8 L40.5,805.1 L36.8,806.9 L26.6,807.9 L23.0,809.2 L23.5,810.0 L-25.7,810.0 L-25.7,-22.3 L-9.3,-16.7 L23.3,-8.0 L50.6,-4.7 L67.2,-0.7 Z M530.1,248.0 L527.9,258.2 L522.1,267.5 L514.3,273.6 L505.9,274.5 L500.1,268.6 L494.9,257.5 L485.1,228.7 L490.4,225.2 L507.5,224.9 L515.7,226.2 L522.9,230.3 L528.1,237.4 L530.1,248.0 Z M470.8,257.6 L463.2,251.7 L447.2,235.4 L384.7,192.5 L377.3,185.2 L380.8,182.5 L394.7,183.7 L432.2,198.5 L449.8,208.4 L460.3,216.9 L468.7,225.7 L474.8,234.5 L478.9,244.9 L477.8,254.9 L470.8,257.6 Z M546.1,176.2 L514.5,186.5 L497.0,182.0 L479.5,170.6 L452.2,159.1 L428.8,145.9 L370.7,132.4 L355.2,117.7 L342.9,109.0 L326.0,102.1 L284.9,81.8 L270.0,69.5 L254.2,65.2 L238.6,56.6 L232.7,47.1 L223.9,27.6 L192.4,7.4 L167.6,-20.6 L170.3,-27.6 L173.3,-30.0 L289.6,-30.0 L321.3,-12.5 L334.4,-0.2 L352.0,13.0 L370.5,21.7 L388.0,34.9 L406.4,50.7 L417.8,58.6 L447.6,71.8 L510.7,85.2 L549.2,102.9 L580.6,125.8 L583.9,147.7 L579.4,163.3 L546.1,176.2 Z M525.1,35.6 L497.0,35.4 L461.9,23.0 L438.2,17.7 L424.1,15.9 L413.6,10.6 L389.0,0.9 L372.1,-9.3 L342.9,-20.1 L335.1,-30.0 L535.6,-30.0 L550.8,-2.6 L555.1,14.0 L547.1,26.1 L525.1,35.6 Z M136.2,-27.8 L126.4,-30.0 L139.5,-30.0 L136.2,-27.8 Z M748.0,796.1 L737.5,796.8 L731.0,788.4 L738.3,784.7 L733.7,782.6 L731.5,779.2 L731.0,768.3 L732.9,762.1 L734.7,760.4 L738.3,760.1 L740.2,767.0 L750.8,766.4 L764.2,774.9 L770.0,773.6 L780.5,763.8 L780.1,772.1 L783.3,775.6 L796.3,776.3 L796.3,797.9 L777.7,789.9 L769.6,788.4 L748.0,796.1 Z M729.1,735.0 L728.6,739.9 L725.7,741.3 L720.5,740.2 L723.1,734.2 L726.7,732.1 L729.1,735.0 Z M627.6,691.7 L632.8,692.8 L636.0,692.0 L634.3,694.4 L630.5,696.1 L632.5,699.9 L627.7,704.7 L624.1,697.9 L617.8,696.7 L616.7,695.0 L624.4,694.7 L627.6,691.7 Z"},"pa":{"seine":"M1163.2,1062.9 L1146.9,1069.4 L1124.7,1071.3 L1062.2,1059.0 L913.0,1092.6 L901.1,1084.5 L896.9,1077.9 L876.8,1062.1 L870.1,1059.0 L865.1,1060.6 L855.7,1067.7 L849.7,1069.4 L845.9,1064.9 L847.8,1044.1 L846.6,1038.2 L833.0,1036.1 L818.6,1037.6 L805.9,1036.8 L797.5,1027.9 L795.8,1008.2 L802.7,992.5 L812.4,978.9 L818.0,965.5 L811.7,936.9 L789.3,931.2 L760.9,932.2 L736.7,924.0 L728.0,909.3 L727.0,893.9 L727.4,877.7 L721.8,860.8 L710.3,851.2 L699.7,855.3 L681.4,872.0 L664.3,877.2 L655.0,875.5 L633.0,860.8 L597.1,848.0 L585.2,841.0 L585.2,829.6 L598.4,819.7 L594.1,811.1 L565.4,798.4 L541.7,797.1 L538.5,786.6 L538.0,752.2 L525.8,715.6 L497.3,680.9 L441.9,631.4 L476.0,585.7 L490.9,560.4 L493.1,543.0 L477.7,522.0 L472.0,511.5 L469.7,500.7 L470.3,468.8 L468.2,461.2 L462.3,444.4 L440.9,404.8 L408.8,372.0 L372.5,354.7 L338.8,361.4 L304.8,397.7 L285.4,404.9 L276.8,376.0 L283.2,351.2 L298.5,325.1 L316.6,302.4 L332.0,287.7 L369.1,268.5 L377.3,257.4 L379.8,230.7 L368.9,215.8 L344.7,217.9 L304.6,235.9 L279.3,261.2 L263.9,272.6 L246.3,277.3 L233.8,284.5 L212.9,318.6 L201.6,330.2 L174.9,325.2 L171.8,287.9 L186.2,245.6 L216.5,221.9 L222.3,212.9 L227.0,201.0 L229.0,189.1 L227.4,174.9 L223.1,169.4 L216.7,167.2 L195.3,156.4 L143.3,151.8 L122.8,159.4 L111.0,178.0 L91.8,225.4 L74.4,239.1 L58.3,233.2 L50.3,213.2 L57.7,183.9 L40.0,149.9 L28.0,137.6 L9.9,131.0 L-8.9,131.4 L-136.1,180.6 L-151.2,183.5 L-185.3,183.9 L-198.8,179.1 L-216.1,167.2 L-230.8,151.9 L-237.2,136.8 L-246.0,131.5 M-250.9,47.1 L-275.3,36.0 L-296.5,33.2","marne":"M1193.6,203.7 L1175.3,214.7 L1155.7,220.0 L1088.3,218.4 L1063.8,211.4 L1053.9,197.8 L1065.3,186.7 L1085.3,180.8 L1097.3,167.8 L1084.7,135.5 L1074.4,127.0 L1067.6,133.6 L1061.4,145.7 L1053.3,153.5 L1042.4,154.3 L1006.7,148.1 L1002.6,146.0 L998.0,147.7 L990.1,157.7 L980.8,176.7 L985.6,183.2 L993.5,189.3 L993.6,207.7 L978.6,233.7 L958.6,237.6 L938.4,233.1 L922.8,234.2 L914.8,247.4 L902.3,285.6 L894.5,295.6 L879.4,294.4 L870.5,281.6 L858.5,246.0 L845.9,238.3 L828.1,245.9 L807.3,258.9 L771.7,273.2 L773.6,281.6 L789.5,295.5 L799.8,300.1 L812.6,301.1 L818.0,305.8 L806.5,321.6 L785.3,333.7 L687.1,345.8 L622.7,335.8 L613.0,336.2 L603.6,338.6 L595.6,344.4 L587.5,357.9 L575.4,387.8 L563.9,400.6 L542.0,406.3 L532.4,411.8 L532.6,422.4 L543.2,429.7 L558.5,435.9 L570.0,445.3 L570.0,463.1 L558.6,476.2 L544.4,473.2 L530.6,461.7 L506.7,435.0 L491.6,429.0 L475.5,428.6 L459.2,431.8","oise":"","pts":{"cite":[397.0,375.7],"defense":[288.0,316.3],"roissy":[600.0,138.4],"orly":[429.0,568.8],"marne":[710.0,383.3],"cergy":[115.0,97.3],"peri":[395.0,369.6,123.0,68.4],"nanterre":[255.0,313.3]},"WH":[900,640]}};
+/* Personnages dessinés pour Chronopolis, LaClasseDeGreg */
+const OUT = 'stroke="#1a1030" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"';
+function eyes(m, x1, x2, y, kohl){
+  const k = kohl ? `<path d="M${x1-16},${y-1} L${x1-24},${y+3}" ${OUT} fill="none"/><path d="M${x2+16},${y-1} L${x2+24},${y+3}" ${OUT} fill="none"/>` : '';
+  if (m==='joie') return k+`<path d="M${x1-11},${y+3} Q${x1},${y-10} ${x1+11},${y+3}" ${OUT} fill="none"/><path d="M${x2-11},${y+3} Q${x2},${y-10} ${x2+11},${y+3}" ${OUT} fill="none"/>`;
+  const r = m==='choc' ? 13 : 10, pr = m==='choc' ? 4 : 5.5, dx = m==='doute' ? 4 : 0;
+  return k+`<ellipse cx="${x1}" cy="${y}" rx="${r}" ry="${r+2}" fill="#fff" ${OUT}/><ellipse cx="${x2}" cy="${y}" rx="${r}" ry="${r+2}" fill="#fff" ${OUT}/>`+
+   `<circle cx="${x1+dx}" cy="${y+1}" r="${pr}" fill="#1a1030"/><circle cx="${x2+dx}" cy="${y+1}" r="${pr}" fill="#1a1030"/>`+
+   `<circle cx="${x1+dx+2}" cy="${y-2}" r="1.8" fill="#fff"/><circle cx="${x2+dx+2}" cy="${y-2}" r="1.8" fill="#fff"/>`;
+}
+function brows(m, x1, x2, y, col, thick){
+  const w = thick||5;
+  const st = `stroke="${col}" stroke-width="${w}" stroke-linecap="round" fill="none"`;
+  if (m==='choc') return `<path d="M${x1-13},${y-10} Q${x1},${y-22} ${x1+12},${y-12}" ${st}/><path d="M${x2-12},${y-12} Q${x2},${y-22} ${x2+13},${y-10}" ${st}/>`;
+  if (m==='doute') return `<path d="M${x1-13},${y-4} L${x1+12},${y-2}" ${st}/><path d="M${x2-12},${y-14} Q${x2},${y-22} ${x2+13},${y-12}" ${st}/>`;
+  if (m==='colere') return `<path d="M${x1-13},${y-12} L${x1+12},${y-3}" ${st}/><path d="M${x2-12},${y-3} L${x2+13},${y-12}" ${st}/>`;
+  return `<path d="M${x1-13},${y-6} Q${x1},${y-13} ${x1+12},${y-7}" ${st}/><path d="M${x2-12},${y-7} Q${x2},${y-13} ${x2+13},${y-6}" ${st}/>`;
+}
+function mouth(m, x, y){
+  if (m==='choc') return `<ellipse cx="${x}" cy="${y+4}" rx="9" ry="12" fill="#5a1530" ${OUT}/>`;
+  if (m==='joie') return `<path d="M${x-18},${y-3} Q${x},${y+24} ${x+18},${y-3} Z" fill="#5a1530" ${OUT}/><path d="M${x-9},${y+9} Q${x},${y+3} ${x+9},${y+9} Q${x},${y+15} ${x-9},${y+9}" fill="#ff6f91"/>`;
+  if (m==='doute') return `<path d="M${x-14},${y+4} Q${x-5},${y} ${x},${y+4} Q${x+6},${y+8} ${x+14},${y+2}" ${OUT} fill="none"/>`;
+  if (m==='colere') return `<path d="M${x-13},${y+8} Q${x},${y-2} ${x+13},${y+8}" ${OUT} fill="none"/>`;
+  return `<path d="M${x-13},${y} Q${x},${y+12} ${x+13},${y}" ${OUT} fill="none"/>`;
+}
+const CHARS = {
+lin(m='normal'){ // Lin Meihua, marchande de soie, Shanghai 1553
+ return `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+ <defs><pattern id="linP" width="18" height="18" patternUnits="userSpaceOnUse"><rect width="18" height="18" fill="#e0263f"/><circle cx="9" cy="9" r="3" fill="#f7c948" opacity=".75"/></pattern></defs>
+ <path d="M18,222 Q22,170 62,158 L138,158 Q178,170 182,222 Z" fill="url(#linP)" ${OUT}/>
+ <path d="M78,158 L104,214 L122,158" fill="none" stroke="#f7c948" stroke-width="10"/><path d="M78,158 L104,214 L122,158" fill="none" ${OUT}/>
+ <rect x="86" y="138" width="28" height="26" fill="#f6cfa6" ${OUT}/>
+ <ellipse cx="56" cy="106" rx="9" ry="12" fill="#f6cfa6" ${OUT}/><ellipse cx="144" cy="106" rx="9" ry="12" fill="#f6cfa6" ${OUT}/>
+ <ellipse cx="100" cy="104" rx="44" ry="48" fill="#f6cfa6" ${OUT}/>
+ <path d="M56,98 Q52,48 100,46 Q148,48 144,98 Q132,70 100,68 Q70,70 56,98 Z" fill="#20193a" ${OUT}/>
+ <circle cx="100" cy="36" r="22" fill="#20193a" ${OUT}/>
+ <path d="M70,30 L134,22" stroke="#f7c948" stroke-width="5" stroke-linecap="round"/><circle cx="136" cy="21" r="7" fill="#ff2e63" ${OUT}/><circle cx="70" cy="30" r="4" fill="#f7c948"/>
+ ${brows(m,82,118,96,'#20193a')}${eyes(m,82,118,106)}
+ <circle cx="70" cy="124" r="8" fill="#ff8fab" opacity=".55"/><circle cx="130" cy="124" r="8" fill="#ff8fab" opacity=".55"/>
+ ${mouth(m,100,128)}
+ <g transform="translate(130,170) rotate(-12)"><rect x="0" y="0" width="58" height="40" rx="4" fill="#8a4b12" ${OUT}/><rect x="6" y="6" width="46" height="28" fill="#f3e3c3"/>
+ ${[0,1,2,3,4].map(i=>`<line x1="${12+i*9}" y1="6" x2="${12+i*9}" y2="34" stroke="#5a3210" stroke-width="2"/><circle cx="${12+i*9}" cy="${12+(i%2)*4}" r="3.5" fill="#1a1030"/><circle cx="${12+i*9}" cy="${26-(i%3)*3}" r="3.5" fill="#1a1030"/>`).join('')}
+ <line x1="6" y1="18" x2="52" y2="18" stroke="#5a3210" stroke-width="3"/></g>
+ </svg>`;},
+senou(m='normal'){ // Sénou, scribe de Memphis, vers 1250 av. J.-C.
+ return `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+ <path d="M14,222 Q20,168 64,160 L136,160 Q180,168 186,222 Z" fill="#c98455" ${OUT}/>
+ <path d="M40,176 Q100,236 160,176 Q150,166 136,162 Q100,200 64,162 Q50,166 40,176 Z" fill="#2a9df4" ${OUT}/>
+ <path d="M50,184 Q100,226 150,184" fill="none" stroke="#f7c948" stroke-width="6"/><path d="M58,192 Q100,222 142,192" fill="none" stroke="#1dd3b0" stroke-width="5"/>
+ <rect x="86" y="140" width="28" height="24" fill="#c98455" ${OUT}/>
+ <ellipse cx="100" cy="104" rx="43" ry="48" fill="#c98455" ${OUT}/>
+ <path d="M52,112 Q46,56 100,50 Q154,56 148,112 L150,150 L132,150 Q136,110 130,84 Q100,94 70,84 Q64,110 68,150 L50,150 Z" fill="#1a1030" ${OUT}/>
+ ${[56,63,137,144].map(x=>`<line x1="${x}" y1="104" x2="${x}" y2="148" stroke="#3b6fd8" stroke-width="3"/>`).join('')}
+ <path d="M136,60 L176,18" stroke="#c9a86b" stroke-width="6" stroke-linecap="round"/><path d="M174,20 L182,10" stroke="#1a1030" stroke-width="6" stroke-linecap="round"/>
+ ${brows(m,82,118,96,'#1a1030',6)}${eyes(m,82,118,106,true)}
+ <path d="M100,112 L96,128 L104,128" fill="none" ${OUT}/>
+ ${mouth(m,100,136)}
+ <g transform="translate(118,168) rotate(10)"><rect x="0" y="6" width="62" height="34" fill="#f2deb0" ${OUT}/><ellipse cx="0" cy="23" rx="8" ry="17" fill="#e7c98f" ${OUT}/><ellipse cx="62" cy="23" rx="8" ry="17" fill="#e7c98f" ${OUT}/>
+ <path d="M14,16 h8 M28,16 l6,6 M40,14 q6,8 12,0 M14,28 h20 M38,30 h12" stroke="#7a3e10" stroke-width="2.5" fill="none"/></g>
+ </svg>`;},
+boduos(m='normal'){ // Boduos, nautonier parisii, 52 av. J.-C.
+ return `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+ <defs><pattern id="bodP" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="20" height="20" fill="#2f9e44"/><rect width="10" height="20" fill="#f7c948" opacity=".55"/><rect width="20" height="10" fill="#1b5e20" opacity=".45"/></pattern></defs>
+ <path d="M168,8 L120,200" stroke="#8a5a2b" stroke-width="9" stroke-linecap="round"/><path d="M168,8 L120,200" fill="none" stroke="#1a1030" stroke-width="2"/><ellipse cx="172" cy="0" rx="12" ry="26" transform="rotate(14 172 0)" fill="#a0692e" ${OUT}/>
+ <path d="M14,222 Q20,166 64,158 L136,158 Q180,166 186,222 Z" fill="url(#bodP)" ${OUT}/>
+ <path d="M24,190 Q60,150 100,170 L40,222 L18,222 Z" fill="#8c4a2f" ${OUT}/><circle cx="96" cy="170" r="8" fill="#f7c948" ${OUT}/>
+ <rect x="86" y="138" width="28" height="24" fill="#f3c7a5" ${OUT}/>
+ <path d="M74,156 Q100,172 126,156" fill="none" stroke="#f7c948" stroke-width="8" stroke-linecap="round"/><circle cx="74" cy="156" r="6" fill="#f7c948" ${OUT}/><circle cx="126" cy="156" r="6" fill="#f7c948" ${OUT}/>
+ <path d="M50,96 Q40,150 62,166 L70,120 Z M150,96 Q160,150 138,166 L130,120 Z" fill="#d9692b" ${OUT}/>
+ <ellipse cx="100" cy="104" rx="44" ry="48" fill="#f3c7a5" ${OUT}/>
+ <path d="M54,104 Q46,50 100,48 Q156,50 146,104 Q140,74 120,70 Q112,82 100,74 Q90,84 78,70 Q60,76 54,104 Z" fill="#d9692b" ${OUT}/>
+ ${brows(m,80,120,96,'#b5521f',8)}${eyes(m,80,120,106)}
+ <ellipse cx="100" cy="122" rx="10" ry="8" fill="#ee9b84" ${OUT}/>
+ ${mouth(m,100,150)}
+ <path d="M100,128 Q80,124 66,136 Q58,150 52,158 Q70,150 78,140 Q90,134 100,136 Q110,134 122,140 Q130,150 148,158 Q142,150 134,136 Q120,124 100,128 Z" fill="#e07a2e" ${OUT}/>
+ </svg>`;},
+portail(){
+ return `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="pg" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#00e5ff"/><stop offset=".7" stop-color="#7b2ff7"/><stop offset="1" stop-color="#1b0b3a"/></radialGradient></defs>
+ <circle cx="100" cy="100" r="92" fill="#3a2a6e" ${OUT}/>
+ ${Array.from({length:12},(_,i)=>{const a=i*30*Math.PI/180;return `<rect x="${100+Math.cos(a)*86-7}" y="${100+Math.sin(a)*86-7}" width="14" height="14" rx="3" fill="#f7c948" ${OUT} transform="rotate(${i*30} ${100+Math.cos(a)*86} ${100+Math.sin(a)*86})"/>`}).join('')}
+ <circle cx="100" cy="100" r="70" fill="url(#pg)" ${OUT}/><g class="spin"><path d="M100,40 A60,60 0 0 1 160,100" fill="none" stroke="#fff" stroke-width="5" opacity=".7"/><path d="M100,160 A60,60 0 0 1 40,100" fill="none" stroke="#ff2e88" stroke-width="5" opacity=".8"/></g></svg>`;}
+};
+
+/* Contenu du parcours Chronopolis, Grégory Cron, LaClasseDeGreg, Lycée français Victor Hugo de Sofia */
+const NOTIONS = {
+  urb:"Urbanisation et exode rural", met:"Métropole et mégapole", cbd:"Quartier des affaires (CBD)",
+  centre:"Ville-centre et centre historique", peri:"Périphéries et étalement urbain", vn:"Ville nouvelle",
+  bid:"Bidonville", seg:"Ségrégation spatiale", mondi:"Mondialisation, ports et aéroports",
+  loc:"Se repérer sur une carte", schema:"Lire et compléter un schéma", redac:"Rédiger une explication"
+};
+const COURS_URL = "cours/Cours_4e_Urbanisation_LVH.pdf";
+const MANUEL = {lecon:"https://www.lelivrescolaire.fr/page/16858566", nairobi:"https://www.lelivrescolaire.fr/page/16858600", perspective:"https://www.lelivrescolaire.fr/page/16858581"};
+
+const PAGES = [
+/* ---------------- PROLOGUE ---------------- */
+{ id:"pro1", ch:"pro", title:"Erreur 404, siècle introuvable", photo:null, scene:"portail",
+  cast:[
+   ["portail","normal","ALERTE. Le Chronoportail a eu un hoquet. Trois voyageurs du passé viennent d'être aspirés en l'an 2026."],
+   ["lin","choc","Je vendais de la soie au marché de Shanghai, en l'an 1553. Et me voilà… où, exactement ?"],
+   ["senou","choc","Par Thot, dieu des scribes ! Je recopiais une liste de jarres de bière à Memphis, sous le règne de Ramsès II. Le pharaon va être furieux."],
+   ["boduos","colere","Moi, je ramais tranquillement sur la Seine, à Lutèce, en 52 avant notre ère. Qui a volé ma rivière ?"],
+   ["portail","normal","Agent ou agente temporelle, pour les renvoyer chez eux, il faut recharger le Chronoportail. Chaque défi réussi lui donne de l'énergie. Commence par leur montrer où ils vont atterrir."]
+  ],
+  ch1:{type:"worldmap", notion:"loc", consigne:"Touche une étiquette, puis touche le bon point sur la carte. Le point jaune indique Sofia, d'où tu joues.",
+   items:[
+    {id:"w_sh", label:"Shanghai", spot:"shanghai", why:"Shanghai est en Chine, sur la côte est de l'Asie, à l'embouchure du fleuve Yangzi."},
+    {id:"w_ca", label:"Le Caire", spot:"caire", why:"Le Caire est en Égypte, au nord-est de l'Afrique, sur les bords du Nil, tout près de la mer Méditerranée."},
+    {id:"w_pa", label:"Paris", spot:"paris", why:"Paris est en France, en Europe de l'Ouest, au bord de la Seine."},
+    {id:"w_na", label:"Nairobi", spot:"nairobi", why:"Nairobi est la capitale du Kenya, en Afrique de l'Est, presque sur l'équateur."},
+    {id:"w_la", label:"Los Angeles", spot:"la", why:"Los Angeles est aux États-Unis, sur la côte ouest de l'Amérique du Nord, au bord de l'océan Pacifique."}
+   ]},
+  retiens:"Nos cinq villes se trouvent sur quatre continents différents. Toutes sont des métropoles, de très grandes villes reliées au reste du monde."
+},
+{ id:"pro2", ch:"pro", title:"La planète des villes", photo:null, scene:"video",
+  cast:[
+   ["senou","doute","De mon temps, presque tout le monde vivait aux champs, le long du Nil. Les villes se comptaient sur les doigts de la main."],
+   ["portail","normal","En 2026, c'est tout l'inverse. Regardez cette vidéo de révision, puis répondez au questionnaire du Chronoportail."],
+   ["boduos","joie","Une image qui bouge et qui parle ? Chez nous, il fallait un druide pour ça."]
+  ],
+  video:{id:"UG4XF1lZizo", titre:"Réviser ton cours de géo en 5 minutes, l'urbanisation du monde", chaine:"PeriScola", duree:"4 min 45"},
+  ch1:{type:"qcm", items:[
+    {id:"v1", notion:"urb", q:"Depuis quand plus d'un être humain sur deux vit-il en ville ?",
+     o:["Depuis 1789","Depuis 1950","Depuis 2007","Ce sera seulement le cas en 2050"], a:2,
+     w:["En 1789, les citadins étaient très minoritaires. Presque tout le monde vivait à la campagne.","En 1950, moins d'un humain sur trois vivait en ville.",null,"C'est déjà fait depuis 2007. En 2050, environ sept humains sur dix devraient vivre en ville."],
+     x:"Depuis 2007, les citadins sont plus nombreux que les ruraux. C'est un basculement historique."},
+    {id:"v2", notion:"urb", q:"Qu'appelle-t-on l'exode rural ?",
+     o:["Le départ des citadins vers la campagne","Le départ des habitants des campagnes vers les villes","La construction de routes dans les campagnes","L'augmentation des récoltes"], a:1,
+     w:["C'est le contraire. Dans l'exode rural, on quitte la campagne pour la ville.",null,"Les routes ne sont pas un départ de population. Exode veut dire départ massif.","Les récoltes n'ont rien à voir. Exode veut dire départ, rural veut dire campagne."],
+     x:"Les ruraux partent vers les villes pour trouver un emploi, des écoles, des hôpitaux. C'est l'exode rural, l'un des deux moteurs de la croissance urbaine avec les naissances nombreuses."},
+    {id:"v3", notion:"urb", q:"Où les villes grandissent-elles le plus vite aujourd'hui ?",
+     o:["En Europe","En Afrique et en Asie","En Amérique du Nord","En Océanie"], a:1,
+     w:["L'Europe est déjà très urbanisée depuis longtemps. Ses villes grandissent lentement.",null,"L'Amérique du Nord est déjà urbanisée à plus de 80 %. Ses villes grandissent lentement.","L'Océanie compte peu d'habitants et ses villes grandissent lentement."],
+     x:"La croissance urbaine se joue surtout en Afrique et en Asie, où l'exode rural et les naissances nombreuses font gonfler les villes très vite."},
+    {id:"v4", notion:"met", q:"Une métropole, c'est…",
+     o:["n'importe quelle ville de plus de 2 000 habitants","une ville construite d'un seul coup en périphérie","une grande ville qui concentre habitants, activités, richesses et pouvoirs de décision","un quartier de bureaux et de gratte-ciel"], a:2,
+     w:["2 000 habitants, c'est le seuil d'une simple ville en France. Une métropole est beaucoup plus grande et plus puissante.","Ça, c'est une ville nouvelle, comme Songjiang à Shanghai.",null,"Ça, c'est le quartier des affaires (CBD). Il n'est qu'une partie de la métropole."],
+     x:"Une métropole concentre les habitants, les activités, les richesses et les pouvoirs de décision. Elle est reliée au reste du monde."}
+  ]},
+  retiens:"Depuis 2007, plus d'un humain sur deux vit en ville. Les villes grandissent surtout en Afrique et en Asie, grâce à l'exode rural et aux naissances nombreuses."
+},
+/* ---------------- SHANGHAI ---------------- */
+{ id:"sh1", ch:"sh", title:"Où est passé mon rempart ?", photo:"yuyuan", photo2:"lujiazui",
+  credit:"Jardin Yu et tour de Shanghai, photo Timothée Gidenne. Lujiazui, photo Freeman Zhou. Unsplash.",
+  cast:[
+   ["lin","choc","Mon rempart ! En 1553, on venait de bâtir une muraille autour de Shanghai pour se protéger des pirates. Où est-elle passée ?"],
+   ["portail","normal","Elle a été démolie en 1912 et remplacée par un boulevard circulaire. Mais ta vieille ville est toujours là, avec le jardin Yu. C'est le centre historique."],
+   ["lin","doute","Et cette aiguille géante derrière le jardin ? Elle sert à recoudre les nuages ?"],
+   ["portail","normal","C'est la tour de Shanghai, 632 mètres, l'une des plus hautes du monde. Elle se dresse à Lujiazui, de l'autre côté du fleuve Huangpu, là où il n'y avait que des champs et des entrepôts il y a quarante ans."],
+   ["lin","joie","Des tours entières rien que pour des bureaux ? Il faut combien de marchands pour remplir tout ça ?"]
+  ],
+  ch1:{type:"qcm", items:[
+    {id:"s1", notion:"cbd", q:"Lujiazui, avec sa forêt de gratte-ciel, est…",
+     o:["un bidonville","le quartier des affaires (CBD) de Shanghai","une ville nouvelle","le port de Shanghai"], a:1,
+     w:["Un bidonville est un quartier d'habitat précaire fait de matériaux de récupération. Rien à voir avec ces tours de verre et d'acier.",null,"Une ville nouvelle est construite d'un coup en périphérie, surtout pour loger des habitants. Lujiazui est un quartier de bureaux au cœur de la métropole.","Le grand port de Shanghai se trouve à Yangshan, sur des îles au large. Lujiazui accueille des bureaux, des banques et des sièges d'entreprises."],
+     x:"Lujiazui est le quartier des affaires, le CBD. On y trouve les sièges des grandes entreprises, les banques et la bourse."},
+    {id:"s2", notion:"centre", q:"Pourquoi construit-on si haut au centre des métropoles ?",
+     o:["Parce que la loi interdit les maisons basses","Pour se protéger des inondations","Parce que le terrain y est rare et très cher, alors on empile les bureaux","Parce que plus personne ne veut vivre en périphérie"], a:2,
+     w:["Aucune loi n'interdit les maisons basses. D'ailleurs, la vieille ville juste à côté est faite de petits bâtiments.","Les tours ne protègent pas des inondations. Shanghai, bâtie à quelques mètres au-dessus de la mer, est même menacée par la montée des eaux.",null,"Au contraire, des millions de personnes vivent en périphérie. C'est là que la ville s'étale."],
+     x:"Au centre, le sol est rare et cher. En construisant en hauteur, on loge beaucoup de bureaux sur peu de place. Les tours sont aussi une vitrine qui montre la puissance de la ville au monde entier."}
+  ]},
+  retiens:"Le centre d'une métropole est dense et vertical. Le quartier des affaires (CBD) concentre bureaux, banques et sièges d'entreprises. Le centre historique, plus ancien, est souvent protégé."
+},
+{ id:"sh2", ch:"sh", title:"La carte de Madame Lin", photo:null, scene:"mapsh",
+  cast:[
+   ["lin","normal","Je suis marchande. Sans carte, pas de commerce ! Aide-moi à comprendre comment ma ville est organisée aujourd'hui."],
+   ["portail","normal","Place les cinq étiquettes sur la carte de la métropole de Shanghai. Le trait bleu est le fleuve Huangpu."]
+  ],
+  ch1:{type:"localmap", map:"sh", notion:"loc", consigne:"Touche une étiquette, puis le cercle où elle doit aller.",
+   items:[
+    {id:"m_sh1", label:"Vieille ville, centre historique", spot:"vieille", notion:"centre", why:"La vieille ville est au cœur de la métropole, sur la rive ouest du Huangpu, là où se dressait le rempart de 1553."},
+    {id:"m_sh2", label:"Lujiazui, quartier des affaires", spot:"lujiazui", notion:"cbd", why:"Lujiazui fait face à la vieille ville, sur la rive est du Huangpu, dans le district de Pudong."},
+    {id:"m_sh3", label:"Songjiang, ville nouvelle", spot:"songjiang", notion:"vn", why:"Songjiang est en périphérie, au sud-ouest, à une quarantaine de kilomètres du centre. Elle a été construite pour accueillir une partie de la croissance de la ville."},
+    {id:"m_sh4", label:"Port de Yangshan", spot:"yangshan", notion:"mondi", why:"Le port de Yangshan est bâti sur des îles en pleine mer, au sud-est. Un pont de plus de 30 km le relie à la côte, car les plus gros navires ont besoin d'eaux profondes."},
+    {id:"m_sh5", label:"Aéroport de Pudong", spot:"pudong_aero", notion:"mondi", why:"L'aéroport de Pudong est à l'est, au bord de la mer, à une trentaine de kilomètres du centre. Les aéroports ont besoin de beaucoup de place, on les construit en périphérie."}
+   ]},
+  retiens:"Shanghai est organisée comme toutes les métropoles. Au centre, la vieille ville et le quartier des affaires. En périphérie, des villes nouvelles. Aux portes de la ville, un port et un aéroport ouverts sur le monde."
+},
+{ id:"sh3", bonus:{id:"UxYVsGhhbeY",titre:"Shanghai, espace de la mondialisation et puissance maritime",chaine:"FANCHDUMENE",duree:"2 min 25"}, ch:"sh", title:"Yangshan, la porte du monde", photo:"port",
+  credit:"Terminal à conteneurs, photo CHUTTERSNAP. Unsplash.",
+  cast:[
+   ["lin","choc","Des boîtes en fer empilées comme des briques de thé ! Il y en a des milliers !"],
+   ["portail","normal","Ce sont des conteneurs. Shanghai est le premier port à conteneurs du monde. Ils partent vers l'Europe, l'Afrique et l'Amérique."],
+   ["lin","joie","De mon temps, une jonque mettait des semaines pour descendre la côte. Avec vos bateaux géants, ma soie serait en Europe en un mois. Ça, c'est un progrès."],
+   ["portail","normal","Et pour aller à l'aéroport de Pudong, le train Maglev flotte au-dessus des rails grâce à des aimants. Il avale les 30 km en huit minutes à 300 km/h, et il a même roulé à 431 km/h avant 2021."],
+   ["lin","doute","Vous habitez au centième étage et vous mangez des fruits venus de l'autre bout du monde. Vous êtes riches ou vous êtes fous ?"]
+  ],
+  ch1:{type:"vf", items:[
+    {id:"s3", notion:"mondi", s:"Le port de Yangshan et l'aéroport de Pudong relient Shanghai au reste du monde.", a:true, x:"Le port et l'aéroport sont les portes d'entrée de la mondialisation. Marchandises et voyageurs y arrivent du monde entier."},
+    {id:"s4", notion:"mondi", s:"Shanghai est une ville isolée qui vit surtout de l'agriculture.", a:false, x:"C'est faux. Shanghai est l'une des villes les mieux reliées de la planète, avec le premier port à conteneurs du monde et un grand quartier des affaires."},
+    {id:"s5", notion:"urb", s:"Shanghai est passée d'environ 4 millions d'habitants en 1950 à près de 29 millions aujourd'hui.", a:true, x:"C'est vrai. Sa population a été multipliée par sept en soixante-dix ans. C'est une mégapole."},
+    {id:"s6", notion:"seg", s:"Pour moderniser la ville, les autorités ont rasé de vieux quartiers et repoussé une partie de leurs habitants vers la périphérie.", a:true, x:"C'est vrai. Les nouveaux logements du centre sont trop chers pour beaucoup de familles, qui doivent partir vers les périphéries. Les habitants se retrouvent séparés selon leurs revenus."}
+  ]},
+  retiens:"Le port de Yangshan et l'aéroport de Pudong montrent que Shanghai est très bien reliée à la mondialisation."
+},
+/* ---------------- LE CAIRE ---------------- */
+{ id:"ca1", bonus:{id:"FaMxJvjVzQI",titre:"L'enfer des embouteillages au Caire",chaine:"AFP",duree:"1 min 50"}, ch:"ca", title:"Des chars sans chevaux devant les pyramides", photo:"caire_trafic",
+  credit:"Les pyramides de Gizeh au-dessus de la circulation, photo kai muro. Unsplash.",
+  cast:[
+   ["senou","choc","Les pyramides de Khéops ! Elles étaient déjà vieilles de 1 300 ans à mon époque. Mais d'où sortent tous ces chars sans chevaux qui hurlent ?"],
+   ["portail","normal","Tu es dans l'agglomération du Caire, plus de 25 millions d'habitants selon l'ONU. C'est une mégapole, et même la seule ville non asiatique parmi les dix plus grandes villes du monde."],
+   ["senou","doute","Vingt-cinq millions ? Toute l'Égypte de Ramsès comptait à peine quelques millions d'âmes. Je vais manquer de papyrus."],
+   ["portail","normal","Beaucoup sont venus des villages de la vallée du Nil pour trouver du travail. Et les familles y ont beaucoup d'enfants."],
+   ["boduos","joie","Et ce long serpent qui roule sous la terre, c'est quoi ? Le métro ? Au moins lui, il n'est pas coincé dans les bouchons !"]
+  ],
+  ch1:{type:"vf", items:[
+    {id:"c1", notion:"met", s:"Une mégapole est une ville de plus de 10 millions d'habitants.", a:true, x:"C'est la définition. Le monde en compte 33, dont Le Caire et Shanghai."},
+    {id:"c2", notion:"urb", s:"Tous les habitants du Caire sont nés au Caire, personne n'est venu des campagnes.", a:false, x:"C'est faux. Des millions de ruraux sont venus s'installer au Caire pour trouver un emploi. C'est l'exode rural."},
+    {id:"c3", notion:"urb", s:"Le Caire grandit grâce à l'exode rural et aux naissances nombreuses.", a:true, x:"C'est vrai. Ce sont les deux moteurs de la croissance urbaine dans les pays du Sud."},
+    {id:"c4", notion:"met", s:"Une ville très peuplée est forcément la ville la plus puissante du monde.", a:false, x:"C'est faux. La taille ne fait pas la puissance. Le Caire est bien plus peuplé que Paris, mais Paris pèse davantage dans l'économie mondiale avec ses sièges d'entreprises et ses institutions."}
+  ]},
+  retiens:"Le Caire est une mégapole de plus de 25 millions d'habitants. Elle grandit grâce à l'exode rural et aux naissances nombreuses."
+},
+{ id:"ca2", bonus:{id:"m4dh2NTxVf4",titre:"Au Caire, la Cité des morts reprend vie",chaine:"AFP",duree:"1 min 48"}, ch:"ca", title:"Des vivants chez les morts", photo:"caire_dense",
+  credit:"Le Caire et les pyramides dans la brume, photo waa towaw. Unsplash.",
+  cast:[
+   ["senou","choc","J'ai vu des familles vivre au milieu d'un cimetière ! Moi qui écris des prières pour les tombes des nobles, voilà des vivants qui habitent chez les morts."],
+   ["portail","normal","C'est la Cité des morts. Faute de logements à bas prix, des familles s'y sont installées. Autour du Caire, une grande partie des habitants vit dans des quartiers informels, construits sans autorisation sur d'anciens champs."],
+   ["senou","colere","Et pendant ce temps, d'autres arrosent des pelouses de golf en plein désert, derrière des murs, des caméras et des gardiens ?"],
+   ["portail","normal","Ce sont des résidences fermées, les compounds, réservées aux plus riches. Les habitants ne vivent pas ensemble, ils sont séparés selon leurs revenus."]
+  ],
+  ch1:{type:"sort", notion:"seg", consigne:"Range chaque espace dans la bonne colonne. Touche une carte, puis la colonne.",
+   bins:["Espaces des plus riches","Espaces des plus pauvres"],
+   items:[
+    {id:"t1", txt:"Un compound gardé, avec piscine et golf, en plein désert près du Caire", bin:0, why:"Murs, gardiens, golf et piscine dans le désert, c'est un quartier aisé fermé, réservé aux plus riches."},
+    {id:"t2", txt:"Des immeubles de briques construits sans autorisation sur d'anciens champs", bin:1, why:"Construits sans autorisation, souvent sans plan ni égouts, ces quartiers informels accueillent les familles qui n'ont pas les moyens de se loger ailleurs."},
+    {id:"t3", txt:"La Cité des morts, où des familles vivent dans un cimetière", bin:1, why:"Vivre dans un cimetière est un choix forcé, faute de logement. Ce sont des habitants très pauvres."},
+    {id:"t4", txt:"Kibera, à Nairobi, des cabanes en tôle sans eau courante", bin:1, why:"Kibera est un bidonville, un quartier d'habitat précaire fait de matériaux de récupération, souvent privé d'eau et d'électricité."},
+    {id:"t5", txt:"Une villa sur les collines de Los Angeles, avec portail et gardien", bin:0, why:"Une villa protégée par un portail et un gardien est un espace des plus riches, à l'écart du reste de la ville."},
+    {id:"t6", txt:"Des appartements de luxe à Pudong, hors de prix pour la plupart des Shanghaïens", bin:0, why:"Ces logements neufs du centre sont réservés aux plus riches. Les autres sont repoussés vers la périphérie."}
+   ]},
+  ch2:{type:"qcm", items:[
+    {id:"t7", notion:"seg", q:"La séparation des habitants dans des quartiers différents selon leurs revenus s'appelle…",
+     o:["l'exode rural","la ségrégation spatiale","l'étalement urbain","la mondialisation"], a:1,
+     w:["L'exode rural est le départ des habitants des campagnes vers les villes. Il ne dit pas où ils s'installent dans la ville.",null,"L'étalement urbain est l'extension de la ville sur la campagne. Il ne parle pas de la séparation entre riches et pauvres.","La mondialisation est la mise en relation des régions du monde par les échanges."],
+     x:"Quand riches et pauvres vivent dans des quartiers séparés, on parle de ségrégation spatiale, ou ségrégation socio-spatiale."}
+  ]},
+  retiens:"Dans les métropoles, riches et pauvres vivent séparés. Quartiers aisés fermés d'un côté, quartiers informels et bidonvilles de l'autre. C'est la ségrégation spatiale."
+},
+{ id:"ca3", ch:"ca", title:"Ramsès aussi avait sa capitale neuve", photo:"caire_etal",
+  credit:"Le Caire s'étend jusqu'aux pyramides, photo Michael Starkie. Unsplash.",
+  cast:[
+   ["portail","normal","Le gouvernement égyptien a fait sortir du désert une Nouvelle capitale administrative, à environ 45 km à l'est du Caire. Les ministères s'y installent et le président y a prêté serment en 2024."],
+   ["senou","joie","Ha ! Mon pharaon Ramsès a fait pareil. Il a bâti une capitale toute neuve, Pi-Ramsès, dans le delta. Et avant lui, Akhenaton avait construit Amarna, abandonnée peu après sa mort."],
+   ["senou","doute","Je note sur mon papyrus que la ville déborde sur les champs et sur le désert, jusqu'au pied des pyramides."],
+   ["portail","normal","Bien vu, scribe. Quand la ville s'étend sur la campagne qui l'entoure, c'est l'étalement urbain."]
+  ],
+  ch1:{type:"qcm", items:[
+    {id:"c5", notion:"vn", q:"Une ville nouvelle, c'est…",
+     o:["un vieux quartier rénové au centre","une ville construite d'un seul coup, selon un plan, souvent en périphérie","un quartier de gratte-ciel de bureaux","un village peu à peu rattrapé par la ville"], a:1,
+     w:["Rénover un vieux quartier, c'est transformer le centre historique. Une ville nouvelle sort de terre d'un coup.",null,"Un quartier de gratte-ciel de bureaux est un quartier des affaires (CBD), comme Lujiazui.","Un village rattrapé par la ville, c'est l'étalement urbain. Une ville nouvelle, elle, est planifiée et construite d'un seul coup."],
+     x:"Une ville nouvelle est construite d'un seul coup, selon un plan, en périphérie d'une métropole. Exemples, la Nouvelle capitale administrative égyptienne, Songjiang à Shanghai, Marne-la-Vallée près de Paris."},
+    {id:"c6", notion:"peri", q:"L'étalement urbain, c'est…",
+     o:["l'extension de la ville sur les espaces ruraux qui l'entourent","la construction de tours dans le centre","le départ des citadins vers l'étranger","la disparition des bidonvilles"], a:0,
+     w:[null,"Construire des tours au centre, c'est faire grandir la ville en hauteur, pas en largeur.","Partir à l'étranger, c'est émigrer. Cela n'agrandit pas la ville.","Les bidonvilles ne disparaissent pas. Ils se trouvent souvent justement en périphérie, là où la ville s'étale."],
+     x:"L'étalement urbain est l'extension de la ville sur les champs, les forêts ou le désert qui l'entourent. Lotissements, quartiers informels, zones commerciales et villes nouvelles y poussent."}
+  ]},
+  retiens:"Une ville nouvelle est construite d'un seul coup, selon un plan, en périphérie. L'étalement urbain est l'extension de la ville sur l'espace rural."
+},
+{ id:"na1", bonus:{id:"nkl4C9vm37Y",titre:"À Kibera, la lutte pour l'eau potable",chaine:"FRANCE 24",duree:"1 min 59"}, ch:"na", title:"Escale imprévue à Nairobi", photo:"kibera", photo2:"nairobi_cbd",
+  credit:"Kibera vu du ciel, photo Evans Dims. Le centre de Nairobi, photo Mustafa Omar. Unsplash.",
+  cast:[
+   ["portail","colere","BZZZT ! Erreur de coordonnées. Escale imprévue à Nairobi, capitale du Kenya."],
+   ["senou","choc","D'un côté des tours de verre, de l'autre des toits de tôle à perte de vue. Et les deux sont presque voisins !"],
+   ["lin","doute","Ici aussi, il y a un quartier des affaires. Toutes vos métropoles se ressemblent, c'est à s'y perdre."],
+   ["portail","normal","Kibera est l'un des plus grands bidonvilles d'Afrique, à quelques kilomètres du centre des affaires. Complète le rapport de mission sur Nairobi."]
+  ],
+  ch1:{type:"fill", notion:"seg",
+   bank:["croissance urbaine","exode rural","CBD","mondialisation","périphéries","étalement urbain","bidonvilles","résidences sécurisées","ségrégation spatiale","ville nouvelle","mégapole"],
+   text:"Nairobi compte plus de 4 millions d'habitants, contre 100 000 en 1950. Cette forte [[croissance urbaine]] s'explique surtout par l'[[exode rural]], le départ des habitants des campagnes vers la ville. Au centre, le [[CBD]], quartier des affaires aux gratte-ciel, et l'aéroport montrent que Nairobi est bien insérée dans la [[mondialisation]]. La ville s'agrandit sans cesse vers ses [[périphéries]], c'est l'[[étalement urbain]]. Une grande partie des habitants s'entasse dans des [[bidonvilles]] comme Kibera, tandis que les familles aisées vivent dans des [[résidences sécurisées]]. Cette séparation des habitants selon leurs revenus s'appelle la [[ségrégation spatiale]].",
+   why:{
+    "croissance urbaine":"On parle de croissance urbaine quand la population d'une ville augmente fortement, ici de 100 000 à plus de 4 millions.",
+    "exode rural":"Le départ des habitants des campagnes vers la ville, c'est l'exode rural.",
+    "CBD":"Le quartier des affaires aux gratte-ciel s'appelle le CBD, Central Business District.",
+    "mondialisation":"Le CBD et l'aéroport relient Nairobi aux échanges du monde entier, c'est la mondialisation.",
+    "périphéries":"Les espaces situés autour du centre sont les périphéries.",
+    "étalement urbain":"Quand la ville s'agrandit vers ses périphéries et grignote la campagne, c'est l'étalement urbain.",
+    "bidonvilles":"Kibera est un bidonville, un quartier d'habitat précaire construit sans autorisation.",
+    "résidences sécurisées":"Les familles aisées s'enferment derrière des murs, des alarmes et des gardiens, dans des résidences sécurisées.",
+    "ségrégation spatiale":"La séparation des habitants selon leurs revenus, c'est la ségrégation spatiale."
+   }},
+  retiens:"À Nairobi, un CBD moderne et le bidonville de Kibera se côtoient. La ville grandit vite et ses habitants vivent séparés selon leurs revenus."
+},
+/* ---------------- PARIS ---------------- */
+{ id:"pa1", bonus:{id:"fYwc7MAfXFE",titre:"Les origines de Lutèce",chaine:"INA Histoire",duree:"2 min 02"}, ch:"pa", title:"Lutèce ? Connais pas !", photo:"notredame",
+  credit:"Notre-Dame et l'île de la Cité, photo Chris Linnett. Unsplash.",
+  cast:[
+   ["boduos","choc","Ma Seine ! Qui a mis des murs de pierre de chaque côté ? Et cette immense maison pointue sur mon île ?"],
+   ["portail","normal","C'est Notre-Dame, sur l'île de la Cité, au cœur du centre historique de Paris. Ta petite Lutèce est devenue une métropole de près de 13 millions d'habitants."],
+   ["boduos","doute","Treize millions ? Nous étions quelques milliers de pêcheurs, de bateliers et de potiers ! Et il y a des bateaux qui transportent des gens qui ne pêchent même pas."],
+   ["portail","normal","Pour comprendre, remets dans l'ordre les grandes étapes de la croissance de Paris."]
+  ],
+  ch1:{type:"order", notion:"peri", consigne:"Touche les étapes dans l'ordre chronologique, de la plus ancienne à la plus récente.",
+   items:[
+    {id:"o1", txt:"52 avant notre ère. Lutèce, petite ville gauloise des Parisii au bord de la Seine"},
+    {id:"o2", txt:"Moyen Âge. Paris devient la capitale du royaume et s'entoure de remparts"},
+    {id:"o3", txt:"XIXe siècle. Haussmann perce de grands boulevards dans le centre"},
+    {id:"o4", txt:"Années 1960 et 1970. Grands ensembles et villes nouvelles poussent en banlieue"},
+    {id:"o5", txt:"Aujourd'hui. Des lotissements de maisons grignotent les champs, loin de Paris"}
+   ],
+   x:"Paris a grandi du centre vers ses périphéries. Plus on avance dans le temps, plus la ville s'étale loin du cœur historique, l'île de la Cité."},
+  retiens:"Une métropole grandit du centre vers ses périphéries. Le centre historique est le plus ancien, les périphéries sont les plus récentes."
+},
+{ id:"pa2", bonus:{id:"BLdLSA5B770",titre:"La Défense, d'où vient ce nom ?",chaine:"Karambolage, ARTE",duree:"2 min 37"}, ch:"pa", title:"Des tours qui chatouillent le ciel", photo:"defense",
+  credit:"L'axe historique vers La Défense, photo Stefan K. Unsplash.",
+  cast:[
+   ["boduos","choc","Nous, les Celtes, nous ne craignions qu'une chose, que le ciel nous tombe sur la tête. Et vous, vous construisez des tours qui vont le percer !"],
+   ["portail","normal","C'est La Défense, l'un des plus grands quartiers d'affaires d'Europe, construit à partir de 1958 juste à l'ouest de Paris."],
+   ["boduos","doute","Pourquoi pas au centre, comme la tour géante dont Madame Lin n'arrête pas de parler ?"],
+   ["portail","normal","Le centre historique de Paris est protégé, on n'y bâtit presque pas de tours. Alors le quartier des affaires s'est installé en périphérie proche. Certains archéologues pensent d'ailleurs que la grande ville gauloise des Parisii se trouvait tout près, à Nanterre."],
+   ["boduos","joie","Mon village sous les gratte-ciel ! Je l'ai toujours dit, nous étions des gens importants."]
+  ],
+  ch1:{type:"localmap", map:"pa", notion:"loc", consigne:"Touche une étiquette, puis le cercle où elle doit aller. Le trait bleu est la Seine, la ligne rouge le boulevard périphérique.",
+   items:[
+    {id:"m_pa1", label:"Île de la Cité, centre historique", spot:"cite", notion:"centre", why:"L'île de la Cité est au milieu de la Seine, au cœur de Paris. C'est le berceau de la ville."},
+    {id:"m_pa2", label:"La Défense, quartier des affaires", spot:"defense", notion:"cbd", why:"La Défense est juste à l'ouest de Paris, à la sortie du périphérique, dans une boucle de la Seine."},
+    {id:"m_pa3", label:"Aéroport de Roissy-Charles-de-Gaulle", spot:"roissy", notion:"mondi", why:"Roissy est au nord-est, à environ 25 km du centre, au milieu des champs. Un aéroport a besoin d'immenses espaces, on le construit loin du centre."},
+    {id:"m_pa4", label:"Marne-la-Vallée, ville nouvelle", spot:"marne", notion:"vn", why:"Marne-la-Vallée est à l'est, le long de la Marne. Elle a été construite à partir des années 1970 pour loger des habitants hors de Paris, comme Songjiang à Shanghai."},
+    {id:"m_pa5", label:"Boulevard périphérique, axe de transport", spot:"peri", notion:"peri", why:"Le périphérique est l'anneau de 35 km qui fait le tour de Paris. C'est un axe de transport qui relie les quartiers entre eux."}
+   ]},
+  retiens:"Paris, comme Shanghai, a un centre historique, un quartier des affaires, des villes nouvelles en périphérie, des axes de transport et un grand aéroport."
+},
+{ id:"la1", bonus:{id:"MzvqiIQA_4g",titre:"Los Angeles, la ville des autoroutes",chaine:"Ina Voyages",duree:"1 min 08"}, ch:"la", title:"Le pays où l'on ne marche jamais", photo:"la_freeway", photo2:"la_suburb",
+  credit:"Échangeur autoroutier de Los Angeles, photo Denys Nevozhai. Banlieue pavillonnaire, photo Michael Tuszynski. Unsplash.",
+  cast:[
+   ["portail","colere","BZZZT ! Nouvelle panne. Escale à Los Angeles, aux États-Unis."],
+   ["boduos","choc","Des routes qui se tressent comme des paniers d'osier ! Et des maisons toutes pareilles jusqu'à l'horizon."],
+   ["lin","doute","J'ai cherché le marché à pied. Après deux heures de marche, j'avais vu 300 maisons, 12 parkings et zéro marchand."],
+   ["portail","normal","Los Angeles est l'une des métropoles les plus étalées du monde. Près de 13 millions d'habitants vivent dans d'immenses banlieues pavillonnaires reliées par des autoroutes. Sans voiture, on ne va nulle part."],
+   ["senou","joie","Moi, je retiens qu'ici l'eau coule d'un tuyau dans chaque maison. Même Ramsès n'avait pas ça. Voilà un vrai progrès."]
+  ],
+  ch1:{type:"qcm", items:[
+    {id:"l1", notion:"peri", q:"Qu'est-ce qui explique l'étalement de Los Angeles ?",
+     o:["Les habitants veulent des maisons individuelles et se déplacent en voiture","La ville est bâtie sur une île minuscule","Il est interdit de construire des immeubles","Tous les habitants vivent dans le centre"], a:0,
+     w:[null,"Sur une île minuscule, la ville ne pourrait justement pas s'étaler. Los Angeles occupe une immense plaine.","Ce n'est pas interdit, Downtown Los Angeles a ses gratte-ciel.","C'est le contraire. La plupart des habitants vivent loin du centre, dans les banlieues."],
+     x:"Le rêve d'une maison avec jardin et l'usage massif de la voiture ont fait s'étaler Los Angeles sur des dizaines de kilomètres."},
+    {id:"l2", notion:"peri", q:"Quel paysage montre le mieux l'étalement urbain ?",
+     o:["Une forêt de gratte-ciel au centre","Une vieille ville entourée de remparts","Des lotissements de maisons identiques qui avancent sur les champs","Un port à conteneurs"], a:2,
+     w:["Une forêt de gratte-ciel montre un quartier des affaires dense et vertical, pas l'étalement.","Une vieille ville entourée de remparts est un centre historique, au contraire très ramassé.",null,"Un port à conteneurs montre l'ouverture sur la mondialisation."],
+     x:"Les lotissements qui avancent sur les champs sont la marque de l'étalement urbain, horizontal et peu dense."},
+    {id:"l3", notion:"centre", q:"Par rapport à ses banlieues, le centre d'une métropole est en général…",
+     o:["moins dense et couvert de champs","plus dense, avec les commerces, les services et les lieux de pouvoir","réservé aux usines","composé surtout de bidonvilles"], a:1,
+     w:["C'est l'inverse. Les champs se trouvent au-delà des périphéries.",null,"Les usines ont souvent quitté le centre pour les périphéries, où le terrain est moins cher.","Les bidonvilles se trouvent surtout en périphérie ou sur des terrains délaissés."],
+     x:"La ville-centre est la partie la plus ancienne et la plus dense, avec les commerces, les services et les lieux de pouvoir."}
+  ]},
+  retiens:"L'étalement urbain s'explique par la croissance de la population, le besoin de logements et l'usage de la voiture. Los Angeles en est un exemple extrême."
+},
+/* ---------------- SYNTHÈSE ---------------- */
+{ id:"x1", ch:"syn", title:"Le schéma des trois voyageurs", photo:null, scene:"schema",
+  cast:[
+   ["lin","normal","Shanghai, Le Caire, Paris, Nairobi, Los Angeles… Au fond, toutes vos métropoles sont bâties sur le même modèle."],
+   ["senou","joie","Un bon scribe sait dessiner un modèle. Complète la légende de ce schéma et le Chronoportail sera presque rechargé."],
+   ["boduos","normal","Une case est déjà remplie pour te montrer l'exemple. Il en reste huit."]
+  ],
+  ch1:{type:"schema", notion:"schema", consigne:"Touche une étiquette, puis la case de légende qui correspond au bon figuré.",
+   example:{fig:"banl", label:"Banlieues, périphérie proche"},
+   items:[
+    {id:"g1", label:"Ville-centre, dense et ancienne", fig:"centre", notion:"centre", why:"Le grand disque orange au milieu figure la ville-centre, dense et ancienne, comme la vieille ville de Shanghai ou l'île de la Cité."},
+    {id:"g2", label:"Quartier des affaires (CBD)", fig:"cbd", notion:"cbd", why:"Le petit carré violet aux barres verticales figure les gratte-ciel du quartier des affaires, comme Lujiazui ou Downtown Los Angeles."},
+    {id:"g3", label:"Quartiers aisés fermés", fig:"aise", notion:"seg", why:"La tache verte entourée d'une clôture figure les quartiers aisés fermés et gardés, comme les compounds du Caire."},
+    {id:"g4", label:"Bidonville", fig:"bidon", notion:"bid", why:"La tache marron aux petits points serrés figure le bidonville, habitat précaire et entassé, comme Kibera."},
+    {id:"g5", label:"Ville nouvelle", fig:"vn", notion:"vn", why:"Le cercle hachuré détaché de la ville figure une ville nouvelle, construite d'un coup en périphérie, comme Songjiang ou Marne-la-Vallée."},
+    {id:"g6", label:"Axe de transport", fig:"axe", notion:"peri", why:"Les traits rouges épais qui partent du centre figurent les axes de transport, autoroutes, voies ferrées, périphérique."},
+    {id:"g7", label:"Étalement urbain", fig:"etal", notion:"peri", why:"Les flèches qui partent vers l'extérieur figurent l'étalement urbain, la ville qui avance sur la campagne."},
+    {id:"g8", label:"Aéroport, ouverture sur le monde", fig:"aero", notion:"mondi", why:"Le petit avion figure l'aéroport, porte d'entrée de la mondialisation, comme Pudong ou Roissy."}
+   ]},
+  retiens:"Toutes les métropoles suivent le même modèle. Un centre dense avec le quartier des affaires, des périphéries qui s'étalent, des quartiers riches et pauvres séparés, des villes nouvelles, des axes et un aéroport ouvert sur le monde."
+},
+{ id:"x2", ch:"syn", title:"Le papyrus de Sénou", photo:null, scene:"papyrus",
+  cast:[
+   ["senou","normal","Un bon scribe sait résumer. Écris-moi deux phrases sur l'étalement urbain."],
+   ["senou","doute","Dans tes deux phrases, je veux trois choses. Ce qu'est l'étalement urbain, pourquoi il se produit, et un exemple précis vu en classe."],
+   ["boduos","joie","Et pas de dessins de sangliers dans la marge. Je sais, c'est tentant."]
+  ],
+  ch1:{type:"write", id:"r1", notion:"redac", max:3,
+   criteres:[
+    {k:"def", label:"Je dis ce qu'est l'étalement urbain, la ville qui s'étend sur la campagne", re:/(s'?[ée]tend|s'?[ée]tal|extension|agrandi|grignot|avance|d[ée]borde|recouvr|gagne)/i, re2:/(campagne|rural|champ|terre|forêt|for[êe]t|d[ée]sert|p[ée]riph|autour|ext[ée]rieur|banlieue)/i, conseil:"Commence par une définition, par exemple « L'étalement urbain, c'est l'extension de la ville sur la campagne qui l'entoure »."},
+    {k:"cause", label:"J'explique pourquoi, par une cause juste", re:/(exode|population|habitants|naissance|logement|maison|voiture|automobile|prix|cher|croissance|place|jardin|terrain)/i, conseil:"Ajoute une cause, l'exode rural, la croissance de la population, le besoin de logements moins chers ou l'usage de la voiture."},
+    {k:"ex", label:"Je donne un exemple précis vu en classe", re:/(los angeles|nairobi|kibera|shanghai|songjiang|caire|paris|marne|cergy|sofia|mladost|lyulin|londres|mexico|bangkok)/i, conseil:"Cite un exemple précis, comme Los Angeles et ses immenses banlieues pavillonnaires, ou Nairobi qui grignote la campagne."}
+   ],
+   modele:"L'étalement urbain, c'est l'extension de la ville sur la campagne qui l'entoure, avec des lotissements, des grands ensembles, des zones commerciales ou des bidonvilles. Il s'explique par la croissance de la population et l'exode rural, mais aussi par l'usage de la voiture et le désir d'une maison moins chère, comme à Los Angeles où d'immenses banlieues pavillonnaires s'étendent le long des autoroutes."},
+  retiens:"Pour réussir une explication courte, il faut une définition, une cause et un exemple précis."
+},
+{ id:"x3", ch:"syn", title:"L'examen du Chronoportail", photo:null, scene:"exam",
+  cast:[
+   ["portail","normal","Dernière étape. Dix questions pour charger le Chronoportail à fond. C'est un entraînement à l'évaluation, alors prends ton temps et relis bien."],
+   ["lin","joie","Courage. Le commerce récompense toujours les esprits attentifs."]
+  ],
+  ch1:{type:"qcm", items:[
+    {id:"e1", notion:"urb", q:"Quels sont les deux moteurs de la croissance des villes en Afrique et en Asie ?",
+     o:["L'exode rural et les naissances nombreuses","Le tourisme et les jeux vidéo","Le départ des citadins vers la campagne","La disparition des campagnes à cause des volcans"], a:0,
+     w:[null,"Le tourisme fait venir des visiteurs, pas des millions d'habitants permanents.","C'est l'inverse. Les ruraux arrivent en ville, ils ne la quittent pas.","Aucun volcan là-dedans. Les campagnes se vident parce que leurs habitants partent chercher du travail en ville."],
+     x:"Les villes du Sud grandissent grâce à l'exode rural et à l'accroissement naturel, c'est-à-dire plus de naissances que de décès."},
+    {id:"e2", notion:"cbd", q:"Le CBD, Central Business District, c'est…",
+     o:["un quartier d'habitat précaire","le quartier des affaires, avec bureaux, banques et sièges d'entreprises","un centre commercial en périphérie","une autoroute qui fait le tour de la ville"], a:1,
+     w:["Un quartier d'habitat précaire est un bidonville.",null,"Un centre commercial en périphérie, c'est un mall. Le CBD est un quartier de bureaux.","Une autoroute circulaire est un axe de transport, comme le périphérique parisien."],
+     x:"Le CBD est le quartier des affaires. Exemples, Lujiazui à Shanghai, La Défense à Paris, Downtown à Los Angeles."},
+    {id:"e3", notion:"bid", q:"Kibera est…",
+     o:["le quartier des affaires de Shanghai","une ville nouvelle près de Paris","l'un des plus grands bidonvilles d'Afrique, à Nairobi","un port en eau profonde"], a:2,
+     w:["Le quartier des affaires de Shanghai s'appelle Lujiazui.","Les villes nouvelles près de Paris sont Marne-la-Vallée, Cergy-Pontoise ou Évry.",null,"Le port en eau profonde de Shanghai s'appelle Yangshan."],
+     x:"Kibera, à Nairobi, est l'un des plus grands bidonvilles d'Afrique, tout proche du CBD."},
+    {id:"e4", notion:"vn", q:"Songjiang, Marne-la-Vallée et la Nouvelle capitale égyptienne ont un point commun. Ce sont…",
+     o:["des bidonvilles","des villes nouvelles","des quartiers d'affaires","des centres historiques"], a:1,
+     w:["Ce sont des villes planifiées, avec des réseaux d'eau et d'électricité. Rien à voir avec l'habitat précaire d'un bidonville.",null,"Elles contiennent des bureaux, mais ce sont d'abord des villes entières construites pour loger des habitants.","Ce sont au contraire des villes très récentes."],
+     x:"Ce sont des villes nouvelles, construites d'un seul coup selon un plan, en périphérie des métropoles."},
+    {id:"e5", notion:"seg", q:"Un quartier résidentiel entouré de murs, de caméras et de gardiens est…",
+     o:["un bidonville","un quartier aisé fermé","un centre historique","un quartier des affaires"], a:1,
+     w:["Les bidonvilles ne sont pas protégés par des gardiens. Ce sont des quartiers pauvres et précaires.",null,"Le centre historique est ouvert à tous.","Le quartier des affaires accueille des bureaux, pas des résidences fermées."],
+     x:"Les plus riches s'enferment dans des quartiers aisés fermés, résidences sécurisées ou compounds. C'est un signe de ségrégation spatiale."},
+    {id:"e6", notion:"mondi", q:"Quels aménagements relient le mieux une métropole au reste du monde ?",
+     o:["Les jardins publics","Les ports et les aéroports internationaux","Les bidonvilles","Les remparts"], a:1,
+     w:["Les jardins publics sont utiles aux habitants mais ne relient pas la ville au monde.",null,"Les bidonvilles sont des quartiers d'habitat précaire.","Les remparts servaient à protéger la ville, pas à l'ouvrir."],
+     x:"Ports et aéroports, comme Yangshan ou Roissy, sont les portes d'entrée de la mondialisation."},
+    {id:"e7", notion:"met", q:"Une mégapole compte…",
+     o:["plus de 2 000 habitants","plus de 100 000 habitants","plus d'un million d'habitants","plus de 10 millions d'habitants"], a:3,
+     w:["2 000 habitants, c'est le seuil d'une ville en France.","100 000 habitants, c'est une ville moyenne.","Un million, c'est une grande ville, mais pas encore une mégapole.",null],
+     x:"Une mégapole est une agglomération de plus de 10 millions d'habitants, comme Le Caire ou Shanghai."},
+    {id:"e8", notion:"schema", q:"Sur un schéma de métropole, des flèches qui partent du centre vers l'extérieur représentent…",
+     o:["l'étalement urbain","l'exode rural","les bidonvilles","le quartier des affaires"], a:0,
+     w:[null,"L'exode rural se ferait avec des flèches qui arrivent de la campagne vers la ville, pas l'inverse.","Les bidonvilles sont figurés par une tache, pas par des flèches.","Le quartier des affaires est figuré par un carré au centre."],
+     x:"Des flèches vers l'extérieur montrent la ville qui avance sur la campagne. C'est l'étalement urbain."},
+    {id:"e9", notion:"seg", q:"La ségrégation spatiale, c'est…",
+     o:["le mélange des riches et des pauvres dans un même quartier","la séparation des habitants dans des quartiers différents selon leurs revenus","la construction de routes entre le centre et la périphérie","l'arrivée des ruraux en ville"], a:1,
+     w:["C'est le contraire. La ségrégation sépare au lieu de mélanger.",null,"Les routes sont des axes de transport.","L'arrivée des ruraux en ville, c'est l'exode rural."],
+     x:"La ségrégation spatiale sépare les habitants selon leurs revenus, entre quartiers aisés fermés et quartiers pauvres."},
+    {id:"e10", notion:"peri", q:"Dans les périphéries d'une métropole, on trouve souvent…",
+     o:["uniquement des monuments anciens","des lotissements, des grands ensembles, des centres commerciaux et parfois des bidonvilles","les sièges des grandes banques","le centre historique"], a:1,
+     w:["Les monuments anciens sont plutôt dans le centre historique.",null,"Les sièges des banques sont dans le quartier des affaires.","Le centre historique est, comme son nom l'indique, au centre."],
+     x:"Les périphéries sont moins denses et plus horizontales. On y trouve lotissements, grands ensembles, centres commerciaux, villes nouvelles et parfois bidonvilles."}
+  ]},
+  retiens:"Tu es prêt ou prête pour l'évaluation. Relis le cours, refais le schéma de mémoire et revois les notions où tu as fait des erreurs."
+}
+];
+
+const CHAPTERS = {
+  pro:{nom:"Prologue", couleur:"#7b2ff7", guide:"portail"},
+  sh:{nom:"Shanghai", couleur:"#e0263f", guide:"lin"},
+  ca:{nom:"Le Caire", couleur:"#14b8a6", guide:"senou"},
+  na:{nom:"Escale à Nairobi", couleur:"#ff7a00", guide:"senou"},
+  pa:{nom:"Paris", couleur:"#2563eb", guide:"boduos"},
+  la:{nom:"Escale à Los Angeles", couleur:"#ff2e88", guide:"boduos"},
+  syn:{nom:"Synthèse", couleur:"#16a34a", guide:"portail"}
+};
+const GUIDES = {
+  lin:{nom:"Lin Meihua", desc:"Marchande de soie de Shanghai, en l'an 1553. Calculatrice redoutable, boulier toujours à la main.", ville:"sh"},
+  senou:{nom:"Sénou", desc:"Scribe de Memphis, sous le règne de Ramsès II, vers 1250 avant notre ère. Note tout sur son papyrus.", ville:"ca"},
+  boduos:{nom:"Boduos", desc:"Batelier gaulois de la tribu des Parisii, à Lutèce, en 52 avant notre ère. Grognon mais au grand cœur.", ville:"pa"}
+};
+const FINS = {
+  lin:"Je rentre en 1553. Je vais conseiller au mandarin de construire un port en eau profonde. Et de garder le rempart, on ne sait jamais.",
+  senou:"J'ai rempli trois papyrus. Ramsès ne me croira jamais quand je lui parlerai de chars sans chevaux coincés dans les bouchons.",
+  boduos:"Je retourne à Lutèce, ma Seine me manque. Mais je garde le robinet d'eau chaude. Ça, c'est le progrès."
+};
+const BONUS = {
+ apps:[
+  {titre:"Texte à trous, espaces et paysages de l'urbanisation", type:"Texte à trous, LearningApps", embed:"https://learningapps.org/watch?app=2525104", url:"https://learningapps.org/2525104"},
+  {titre:"Centre ou périphéries ?", type:"Classement de photos, LearningApps", embed:"https://learningapps.org/watch?app=2817949", url:"https://learningapps.org/view2817949"},
+  {titre:"Les espaces et paysages des villes", type:"Classement en cinq groupes, LearningApps", embed:"https://learningapps.org/watch?v=pvbi97fxa18", url:"https://learningapps.org/watch?v=pvbi97fxa18"},
+  {titre:"Les plus grandes villes du monde sur la carte", type:"Carte à compléter, LearningApps", embed:"https://learningapps.org/watch?app=2878124", url:"https://learningapps.org/2878124"},
+  {titre:"Mots croisés des villes", type:"Mots croisés, LearningApps", embed:"https://learningapps.org/watch?v=pjto871st16", url:"https://learningapps.org/watch?v=pjto871st16"},
+  {titre:"Quiz Lumni, les paysages de l'urbanisation", type:"Quiz de neuf questions, Lumni, nouvel onglet", url:"https://www.lumni.fr/quiz/les-paysages-de-l-urbanisation", ext:true}
+ ],
+ videos:[
+  {id:"C-64DBvS2UM", titre:"Espaces et paysages de l'urbanisation", chaine:"Graines d'histoire", duree:"5 min 13"},
+  {id:"lHIzs6jPkUU", titre:"Métropole, mégapole ou mégalopole ?", chaine:"Alloprof", duree:"2 min 57"},
+  {id:"tZKM0f3uYDE", titre:"Comment s'organise une ville ?", chaine:"Histoire-Géographie Gayraud", duree:"4 min 33"},
+  {id:"b8Cgn71Pebw", titre:"Des inégalités dans la ville", chaine:"Histoire-Géographie Gayraud", duree:"5 min 16"}
+ ]
+};
+
+
+/* ---------- Outils ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const NAMES = {portail:"Chronoportail", lin:"Lin Meihua", senou:"Sénou", boduos:"Boduos"};
+const store = { get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}, del(k){try{localStorage.removeItem(k)}catch(e){}} };
+const KEY = "chronopolis4e_v1";
+let S = null; /* état de la partie */
+let PLAN = []; /* ordre des pages */
+
+/* ---------- Effets ---------- */
+let SON = false;
+let AC = null;
+function tone(seq){ if(!SON) return; try{ AC = AC || new (window.AudioContext||window.webkitAudioContext)(); let t=AC.currentTime; seq.forEach(([f,d,type])=>{ const o=AC.createOscillator(), g=AC.createGain(); o.type=type||"square"; o.frequency.value=f; g.gain.setValueAtTime(.08,t); g.gain.exponentialRampToValueAtTime(.001,t+d); o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t+d); t+=d*.8; }); }catch(e){} }
+const SFX = { ok:()=>tone([[523,.1],[659,.1],[784,.18]]), ko:()=>tone([[196,.18,"sawtooth"],[147,.25,"sawtooth"]]), zap:()=>tone([[880,.06,"triangle"],[1320,.06,"triangle"],[440,.06,"triangle"],[1760,.12,"triangle"]]), clic:()=>tone([[660,.04,"triangle"]]), win:()=>tone([[523,.12],[659,.12],[784,.12],[1047,.3]]) };
+function flash(col){ const f=$("#flash"); f.style.background=col||"#fff"; f.classList.remove("go"); void f.offsetWidth; f.classList.add("go"); }
+const BOOMS = { ok:["BRAVO !","BIEN JOUÉ !","EXACT !","YES !","PARFAIT !","TOP !"], ko:["AÏE !","OUPS !","RATÉ !","PRESQUE !"], zap:["ZIOUUUM !","BZZZT !","FLASH !","VROOOM !"] };
+function burst(kind){
+  const w = BOOMS[kind][Math.floor(Math.random()*BOOMS[kind].length)];
+  const col = kind==="ok"?"#a3ff3b":kind==="ko"?"#ff2e88":"#00e5ff";
+  const pts = Array.from({length:18},(_,i)=>{const a=i/18*Math.PI*2,r=i%2?92:150;return (200+Math.cos(a)*r).toFixed(0)+","+(120+Math.sin(a)*r*.62).toFixed(0)}).join(" ");
+  const b=$("#burst"); b.innerHTML=`<svg width="${Math.min(420,innerWidth-20)}" viewBox="0 0 400 240"><polygon points="${pts}" fill="${col}" stroke="#1a1030" stroke-width="7" stroke-linejoin="round"/><text x="200" y="138" text-anchor="middle" font-family="Bangers" font-size="58" fill="#fff" stroke="#1a1030" stroke-width="3" paint-order="stroke" letter-spacing="2">${w}</text></svg>`;
+  b.classList.remove("go"); void b.offsetWidth; b.classList.add("go");
+}
+const CONF = { parts:[], run:false };
+function confetti(n){
+  const c=$("#confetti"); c.width=innerWidth; c.height=innerHeight; const x=c.getContext("2d");
+  const cols=["#ff2e88","#ffd60a","#00e5ff","#a3ff3b","#7b2ff7","#ff7a00"];
+  for(let i=0;i<(n||90);i++) CONF.parts.push({x:innerWidth/2+(Math.random()-.5)*200,y:innerHeight*.4,vx:(Math.random()-.5)*14,vy:-Math.random()*14-4,r:Math.random()*7+4,c:cols[i%cols.length],a:Math.random()*6,va:(Math.random()-.5)*.4,life:120});
+  if(CONF.run) return; CONF.run=true;
+  (function step(){ x.clearRect(0,0,c.width,c.height); CONF.parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.45;p.vx*=.99;p.a+=p.va;p.life--; x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r/2,-p.r/2,p.r,p.r*.6);x.restore();}); CONF.parts=CONF.parts.filter(p=>p.life>0&&p.y<c.height+20); if(CONF.parts.length) requestAnimationFrame(step); else {CONF.run=false;x.clearRect(0,0,c.width,c.height);} })();
+}
+function shakeEl(el){ el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); }
+function good(el){ SFX.ok(); burst("ok"); confetti(50); }
+function bad(el){ SFX.ko(); burst("ko"); if(el) shakeEl(el); }
+/* Lecture à voix haute */
+function speak(lines){ try{ speechSynthesis.cancel(); const v=speechSynthesis.getVoices().find(v=>/^fr/i.test(v.lang)); lines.forEach(t=>{ const u=new SpeechSynthesisUtterance(t); u.lang="fr-FR"; if(v) u.voice=v; u.rate=.95; speechSynthesis.speak(u); }); }catch(e){} }
+function hush(){ try{speechSynthesis.cancel()}catch(e){} }
+
+/* ---------- Typographie française ---------- */
+function typo(s){ return String(s).replace(/ ([?!;])/g," $1").replace(/« /g,"« ").replace(/ »/g," »"); }
+
+/* ---------- Plan de la partie ---------- */
+function buildPlan(guide){
+  const by = ch => PAGES.filter(p=>p.ch===ch);
+  const blocs = { sh:by("sh"), ca:by("ca").concat(by("na")), pa:by("pa").concat(by("la")) };
+  const ordre = [GUIDES[guide].ville].concat(["sh","ca","pa"].filter(v=>v!==GUIDES[guide].ville));
+  return by("pro").concat(...ordre.map(v=>blocs[v]), by("syn")).map(p=>p.id);
+}
+function itemsOf(ch){
+  if(!ch) return [];
+  if(ch.type==="write") return [{id:ch.id,max:ch.max,notion:ch.notion}];
+  if(ch.type==="fill"){ const ids=[...ch.text.matchAll(/\[\[([^\]]+)\]\]/g)].map((m,i)=>({id:"f"+i,max:1,notion:ch.notion})); return ids; }
+  return ch.items.map(it=>({id:it.id,max:1,notion:it.notion||ch.notion}));
+}
+function pageItems(p){ return itemsOf(p.ch1).map(x=>({...x,id:(p.ch1.type==="fill"?p.id+"_":"")+x.id})).concat(itemsOf(p.ch2)); }
+const ALL = (()=>{ const o={}; PAGES.forEach(p=>pageItems(p).forEach(it=>o[it.id]={...it,page:p.id})); return o; })();
+const MAXPTS = Object.values(ALL).reduce((a,b)=>a+b.max,0);
+
+/* ---------- Sauvegarde et suivi ---------- */
+function save(){ store.set(KEY,S); }
+function score(){ return Object.values(S.ans).reduce((a,b)=>a+(b.pts||0),0); }
+function note20(){ return Math.round(score()/MAXPTS*200)/10; }
+function energy(){ const p=Math.round(score()/MAXPTS*100); $("#ebar").style.width=p+"%"; $("#etxt").textContent=p+" %"; }
+function send(){
+  if(!SCRIPT_URL || SCRIPT_URL.indexOf("http")!==0 || !S) return;
+  const items={}; Object.entries(S.ans).forEach(([k,v])=>items[k]=v.pts);
+  const p={jeu:JEU,session:S.session,classe:S.classe,eleve:S.eleve,guide:S.guide,page:S.step,pages:PLAN.length,score:score(),max:MAXPTS,note20:note20(),
+    temps_min:Math.round((Date.now()-S.t0)/60000),termine:S.done?"oui":"non",items:JSON.stringify(items),paragraphe:S.para||"",version:"2026-11-04"};
+  try{ fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(p)}).catch(()=>{}); }catch(e){}
+}
+function record(id,pts,extra){ S.ans[id]={pts,...(extra||{})}; save(); energy(); }
+
+/* ---------- Écrans ---------- */
+const app = $("#app");
+function go(html){ hush(); app.innerHTML=html; window.scrollTo({top:0,behavior:"smooth"}); }
+
+function screenHome(){
+  $("#topbar").hidden=true;
+  const prev = store.get(KEY);
+  let classe = null, eleve = null, guide = null;
+  go(`
+  <section class="hero">
+   <div class="trio">${["lin","senou","boduos"].map(k=>`<div class="ch">${CHARS[k]("choc")}</div>`).join("")}</div>
+   <div class="t">CHRONOPOLIS</div>
+   <div class="s">Trois voyageurs du passé perdus dans les métropoles de 2026.<br><b>Révise l'urbanisation du monde et renvoie-les chez eux.</b></div>
+  </section>
+  ${prev && !prev.done && prev.eleve ? `<section class="card" style="background:#e9fbff"><div class="row" style="justify-content:space-between"><div><b>Une partie est en cours sur cet appareil</b><div class="muted">${esc(prev.eleve)}, ${esc(prev.classe)}, page ${prev.step+1}</div></div><button class="btn c" id="resume" type="button">Reprendre ma partie</button></div></section>`:""}
+  <section class="card">
+   <div class="step">1. Ta classe</div>
+   <div class="pills" id="cls">${["4A","4C","Visiteur"].map(c=>`<button class="pill" type="button" data-c="${c}" aria-pressed="false">${c==="Visiteur"?"Visiteur":"4e "+c.slice(1)}</button>`).join("")}</div>
+   <div id="nameZone" style="margin-top:14px" hidden></div>
+  </section>
+  <section class="card" id="gz" hidden>
+   <div class="step">2. Ton voyageur</div>
+   <p class="cons">Choisis le voyageur qui t'accompagne. Tu commenceras par sa ville, puis tu visiteras les deux autres.</p>
+   <div class="guides">${Object.entries(GUIDES).map(([k,g])=>`<button class="gcard" type="button" data-g="${k}" aria-pressed="false"><div class="av">${CHARS[k]("joie")}</div><div><b>${g.nom}</b><span>${esc(g.desc)}</span></div></button>`).join("")}</div>
+   <div class="row" style="margin-top:16px;justify-content:space-between">
+    <span class="muted">Environ 30 minutes. Chaque page est un défi. Même en cas d'erreur, tu lis la correction et tu avances.</span>
+    <button class="btn" id="start" type="button" disabled>Lancer le Chronoportail</button>
+   </div>
+  </section>`);
+  if($("#resume")) $("#resume").onclick=()=>{ S=prev; PLAN=buildPlan(S.guide); begin(true); };
+  app.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{
+    SFX.clic(); classe=b.dataset.c; eleve=null; app.querySelectorAll("[data-c]").forEach(x=>x.setAttribute("aria-pressed",x===b));
+    const z=$("#nameZone"); z.hidden=false;
+    if(classe==="Visiteur"){ z.innerHTML=`<label class="muted" for="nm">Ton prénom ou un pseudo</label><input type="text" id="nm" maxlength="30" autocomplete="off" placeholder="Par exemple Alex">`;
+      $("#nm").oninput=e=>{eleve=e.target.value.trim()?e.target.value.trim()+" (visiteur)":null;check();}; }
+    else { z.innerHTML=`<label class="muted" for="nm">Ton nom</label><select id="nm"><option value="">Choisis ton nom dans la liste</option>${ELEVES[classe].map(n=>`<option>${esc(n)}</option>`).join("")}</select>`;
+      $("#nm").onchange=e=>{eleve=e.target.value||null;check();}; }
+    $("#gz").hidden=false; check();
+  });
+  app.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>{ SFX.clic(); guide=b.dataset.g; app.querySelectorAll("[data-g]").forEach(x=>x.setAttribute("aria-pressed",x===b)); check(); });
+  function check(){ $("#start").disabled=!(classe&&eleve&&guide); }
+  $("#start").onclick=()=>{
+    S={session:Date.now().toString(36)+Math.random().toString(36).slice(2,7),classe,eleve,guide,step:0,ans:{},t0:Date.now(),done:false,para:""};
+    PLAN=buildPlan(guide); save(); begin(false);
+  };
+}
+function begin(resumed){
+  $("#topbar").hidden=false; $("#who").textContent=S.eleve+" · "+GUIDES[S.guide].nom; energy();
+  flash("#00e5ff"); burst("zap"); SFX.zap(); renderPage();
+}
+
+/* ---------- Page de jeu ---------- */
+function charSvg(k,m){ return k==="portail"?CHARS.portail():CHARS[k](m); }
+const ONOM = {sh:["WAOUH !","GLOUPS !"],ca:["QUOI ?!","PAR THOT !"],na:["BZZZT !","OH !"],pa:["SAPRISTI !","PAR TOUTATIS !"],la:["VROUM !","BZZZT !"],pro:["ZAP !"],syn:["ALLEZ !"]};
+function renderPage(){
+  if(S.step>=PLAN.length) return renderEnd();
+  const p = PAGES.find(x=>x.id===PLAN[S.step]); const C=CHAPTERS[p.ch];
+  document.documentElement.style.setProperty("--ch",C.couleur);
+  const guide = C.guide==="portail"?S.guide:C.guide;
+  const mood = p.cast.find(c=>c[0]===guide)?.[1]||"choc";
+  let visu="";
+  if(p.photo){
+    visu=`<div class="photos"><div class="grid${p.photo2?" two":""}"><img src="img/${p.photo}.jpg" alt="">${p.photo2?`<img src="img/${p.photo2}.jpg" alt="">`:""}</div>
+      <div class="peek">${charSvg(guide,mood)}</div><div class="onom">${ONOM[p.ch][Math.floor(Math.random()*ONOM[p.ch].length)]}</div></div><div class="credit">${esc(p.credit||"")}</div>`;
+  } else if(p.scene==="portail"||p.scene==="exam"){
+    visu=`<div class="stage">${p.scene==="portail"?`<div class="ch">${CHARS.lin("choc")}</div><div class="portal">${CHARS.portail()}</div><div class="ch">${CHARS.senou("choc")}</div><div class="ch">${CHARS.boduos("colere")}</div>`:`<div class="ch">${CHARS.lin("joie")}</div><div class="portal">${CHARS.portail()}</div><div class="ch">${CHARS.senou("doute")}</div><div class="ch">${CHARS.boduos("normal")}</div>`}</div>`;
+  } else {
+    visu=`<div class="stage">${["lin","senou","boduos"].map(k=>`<div class="ch">${CHARS[k](k===guide?"joie":"normal")}</div>`).join("")}</div>`;
+  }
+  go(`
+   <div class="scene-head"><span class="tag">${C.nom}</span><span class="pg">Page ${S.step+1} sur ${PLAN.length}</span><h1 class="stitle">${esc(typo(p.title))}</h1></div>
+   ${visu}
+   <section class="dlg" id="dlg">${p.cast.map(([k,m,t])=>`<div class="bub ${k==="portail"?"portail":""}"><div class="av ${k==="portail"?"portail":""}">${charSvg(k,m)}</div><div class="tx"><span class="nm">${NAMES[k]}</span>${esc(typo(t))}</div></div>`).join("")}
+    <div class="dlg-tools">${p.bonus?`<button class="tbtn small" id="bonusv" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>Vidéo bonus, ${esc(p.bonus.duree)}</button>`:""}<button class="tbtn small" id="lire" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M17 9a4 4 0 0 1 0 6M19.5 6.5a8 8 0 0 1 0 11"/></svg>Lire à voix haute</button></div>
+   </section>
+   ${p.video?`<section class="card"><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/${p.video.id}?rel=0" title="${esc(p.video.titre)}" allow="encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>
+    <p class="muted" style="margin:10px 0 0">${esc(p.video.titre)}, ${esc(p.video.chaine)}, ${esc(p.video.duree)}. Si la vidéo ne s'affiche pas, <a href="https://www.youtube.com/watch?v=${p.video.id}" target="_blank" rel="noopener">ouvre-la sur YouTube</a>.</p></section>`:""}
+   <section class="card defi" id="defi"><div class="badge">DÉFI</div><div id="zone"></div></section>
+   <div id="after"></div>`);
+  const bubs=[...app.querySelectorAll(".bub")]; bubs.forEach((b,i)=>setTimeout(()=>b.classList.add("on"),180+i*420));
+  $("#lire").onclick=()=>speak(p.cast.map(([k,,t])=>NAMES[k]+". "+t));
+  if(p.bonus) $("#bonusv").onclick=()=>videoModal(p.bonus);
+  const parts=[p.ch1,p.ch2].filter(Boolean); let i=0;
+  const zone=$("#zone");
+  const nextPart=()=>{ if(i<parts.length){ const ch=parts[i++]; zone.innerHTML=""; const sub=document.createElement("div"); zone.appendChild(sub); mount(ch,sub,p,nextPart); } else finishPage(p); };
+  nextPart();
+}
+function finishPage(p){
+  const pts=pageItems(p).reduce((a,it)=>a+(S.ans[it.id]?.pts||0),0), max=pageItems(p).reduce((a,it)=>a+it.max,0);
+  const a=$("#after");
+  a.innerHTML=`<div class="retiens"><b>Je retiens</b>${esc(typo(p.retiens))}</div>
+   <section class="card"><div class="gain"><svg class="gem" viewBox="0 0 40 40"><polygon points="20,2 36,14 30,36 10,36 4,14" fill="#00e5ff" stroke="#1a1030" stroke-width="3"/><polygon points="20,2 26,14 20,36 14,14" fill="#a3ff3b" stroke="#1a1030" stroke-width="2"/></svg>
+   <span>Fragment de Chronoportail récupéré. ${pts} point${pts>1?"s":""} sur ${max} sur cette page.</span></div>
+   <div class="row" style="margin-top:12px;justify-content:space-between"><span class="row"><a class="tbtn small" href="${COURS_URL}" target="_blank" rel="noopener">Revoir le cours</a><a class="tbtn small" href="${p.ch==="na"?MANUEL.nairobi:MANUEL.lecon}" target="_blank" rel="noopener">Ouvrir le manuel</a></span><button class="btn y" id="cont" type="button">${S.step+1<PLAN.length?"Continuer le voyage":"Recharger le Chronoportail"}</button></div></section>`;
+  a.scrollIntoView({behavior:"smooth",block:"start"});
+  if(pts===max){ confetti(120); SFX.win(); }
+  S.step++; save(); send();
+  $("#cont").onclick=()=>{ flash(CHAPTERS[p.ch].couleur); burst("zap"); SFX.zap(); renderPage(); };
+}
+
+/* ---------- Moteurs de défis ---------- */
+function mount(ch,el,p,done){
+  ({qcm:mQcm,vf:mVf,worldmap:mPlace,localmap:mPlace,schema:mPlace,sort:mSort,order:mOrder,fill:mFill,write:mWrite})[ch.type](ch,el,p,done);
+}
+function nextBtn(el,label,cb){ const d=document.createElement("div"); d.className="next"; d.innerHTML=`<button class="btn" type="button">${label}</button>`; el.appendChild(d); d.querySelector("button").onclick=()=>{SFX.clic();cb();}; d.querySelector("button").focus({preventScroll:true}); return d; }
+/* QCM */
+function mQcm(ch,el,p,done){
+  let i=0; const L="ABCD";
+  function show(){
+    const it=ch.items[i];
+    el.innerHTML=`<div class="qn">Question ${i+1} sur ${ch.items.length}</div><div class="q">${esc(typo(it.q))}</div>
+     <div class="opts">${it.o.map((o,k)=>`<button class="opt" type="button" data-k="${k}"><span class="L">${L[k]}</span><span>${esc(typo(o))}</span></button>`).join("")}</div><div id="fbz"></div>`;
+    if(i>0) el.scrollIntoView({behavior:"smooth",block:"start"});
+    el.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+      const k=+b.dataset.k, ok=k===it.a;
+      el.querySelectorAll(".opt").forEach(x=>{x.disabled=true; if(+x.dataset.k===it.a) x.classList.add("good");});
+      if(!ok) b.classList.add("bad");
+      record(it.id, ok?1:0, ok?{}:{rep:it.o[k]});
+      const fb=document.createElement("div"); fb.className="fb "+(ok?"ok":"ko");
+      fb.innerHTML= ok ? `<b class="k">Exact !</b><p>${esc(typo(it.x))}</p>` : `<b class="k">Pas tout à fait</b><p><b>Pourquoi ta réponse ne va pas.</b> ${esc(typo(it.w[k]||""))}</p><p><b>La bonne réponse est ${L[it.a]}.</b> ${esc(typo(it.x))}</p>`;
+      el.querySelector("#fbz").appendChild(fb);
+      ok?good(b):bad(el.querySelector(".opts"));
+      nextBtn(el, i+1<ch.items.length?"Question suivante":"Terminer le défi", ()=>{ i++; i<ch.items.length?show():done(); });
+    });
+  }
+  show();
+}
+/* Vrai ou faux */
+function mVf(ch,el,p,done){
+  let i=0;
+  function show(){
+    const it=ch.items[i];
+    el.innerHTML=`<div class="qn">Vrai ou faux · ${i+1} sur ${ch.items.length}</div><div class="q">${esc(typo(it.s))}</div>
+     <div class="vf"><button class="opt" type="button" data-v="1"><span class="L">V</span>Vrai</button><button class="opt" type="button" data-v="0"><span class="L">F</span>Faux</button></div><div id="fbz"></div>`;
+    if(i>0) el.scrollIntoView({behavior:"smooth",block:"start"});
+    el.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+      const v=b.dataset.v==="1", ok=v===it.a;
+      el.querySelectorAll(".opt").forEach(x=>{x.disabled=true; if((x.dataset.v==="1")===it.a) x.classList.add("good");});
+      if(!ok) b.classList.add("bad");
+      record(it.id, ok?1:0, ok?{}:{rep:v?"Vrai":"Faux"});
+      const fb=document.createElement("div"); fb.className="fb "+(ok?"ok":"ko");
+      fb.innerHTML=`<b class="k">${ok?"Exact !":"Eh non, c'est "+(it.a?"vrai":"faux")}</b><p>${esc(typo(it.x))}</p>`;
+      el.querySelector("#fbz").appendChild(fb);
+      ok?good(b):bad(el.querySelector(".vf"));
+      nextBtn(el, i+1<ch.items.length?"Affirmation suivante":"Terminer le défi", ()=>{ i++; i<ch.items.length?show():done(); });
+    });
+  }
+  show();
+}
+/* Placement, cartes et schéma */
+function mapSvg(kind){
+  if(kind==="worldmap"){ const [W,H]=MAPS.worldWH; return {W,H,svg:`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg"><rect width="${W}" height="${H}" fill="#7cc6ff"/><g stroke="#ffffff" stroke-opacity=".35" stroke-width="1">${[...Array(11)].map((_,i)=>`<line x1="${i*100}" y1="0" x2="${i*100}" y2="${H}"/>`).join("")}<line x1="0" y1="${(82/140*H).toFixed(1)}" x2="${W}" y2="${(82/140*H).toFixed(1)}" stroke-dasharray="6 6"/></g><path d="${MAPS.world}" fill="#b5e48c" stroke="#1a1030" stroke-width="1.6" stroke-linejoin="round"/><text x="${W-8}" y="${(82/140*H-6).toFixed(1)}" text-anchor="end" font-size="14" font-weight="800" fill="#1a1030" opacity=".6">Équateur</text></svg>`, spots:MAPS.cities}; }
+  if(kind==="sh"){ const [W,H]=MAPS.sh.WH, P=MAPS.sh.pts; const sc=5.4; return {W,H,svg:`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg"><rect width="${W}" height="${H}" fill="#7cc6ff"/><path d="${MAPS.sh.land}" fill="#f6e7b4" stroke="#1a1030" stroke-width="2" fill-rule="evenodd"/>
+   <circle cx="${(P.vieille[0]+P.lujiazui[0])/2}" cy="${(P.vieille[1]+P.lujiazui[1])/2}" r="58" fill="#ff9f1c" opacity=".35"/>
+   <path d="${MAPS.sh.hp}" fill="none" stroke="#1d6fe0" stroke-width="7" stroke-linecap="round"/>
+   <line x1="${P.bridge_a[0]}" y1="${P.bridge_a[1]}" x2="${P.bridge_b[0]}" y2="${P.bridge_b[1]}" stroke="#7a4b1f" stroke-width="5" stroke-dasharray="10 6"/>
+   <line x1="250" y1="300" x2="${P.vieille[0]}" y2="${P.vieille[1]}" stroke="#1a1030" stroke-width="2.5"/><line x1="430" y1="262" x2="${P.lujiazui[0]}" y2="${P.lujiazui[1]}" stroke="#1a1030" stroke-width="2.5"/>
+   <circle cx="${P.vieille[0]}" cy="${P.vieille[1]}" r="5" fill="#1a1030"/><circle cx="${P.lujiazui[0]}" cy="${P.lujiazui[1]}" r="5" fill="#1a1030"/>
+   <text x="560" y="130" font-size="26" font-style="italic" fill="#0b4fa8" font-weight="800">Estuaire du Yangzi</text><text x="700" y="420" font-size="26" font-style="italic" fill="#0b4fa8" font-weight="800">Mer de Chine</text><text x="260" y="700" font-size="24" font-style="italic" fill="#0b4fa8" font-weight="800">Baie de Hangzhou</text>
+   <text x="${P.bridge_a[0]+18}" y="${(P.bridge_a[1]+P.bridge_b[1])/2}" font-size="17" fill="#7a4b1f" font-weight="800">pont de Donghai</text>
+   <g transform="translate(40,${H-60})"><rect width="${20*sc}" height="10" fill="#1a1030"/><rect width="${10*sc}" height="10" fill="#fff" stroke="#1a1030"/><text y="-6" font-size="16" font-weight="800">0</text><text x="${20*sc}" y="-6" font-size="16" font-weight="800" text-anchor="middle">20 km</text></g>
+   <g transform="translate(${W-60},60)"><path d="M0,-34 L10,0 L0,-6 L-10,0 Z" fill="#1a1030"/><text y="22" text-anchor="middle" font-size="20" font-weight="900">N</text></g></svg>`,
+   spots:{vieille:[250,300],lujiazui:[430,262],songjiang:P.songjiang,yangshan:P.yangshan,pudong_aero:P.pudong_aero}}; }
+  if(kind==="pa"){ const [W,H]=MAPS.pa.WH, P=MAPS.pa.pts, sc=13.7; const [cx,cy,rx,ry]=P.peri; return {W,H,svg:`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="fields" width="40" height="40" patternUnits="userSpaceOnUse"><rect width="40" height="40" fill="#e3f2c4"/><path d="M0,20 H40 M20,0 V40" stroke="#cfe3a6" stroke-width="2"/></pattern></defs><rect width="${W}" height="${H}" fill="url(#fields)"/>
+   <ellipse cx="${cx}" cy="${cy}" rx="${rx*2.3}" ry="${ry*2.6}" fill="#ffe8a3" opacity=".75"/>
+   <ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#ffc46b" opacity=".85"/>
+   <path d="${MAPS.pa.seine}" fill="none" stroke="#1d6fe0" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="${MAPS.pa.marne}" fill="none" stroke="#3b8cf0" stroke-width="5" stroke-linecap="round"/>
+   <ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="none" stroke="#e11d48" stroke-width="6"/>
+   <text x="70" y="250" font-size="22" font-style="italic" fill="#0b4fa8" font-weight="800">Seine</text><text x="560" y="455" font-size="20" font-style="italic" fill="#0b4fa8" font-weight="800">Marne</text>
+   <text x="${cx+150}" y="${cy+ry+70}" text-anchor="middle" font-size="16" font-weight="800" fill="#7a5b00">banlieues</text>
+   <g transform="translate(40,${H-40})"><rect width="${10*sc}" height="10" fill="#1a1030"/><rect width="${5*sc}" height="10" fill="#fff" stroke="#1a1030"/><text y="-6" font-size="16" font-weight="800">0</text><text x="${10*sc}" y="-6" font-size="16" font-weight="800" text-anchor="middle">10 km</text></g>
+   <g transform="translate(${W-50},50)"><path d="M0,-34 L10,0 L0,-6 L-10,0 Z" fill="#1a1030"/><text y="22" text-anchor="middle" font-size="20" font-weight="900">N</text></g></svg>`,
+   spots:{cite:P.cite,defense:P.defense,roissy:P.roissy,marne:P.marne,peri:[cx+18,cy+ry]}}; }
+}
+const FIG = {
+ centre:`<svg viewBox="0 0 46 40"><circle cx="23" cy="20" r="16" fill="#ff9f1c" stroke="#1a1030" stroke-width="3"/></svg>`,
+ cbd:`<svg viewBox="0 0 46 40"><rect x="11" y="6" width="24" height="28" fill="#6d28d9" stroke="#1a1030" stroke-width="3"/><path d="M17 10v20M23 10v20M29 10v20" stroke="#fff" stroke-width="2.5"/></svg>`,
+ banl:`<svg viewBox="0 0 46 40"><rect x="4" y="6" width="38" height="28" rx="6" fill="#ffe8a3" stroke="#1a1030" stroke-width="2" stroke-dasharray="4 3"/></svg>`,
+ aise:`<svg viewBox="0 0 46 40"><rect x="5" y="6" width="36" height="28" rx="10" fill="#4ade80" stroke="#14532d" stroke-width="3" stroke-dasharray="3 3"/><path d="M14 22l5-5 5 5v6h-10z" fill="#fff" stroke="#14532d" stroke-width="2"/></svg>`,
+ bidon:`<svg viewBox="0 0 46 40"><rect x="5" y="6" width="36" height="28" rx="10" fill="#a0522d" stroke="#1a1030" stroke-width="2"/>${[...Array(12)].map((_,i)=>`<circle cx="${11+(i%4)*8}" cy="${13+Math.floor(i/4)*7}" r="2" fill="#1a1030"/>`).join("")}</svg>`,
+ vn:`<svg viewBox="0 0 46 40"><defs><pattern id="hv" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#fff"/><line x1="0" y1="0" x2="0" y2="6" stroke="#2563eb" stroke-width="3"/></pattern></defs><circle cx="23" cy="20" r="15" fill="url(#hv)" stroke="#1a1030" stroke-width="3"/></svg>`,
+ axe:`<svg viewBox="0 0 46 40"><path d="M3 30 L43 10" stroke="#e11d48" stroke-width="7" stroke-linecap="round"/></svg>`,
+ etal:`<svg viewBox="0 0 46 40"><path d="M6 20h26" stroke="#7b2ff7" stroke-width="6"/><path d="M28 9l14 11-14 11z" fill="#7b2ff7" stroke="#1a1030" stroke-width="2"/></svg>`,
+ aero:`<svg viewBox="0 0 46 40"><path d="M23 4c2 0 3 2 3 4v8l14 8v4l-14-4v8l4 3v3l-7-2-7 2v-3l4-3v-8l-14 4v-4l14-8V8c0-2 1-4 3-4z" fill="#1a1030"/></svg>`
+};
+function schemaSvg(){
+  const cx=260,cy=215;
+  const arrows=[30,150,215,330].map(a=>{const r=a*Math.PI/180,x1=cx+Math.cos(r)*150,y1=cy+Math.sin(r)*130,x2=cx+Math.cos(r)*205,y2=cy+Math.sin(r)*180;const ang=Math.atan2(y2-y1,x2-x1)*180/Math.PI;return `<g><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#7b2ff7" stroke-width="9"/><path d="M0,-13 L22,0 L0,13 Z" fill="#7b2ff7" stroke="#1a1030" stroke-width="2" transform="translate(${x2},${y2}) rotate(${ang})"/></g>`;}).join("");
+  return `<svg viewBox="0 0 520 430" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block"><defs><pattern id="hv2" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#fff"/><line x1="0" y1="0" x2="0" y2="8" stroke="#2563eb" stroke-width="4"/></pattern><pattern id="fld" width="30" height="30" patternUnits="userSpaceOnUse"><rect width="30" height="30" fill="#e3f2c4"/><path d="M0,15 H30" stroke="#cfe3a6" stroke-width="2"/></pattern></defs>
+   <rect width="520" height="430" fill="url(#fld)" rx="14"/>
+   <ellipse cx="${cx}" cy="${cy}" rx="160" ry="140" fill="#ffe8a3" stroke="#1a1030" stroke-width="2" stroke-dasharray="7 5"/>
+   ${arrows}
+   <path d="M${cx} ${cy}L478 58 M${cx} ${cy}L70 372 M${cx} ${cy}L500 300 M${cx} ${cy}L30 140" stroke="#e11d48" stroke-width="8" stroke-linecap="round"/>
+   <rect x="130" y="135" width="86" height="62" rx="20" fill="#4ade80" stroke="#14532d" stroke-width="3" stroke-dasharray="5 4"/><path d="M160 172l12-12 12 12v14h-24z" fill="#fff" stroke="#14532d" stroke-width="2"/>
+   <rect x="318" y="258" width="92" height="58" rx="18" fill="#a0522d" stroke="#1a1030" stroke-width="2"/>${[...Array(18)].map((_,i)=>`<circle cx="${328+(i%6)*14}" cy="${270+Math.floor(i/6)*15}" r="3" fill="#1a1030"/>`).join("")}
+   <circle cx="${cx}" cy="${cy}" r="62" fill="#ff9f1c" stroke="#1a1030" stroke-width="4"/>
+   <rect x="${cx-20}" y="${cy-24}" width="40" height="48" fill="#6d28d9" stroke="#1a1030" stroke-width="3"/><path d="M${cx-10} ${cy-18}v36M${cx} ${cy-18}v36M${cx+10} ${cy-18}v36" stroke="#fff" stroke-width="3"/>
+   <circle cx="70" cy="372" r="34" fill="url(#hv2)" stroke="#1a1030" stroke-width="4"/>
+   <g transform="translate(436,26) scale(1.5)"><path d="M23 4c2 0 3 2 3 4v8l14 8v4l-14-4v8l4 3v3l-7-2-7 2v-3l4-3v-8l-14 4v-4l14-8V8c0-2 1-4 3-4z" fill="#1a1030"/></g>
+   <text x="260" y="420" text-anchor="middle" font-size="15" font-weight="800" fill="#4d6b1a">espace rural</text></svg>`;
+}
+function mPlace(ch,el,p,done){
+  const isSchema = ch.type==="schema";
+  const M = isSchema?null:mapSvg(ch.type==="worldmap"?"worldmap":ch.map);
+  const items = shuffle(ch.items);
+  const place = {}; /* spot -> item id */
+  let sel = null;
+  let order = isSchema ? shuffle(ch.items.map(it=>it.fig).concat([ch.example.fig])) : null;
+  el.innerHTML=`<p class="cons">${esc(typo(ch.consigne))}</p><div class="chips" id="chips">${items.map(it=>`<button class="chip" type="button" data-id="${it.id}">${esc(it.label)}</button>`).join("")}</div>
+   ${isSchema?`<div class="schema"><div class="mapbox" style="background:#fff">${schemaSvg()}</div><div class="legend" id="leg">${order.map(f=>f===ch.example.fig?`<div class="lrow ex">${FIG[f]}<div class="slot">${esc(ch.example.label)} <span class="muted">(exemple)</span></div></div>`:`<button class="lrow" type="button" data-spot="${f}">${FIG[f]}<div class="slot"></div></button>`).join("")}</div></div>`
+    : `<div class="mapbox" id="mb">${M.svg}${ch.type==="worldmap"?`<span class="here" style="left:${MAPS.cities.sofia[0]/M.W*100}%;top:${MAPS.cities.sofia[1]/M.H*100}%">Sofia, tu es ici</span>`:""}${Object.entries(M.spots).filter(([k])=>ch.items.some(it=>it.spot===k)).map(([k,[x,y]])=>`<button class="spot" type="button" data-spot="${k}" aria-label="Emplacement" style="left:${x/M.W*100}%;top:${y/M.H*100}%"></button><span class="slab" data-lab="${k}" hidden style="left:${x/M.W*100}%;top:calc(${y/M.H*100}% + 18px)"></span>`).join("")}</div>`}
+   <div class="next"><button class="btn" id="val" type="button" disabled>Valider</button></div><div id="corr"></div>`;
+  const key = it => isSchema?it.fig:it.spot;
+  const refresh=()=>{
+    el.querySelectorAll(".chip").forEach(c=>{ c.classList.toggle("sel",c.dataset.id===sel); c.classList.toggle("used",Object.values(place).includes(c.dataset.id)); });
+    el.querySelectorAll("[data-spot]").forEach(s=>{ const id=place[s.dataset.spot], it=ch.items.find(x=>x.id===id);
+      if(isSchema){ s.querySelector(".slot").textContent=it?it.label:""; s.classList.toggle("filled",!!it); }
+      else { s.classList.toggle("filled",!!it); const lab=el.querySelector(`[data-lab="${s.dataset.spot}"]`); lab.hidden=!it; lab.textContent=it?it.label:""; } });
+    $("#val").disabled = Object.keys(place).length<ch.items.length;
+  };
+  el.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{ SFX.clic(); sel = sel===c.dataset.id?null:c.dataset.id; refresh(); });
+  el.querySelectorAll("[data-spot]").forEach(s=>s.onclick=()=>{
+    if(!sel){ const cur=place[s.dataset.spot]; if(cur){ delete place[s.dataset.spot]; sel=cur; refresh(); } return; }
+    for(const k in place) if(place[k]===sel) delete place[k];
+    place[s.dataset.spot]=sel; sel=null; SFX.clic(); refresh();
+  });
+  $("#val").onclick=()=>{
+    let n=0; const lines=[];
+    ch.items.forEach(it=>{ const ok = place[key(it)]===it.id; if(ok) n++; record(it.id, ok?1:0, ok?{}:{rep:(ch.items.find(x=>x.id===place[key(it)])||{}).label||""}); lines.push({it,ok}); });
+    el.querySelectorAll("[data-spot]").forEach(s=>{ const it=ch.items.find(x=>key(x)===s.dataset.spot); const ok=place[s.dataset.spot]===it.id; s.classList.add(ok?"good":"bad"); s.disabled=true;
+      if(!isSchema){ const lab=el.querySelector(`[data-lab="${s.dataset.spot}"]`); lab.hidden=false; lab.classList.add(ok?"good":"bad"); if(!ok){ lab.textContent=it.label; lab.classList.remove("bad"); lab.classList.add("good"); } }
+      else if(!ok){ s.querySelector(".slot").innerHTML=`<s>${esc((ch.items.find(x=>x.id===place[s.dataset.spot])||{}).label||"")}</s> ${esc(it.label)}`; } });
+    el.querySelectorAll(".chip").forEach(c=>c.disabled=true); $("#val").parentNode.remove();
+    $("#corr").innerHTML=`<div class="fb ${n===ch.items.length?"ok":"ko"}"><b class="k">${n} sur ${ch.items.length} bien placé${n>1?"s":""}</b><p>${n===ch.items.length?"Sans faute ! Les étiquettes sont toutes à leur place.":"Les étiquettes sont maintenant remises à la bonne place. Lis l'explication de chaque erreur."}</p></div>
+      <div class="corr">${lines.filter(l=>!l.ok).map(l=>`<div class="it bad"><b>${esc(l.it.label)}</b>${esc(typo(l.it.why))}</div>`).join("")}</div>`;
+    n===ch.items.length?good():bad(el.querySelector(isSchema?"#leg":"#mb"));
+    nextBtn(el,"Terminer le défi",done);
+  };
+}
+/* Tri en colonnes */
+function mSort(ch,el,p,done){
+  const items=shuffle(ch.items); const pos={}; let sel=null;
+  el.innerHTML=`<p class="cons">${esc(typo(ch.consigne))}</p><div id="pool">${items.map(it=>`<button class="card2" type="button" data-id="${it.id}">${esc(typo(it.txt))}</button>`).join("")}</div>
+   <div class="bins">${ch.bins.map((b,k)=>`<div class="bin ${k?"poor":"rich"}" data-bin="${k}" role="button" tabindex="0"><h4>${esc(b)}</h4><div class="in"></div></div>`).join("")}</div>
+   <div class="next"><button class="btn" id="val" type="button" disabled>Valider</button></div><div id="corr"></div>`;
+  const draw=()=>{
+    const pool=el.querySelector("#pool");
+    items.forEach(it=>{ const c=el.querySelector(`[data-id="${it.id}"]`); const dest = pos[it.id]===undefined?pool:el.querySelector(`[data-bin="${pos[it.id]}"] .in`); if(c.parentNode!==dest) dest.appendChild(c); c.classList.toggle("sel",sel===it.id); });
+    el.querySelectorAll(".bin").forEach(b=>b.classList.toggle("target",!!sel));
+    $("#val").disabled=Object.keys(pos).length<items.length;
+  };
+  el.querySelectorAll(".card2").forEach(c=>c.onclick=e=>{ e.stopPropagation(); SFX.clic(); sel = sel===c.dataset.id?null:c.dataset.id; draw(); });
+  el.querySelectorAll(".bin").forEach(b=>{ const f=()=>{ if(!sel) return; pos[sel]=+b.dataset.bin; sel=null; SFX.clic(); draw(); }; b.onclick=f; b.onkeydown=e=>{if(e.key==="Enter")f();}; });
+  $("#val").onclick=()=>{
+    let n=0; const errs=[];
+    items.forEach(it=>{ const ok=pos[it.id]===it.bin; if(ok)n++; else errs.push(it); record(it.id,ok?1:0,ok?{}:{rep:ch.bins[pos[it.id]]}); const c=el.querySelector(`[data-id="${it.id}"]`); c.classList.add(ok?"good":"bad"); c.disabled=true; });
+    el.querySelectorAll(".bin").forEach(b=>{b.onclick=null;b.classList.remove("target");}); $("#val").parentNode.remove();
+    $("#corr").innerHTML=`<div class="fb ${errs.length?"ko":"ok"}"><b class="k">${n} sur ${items.length} bien rangé${n>1?"s":""}</b></div><div class="corr">${errs.map(it=>`<div class="it bad"><b>${esc(typo(it.txt))}</b>Ce n'est pas un espace « ${esc(ch.bins[pos[it.id]].toLowerCase())} ». ${esc(typo(it.why))}</div>`).join("")}</div>`;
+    errs.length?bad(el.querySelector(".bins")):good();
+    nextBtn(el,"Continuer",done);
+  };
+}
+/* Remettre dans l'ordre */
+function mOrder(ch,el,p,done){
+  const items=shuffle(ch.items); const picked=[];
+  const draw=()=>{
+    el.innerHTML=`<p class="cons">${esc(typo(ch.consigne))}</p><div class="ord">${items.map(it=>{const k=picked.indexOf(it.id);return `<button class="card2${k>=0?" sel":""}" type="button" data-id="${it.id}">${k>=0?`<span class="n">${k+1}</span>`:`<span class="n" style="background:#fff">·</span>`}${esc(typo(it.txt))}</button>`}).join("")}</div>
+     <div class="next" style="gap:10px"><button class="btn w" id="raz" type="button">Recommencer</button><button class="btn" id="val" type="button" ${picked.length<items.length?"disabled":""}>Valider</button></div><div id="corr"></div>`;
+    el.querySelectorAll(".card2").forEach(c=>c.onclick=()=>{ const id=c.dataset.id, k=picked.indexOf(id); if(k>=0) picked.splice(k); else picked.push(id); SFX.clic(); draw(); });
+    $("#raz").onclick=()=>{picked.length=0;draw();};
+    $("#val").onclick=validate;
+  };
+  function validate(){
+    let n=0; ch.items.forEach((it,i)=>{ const ok=picked[i]===it.id; if(ok)n++; record(it.id,ok?1:0); });
+    el.innerHTML=`<div class="fb ${n===ch.items.length?"ok":"ko"}"><b class="k">${n} sur ${ch.items.length} étape${n>1?"s":""} à la bonne place</b><p>${esc(typo(ch.x))}</p></div>
+     <div class="corr">${ch.items.map((it,i)=>{const ok=picked[i]===it.id;return `<div class="it ${ok?"good":"bad"}"><b>${i+1}. ${esc(typo(it.txt))}</b>${ok?"Bien placé.":"Tu l'avais mise en position "+(picked.indexOf(it.id)+1)+"."}</div>`}).join("")}</div>`;
+    n===ch.items.length?good():bad(el);
+    nextBtn(el,"Terminer le défi",done);
+  }
+  draw();
+}
+/* Texte à trous */
+function mFill(ch,el,p,done){
+  const answers=[...ch.text.matchAll(/\[\[([^\]]+)\]\]/g)].map(m=>m[1]);
+  const filled={}; let selB=null;
+  const bank=shuffle(ch.bank);
+  let html=esc(typo(ch.text)); let k=0; html=html.replace(/\[\[([^\]]+)\]\]/g,()=>`<button class="blank" type="button" data-b="${k++}">…</button>`);
+  el.innerHTML=`<p class="cons">Touche un trou, puis le mot qui convient. Deux mots de la liste ne servent à rien.</p><div class="filltext">${html}</div>
+   <div class="bank"><div class="chips">${bank.map(w=>`<button class="chip" type="button" data-w="${esc(w)}">${esc(w)}</button>`).join("")}</div></div>
+   <div class="next"><button class="btn" id="val" type="button" disabled>Valider</button></div><div id="corr"></div>`;
+  const draw=()=>{
+    el.querySelectorAll(".blank").forEach(b=>{ const v=filled[b.dataset.b]; b.textContent=v||"…"; b.classList.toggle("filled",!!v); b.classList.toggle("sel",selB===b.dataset.b); });
+    const used=Object.values(filled); el.querySelectorAll(".chip").forEach(c=>c.classList.toggle("used",used.includes(c.dataset.w)));
+    $("#val").disabled=Object.keys(filled).length<answers.length;
+  };
+  el.querySelectorAll(".blank").forEach(b=>b.onclick=()=>{ SFX.clic(); if(filled[b.dataset.b]&&selB===b.dataset.b){delete filled[b.dataset.b];} selB=b.dataset.b; draw(); });
+  el.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{ let target=selB; if(target===null){ target=[...Array(answers.length).keys()].map(String).find(i=>!filled[i]); } if(target===undefined) return;
+    for(const i in filled) if(filled[i]===c.dataset.w) delete filled[i];
+    filled[target]=c.dataset.w; SFX.clic(); const nextEmpty=[...Array(answers.length).keys()].map(String).find(i=>!filled[i]); selB=nextEmpty===undefined?null:nextEmpty; draw(); });
+  selB="0"; draw();
+  $("#val").onclick=()=>{
+    let n=0; const errs=[];
+    answers.forEach((a,i)=>{ const ok=filled[i]===a; if(ok)n++; else errs.push({a,given:filled[i]}); record(p.id+"_f"+i,ok?1:0,ok?{}:{rep:filled[i]}); const b=el.querySelector(`[data-b="${i}"]`); b.classList.add(ok?"good":"bad"); b.disabled=true; if(!ok) b.innerHTML=`<s>${esc(filled[i])}</s> ${esc(a)}`; });
+    el.querySelectorAll(".chip").forEach(c=>c.disabled=true); $("#val").parentNode.remove(); el.querySelector(".bank").remove();
+    $("#corr").innerHTML=`<div class="fb ${errs.length?"ko":"ok"}"><b class="k">${n} sur ${answers.length} mots bien placés</b></div><div class="corr">${errs.map(e=>`<div class="it bad"><b>${esc(e.a)}, et non ${esc(e.given)}</b>${esc(typo(ch.why[e.a]||""))}</div>`).join("")}</div>`;
+    errs.length?bad(el.querySelector(".filltext")):good();
+    nextBtn(el,"Terminer le défi",done);
+  };
+}
+/* Rédaction */
+function mWrite(ch,el,p,done){
+  let best=0, tries=0;
+  el.innerHTML=`<p class="cons">Rédige deux phrases. Le Chronoportail repère les éléments attendus, ton professeur lira ta réponse.</p>
+   <textarea id="txt" maxlength="900" placeholder="L'étalement urbain, c'est…">${esc(S.para||"")}</textarea><div class="muted" id="wc">0 mot</div>
+   <div class="next"><button class="btn" id="chk" type="button">Vérifier ma réponse</button></div><div id="res"></div>`;
+  const t=$("#txt"); const wc=()=>{ const n=(t.value.trim().match(/\S+/g)||[]).length; $("#wc").textContent=n+" mot"+(n>1?"s":""); }; t.oninput=wc; wc();
+  $("#chk").onclick=()=>{
+    const v=t.value.trim(); const n=(v.match(/\S+/g)||[]).length;
+    if(n<12){ $("#res").innerHTML=`<div class="fb ko"><b class="k">Un peu court</b><p>Écris au moins deux vraies phrases, une douzaine de mots ou plus.</p></div>`; bad(t); return; }
+    tries++; S.para=v;
+    const r=ch.criteres.map(c=>({c,ok: c.re2 ? (c.re.test(v)&&c.re2.test(v)) : c.re.test(v)}));
+    const pts=r.filter(x=>x.ok).length; best=Math.max(best,pts); record(ch.id,best,{});
+    $("#res").innerHTML=`<div class="crit">${r.map(x=>`<div class="${x.ok?"y":"n"}"><b>${x.ok?"Oui":"Pas encore"}</b> · ${esc(x.c.label)}${x.ok?"":`<br><span class="muted">${esc(typo(x.c.conseil))}</span>`}</div>`).join("")}</div>
+     <div class="fb ${pts===3?"ok":"ko"}"><b class="k">${pts} sur 3</b><p>${pts===3?"Ta réponse contient une définition, une cause et un exemple. Bravo !":"Complète ta réponse avec ce qui manque, puis vérifie à nouveau."}</p></div>
+     ${pts===3||tries>=2?`<div class="modele"><b>Exemple de réponse attendue</b><br>${esc(typo(ch.modele))}</div>`:""}`;
+    pts===3?good():bad();
+    save(); send();
+    const old=el.querySelector(".next.fin"); if(old) old.remove();
+    if(pts===3||tries>=2){ const d=nextBtn(el,"Terminer le défi",done); d.classList.add("fin"); }
+  };
+}
+
+/* ---------- Fin de partie ---------- */
+function renderEnd(){
+  S.done=true; save(); send();
+  document.documentElement.style.setProperty("--ch","#7b2ff7");
+  const n20=note20(), sc=score();
+  const byN={}; Object.values(ALL).forEach(it=>{ const b=byN[it.notion]=byN[it.notion]||{p:0,m:0}; b.m+=it.max; b.p+=(S.ans[it.id]?.pts||0); });
+  const errs=[]; PAGES.forEach(p=>[p.ch1,p.ch2].filter(Boolean).forEach(ch=>{
+    if(ch.type==="qcm") ch.items.forEach(it=>{ if(S.ans[it.id]&&!S.ans[it.id].pts) errs.push(`${it.q} <b>${it.o[it.a]}</b>`); });
+    if(ch.type==="vf") ch.items.forEach(it=>{ if(S.ans[it.id]&&!S.ans[it.id].pts) errs.push(`${it.s} <b>${it.a?"Vrai":"Faux"}</b>`); });
+    if(["localmap","worldmap","schema","sort"].includes(ch.type)) ch.items.forEach(it=>{ if(S.ans[it.id]&&!S.ans[it.id].pts) errs.push(`${it.label||it.txt}. ${it.why}`); });
+  }));
+  const mins=Math.max(1,Math.round((Date.now()-S.t0)/60000));
+  const badges=[
+    ["Cartographe","Toutes les étiquettes des cartes bien placées",["w_sh","w_ca","w_pa","w_na","w_la","m_sh1","m_sh2","m_sh3","m_sh4","m_sh5","m_pa1","m_pa2","m_pa3","m_pa4","m_pa5"].every(k=>S.ans[k]?.pts)],
+    ["Urbaniste en chef","Schéma de synthèse sans faute",["g1","g2","g3","g4","g5","g6","g7","g8"].every(k=>S.ans[k]?.pts)],
+    ["Scribe d'or","Paragraphe à 3 sur 3",(S.ans.r1?.pts||0)===3],
+    ["Œil de lynx","Examen du Chronoportail à 8 sur 10 ou plus",["e1","e2","e3","e4","e5","e6","e7","e8","e9","e10"].filter(k=>S.ans[k]?.pts).length>=8],
+    ["Voyageur du temps","Note de 15 sur 20 ou plus",n20>=15]
+  ];
+  const col=v=>v>=.75?"#16a34a":v>=.5?"#f59e0b":"#e11d48";
+  $("#topbar").hidden=false; energy();
+  go(`
+   <div class="scene-head"><span class="tag">Mission accomplie</span><h1 class="stitle">Le Chronoportail est rechargé !</h1></div>
+   <div class="stage">${["lin","senou","boduos"].map(k=>`<div class="ch">${CHARS[k]("joie")}</div>`).join("")}</div>
+   <section class="dlg">${["lin","senou","boduos"].map(k=>`<div class="bub on"><div class="av">${CHARS[k]("joie")}</div><div class="tx"><span class="nm">${NAMES[k]}</span>${esc(typo(FINS[k]))}</div></div>`).join("")}</section>
+   <section class="card" id="bilan">
+    <div class="row" style="justify-content:space-between;align-items:flex-end">
+     <div><div class="muted">${esc(S.eleve)} · ${esc(S.classe)} · ${new Date().toLocaleDateString("fr-FR")}</div><div class="big">${String(n20).replace(".",",")} / 20</div><div><b>${sc} points sur ${MAXPTS}</b> en ${mins} minute${mins>1?"s":""}</div></div>
+     <div class="row noprint"><a class="btn y" href="${COURS_URL}" target="_blank" rel="noopener" download>Télécharger mon cours</a><button class="btn w" id="print" type="button">Imprimer mon bilan</button></div>
+    </div>
+    <h3 class="h1" style="font-size:24px;margin:16px 0 6px">Mes badges</h3>
+    <div class="badges">${badges.map(([n,d,ok])=>`<div class="bdg ${ok?"":"off"}" title="${esc(d)}"><svg viewBox="0 0 30 30"><polygon points="15,1 19,10 29,11 21,18 24,28 15,23 6,28 9,18 1,11 11,10" fill="${ok?"#ffd60a":"#ccc"}" stroke="#1a1030" stroke-width="2"/></svg>${esc(n)}</div>`).join("")}</div>
+    <h3 class="h1" style="font-size:24px;margin:18px 0 6px">Mes notions</h3>
+    ${Object.entries(byN).map(([k,b])=>{const v=b.p/b.m;return `<div class="nbar"><span>${esc(NOTIONS[k])}</span><div class="tr"><i style="width:${Math.round(v*100)}%;background:${col(v)}"></i></div><span>${Math.round(v*100)} %</span></div>`}).join("")}
+    ${errs.length?`<h3 class="h1" style="font-size:24px;margin:18px 0 6px">Mes erreurs à retenir avant l'évaluation</h3><div class="errs">${errs.map(e=>`<div class="it">${typo(e)}</div>`).join("")}</div>`:`<p><b>Aucune erreur. Tu es prêt ou prête pour l'évaluation.</b></p>`}
+    ${S.para?`<h3 class="h1" style="font-size:24px;margin:18px 0 6px">Mon paragraphe</h3><p>${esc(S.para)}</p>`:""}
+   </section>
+   <section class="card noprint">
+    <h3 class="h1" style="font-size:28px;margin:0 0 6px">Salle d'arcade, pour aller plus loin</h3>
+    <p class="muted">Facultatif. Des jeux et des vidéos pour réviser encore, à faire à la maison.</p>
+    <div class="arcade">${BONUS.apps.map((a,i)=>`<button class="arc" type="button" data-app="${i}"><b>${esc(a.titre)}</b>${esc(a.type)}</button>`).join("")}${BONUS.videos.map((v,i)=>`<button class="arc" type="button" data-vid="${i}"><b>${esc(v.titre)}</b>Vidéo, ${esc(v.chaine)}, ${esc(v.duree)}</button>`).join("")}</div>
+    <div class="row" style="margin-top:14px;justify-content:flex-end"><button class="btn c" id="again" type="button">Rejouer avec un autre voyageur</button></div>
+   </section>`);
+  confetti(200); SFX.win(); flash("#a3ff3b");
+  $("#print").onclick=()=>print();
+  $("#again").onclick=()=>{ store.del(KEY); S=null; screenHome(); };
+  app.querySelectorAll("[data-app]").forEach(b=>b.onclick=()=>{ const a=BONUS.apps[+b.dataset.app]; if(a.ext){ window.open(a.url,"_blank","noopener"); return; } modal(`<h3 class="h1" style="font-size:26px;margin:0 0 8px">${esc(a.titre)}</h3><iframe class="la" src="${a.embed}" allowfullscreen loading="lazy"></iframe><p class="muted">Si le jeu ne s'affiche pas, <a href="${a.url}" target="_blank" rel="noopener">ouvre-le dans un nouvel onglet</a>.</p>`); });
+  app.querySelectorAll("[data-vid]").forEach(b=>b.onclick=()=>videoModal(BONUS.videos[+b.dataset.vid]));
+}
+function videoModal(v){ modal(`<h3 class="h1" style="font-size:26px;margin:0 0 8px">${esc(v.titre)}</h3><div class="vid"><iframe src="https://www.youtube-nocookie.com/embed/${v.id}?rel=0&autoplay=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div><p class="muted">${esc(v.chaine)}, ${esc(v.duree)}. Facultatif. <a href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">Ouvrir sur YouTube</a></p>`); }
+function modal(html){ const m=document.createElement("div"); m.className="modal"; m.innerHTML=`<div class="box">${html}<div class="next"><button class="btn" type="button">Fermer</button></div></div>`; document.body.appendChild(m); m.querySelector(".next .btn").onclick=()=>m.remove(); m.onclick=e=>{if(e.target===m)m.remove();}; }
+
+/* ---------- Espace professeur ---------- */
+const PROF = {pw:null, rows:[], at:null, cls:"4A", tab:"eleves"};
+function screenProf(){
+  hush(); $("#topbar").hidden=true;
+  go(`<section class="card prof"><h2 class="h1" style="font-size:34px;margin:0">Espace professeur</h2>
+   <p class="muted">Résultats enregistrés dans la feuille Google du professeur. Le mot de passe est vérifié par le script, il n'est jamais écrit dans cette page.</p>
+   <div class="row"><input type="password" id="pw" placeholder="Mot de passe" style="max-width:260px" autocomplete="off"><button class="btn" id="pgo" type="button">Ouvrir le tableau de bord</button><button class="btn w" id="pback" type="button">Retour au jeu</button></div><div id="perr"></div></section><div id="dash"></div>`);
+  $("#pback").onclick=()=>screenHome();
+  const open=async()=>{
+    const pw=$("#pw").value.trim(); if(!pw) return;
+    if(!SCRIPT_URL||SCRIPT_URL.indexOf("http")!==0){ $("#perr").innerHTML=`<div class="fb ko"><b class="k">Suivi pas encore relié</b><p>Le jeu n'est pas encore relié à la feuille Google de suivi. Il faut déployer le script, comme l'explique le LISEZ-MOI, puis coller son adresse dans la page.</p></div>`; return; }
+    $("#perr").innerHTML=`<p class="muted">Chargement…</p>`;
+    try{ const r=await fetch(SCRIPT_URL+"?pwd="+encodeURIComponent(pw)+"&t="+Date.now()); const d=await r.json();
+      if(!d.ok){ $("#perr").innerHTML=`<div class="fb ko"><b class="k">Mot de passe incorrect</b></div>`; return; }
+      PROF.pw=pw; PROF.rows=d.rows.filter(x=>!x.jeu||x.jeu===JEU); PROF.at=new Date(); $("#perr").innerHTML=""; dash();
+    }catch(e){ $("#perr").innerHTML=`<div class="fb ko"><b class="k">Connexion impossible</b><p>Vérifie la connexion internet et l'adresse du script.</p></div>`; }
+  };
+  $("#pgo").onclick=open; $("#pw").onkeydown=e=>{if(e.key==="Enter")open();};
+}
+function bestRows(rows){
+  const by={}; rows.forEach(r=>{ const k=r.classe+"|"+r.eleve; const cur=by[k]; const fin=String(r.termine)==="oui";
+    const better=!cur || (fin && String(cur.termine)!=="oui") || (fin===(String(cur.termine)==="oui") && (+r.note20>+cur.note20 || (+r.note20===+cur.note20 && +r.page>+cur.page)));
+    if(better) by[k]=r; }); return by;
+}
+function dash(){
+  const rows=PROF.rows.filter(r=>r.classe===PROF.cls), best=bestRows(rows);
+  const roster = PROF.cls==="Visiteur" ? [...new Set(rows.map(r=>r.eleve))] : ELEVES[PROF.cls];
+  const parse=r=>{try{return JSON.parse(r.items||"{}")}catch(e){return{}}};
+  const done=Object.values(best).filter(r=>String(r.termine)==="oui");
+  const avg=done.length?(done.reduce((a,r)=>a+ +r.note20,0)/done.length):0;
+  const qstat={}; Object.values(best).forEach(r=>{ const it=parse(r); Object.entries(it).forEach(([k,v])=>{ const q=qstat[k]=qstat[k]||{p:0,m:0,n:0}; q.p+=+v; q.m+=ALL[k]?ALL[k].max:1; q.n++; }); });
+  const nstat={}; Object.entries(qstat).forEach(([k,q])=>{ const nk=ALL[k]?.notion; if(!nk) return; const s=nstat[nk]=nstat[nk]||{p:0,m:0}; s.p+=q.p; s.m+=q.m; });
+  const label=k=>{ for(const p of PAGES){ for(const ch of [p.ch1,p.ch2].filter(Boolean)){ if(ch.type==="fill"&&k.startsWith(p.id+"_f")){ const i=+k.split("_f")[1]; return "Texte à trous Nairobi, mot "+(i+1); } if(ch.type==="write"&&ch.id===k) return "Paragraphe sur l'étalement urbain"; const it=(ch.items||[]).find(x=>x.id===k); if(it) return it.q||it.s||it.label||it.txt; } } return k; };
+  const col=v=>v>=.75?"#dcfce7":v>=.5?"#fef3c7":"#ffe4e6";
+  const fmt=d=>{try{return new Date(d).toLocaleString("fr-FR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}catch(e){return ""}};
+  const notionsCols=Object.keys(NOTIONS);
+  let body="";
+  if(PROF.tab==="eleves") body=`<div class="scroll"><table><thead><tr><th>Élève</th><th>Avancée</th><th>Note /20</th><th>Temps</th><th>Dernière activité</th><th>Notions à revoir</th></tr></thead><tbody>${roster.map(n=>{ const r=best[PROF.cls+"|"+n]; if(!r) return `<tr><td>${esc(n)}</td><td colspan="5" class="muted">Pas encore joué</td></tr>`;
+      const it=parse(r); const ns={}; Object.entries(it).forEach(([k,v])=>{const nk=ALL[k]?.notion; if(!nk)return; const s=ns[nk]=ns[nk]||{p:0,m:0}; s.p+=+v; s.m+=ALL[k].max;});
+      const weak=Object.entries(ns).filter(([k,s])=>s.p/s.m<.5).map(([k])=>NOTIONS[k]);
+      return `<tr><td><b>${esc(n)}</b><br><span class="muted">${esc(GUIDES[r.guide]?.nom||"")}</span></td><td>${String(r.termine)==="oui"?"Terminé":"Page "+r.page+" sur "+r.pages}</td><td><b>${String(r.note20).replace(".",",")}</b></td><td>${r.temps_min} min</td><td>${fmt(r.derniere_activite)}</td><td>${weak.length?esc(weak.join(", ")):"<span class='muted'>Aucune</span>"}</td></tr>`; }).join("")}</tbody></table></div>`;
+  if(PROF.tab==="notions") body=`<p class="muted">Réussite de la classe par notion, sur la meilleure partie de chaque élève.</p>${notionsCols.filter(k=>nstat[k]).map(k=>{const v=nstat[k].p/nstat[k].m;return `<div class="nbar"><span>${esc(NOTIONS[k])}</span><div class="tr"><i style="width:${Math.round(v*100)}%;background:${v>=.75?"#16a34a":v>=.5?"#f59e0b":"#e11d48"}"></i></div><span>${Math.round(v*100)} %</span></div>`}).join("")||"<p>Pas encore de données.</p>"}
+    <h3 class="h1" style="font-size:22px;margin:16px 0 6px">Carte de chaleur par élève</h3><div class="scroll"><table class="heat"><thead><tr><th>Élève</th>${notionsCols.map(k=>`<th style="font-size:11px">${esc(NOTIONS[k])}</th>`).join("")}</tr></thead><tbody>${roster.filter(n=>best[PROF.cls+"|"+n]).map(n=>{const it=parse(best[PROF.cls+"|"+n]); const ns={}; Object.entries(it).forEach(([k,v])=>{const nk=ALL[k]?.notion; if(!nk)return; const s=ns[nk]=ns[nk]||{p:0,m:0}; s.p+=+v; s.m+=ALL[k].max;}); return `<tr><td>${esc(n)}</td>${notionsCols.map(k=>ns[k]?`<td class="c" style="background:${col(ns[k].p/ns[k].m)}">${Math.round(ns[k].p/ns[k].m*100)}</td>`:`<td class="c muted">·</td>`).join("")}</tr>`}).join("")}</tbody></table></div>`;
+  if(PROF.tab==="questions") body=`<p class="muted">Questions classées de la moins réussie à la mieux réussie. Idéal pour cibler la remédiation avant l'évaluation.</p><div class="scroll"><table><thead><tr><th>Question ou étiquette</th><th>Notion</th><th>Réussite</th><th>Élèves</th></tr></thead><tbody>${Object.entries(qstat).sort((a,b)=>a[1].p/a[1].m-b[1].p/b[1].m).map(([k,q])=>`<tr><td>${esc(label(k))}</td><td>${esc(NOTIONS[ALL[k]?.notion]||"")}</td><td style="background:${col(q.p/q.m)};font-weight:800">${Math.round(q.p/q.m*100)} %</td><td>${q.n}</td></tr>`).join("")}</tbody></table></div>`;
+  if(PROF.tab==="paragraphes") body=`<div class="scroll" style="padding:8px;background:#fff">${Object.values(best).filter(r=>r.paragraphe).map(r=>`<div style="border-bottom:1px solid #ddd;padding:8px 0"><b>${esc(r.eleve)}</b> <span class="muted">${(parse(r).r1??"?")} sur 3</span><br>${esc(r.paragraphe)}</div>`).join("")||"<p>Aucun paragraphe pour l'instant.</p>"}</div>`;
+  $("#dash").innerHTML=`<section class="card prof">
+   <div class="tabs">${["4A","4C","Visiteur"].map(c=>`<button type="button" data-cls="${c}" aria-pressed="${PROF.cls===c}">${c==="Visiteur"?"Visiteurs":"4e "+c.slice(1)}</button>`).join("")}<button type="button" class="tbtn" id="refresh" style="margin-left:auto">Actualiser</button><button type="button" class="tbtn" id="csv">Exporter en CSV</button></div>
+   <div class="kpis"><div class="kpi"><b>${Object.keys(best).length}</b>élèves ont commencé</div><div class="kpi"><b>${done.length}</b>ont terminé</div><div class="kpi"><b>${done.length?avg.toFixed(1).replace(".",","):"·"}</b>note moyenne /20</div><div class="kpi"><b>${PROF.cls==="Visiteur"?"·":roster.filter(n=>!best[PROF.cls+"|"+n]).length}</b>pas encore joué</div></div>
+   <div class="tabs">${[["eleves","Élèves"],["notions","Notions"],["questions","Questions"],["paragraphes","Paragraphes"]].map(([k,l])=>`<button type="button" data-tab="${k}" aria-pressed="${PROF.tab===k}">${l}</button>`).join("")}</div>
+   ${body}<p class="muted">Données chargées le ${PROF.at.toLocaleString("fr-FR")}. Pour chaque élève, la meilleure partie terminée est retenue.</p></section>`;
+  $("#dash").querySelectorAll("[data-cls]").forEach(b=>b.onclick=()=>{PROF.cls=b.dataset.cls;dash();});
+  $("#dash").querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{PROF.tab=b.dataset.tab;dash();});
+  $("#refresh").onclick=async()=>{ try{const r=await fetch(SCRIPT_URL+"?pwd="+encodeURIComponent(PROF.pw)+"&t="+Date.now()); const d=await r.json(); if(d.ok){PROF.rows=d.rows.filter(x=>!x.jeu||x.jeu===JEU);PROF.at=new Date();dash();}}catch(e){} };
+  $("#csv").onclick=()=>{ const keys=["classe","eleve","guide","termine","page","pages","score","max","note20","temps_min","premiere_activite","derniere_activite","paragraphe"]; const q=v=>'"'+String(v==null?"":v).replace(/"/g,'""')+'"';
+    const csv="﻿"+keys.join(";")+"\n"+PROF.rows.map(r=>keys.map(k=>q(r[k])).join(";")).join("\n"); const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"})); a.download="chronopolis_resultats.csv"; a.click(); };
+}
+
+/* ---------- Démarrage ---------- */
+$("#bCours").onclick=()=>window.open(COURS_URL,"_blank","noopener");
+$("#bSon").onclick=e=>{ SON=!SON; e.currentTarget.setAttribute("aria-pressed",SON); if(SON) SFX.ok(); };
+$("#bFacile").onclick=e=>{ const on=!document.body.classList.contains("facile"); document.body.classList.toggle("facile",on); e.currentTarget.setAttribute("aria-pressed",on); store.set(KEY+"_facile",on); };
+if(store.get(KEY+"_facile")){ document.body.classList.add("facile"); $("#bFacile").setAttribute("aria-pressed","true"); }
+$("#bProf").onclick=()=>screenProf();
+if(location.hash==="#prof") screenProf(); else screenHome();
+</script>
+</body>
+</html>
