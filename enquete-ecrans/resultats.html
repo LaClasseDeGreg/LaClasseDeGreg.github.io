@@ -96,9 +96,9 @@ table.x thead th{color:var(--muted);font-weight:600}
   <div id="dash" hidden>
     <section class="card noprint">
       <div class="kpis">
-        <div class="kpi"><b id="kE">0</b><span>réponses d'élèves</span></div>
-        <div class="kpi"><b id="kP">0</b><span>réponses de parents</span></div>
-        <div class="kpi"><b id="kD">0</b><span>familles appariées par code</span></div>
+        <div class="kpi"><b id="kE">0</b><span>élèves au-delà de 3 h d'écran un jour de classe</span></div>
+        <div class="kpi"><b id="kP">0</b><span>élèves dormant moins de 8 h en semaine</span></div>
+        <div class="kpi"><b id="kD">0</b><span>parents favorables à un téléphone rangé toute la journée au lycée</span></div>
         <div class="kpi"><b id="kS">0</b><span>temps d'écran moyen estimé des élèves un jour de classe</span></div>
         <div class="kpi"><b id="kT">0</b><span>élèves gardant le téléphone dans la chambre la nuit</span></div>
       </div>
@@ -116,7 +116,6 @@ table.x thead th{color:var(--muted);font-weight:600}
         <button data-tab="eleves" aria-pressed="false">Élèves</button>
         <button data-tab="parents" aria-pressed="false">Parents</button>
         <button data-tab="croises" aria-pressed="false">Croisements</button>
-        <button data-tab="familles" aria-pressed="false">Familles appariées</button>
         <button data-tab="verbatims" aria-pressed="false">Verbatims</button>
         <button data-tab="rapport" aria-pressed="false">Rapport imprimable</button>
       </div>
@@ -227,13 +226,13 @@ function spearman(pairs){
   return sx&&sy ? sxy/Math.sqrt(sx*sy) : null;
 }
 function corr(rows,fx,fy){ const p = []; rows.forEach(r=>{ const a=fx(r), b=fy(r); if(a!==undefined&&b!==undefined) p.push([a,b]); }); return {r:spearman(p), n:p.length}; }
-function force(r){ if (r===null) return ["Effectif insuffisant","b0"]; const a=Math.abs(r); return a<0.1?["Lien négligeable","b0"]:a<0.3?["Lien faible","b1"]:a<0.5?["Lien modéré","b2"]:["Lien fort","b3"]; }
+function force(r){ if (r===null) return ["Échantillon trop réduit","b0"]; const a=Math.abs(r); return a<0.1?["Lien négligeable","b0"]:a<0.3?["Lien faible","b1"]:a<0.5?["Lien modéré","b2"]:["Lien fort","b3"]; }
 const g = (key,map)=>r=>map[r[key]];
 
 /* Graphiques */
 function seqColors(n){ const a=[201,209,240], b=[22,37,107]; return Array.from({length:n},(_,i)=>{ const t=n===1?1:i/(n-1); return "rgb("+a.map((v,k)=>Math.round(v+(b[k]-v)*t)).join(",")+")"; }); }
 function pie(title,res,ordinal){
-  let h = '<div class="chart"><h3>'+esc(title)+'</h3><div class="n">'+res.n+' réponses</div>';
+  let h = '<div class="chart"><h3>'+esc(title)+'</h3><div class="n">En % des répondants</div>';
   if (!res.n) return h+'<p class="muted">Pas encore de réponse.</p></div>';
   const cols = ordinal ? seqColors(res.items.length) : PAL;
   let a0 = -Math.PI/2, svg = '<svg viewBox="0 0 120 120" role="img" aria-label="'+esc(title)+'">';
@@ -243,12 +242,12 @@ function pie(title,res,ordinal){
     else { const x0=60+56*Math.cos(a0), y0=60+56*Math.sin(a0), x1=60+56*Math.cos(a1), y1=60+56*Math.sin(a1);
       svg += '<path d="M60,60 L'+x0.toFixed(2)+','+y0.toFixed(2)+' A56,56 0 '+(frac>0.5?1:0)+',1 '+x1.toFixed(2)+','+y1.toFixed(2)+' Z" fill="'+c+'" stroke="#fff" stroke-width="1.5"/>'; }
     a0=a1; });
-  svg += '<circle cx="60" cy="60" r="28" fill="#fff"/><text x="60" y="58" text-anchor="middle" font-size="16" font-weight="800" fill="#16256B">'+res.n+'</text><text x="60" y="72" text-anchor="middle" font-size="8" fill="#5a6072">réponses</text></svg>';
+  svg += '<circle cx="60" cy="60" r="28" fill="#fff"/></svg>';
   h += '<div class="pie">'+svg+'<div class="leg">'+res.items.map(([k,v],i)=>'<div><i style="background:'+cols[i%cols.length]+'"></i><span>'+esc(k)+'</span><b>'+fmt(pct(v,res.n))+'</b></div>').join("")+'</div></div>';
   return h+'</div>';
 }
 function bars(title,res){
-  let h = '<div class="chart"><h3>'+esc(title)+'</h3><div class="n">'+res.n+' répondants, plusieurs réponses possibles</div>';
+  let h = '<div class="chart"><h3>'+esc(title)+'</h3><div class="n">Plusieurs réponses possibles, en % des répondants</div>';
   if (!res.n) return h+'<p class="muted">Pas encore de réponse.</p></div>';
   res.items.forEach(([k,v])=>{ const p=pct(v,res.n); h += '<div class="row"><span>'+esc(k)+'</span><div class="track"><div class="fill" style="width:'+p+'%"></div></div><span class="pct">'+fmt(p)+'</span></div>'; });
   return h+'</div>';
@@ -258,10 +257,10 @@ function cross(rows,rowKey,colKey,rowOrd,colOrd,title){
   const R = rowOrd.filter(r=>rows.some(x=>x[rowKey]===r)), C = colOrd.filter(c=>rows.some(x=>x[colKey]===c));
   let h = '<div class="chart" style="overflow-x:auto"><h3>'+esc(title)+'</h3><div class="n">Pourcentages en ligne</div>';
   if (!R.length||!C.length) return h+'<p class="muted">Pas encore assez de réponses.</p></div>';
-  h += '<table class="x"><thead><tr><th></th>'+C.map(c=>'<th>'+esc(c)+'</th>').join("")+'<th>Effectif</th></tr></thead><tbody>';
+  h += '<table class="x"><thead><tr><th></th>'+C.map(c=>'<th>'+esc(c)+'</th>').join("")+'</tr></thead><tbody>';
   R.forEach(r=>{ const sub = rows.filter(x=>x[rowKey]===r&&x[colKey]);
     h += '<tr><td>'+esc(r)+'</td>'+C.map(c=>{ const p = pct(sub.filter(x=>x[colKey]===c).length, sub.length);
-      return '<td style="background:rgba(22,37,107,'+(p/140).toFixed(2)+');color:'+(p>55?'#fff':'inherit')+'">'+fmt(p)+'</td>'; }).join("")+'<td>'+sub.length+'</td></tr>'; });
+      return '<td style="background:rgba(22,37,107,'+(p/140).toFixed(2)+');color:'+(p>55?'#fff':'inherit')+'">'+fmt(p)+'</td>'; }).join("")+'</tr>'; });
   return h+'</tbody></table></div>';
 }
 
@@ -291,42 +290,41 @@ function correlations(E,P,D){
    ["Parents","Temps d'écran du parent et résultats de l'enfant",corr(P,g("temps_parent",NUM.temps),g("enfant_resultats",NUM.resultats))],
    ["Parents","Temps d'écran du parent et fatigue de l'enfant",corr(P,g("temps_parent",NUM.temps),g("enfant_fatigue",NUM.freq))],
    ["Parents","Parent sur son téléphone quand l'enfant parle et résultats",corr(P,g("parent_technoference",NUM.freq),g("enfant_resultats",NUM.resultats))],
-   ["Parents","Écrans pendant les repas et tensions familiales",corr(P,g("ecrans_repas",NUM.freq),g("tensions",NUM.freq))],
-   ["Familles appariées","Temps d'écran du parent et temps d'écran déclaré par l'élève",corr(D,d=>NUM.temps[d.p.temps_parent],d=>NUM.temps[d.e.temps_semaine])],
-   ["Familles appariées","Temps d'écran du parent et résultats déclarés par l'élève",corr(D,d=>NUM.temps[d.p.temps_parent],d=>NUM.resultats[d.e.resultats])],
-   ["Familles appariées","Temps d'écran du parent et sommeil de l'élève",corr(D,d=>NUM.temps[d.p.temps_parent],d=>NUM.sommeil[d.e.duree_sommeil])]
+   ["Parents","Écrans pendant les repas et tensions familiales",corr(P,g("ecrans_repas",NUM.freq),g("tensions",NUM.freq))]
   ];
 }
 function corrTable(list){
-  let h = '<table class="x"><thead><tr><th>Source</th><th style="text-align:left">Relation étudiée</th><th>Effectif</th><th>Coefficient</th><th>Lecture</th></tr></thead><tbody>';
-  list.forEach(([s,l,c])=>{ const [t,b]=force(c.r); h += '<tr><td>'+esc(s)+'</td><td style="text-align:left">'+esc(l)+'</td><td>'+c.n+'</td><td>'+(c.r===null?'·':String(Math.round(c.r*100)/100).replace(".",","))+'</td><td><span class="badge '+b+'">'+t+(c.r!==null&&Math.abs(c.r)>=0.1?(c.r>0?', positif':', négatif'):'')+'</span></td></tr>'; });
+  let h = '<table class="x"><thead><tr><th>Source</th><th style="text-align:left">Relation étudiée</th><th>Coefficient</th><th>Lecture</th></tr></thead><tbody>';
+  list.forEach(([s,l,c])=>{ const [t,b]=force(c.r); h += '<tr><td>'+esc(s)+'</td><td style="text-align:left">'+esc(l)+'</td><td>'+(c.r===null?'·':String(Math.round(c.r*100)/100).replace(".",","))+'</td><td><span class="badge '+b+'">'+t+(c.r!==null&&Math.abs(c.r)>=0.1?(c.r>0?', positif':', négatif'):'')+'</span></td></tr>'; });
   return h+'</tbody></table>';
 }
 
 function keyFigures(E,P,D){
   const s3 = share(E,"temps_semaine",["3 à 4 h","4 à 5 h","Plus de 5 h"]);
   const ch = share(E,"tel_chambre",["Oui"]);
-  const late = share(E,"dernier_ecran",["Dans les 15 minutes avant de dormir"]);
-  const sl = share(E,"duree_sommeil",["Moins de 6 h","6 à 7 h"]);
+  const late = share(E,"dernier_ecran",["Dans les 15 minutes avant de dormir","Entre 15 et 30 minutes avant"]);
+  const sl = share(E,"duree_sommeil",["Moins de 6 h","6 à 7 h","7 à 8 h"]);
   const nuit = share(E,"reveil_nuit",["Parfois","Souvent","Toujours"]);
   const dev = share(E,"tel_devoirs",["Souvent","Toujours"]);
   const cls = share(E,"tel_classe",["Parfois","Souvent","Toujours"]);
   const trop = share(E,"trop_ecrans",["Oui","Plutôt oui"]);
   const techno = share(E,"parents_technoference",["Souvent","Toujours"]);
-  const pTemps = mean(P,"temps_parent",NUM.temps), eTemps = mean(E,"temps_semaine",NUM.temps);
-  const pRest = share(P,"regle_lycee",["Rangé toute la journée, éteint ou au casier"]), eRest = share(E,"regle_lycee",["Rangé toute la journée, éteint ou au casier"]);
+  const tens = share(P,"tensions",["Souvent","Très souvent"]);
+  const pTemps = mean(P,"temps_parent",NUM.temps), eTemps = mean(E,"temps_semaine",NUM.temps), wTemps = mean(E,"temps_weekend",NUM.temps);
+  const pRest = share(P,"regle_lycee",["Rangé toute la journée, éteint ou au casier"]), eLib = share(E,"regle_lycee",["Utilisable librement, sauf en cours"]);
+  const h = x => f1(x)+(x>=2?" heures":" heure");
   const items = [];
-  if (s3.n) items.push(s3.p+" % des élèves déclarent plus de 3 heures d'écran un jour de classe, en dehors du travail scolaire ("+s3.n+" réponses).");
-  if (eTemps!==null) items.push("Le temps d'écran moyen estimé des élèves est d'environ "+f1(eTemps)+" heures un jour de classe.");
-  if (ch.n) items.push(ch.p+" % des élèves gardent leur téléphone dans leur chambre la nuit, et "+late.p+" % regardent un écran dans le quart d'heure qui précède le sommeil.");
-  if (nuit.n) items.push(nuit.p+" % se réveillent au moins parfois la nuit pour consulter leur téléphone.");
-  if (sl.n) items.push(sl.p+" % dorment moins de 7 heures une nuit de semaine.");
-  if (dev.n) items.push(dev.p+" % ont souvent ou toujours leur téléphone à portée de main pendant les devoirs, et "+cls.p+" % disent l'utiliser au moins parfois en classe sans autorisation.");
-  if (trop.n) items.push(trop.p+" % des élèves estiment eux-mêmes passer trop de temps sur les écrans.");
-  if (techno.n) items.push(techno.p+" % des élèves disent que leurs parents regardent souvent ou toujours leur téléphone quand ils leur parlent.");
-  if (pTemps!==null) items.push("Les parents déclarent en moyenne environ "+f1(pTemps)+" heures d'écran par jour hors travail.");
-  if (eRest.n||pRest.n) items.push("Un téléphone rangé toute la journée au lycée est souhaité par "+eRest.p+" % des élèves et "+pRest.p+" % des parents.");
-  if (D.length) items.push(D.length+" familles ont utilisé le même code, ce qui permet de rapprocher les réponses d'un parent et de son enfant.");
+  if (s3.n) items.push("Un jour de classe, "+fmt(s3.p)+" des élèves déclarent plus de 3 heures d'écran en dehors du travail scolaire"+(eTemps!==null?", pour une moyenne estimée à "+h(eTemps)+".":"."));
+  if (wTemps!==null) items.push("Le week-end, le temps d'écran moyen estimé atteint "+h(wTemps)+" par jour.");
+  if (ch.n) items.push(fmt(ch.p)+" des élèves gardent leur téléphone dans leur chambre la nuit, et "+fmt(late.p)+" regardent un écran dans la demi-heure qui précède le sommeil.");
+  if (sl.n) items.push(fmt(sl.p)+" des élèves dorment moins de 8 heures une nuit de semaine, en dessous du repère de 8 à 10 heures recommandé à l'adolescence.");
+  if (nuit.n) items.push(fmt(nuit.p)+" se réveillent au moins parfois la nuit pour consulter leur téléphone.");
+  if (dev.n) items.push(fmt(dev.p)+" ont souvent ou toujours leur téléphone à portée de main pendant les devoirs, et "+fmt(cls.p)+" disent l'utiliser au moins parfois en classe sans autorisation.");
+  if (trop.n) items.push(fmt(trop.p)+" des élèves estiment eux-mêmes passer trop de temps sur les écrans.");
+  if (techno.n) items.push(fmt(techno.p)+" des élèves disent que leurs parents regardent souvent ou toujours leur téléphone quand ils leur parlent.");
+  if (pTemps!==null) items.push("Les parents déclarent en moyenne "+h(pTemps)+" d'écran par jour en dehors de leur travail.");
+  if (tens.n) items.push("Pour "+fmt(tens.p)+" des parents, les écrans sont souvent ou très souvent une source de tension à la maison.");
+  if (eLib.n||pRest.n) items.push("Pour la règle au lycée, "+fmt(eLib.p)+" des élèves souhaitent un usage libre en dehors des cours, quand "+fmt(pRest.p)+" des parents souhaitent un téléphone rangé toute la journée.");
   return items;
 }
 
@@ -334,7 +332,9 @@ function render(){
   if (!DATA) return;
   const E = filtered(DATA.Eleves), P = filtered(DATA.Parents), D = dyads(E,P);
   const allD = dyads(DATA.Eleves,DATA.Parents);
-  $("kE").textContent = DATA.Eleves.length; $("kP").textContent = DATA.Parents.length; $("kD").textContent = allD.length;
+  $("kE").textContent = fmt(share(E,"temps_semaine",["3 à 4 h","4 à 5 h","Plus de 5 h"]).p);
+  $("kP").textContent = fmt(share(E,"duree_sommeil",["Moins de 6 h","6 à 7 h","7 à 8 h"]).p);
+  $("kD").textContent = fmt(share(P,"regle_lycee",["Rangé toute la journée, éteint ou au casier"]).p);
   const mt = mean(E,"temps_semaine",NUM.temps); $("kS").textContent = mt===null?"·":f1(mt)+" h";
   $("kT").textContent = fmt(share(E,"tel_chambre",["Oui"]).p);
   let h = "";
@@ -360,24 +360,9 @@ function render(){
      + cross(P,"temps_parent","enfant_fatigue",ORD.temps,ORD.freq,"Parents, leur temps d'écran et la fatigue de l'enfant")
      + '</div>';
   }
-  if (tab==="familles"){
-    h = '<h2>Familles appariées par le code famille</h2><p class="muted">'+D.length+' paires parent et élève. Les codes ne permettent pas de savoir qui sont les familles.</p>';
-    if (!D.length) h += '<p>Aucune paire pour le moment. Les paires apparaissent dès qu\'un parent et un élève saisissent le même code.</p>';
-    else {
-      const agree = D.filter(d=>NUM.temps[d.p.temps_semaine]!==undefined&&NUM.temps[d.e.temps_semaine]!==undefined);
-      const under = agree.filter(d=>NUM.temps[d.p.temps_semaine]<NUM.temps[d.e.temps_semaine]).length, same = agree.filter(d=>NUM.temps[d.p.temps_semaine]===NUM.temps[d.e.temps_semaine]).length;
-      h += '<div class="grid3"><div class="chart"><h3>Le parent estime-t-il bien le temps d\'écran de son enfant ?</h3><div class="n">'+agree.length+' paires comparables</div>'
-        + '<div class="row"><span>Sous-estime</span><div class="track"><div class="fill" style="width:'+pct(under,agree.length)+'%;background:#C8102E"></div></div><span class="pct">'+fmt(pct(under,agree.length))+'</span></div>'
-        + '<div class="row"><span>Estime juste</span><div class="track"><div class="fill" style="width:'+pct(same,agree.length)+'%"></div></div><span class="pct">'+fmt(pct(same,agree.length))+'</span></div>'
-        + '<div class="row"><span>Surestime</span><div class="track"><div class="fill" style="width:'+pct(agree.length-under-same,agree.length)+'%;background:#2E86AB"></div></div><span class="pct">'+fmt(pct(agree.length-under-same,agree.length))+'</span></div></div>'
-        + pie("Temps d'écran des parents appariés",counts(D.map(d=>d.p),"temps_parent",0,ORD.temps),1)
-        + pie("Temps d'écran des élèves appariés",counts(D.map(d=>d.e),"temps_semaine",0,ORD.temps),1)+'</div>'
-        + '<h3 style="margin-top:14px">Corrélations sur les paires</h3>'+corrTable(correlations([],[],D).slice(-3));
-    }
-  }
   if (tab==="verbatims"){
     const list = (rows,key,title)=>{ const v = rows.map(r=>String(r[key]||"").trim()).filter(Boolean);
-      return '<div class="chart"><h3>'+esc(title)+' ('+v.length+')</h3>'+(v.length?'<ul class="quotes">'+v.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>':'<p class="muted">Aucun pour le moment.</p>')+'</div>'; };
+      return '<div class="chart"><h3>'+esc(title)+'</h3>'+(v.length?'<ul class="quotes">'+v.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>':'<p class="muted">Aucun pour le moment.</p>')+'</div>'; };
     h = '<h2>Réponses libres</h2><div class="grid3">'+list(E,"aide","Élèves, ce qui les aiderait")+list(E,"idee","Élèves, idées pour le lycée")+list(P,"remarque","Parents, remarques et suggestions")+'</div>';
   }
   if (tab==="rapport") h = report(E,P,D);
@@ -387,19 +372,19 @@ function render(){
 
 function report(E,P,D){
   const d = new Date().toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"});
-  const niv = counts(E,"niveau",0,ORD.niveauE).items.map(i=>i[0]+" ("+i[1]+")").join(", ");
-  const lg = counts(DATA.Eleves.concat(DATA.Parents),"langue").items.map(i=>({fr:"français",bg:"bulgare",en:"anglais"}[i[0]]||i[0])+" "+i[1]).join(", ");
+  const nv = counts(E,"niveau",0,ORD.niveauE), niv = nv.items.map(i=>i[0]+" "+fmt(pct(i[1],nv.n))).join(", ");
+  const lc = counts(DATA.Eleves.concat(DATA.Parents),"langue"), lg = lc.items.map(i=>({fr:"français",bg:"bulgare",en:"anglais"}[i[0]]||i[0])+" "+fmt(pct(i[1],lc.n))).join(", ");
   const regE = counts(E,"regle_lycee",0,ORD.regleLycee), regP = counts(P,"regle_lycee",0,ORD.regleLycee);
   const att = counts(P,"attentes",1);
   return '<div class="report"><div class="noprint" style="text-align:right;margin-bottom:10px"><button class="btn" id="printBtn">Imprimer ou enregistrer en PDF</button></div>'
    + '<div class="rephead"><img src="assets/logo-lvh.png" alt=""><img src="assets/logo-aefe.png" alt=""></div>'
    + '<h1>Opération Écran, boulot, dodo</h1><p><b>Rapport d\'enquête à l\'attention de la direction</b><br>Les écrans, le sommeil, le travail scolaire et le bien-être au Lycée français Victor Hugo de Sofia<br>Enquête menée par les élèves de Seconde en sciences économiques et sociales, sous la direction de M. Grégory Cron. Données arrêtées le '+d+'.</p>'
-   + '<h2>1. Méthode</h2><p>Questionnaire en ligne anonyme, diffusé par Pronote du 1er au 3 novembre 2026 à l\'ensemble des élèves du secondaire et des familles, en français, en bulgare et en anglais. '+DATA.Eleves.length+' élèves et '+DATA.Parents.length+' parents ont répondu, répartition par langue '+esc(lg)+'. Élèves par niveau '+esc(niv||"non renseigné")+'. Un code famille facultatif a permis d\'apparier '+D.length+' paires parent et enfant sans lever l\'anonymat.</p>'
+   + '<h2>1. Méthode</h2><p>Questionnaire en ligne anonyme, diffusé par Pronote en novembre 2026 à l\'ensemble des élèves du secondaire et des familles, en français, en bulgare et en anglais. '+DATA.Eleves.length+' élèves et '+DATA.Parents.length+' parents ont répondu. Répartition des réponses par langue, '+esc(lg)+'. Répartition des élèves par niveau, '+esc(niv||"non renseigné")+'. Tous les résultats sont exprimés en pourcentage des répondants à chaque question.</p>'
    + '<h2>2. Chiffres clés</h2><ul>'+keyFigures(E,P,D).map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>'
    + '<div class="grid2">'+pie("Temps d\'écran des élèves un jour de classe",counts(E,"temps_semaine",0,ORD.temps),1)+pie("Durée de sommeil des élèves en semaine",counts(E,"duree_sommeil",0,ORD.sommeil),1)+pie("Téléphone dans la chambre la nuit",counts(E,"tel_chambre"))+pie("Temps d\'écran des parents hors travail",counts(P,"temps_parent",0,ORD.temps),1)+'</div>'
    + '<h2 class="pagebreak">3. Ce qui va ensemble</h2><p>Le tableau mesure la force des liens entre deux réponses. Un coefficient proche de zéro signale une absence de lien, un coefficient proche de 1 ou de moins 1 un lien fort. Ces liens décrivent des tendances au sein de l\'échantillon et ne démontrent pas de relation de cause à effet.</p>'+corrTable(correlations(E,P,D))
    + '<h2>4. La règle souhaitée au lycée</h2><div class="grid2">'+pie("Élèves",regE)+pie("Parents",regP)+'</div>'+(att.n?bars("Ce que les parents attendent du lycée",att):'')
-   + '<h2>5. Limites de l\'enquête</h2><ul><li>Les répondants se sont portés volontaires, les familles les plus attentives à la question sont sans doute surreprésentées.</li><li>Les temps d\'écran et de sommeil sont déclarés, donc approximatifs, et les moyennes sont calculées à partir du centre de chaque tranche.</li><li>L\'âge, le milieu social et la langue parlée à la maison influencent à la fois les usages et les résultats scolaires, un lien observé peut donc venir d\'un troisième facteur.</li><li>Les effectifs de certains croisements restent faibles et appellent la prudence.</li></ul>'
+   + '<h2>5. Limites de l\'enquête</h2><ul><li>Les répondants se sont portés volontaires, les familles les plus attentives à la question sont sans doute surreprésentées.</li><li>Les temps d\'écran et de sommeil sont déclarés, donc approximatifs, et les moyennes sont calculées à partir du centre de chaque tranche.</li><li>L\'âge, le milieu social et la langue parlée à la maison influencent à la fois les usages et les résultats scolaires, un lien observé peut donc venir d\'un troisième facteur.</li><li>Le code famille proposé pour rapprocher les réponses d\'un parent et de son enfant a été trop peu utilisé pour être exploité.</li><li>Les effectifs de certains croisements restent faibles et appellent la prudence.</li></ul>'
    + '<h2>6. Pistes de réflexion pour une politique d\'usage</h2><ul><li>Le téléphone la nuit et le dernier écran avant le sommeil constituent le levier le plus directement lié au repos des élèves, une campagne commune avec les familles sur le téléphone hors de la chambre peut s\'appuyer sur ces données.</li><li>La règle au lycée gagnera à être construite à partir des positions exprimées ici par les élèves et les parents, par exemple dans une charte du numérique discutée en conseil de la vie lycéenne.</li><li>Les usages des adultes comptent aussi, l\'exemple donné à la maison et au lycée fait partie de la réponse éducative.</li></ul>'
    + '<p class="fig">Rapport généré automatiquement à partir des réponses enregistrées, à relire et à compléter par l\'équipe avant diffusion.</p></div>';
 }
