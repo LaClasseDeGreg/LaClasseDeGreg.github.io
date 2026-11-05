@@ -95,17 +95,22 @@ def norm_code(c):
     c = "".join(ch for ch in c if unicodedata.category(ch) != "Mn")
     return re.sub(r"[^a-z0-9а-я]", "", c)
 def dyads():
-    by = {}
+    """Appariement un pour un par code, dans l'ordre d'arrivée (cas des fratries)."""
+    byP, byE = {}, {}
     for p in P:
         c = norm_code(p.get("code_famille"))
-        if len(c) >= 3: by.setdefault(c, []).append(p)
-    out = []
+        if len(c) >= 3: byP.setdefault(c, []).append(p)
     for e in E:
         c = norm_code(e.get("code_famille"))
-        if len(c) >= 3 and c in by:
-            for p in by[c]: out.append((e, p))
+        if len(c) >= 3: byE.setdefault(c, []).append(e)
+    out = []
+    for c in byE:
+        if c in byP:
+            es = sorted(byE[c], key=lambda r: str(r.get("horodatage"))); ps = sorted(byP[c], key=lambda r: str(r.get("horodatage")))
+            out += list(zip(es, ps))
     return out
 DY = dyads()
+NF = len({norm_code(e.get("code_famille")) for e, p in DY})
 
 def corr(pairs):
     pairs = [(a, b) for a, b in pairs if a is not None and b is not None]
@@ -193,7 +198,7 @@ def key_figures():
     if mp is not None: out.append(f"Les parents déclarent en moyenne {hrs(mp)} d'écran par jour en dehors de leur travail" + (f", et estiment celui de leur enfant à {hrs(mpe)} un jour de classe." if mpe is not None else "."))
     k, n = share(P, "tensions", ["Souvent","Très souvent"])
     if n: out.append(f"Pour {fpk(k,n)} des parents, les écrans sont souvent ou très souvent une source de tension à la maison.")
-    if nD: out.append(f"{nD} famille{'s' if nD>1 else ''} {'ont' if nD>1 else 'a'} utilisé le même code famille, ce qui permet de rapprocher les réponses d'un parent et de son enfant sans connaître leur identité.")
+    if nD: out.append(f"{NF} famille{'s' if NF>1 else ''} {'ont' if NF>1 else 'a'} utilisé le même code famille ({nD} paire{'s' if nD>1 else ''} parent et enfant), ce qui permet de rapprocher les réponses d'un parent et de son enfant sans connaître leur identité.")
     return out
 
 def rule_top(rows):
@@ -206,26 +211,40 @@ RULE_SHORT = {"Utilisable librement, sauf en cours":"un usage libre en dehors de
               "Utilisable seulement à certains moments ou dans certains lieux":"un usage limité à certains moments ou certains lieux",
               "Rangé toute la journée, éteint ou au casier":"un téléphone rangé toute la journée"}
 
+def sig_link(label):
+    for s_, l, r, p, n in CORR_RES:
+        if l == label and r is not None and p is not None and p < 0.05 and abs(r) >= 0.3: return r
+    return None
 def synthese():
     lines = []
-    lines.append(f"{nE} élèves et {nP} parents ont répondu à l'enquête anonyme, en français, en bulgare ou en anglais" + (f", et {nD} famille{'s ont' if nD>1 else ' a'} pu être appariée{'s' if nD>1 else ''} grâce au code commun." if nD else "."))
+    lines.append(f"{nE} élèves et {nP} parents ont répondu à l'enquête anonyme, en français, en bulgare ou en anglais" + (f", et {NF} famille{'s ont' if NF>1 else ' a'} pu être appariée{'s' if NF>1 else ''} grâce au code commun." if nD else "."))
     m, n = mean(E, "temps_semaine", NUM["temps"]); k, n3 = share(E, "temps_semaine", ["3 à 4 h","4 à 5 h","Plus de 5 h"])
-    if n: lines.append(f"Un jour de classe, les élèves passent en moyenne environ {hrs(m)} sur les écrans hors travail scolaire, " + (f"et {fpk(k,n3)} dépassent 3 heures." if k else "et aucun ne déclare plus de 3 heures."))
     kc, nc = share(E, "tel_chambre", ["Oui"]); ks, ns = share(E, "duree_sommeil", ["Moins de 6 h","6 à 7 h","7 à 8 h"])
-    if nc: lines.append(f"La nuit reste un point d'attention, {fpk(kc,nc)} gardent le téléphone dans leur chambre et {fpk(ks,ns)} dorment moins de 8 heures en semaine.")
+    if n: lines.append(f"Un jour de classe, les élèves passent en moyenne environ {hrs(m)} sur les écrans hors travail scolaire" + (f" et {fpk(k,n3)} dépassent 3 heures" if k else "") + (f". La nuit est le point sensible, {fpk(kc,nc)} gardent le téléphone dans leur chambre et {fpk(ks,ns)} dorment moins de 8 heures en semaine." if nc else "."))
+    links = []
+    if sig_link("Temps d'écran un jour de classe et durée de sommeil") is not None: links.append("plus le temps d'écran est élevé, plus le sommeil est court")
+    if sig_link("Temps d'écran et indice de bien-être") is not None: links.append("plus le bien-être déclaré est faible")
+    fam = []
+    if sig_link("Règles à la maison et temps d'écran") is not None: fam.append("les règles familiales vont de pair avec un temps d'écran plus faible")
+    if sig_link("Temps d'écran du parent et temps d'écran estimé de l'enfant") is not None: fam.append("les parents les plus connectés estiment aussi plus élevé le temps d'écran de leur enfant")
+    if links or fam:
+        t = ""
+        r_res = [x for x in CORR_RES if x[1] in ("Temps d'écran et résultats perçus", "Temps d'écran du parent et résultats de l'enfant")]
+        nolink = all(x[2] is not None and abs(x[2]) < 0.1 for x in r_res)
+        if links: t = "Les réponses montrent que " + links[0] + (" et " + links[1] if len(links) > 1 else "") + (", sans lien mesurable en revanche avec les résultats scolaires perçus" if nolink else "") + "."
+        if fam: t += (" " if t else "") + "À la maison, " + ", et ".join(fam) + "."
+        lines.append(t)
     kcl, ncl = share(E, "tel_classe", ["Parfois","Souvent","Toujours"])
     rE, vE, nRE = rule_top(E); rP, vP, nRP = rule_top(P)
     if rE or rP:
-        s = f"Au lycée, {fpk(kcl,ncl)} des élèves utilisent au moins parfois leur téléphone en classe sans autorisation. "
+        s = f"Au lycée, {fpk(kcl,ncl)} des élèves disent utiliser au moins parfois leur téléphone en classe sans autorisation. "
         if rE and rP and rE == rP:
             s += f"Pour la règle à venir, élèves et parents privilégient {RULE_SHORT.get(rE, rE)} ({fp(pc(vE,nRE))} des élèves, {fp(pc(vP,nRP))} des parents)."
         else:
-            parts = []
-            if rE: parts.append(f"les élèves privilégient {RULE_SHORT.get(rE, rE)} ({fp(pc(vE,nRE))})")
-            if rP: parts.append(f"les parents {RULE_SHORT.get(rP, rP)} ({fp(pc(vP,nRP))})")
-            s += "Pour la règle à venir, " + " et ".join(parts) + "."
+            s += f"Pour la règle à venir, les attentes divergent, les élèves privilégient {RULE_SHORT.get(rE, rE)} ({fp(pc(vE,nRE))}) quand les parents souhaitent majoritairement {RULE_SHORT.get(rP, rP)} ({fp(pc(vP,nRP))})."
         lines.append(s)
-    lines.append("Une politique d'usage commune au lycée et aux familles, centrée sur le téléphone la nuit et un cadre clair en journée, construite avec les délégués élèves, s'appuierait sur ces constats" + (", à confirmer sur un plus grand nombre de réponses." if PROVISOIRE else "."))
+    div = rE and rP and rE != rP
+    lines.append("Une politique d'usage commune au lycée et aux familles, centrée sur le téléphone la nuit et un cadre clair en journée, " + ("gagnera à être construite avec les délégués élèves et les représentants des parents pour rapprocher ces attentes" if div else "construite avec les délégués élèves, s'appuierait sur ces constats") + (", à confirmer sur un plus grand nombre de réponses." if PROVISOIRE else "."))
     return lines[:5]
 
 # ---------- graphiques ----------
@@ -383,7 +402,7 @@ _, ni = counts(E, "niveau", order=ORD["niveauE"])
 niv_txt = ", ".join(f"{k} ({v})" for k, v in ni) or "non renseigné"
 para(f"Le questionnaire en ligne, anonyme et trilingue, a été diffusé par Pronote à l'ensemble des élèves du secondaire et des familles de la maternelle à la Terminale. Il comprend un parcours élève de 34 questions et un parcours parent de 29 questions, sur les écrans, le sommeil, le travail scolaire, le bien-être, les pratiques familiales et la règle souhaitée au lycée. Aucune donnée personnelle n'est recueillie.")
 para(f"Les réponses analysées ont été enregistrées entre le {ts(first)} et le {ts(last)}. {nE} élèves et {nP} parents ont répondu, en {lang_txt}. Répartition des élèves par niveau, {niv_txt}.")
-para(f"Un code famille facultatif, choisi ensemble par un parent et son enfant, permet de rapprocher leurs réponses sans lever l'anonymat. {nD} paire{'s' if nD>1 else ''} parent et enfant {'ont' if nD>1 else 'a'} pu être constituée{'s' if nD>1 else ''} ainsi.")
+para(f"Un code famille facultatif, choisi ensemble par un parent et son enfant, permet de rapprocher leurs réponses sans lever l'anonymat. " + (f"{NF} famille{'s ont' if NF>1 else ' a'} été ainsi appariée{'s' if NF>1 else ''}, soit {nD} paire{'s' if nD>1 else ''} parent et enfant." if nD else "Aucune famille n'a encore été appariée de cette façon."))
 para("Les temps d'écran et de sommeil sont déclarés par tranches. Les moyennes sont calculées à partir du centre de chaque tranche, et les liens entre deux réponses sont mesurés par le coefficient de corrélation de rang de Spearman.", color=GREY, size=9.5, italic=True)
 
 h1("2. Chiffres clés")
@@ -434,7 +453,7 @@ for s, l, r, p, n in CORR_RES:
 para("", after=2)
 sig = [x for x in CORR_RES if x[2] is not None and x[3] is not None and x[3] < 0.05 and abs(x[2]) >= 0.3]
 if sig:
-    para("Liens les plus nets, statistiquement significatifs au seuil de 5 %", bold=True, color=NAVY)
+    para("Liens les plus nets, statistiquement significatifs au seuil de 5 %", bold=True, color=NAVY).paragraph_format.keep_with_next = True
     for s, l, r, p, n in sorted(sig, key=lambda x: -abs(x[2])):
         bullet(f"{l} ({s.lower()}), lien {'positif' if r>0 else 'négatif'} de {abs(r):.2f}".replace(".", ",") + f" sur {n} réponses.")
 else:
@@ -449,7 +468,8 @@ if nD:
         verbe = "sous-estime" if under else ("situe dans la même tranche" if same else "surestime")
         para(f"Une paire parent et enfant a utilisé le même code. Sur cette seule paire, le parent {verbe} le temps d'écran déclaré par son enfant un jour de classe.")
     else:
-        para(f"{nD} paires parent et enfant ont utilisé le même code. Sur les {len(comp)} paires comparables, le parent sous-estime le temps d'écran déclaré par son enfant dans {under} cas, le situe dans la même tranche dans {same} cas et le surestime dans {over} cas.")
+        para(f"{NF} familles ont utilisé le même code, soit {nD} paires parent et enfant. Sur les {len(comp)} paires comparables, le parent sous-estime le temps d'écran déclaré par son enfant dans {under} cas, le situe dans la même tranche dans {same} cas et le surestime dans {over} cas.")
+        if same == len(comp) and len(comp) >= 3: para("Cette concordance parfaite laisse penser que parents et enfants ont souvent rempli le questionnaire ensemble, ce qui est légitime mais limite la portée de la comparaison.", italic=True, color=GREY)
     if len(comp) < MIN_CORR: para("Ce sous-échantillon est encore trop réduit pour en tirer une tendance, il sera exploité si le nombre de paires augmente.", italic=True, color=GREY)
 else:
     para("Aucune famille n'a encore utilisé le code commun. Ce volet sera exploité si des paires parent et enfant apparaissent dans les réponses.", italic=True, color=GREY)
@@ -458,6 +478,7 @@ def verb(rows, key):
     out = []
     for v in vals(rows, key):
         v = re.sub(r"\s+", " ", v).strip()
+        if len(v) < 12 or re.search(r"(?i)je (ne )?sais pas|rien à propos|j.en n.est pas|^non\W", v): continue
         if len(v) > 320: v = v[:300].rsplit(" ", 1)[0] + " […]"
         out.append(v)
     return out
@@ -465,13 +486,15 @@ VE = verb(E, "aide") + verb(E, "idee"); VP = verb(P, "remarque")
 if VE or VP:
     h1("8. Paroles d'élèves et de parents")
     para("Extraits des réponses libres, reproduits tels quels.", size=9.5, color=GREY, italic=True)
-    for v in VE[:8]: bullet(f"Élève, « {v} »", size=10)
-    for v in VP[:6]: bullet(f"Parent, « {v} »", size=10)
+    for v in VE[:12]: bullet(f"Élève, « {v} »", size=10)
+    for v in VP[:8]: bullet(f"Parent, « {v} »", size=10)
 
 h1("9. Limites de l'enquête")
 for x in ["Les répondants se sont portés volontaires, les familles les plus attentives à la question sont sans doute surreprésentées et l'échantillon n'est pas représentatif au sens strict.",
           "Les temps d'écran et de sommeil sont déclarés, donc approximatifs, et la désirabilité sociale peut conduire à les sous-estimer.",
           "L'âge, le milieu social et la langue parlée à la maison influencent à la fois les usages et les résultats scolaires. Un lien observé peut donc venir d'un troisième facteur.",
+          "Certaines corrélations côté parents rapprochent deux réponses données par la même personne, ce qui peut renforcer artificiellement le lien observé.",
+          "Le questionnaire étant anonyme, une même personne a pu répondre deux fois sans qu'on puisse le détecter, et les parents de plusieurs enfants ont rempli un questionnaire par enfant.",
           f"La période de collecte est courte et les effectifs de certains croisements restent faibles, ce qui appelle la prudence."]:
     bullet(x)
 
@@ -483,8 +506,8 @@ kt, nt = share(E, "parents_technoference", ["Souvent","Toujours"])
 pistes = [
  ("Le téléphone la nuit.", f"C'est le levier le plus directement lié au repos des élèves. Avec {fp(pc(kc,nc))} des élèves qui gardent le téléphone dans leur chambre et {fp(pc(kd,nd))} qui regardent un écran dans la demi-heure avant de dormir, une campagne commune avec les familles sur le téléphone hors de la chambre et une heure de coupure le soir peut s'appuyer sur ces données."),
  ("Un cadre clair en journée.", f"{fp(pc(kcl,ncl))} des élèves reconnaissent utiliser au moins parfois leur téléphone en classe sans autorisation. " + (f"La formule la plus souvent choisie est {RULE_SHORT.get(rE, rE)} chez les élèves et {RULE_SHORT.get(rP, rP)} chez les parents. " if rE and rP else "") + "La règle gagnera à distinguer le collège et le lycée, et les temps de cours, de pause et de restauration."),
- ("Une règle construite avec les élèves.", "Une charte du numérique discutée en conseil de vie collégienne et en conseil de la vie lycéenne, puis présentée au conseil d'établissement, sera mieux comprise et mieux respectée qu'une interdiction imposée."),
- ("L'exemple des adultes.", f"{fp(pc(kt,nt))} des élèves disent que leurs parents regardent souvent leur téléphone quand ils leur parlent. Une réunion d'information pour les familles peut aborder les usages des adultes, à la maison comme au lycée."),
+ ("Une règle construite ensemble.", ("Élèves et parents n'attendent pas la même règle. " if (rE and rP and rE != rP) else "") + "Une charte du numérique discutée en conseil de vie collégienne et en conseil de la vie lycéenne, avec les représentants des parents, puis présentée au conseil d'établissement, sera mieux comprise et mieux respectée qu'une interdiction imposée."),
+ ("L'exemple des adultes.", f"{fp(pc(kt,nt))} des élèves disent que leurs parents regardent souvent leur téléphone quand ils leur parlent" + (", et ces élèves déclarent un bien-être plus faible" if sig_link("Parents absorbés par leur téléphone et bien-être de l'élève") is not None else "") + "." + (" Les parents qui passent le plus de temps sur les écrans prêtent aussi davantage d'écran à leur enfant." if sig_link("Temps d'écran du parent et temps d'écran estimé de l'enfant") is not None else "") + (" Les règles posées à la maison vont de pair avec un temps d'écran plus faible chez les élèves." if sig_link("Règles à la maison et temps d'écran") is not None else "") + " Une réunion d'information pour les familles peut aborder les usages des adultes et l'intérêt de règles simples, à la maison comme au lycée."),
  ("Mesurer les effets.", "Reconduire la même enquête en fin d'année permettra d'évaluer la politique mise en place, avec les mêmes questions et le même code famille."),
 ]
 for t_, x in pistes:
