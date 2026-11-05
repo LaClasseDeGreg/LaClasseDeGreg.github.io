@@ -444,12 +444,12 @@ function drawHud(){
     ${playing ? `<div class="code" aria-label="Mot code">${STAGES.map((st, i) => `<span class="${S.pages[i] ? "got " + (S.pages[i] === "tache" ? "tache" : "") : ""}">${S.pages[i] ? st.id : ""}</span>`).join("")}</div>` : `<b style="font-family:var(--serif)">La cartographe disparue</b>`}
     <span class="hudsp"></span>
     ${playing ? `<span class="clock" id="clk">${fmtT(S.elapsed || 0)}</span>` : ""}
-    ${isProf() ? `<button class="chip" type="button" id="hProf" style="border-color:var(--gold);color:var(--gold)">Mode professeur</button>` : ""}
+    <button class="chip" type="button" id="hProf" style="border-color:var(--gold);color:var(--gold)">${isProf() ? "Mode professeur" : "Espace professeur"}</button>
     <button class="chip cours" type="button" id="hCours">Le cours</button>
     <button class="chip" type="button" id="hEasy" aria-pressed="${!!prefs.easy}">Lecture facile</button>
     <button class="chip" type="button" id="hMus" aria-pressed="${musicOn}">Musique</button>
   </div>`;
-  $("#hCours").onclick = openCours; if ($("#hProf")) $("#hProf").onclick = () => { prof(); toTop(); };
+  $("#hCours").onclick = openCours; $("#hProf").onclick = () => { if (!S) S = fresh(); prof(); drawHud(); toTop(); };
   $("#hEasy").onclick = () => { prefs.easy = !prefs.easy; savePrefs(); document.body.classList.toggle("easy", prefs.easy); drawHud(); };
   $("#hMus").onclick = toggleMusic;
 }
@@ -479,8 +479,10 @@ function title(){
     <p class="lede">Elena Vasileva préparait pour la GeoNight la grande carte des métropoles du monde. Elle a disparu hier soir. Il ne reste que six pages de son carnet, cachées dans six villes. Retrouve-les avant que sa carte ne tombe entre de mauvaises mains.</p>
     <p><button class="cta" id="go" type="button">Ouvrir le carnet</button></p>
     ${prev && prev.step !== "title" && prev.role && !prev.done ? `<p><button class="ghost" id="resume" type="button">Reprendre ma partie</button></p>` : ""}
+    <p><button class="ghost" id="profT" type="button" style="border-color:var(--gold);color:var(--gold)">Espace professeur</button></p>
     <p class="muted" style="font-size:14px">Environ 35 minutes. Une erreur ne bloque jamais, mais elle tache la page.<br>Lycée français Victor Hugo de Sofia, LaClasseDeGreg.</p>
   </div></section>`;
+  $("#profT").onclick = () => { prof(); drawHud(); toTop(); };
   $("#go").onclick = () => { musicOn = prefs.music !== false; S = fresh(); S.step = "prologue"; save(); render(); toTop(); };
   if ($("#resume")) $("#resume").onclick = () => { S = prev; startClock(); render(); toTop(); };
 }
