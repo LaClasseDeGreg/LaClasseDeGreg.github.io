@@ -25,4 +25,4 @@ En bas de la page, Espace professeur, saisir le code professeur. On peut alors p
 
 Pour que le tableau de suivi s'ouvre avec ce même code, une seule ligne est à changer dans le script Google de la feuille de suivi (menu Extensions, puis Apps Script), la ligne du mot de passe. Ensuite Déployer, Gérer les déploiements, l'icône crayon, Version, Nouvelle version, Déployer. L'adresse du script ne change pas.
 
-Les personnages sont choisis dans une galerie de quinze portraits, sans version fille ou garçon.
+Les élèves choisissent leur personnage dans une galerie de dix portraits, chacun avec son histoire, un conseil personnel dans sa ville et sa fin.

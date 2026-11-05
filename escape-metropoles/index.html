@@ -83,7 +83,13 @@ button{font:inherit;cursor:pointer}
 .role .ic svg{width:28px;height:28px}
 .role b{display:block;font-size:17px}
 .role small{color:var(--muted);font-size:13.5px;line-height:1.35;display:block}
-.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.gal{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media (max-width:760px){.gal{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:460px){.gal{grid-template-columns:repeat(2,1fr)}}
+.fiche{display:grid;grid-template-columns:220px 1fr;gap:20px;align-items:start;margin-top:16px;background:linear-gradient(135deg,#1e2560,#141a44);border:2px solid var(--gold);border-radius:16px;padding:18px}
+.fiche img{width:100%;border-radius:12px;display:block;aspect-ratio:1;object-fit:cover}
+.fiche.vide{display:block;border-style:dashed;border-color:rgba(255,255,255,.3);color:var(--muted);text-align:center}
+@media (max-width:620px){.fiche{grid-template-columns:1fr}.fiche img{max-width:220px}}
 .perso{display:flex;flex-direction:column;text-align:left;background:var(--night2);color:var(--ink);border:2px solid rgba(255,255,255,.12);border-radius:14px;padding:0;overflow:hidden;transition:transform .2s,border-color .2s}
 .perso:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.4)}
 .perso[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold)}
@@ -226,23 +232,48 @@ const METIERS = {
   elu:{lab:"membre du conseil municipal de Sofia", chip:"conseil municipal", ic:"flag", col:"#C8102E", bonus:0}
 };
 const PERSOS = [
-  {id:"mila", m:"carto", n:"Mila", d:"Lit une carte comme d'autres lisent un roman."},
-  {id:"milan", m:"carto", n:"Milan", d:"Remplit des carnets de croquis dans chaque train."},
-  {id:"lou", m:"carto", n:"Lou", d:"A cartographié Sofia rue par rue pour la GeoNight."},
-  {id:"clara", m:"city", n:"Clara", d:"Connaît par cœur le classement des villes mondiales."},
-  {id:"clement", m:"city", n:"Clément", d:"Travaille dans une tour de la City, à deux pas de la Tamise."},
-  {id:"camille", m:"city", n:"Camille", d:"Compare les places financières du monde depuis Canary Wharf."},
-  {id:"eden", m:"urba", n:"Eden", d:"Voit dans chaque quartier les choix qui l'ont fabriqué."},
-  {id:"ilan", m:"urba", n:"Ilan", d:"Dessine des quartiers plus justes, plus verts, plus mixtes."},
-  {id:"yana", m:"photo", n:"Yana", d:"A couvert les favelas de Rio pour un magazine."},
-  {id:"yanis", m:"photo", n:"Yanis", d:"Photographie les métropoles du haut des toits."},
-  {id:"noa", m:"photo", n:"Noa", d:"Traque les contrastes entre les tours et les quartiers informels."},
-  {id:"sacha", m:"velo", n:"Sacha", d:"Livre des repas chaque jour dans les rues de l'Est londonien."},
-  {id:"charlie", m:"velo", n:"Charlie", d:"Connaît chaque raccourci entre la City et Stratford."},
-  {id:"alex", m:"velo", n:"Alex", d:"Traverse toute la métropole, du centre aux périphéries."},
-  {id:"daria", m:"elu", n:"Daria", d:"Siège au conseil municipal de la capitale bulgare."}
+  {id:"mila", m:"carto", n:"Mila", page:2, d:"Dessine des cartes comme d'autres tiennent un journal intime.",
+   bio:"Mila a grandi à Marseille, entre le port et les quartiers nord, et c'est là qu'elle a compris qu'une ville se lit d'abord sur une carte. Ancienne étudiante d'Elena, elle a dessiné avec elle les premiers croquis de la grande carte des métropoles. Depuis la disparition, elle ne lâche plus son carnet, persuadée que la réponse se cache dans les légendes.",
+   hint:"Elena me l'a répété cent fois. Un croquis, c'est sélectionner, traduire, hiérarchiser. Un point pour une ville, une ligne pour l'I-95, une surface pour la conurbation.",
+   fin:"Mila signera avec Elena la carte exposée à la GeoNight."},
+  {id:"milan", m:"carto", n:"Milan", page:0, d:"Connaît chaque sentier de la Vitosha et chaque rue de Mladost.",
+   bio:"Milan vient de Plovdiv et prépare un master de géographie à l'université de Sofia. Le week-end, il arpente la Vitosha avec ses cartes et il a vu, année après année, les immeubles grimper sur les pentes de la montagne. Elena l'avait chargé de cartographier Sofia pour la dernière page de son atlas.",
+   hint:"J'ai fait le calcul pour Elena. Sofia, c'est environ 20 % des Bulgares mais près de 43 % de la richesse du pays. Une métropole, oui, mais de rang national.",
+   fin:"Milan dessinera la carte de Sofia que la classe présentera à la GeoNight."},
+  {id:"clara", m:"city", n:"Clara", page:1, d:"Compare les villes du monde depuis une tour de la City.",
+   bio:"Clara est née à Lisbonne et travaille depuis trois ans pour une banque de la City de Londres. Elle passe ses journées à classer les métropoles selon leurs loyers, leurs talents et leurs aéroports. C'est elle qui avait prévenu Elena que Skyline Holding s'intéressait un peu trop à sa carte.",
+   hint:"Dans mon métier, on ne regarde jamais le nombre d'habitants en premier. On regarde les sièges sociaux, la Bourse, les connexions. Dhaka est immense, mais ce n'est pas une ville mondiale.",
+   fin:"Clara a transmis le dossier Skyline Holding aux autorités financières de Londres."},
+  {id:"clement", m:"city", n:"Clément", page:3, d:"Travaille dans la City, mais habite l'Est de Londres.",
+   bio:"Clément a quitté Lyon pour Londres en 2015 et il était dans la salle des marchés le matin du référendum sur le Brexit. Il connaît la City par cœur, mais il habite à Hackney, dans l'Est, où il voit chaque année les loyers grimper et ses voisins partir. Elena l'avait interrogé pour comprendre ce que coûte la première place mondiale.",
+   hint:"Londres est première du monde, mais pas pour la qualité de vie. Logement hors de prix, congestion, pollution. Et dans l'Est, la gentrification chasse ceux qui y vivaient.",
+   fin:"Clément a rejoint une association qui défend le logement abordable dans l'Est londonien."},
+  {id:"yana", m:"photo", n:"Yana", page:5, d:"A vécu plusieurs semaines à Rocinha, chez une famille du quartier.",
+   bio:"Yana est photographe pour un magazine de Sofia. Elle a passé six mois à Rio de Janeiro, dont plusieurs semaines à Rocinha, hébergée par une famille qui lui a appris à regarder la favela autrement que comme une carte postale. Elena utilisait ses photos pour montrer à ses étudiants les contrastes des métropoles.",
+   hint:"À Rocinha, regarde les toits. Les réservoirs bleus disent que l'eau manque, les fils emmêlés que l'électricité est souvent prise en cachette. Et réponds toujours en nuançant.",
+   fin:"Les photos de Yana accompagneront la carte d'Elena à la GeoNight."},
+  {id:"yanis", m:"photo", n:"Yanis", page:4, d:"A grandi à deux heures de transport du centre de sa ville.",
+   bio:"Yanis a grandi en banlieue parisienne, à deux heures de transport du centre, et c'est en photographiant son trajet quotidien qu'il est devenu photographe. Il parcourt aujourd'hui les métropoles du monde pour une agence de presse. À São Paulo, il a photographié des hélicoptères au-dessus des embouteillages, et c'est cette image qui a mis Elena sur une piste.",
+   hint:"À São Paulo, les riches vivent dans des condominios fechados gardés jour et nuit, les pauvres sont repoussés loin du centre. Même ville, deux mondes, c'est la ségrégation socio-spatiale.",
+   fin:"La photo des hélicoptères de Yanis fera la une du journal du lycée."},
+  {id:"sacha", m:"velo", n:"Sacha", page:3, d:"Livre des repas à vélo, de Stratford à Canary Wharf.",
+   bio:"Sacha a vingt-deux ans et finance ses études d'urbanisme en livrant des repas à vélo dans l'Est de Londres. Elle a vu Stratford changer depuis les Jeux olympiques, les cafés branchés remplacer les vieux pubs, les familles partir vers la grande banlieue. Elena l'avait rencontrée pendant une enquête de terrain et lui avait confié une copie de ses notes.",
+   hint:"Dans l'Est, j'ai vu la rénovation des Docklands attirer des gens plus riches. Les loyers montent, les plus modestes s'en vont. Ça porte un nom, la gentrification.",
+   fin:"Sacha consacrera son mémoire à la gentrification de Stratford."},
+  {id:"nikola", m:"velo", n:"Nikola", page:2, d:"Coursier à vélo dans les rues de Manhattan.",
+   bio:"Nikola est né à Varna, au bord de la mer Noire, et il est parti à New York à dix-neuf ans. Coursier à vélo, il traverse chaque jour le cœur de la mégalopole, de Wall Street au siège de l'ONU. Elena l'avait aidé à trouver ses repères à son arrivée, et il ne l'a jamais oublié.",
+   hint:"À New York, je livre des banques, des musées et le siège de l'ONU. Washington, c'est le pouvoir politique, Boston la recherche. Chacune son rôle, c'est ça, une synergie.",
+   fin:"Nikola est rentré à Sofia pour la GeoNight, un sac plein de photos de New York."},
+  {id:"daria", m:"elu", n:"Daria", page:0, d:"La plus jeune élue du conseil municipal de Sofia.",
+   bio:"Daria est la plus jeune élue du conseil municipal de Sofia. Elle s'est fait connaître en défendant le parc de son quartier contre un projet de tours de bureaux. Elena devait lui présenter sa carte pour convaincre la mairie de protéger les quartiers populaires de la capitale.",
+   hint:"Au conseil, je rappelle toujours qu'une mégapole n'est pas une métropole. Plus de 10 millions d'habitants d'un côté, des fonctions de commandement de l'autre.",
+   fin:"Daria a obtenu que la carte d'Elena soit présentée au conseil municipal."},
+  {id:"ilan", m:"urba", n:"Ilan", page:4, d:"Rêve de villes plus justes, plus vertes, plus mixtes.",
+   bio:"Ilan est urbaniste et travaille sur la rénovation des quartiers périphériques. Il a passé un an entre Brasília et São Paulo pour comprendre pourquoi les grandes villes brésiliennes se fragmentent. Ancien collègue d'Elena et de Nadia Petrova, il sait que les deux femmes ne se parlent plus depuis un projet à São Paulo.",
+   hint:"São Paulo commande l'économie du Brésil, Brasília la politique, Rio mêle industrie et tourisme. Un réseau urbain très déséquilibré, on dit asymétrique.",
+   fin:"Ilan travaille désormais avec Elena sur une carte des quartiers à protéger."}
 ];
-const OLD_ROLES = {carto:"mila", city:"clara", urba:"eden", photo:"yana", velo:"sacha", elu:"daria"};
+const OLD_ROLES = {carto:"mila", city:"clara", urba:"ilan", photo:"yana", velo:"sacha", elu:"daria", lou:"mila", camille:"clara", eden:"ilan", noa:"yana", charlie:"nikola", alex:"sacha"};
 const PROF_HASH = "48af26beb80f0b14f33670336b3deb3b55b7d8f7eb33709596c6174394661034";
 
 /* ============ Suspects ============ */
@@ -472,12 +503,17 @@ function prologue(){
 function choose(){
   const cards = PERSOS.map(p => { const M = METIERS[p.m]; return `<button class="perso" type="button" data-r="${p.id}" aria-pressed="${S.role === p.id}">
       <img src="img/perso/${p.id}.jpg" alt="Portrait de ${esc(p.n)}" loading="lazy" width="360" height="360"><span class="pi"><b>${esc(p.n)}</b>
-      <span class="lab" style="background:${M.col}">${ICON[M.ic]}${esc(M.chip || M.lab)}</span><small>${esc(p.d)}</small><small class="at">Atout dans la page ${STAGES[M.bonus].id}</small></span></button>`; }).join("");
+      <span class="lab" style="background:${M.col}">${ICON[M.ic]}${esc(M.chip || M.lab)}</span></span></button>`; }).join("");
   const r = role();
+  const fiche = r ? `<section class="fiche" aria-live="polite"><img src="img/perso/${r.id}.jpg" alt="Portrait de ${esc(r.n)}"><div>
+      <p class="meta" style="color:var(--gold)">${esc(r.lab)}</p><h3 style="font:800 30px/1.1 var(--serif);margin:.1em 0 .3em;color:#fff">${esc(r.n)}</h3>
+      <p class="hand" style="color:#ffe7a8;margin:0 0 8px">${esc(r.d)}</p><p style="margin:0 0 10px">${esc(r.bio)}</p>
+      <p class="muted" style="margin:0;font-size:14.5px"><b style="color:var(--gold)">Son atout</b>, un conseil personnel dans la page ${STAGES[r.page].id}, ${esc(STAGES[r.page].lieu)}.</p></div></section>`
+    : `<section class="fiche vide"><p style="margin:0">Clique sur un portrait pour découvrir son histoire.</p></section>`;
   app.innerHTML = `<div class="wrap" style="max-width:1000px">
     <h2 style="font:800 30px/1.15 var(--serif);margin:6px 0">Qui part sur les traces d'Elena ?</h2>
-    <p class="muted" style="margin-top:0">Choisis la personne que tu veux incarner, librement. Le cours à retenir est le même pour tous, chaque métier donne un atout, un indice de plus dans une ville.</p>
-    <div class="gal">${cards}</div>
+    <p class="muted" style="margin-top:0">Dix personnes ont une bonne raison de retrouver Elena. Lis leur histoire et choisis celle que tu veux incarner. Le cours à retenir est le même pour tous, mais chacune te glissera un conseil dans sa ville.</p>
+    <div class="gal">${cards}</div>${fiche}
     <div class="ident">
       <p style="margin:0"><label class="l" for="cls">Ta classe</label>
         <select class="f" id="cls"><option value="">Choisis…</option>${Object.keys(ELEVES).map(c => `<option value="${c}" ${S.classe === c ? "selected" : ""}>Première ${c.slice(1)}</option>`).join("")}<option value="visit" ${S.classe === "visit" ? "selected" : ""}>Je suis visiteur ou visiteuse</option></select></p>
@@ -488,7 +524,7 @@ function choose(){
     <p class="muted" style="font-size:14px">${S.classe === "visit" ? "En visiteur, ta partie apparaît dans la liste des visiteurs du professeur, à part des classes." : "Ton nom permet à ton professeur de suivre ta progression, page après page."}</p>
     <div class="act" style="align-items:center">${r ? `<p class="who" style="color:var(--ink);margin:0"><img src="img/perso/${r.id}.jpg" alt="">Tu incarnes ${esc(roleName())}</p>` : ""}<button class="cta" id="start" type="button" ${S.role && S.eleve.length >= 2 ? "" : "disabled"}>Partir pour Sofia</button></div>
   </div>`;
-  app.querySelectorAll("[data-r]").forEach(b => b.onclick = () => { S.role = b.dataset.r; const y = window.scrollY; render(); window.scrollTo(0, y); });
+  app.querySelectorAll("[data-r]").forEach(b => b.onclick = () => { S.role = b.dataset.r; const y = window.scrollY; render(); window.scrollTo(0, y); if (window.innerWidth < 760) $(".fiche").scrollIntoView({behavior:"smooth", block:"start"}); });
   const ok = () => { $("#start").disabled = !(S.role && S.eleve.length >= 2); };
   $("#cls").onchange = e => { S.classe = e.target.value; S.eleve = ""; const y = window.scrollY; render(); window.scrollTo(0, y); if (S.classe === "visit") $("#vis").focus(); };
   $("#vis").oninput = e => { S.eleve = e.target.value.trim().slice(0, 60); ok(); };
@@ -574,7 +610,7 @@ function stageView(){
     ${role() ? `<p class="who"><img src="img/perso/${S.role}.jpg" alt="">${esc(roleName())} ouvre la page ${st.id}</p>` : ""}
     <figure class="photo"><img src="${st.img}" alt="${esc(st.lieu)}"><figcaption>${esc(st.cap)}</figcaption></figure>
     <p class="hand">${esc(st.recit)}</p>
-    ${role() && role().bonus === i ? `<div class="note gold"><b>${esc(st.hint)}</b></div>` : ""}
+    ${role() && role().page === i ? `<div class="note gold"><p class="who" style="margin-bottom:6px"><img src="img/perso/${S.role}.jpg" alt="">Le conseil de ${esc(role().n)}</p><span class="hand" style="font-size:1.3em">« ${esc(role().hint)} »</span></div>` : ""}
     <h3>L'essentiel à retenir</h3>
     ${st.cours.map(p => `<p>${md(p)}</p>`).join("")}
     <div class="notions">${st.notions.map(n => `<div><b>${esc(n[0])}</b>, ${esc(n[1])}</div>`).join("")}</div>
@@ -687,6 +723,7 @@ function bilan(){
   app.innerHTML = `<div class="wrap"><article class="sheet">
     <p class="meta">Fin de l'enquête</p>${role() ? `<p class="who"><img src="img/perso/${S.role}.jpg" alt="">${esc(roleName())}</p>` : ""}<h2>${found ? "Démasquée, Nadia Petrova" : "La carte est sauvée, mais le coupable court toujours"}</h2>
     <p class="hand">${found ? "« Merci. Nadia voulait vendre ma carte des inégalités à Skyline Holding, pour savoir quels quartiers racheter avant que les prix ne flambent. Grâce à toi, elle sera exposée à la GeoNight, pour que tout le monde voie la ville telle qu'elle est. »" : "« Ce n'était pas la bonne personne. C'était Nadia Petrova, mon ancienne collègue. Elle ne vit pas à Sofia, elle habite un condominio fechado de São Paulo et a fait visiter Rocinha aux investisseurs de Skyline Holding. Ma carte est sauvée quand même, merci. »"}</p>
+    ${role() ? `<p><b>Et ${esc(role().n)} ?</b> ${esc(role().fin)}</p>` : ""}
     <div class="score"><div><b>${String(sc.note).replace(".", ",")} / 20</b>ta note</div><div><b>${sc.good} sur ${sc.total}</b>bonnes réponses</div><div><b>${intact} sur 6</b>pages intactes</div><div><b>${fmtT(S.elapsed || 0)}</b>temps de jeu</div></div>
     <h3>Mon carnet d'erreurs</h3>
     ${S.errs.length ? `<p>Recopie ces corrections dans ton cahier, ce sont elles qui feront la différence le jour de l'évaluation.</p><ol class="errs">${S.errs.map(e => `<li><b>${esc(e.q)}</b><br>${esc(e.r)}<br><span class="muted">${esc(e.ex)}</span></li>`).join("")}</ol>` : `<p>Aucune erreur. Impressionnant. Relis quand même le cours, l'évaluation demandera de rédiger.</p>`}

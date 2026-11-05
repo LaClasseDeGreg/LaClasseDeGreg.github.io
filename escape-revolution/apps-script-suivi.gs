@@ -6,7 +6,7 @@
  * puis à déployer comme application Web (voir LISEZ-MOI).
  * Le mot de passe reste ici, côté Google. Il n'apparaît jamais dans la page du jeu.
  */
-const MOT_DE_PASSE = '2702';
+const MOT_DE_PASSE = 'A_CHOISIR'; // à remplacer par ton code dans le script Google, à ne jamais publier ici
 const ONGLET = 'Suivi';
 const COLONNES = ['session', 'premiere_activite', 'derniere_activite', 'classe', 'eleve', 'temoin',
   'registres', 'sceaux_intacts', 'bonnes', 'repondues', 'total', 'pourcentage', 'note20',
