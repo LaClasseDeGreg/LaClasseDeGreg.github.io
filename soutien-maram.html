@@ -199,6 +199,14 @@ tr.r3 td:first-child,.bridge .r3,.blk.r3{border-left:5px solid var(--leaf)}
 .sub b{font-size:.97rem}
 .lbl{display:inline-block;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ocean);margin-right:8px}
 .blk{max-width:90ch}
+.retour{margin-top:30px;background:var(--card);border:2px solid var(--ocean);border-radius:16px;padding:clamp(18px,4vw,28px);display:grid;gap:14px;max-width:90ch}
+.retour fieldset{border:none;margin:0;padding:0;display:grid;gap:8px}
+.retour legend,.retour label{font-weight:700;padding:0;margin-bottom:6px}
+.retour textarea{width:100%;font:inherit;font-size:.95rem;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);min-height:80px;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{font:inherit;font-size:.9rem;padding:8px 14px;border-radius:999px;border:2px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+.chips button:hover{border-color:var(--ocean)}
+.chips button[aria-pressed="true"]{background:var(--ocean);border-color:var(--ocean);color:var(--paper)}
 footer{padding-block:28px;color:var(--muted);font-size:.85rem;text-align:center}
 :focus-visible{outline:3px solid var(--sun);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -520,6 +528,30 @@ footer{padding-block:28px;color:var(--muted);font-size:.85rem;text-align:center}
           <p><span class="lbl">Ouverture</span> Les plateformes numériques et l'intelligence artificielle posent désormais un défi inédit à l'information des citoyens, qui est le socle du débat démocratique. C'est tout l'enjeu du thème 4 du programme.</p>
         </div>
       </div>
+      <div class="retour" id="retour">
+        <h3>Ton retour sur l'exercice</h3>
+        <p class="hint">Quelques clics suffisent. Sois franche, c'est ce qui me permet d'adapter nos séances.</p>
+        <fieldset><legend>Comment as-tu trouvé l'exercice ?</legend>
+          <div class="chips" data-name="difficulte" data-single="1">
+            <button type="button">Facile</button><button type="button">Ça allait</button><button type="button">Difficile</button><button type="button">Très difficile</button>
+          </div></fieldset>
+        <fieldset><legend>Dans le corrigé, quels axes avais-tu en partie trouvés ?</legend>
+          <div class="chips" data-name="axes">
+            <button type="button">Axe 1</button><button type="button">Axe 2</button><button type="button">Axe 3</button><button type="button">Aucun pour l'instant</button>
+          </div></fieldset>
+        <fieldset><legend>Sur quoi veux-tu qu'on travaille à la prochaine séance ?</legend>
+          <div class="chips" data-name="travailler">
+            <button type="button">L'introduction</button><button type="button">La problématique</button><button type="button">Les exemples précis</button><button type="button">Les transitions</button><button type="button">Les auteurs et références</button><button type="button">La rédaction d'un paragraphe</button>
+          </div></fieldset>
+        <label for="aide">Ce qui t'a le plus aidée</label>
+        <textarea id="aide" placeholder="Le tableau, le lien avec le plan, un exemple..."></textarea>
+        <label for="flou">Ce qui reste flou pour toi</label>
+        <textarea id="flou" placeholder="Une notion, un auteur, la façon de construire une partie..."></textarea>
+        <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+          <button class="btn alt" id="envoyerRetour" type="button">Envoyer mon retour à Greg</button>
+          <span id="rmsg" role="status"></span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -618,6 +650,22 @@ document.getElementById("copier").onclick=()=>{
   const sel=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById("recap"));const s=getSelection();s.removeAllRanges();s.addRange(r);toast.textContent="Texte sélectionné, fais Ctrl+C ou appui long pour copier."};
   try{navigator.clipboard.writeText(txt).then(()=>toast.textContent="Bilan copié, tu peux le coller dans ton message.",sel)}catch(e){sel()}
 };
+
+st.ret=st.ret||{};
+document.querySelectorAll(".chips").forEach(g=>{const n=g.dataset.name,single=!!g.dataset.single;
+ const btns=[...g.querySelectorAll("button")];
+ const paint=()=>btns.forEach(b=>b.setAttribute("aria-pressed",(st.ret[n]||[]).includes(b.textContent)));
+ btns.forEach(b=>b.onclick=()=>{let v=st.ret[n]||[];const t=b.textContent;
+  v=v.includes(t)?v.filter(x=>x!==t):(single?[t]:v.concat(t));st.ret[n]=v;save();paint()});paint()});
+["aide","flou"].forEach(id=>{const el=document.getElementById(id);if(st.ret[id])el.value=st.ret[id];el.addEventListener("input",()=>{st.ret[id]=el.value;save()})});
+document.getElementById("envoyerRetour").onclick=async()=>{const m=document.getElementById("rmsg"),r=st.ret,j=a=>(a&&a.length)?a.join(", "):"sans réponse";
+ m.textContent="Envoi en cours...";
+ const body={_subject:"Retour exercice méthode, "+(document.getElementById("nom").value.trim()||"élève"),_template:"table",_captcha:"false",
+  Prenom:document.getElementById("nom").value.trim(),Difficulte:j(r.difficulte),Axes_trouves:j(r.axes),A_travailler:j(r.travailler),
+  Ce_qui_a_aide:(r.aide||"").trim()||"sans réponse",Ce_qui_reste_flou:(r.flou||"").trim()||"sans réponse"};
+ try{const res=await fetch("https://formsubmit.co/ajax/"+MAIL,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(body)});
+  const k=await res.json().catch(()=>({}));m.textContent=(res.ok&&String(k.success)==="true")?"Merci Maram, ton retour est bien parti. On en parle à la prochaine séance.":"L'envoi n'a pas marché, réessaie dans un instant ou dis-le-moi en séance."}
+ catch(e){m.textContent="L'envoi n'a pas marché, vérifie ta connexion et réessaie."}};
 </script>
 
 </body>
