@@ -565,6 +565,7 @@ const OBJ=[
  ["Parler franchement","Si c'est trop ou si je bloque, je le dis à Greg sans attendre."]
 ];
 const KEY="maram-contrat-v1";
+if(location.hash==="#reset"){try{localStorage.removeItem(KEY)}catch(e){}history.replaceState(null,"",location.pathname)}
 let st={};try{st=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){st={}}
 st.obj=st.obj||{};
 function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
