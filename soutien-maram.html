@@ -659,7 +659,7 @@ document.getElementById("envoyerRetour").onclick=async()=>{const m=document.getE
   Prenom:document.getElementById("nom").value.trim(),Difficulte:j(r.difficulte),Axes_trouves:j(r.axes),A_travailler:j(r.travailler),
   Ce_qui_a_aide:(r.aide||"").trim()||"sans réponse",Ce_qui_reste_flou:(r.flou||"").trim()||"sans réponse"};
  try{const res=await fetch("https://formsubmit.co/ajax/"+MAIL,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(body)});
-  const k=await res.json().catch(()=>({}));m.textContent=(res.ok&&String(k.success)==="true")?"Merci Maram, ton retour est bien parti. On en parle à la prochaine séance.":"L'envoi n'a pas marché, réessaie dans un instant ou dis-le-moi en séance."}
+  const k=await res.json().catch(()=>({}));m.textContent=(res.ok&&String(k.success)==="true")?"Merci Maram, ton retour est bien parti. On en parle à la prochaine séance.":"L'envoi n'a pas marché, réessaie dans un instant ou dis-le-moi en séance."+(k.message?" (détail technique, "+k.message+")":"")}
  catch(e){m.textContent="L'envoi n'a pas marché, vérifie ta connexion et réessaie."}};
 </script>
 
