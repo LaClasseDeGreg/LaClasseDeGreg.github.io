@@ -396,7 +396,7 @@ footer{padding-block:28px;color:var(--muted);font-size:.85rem;text-align:center}
     <div><label for="mot">Un mot pour Greg (facultatif)</label><input id="mot" placeholder="Ce que tu attends du soutien, une question, une inquiétude..."></div>
     <button class="btn" id="signer" type="button">Je valide et je prépare mon bilan</button>
     <div id="out" hidden>
-      <p style="margin-bottom:10px" id="sent" role="status">Envoi de ton bilan en cours...</p><p style="margin-bottom:10px;font-size:.92rem">Adresse de Greg <span class="mail">gregory.cron2@aefe.fr</span></p>
+      <p style="margin-bottom:10px" id="sent" role="status">Envoi de ton bilan en cours...</p><p style="margin-bottom:10px;font-size:.92rem">Adresse de Greg <span class="mail">laclassedegreg@gmail.com</span></p>
       <div id="recap"></div>
       <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;align-items:center">
         <button class="btn" id="copier" type="button">Copier mon bilan</button>
@@ -560,7 +560,7 @@ st.f=st.f||{};
 fields.forEach(id=>{const el=document.getElementById(id);if(st.f[id]!==undefined)el.value=st.f[id];el.addEventListener("input",()=>{st.f[id]=el.value;save()})});
 const dt=document.getElementById("date");if(!dt.value){const t=new Date();dt.value=t.toISOString().slice(0,10)}
 render();motiUpdate();
-const MAIL="gregory.cron2@aefe.fr";
+const MAIL="laclassedegreg@gmail.com";
 const LAB={yes:"accepté",talk:"à discuter"};
 function payload(){const g=id=>document.getElementById(id).value.trim();
  return {prenom:g("nom"),date:g("date"),motivation:+moti.value,mot:g("mot"),
