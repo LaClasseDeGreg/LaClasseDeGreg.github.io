@@ -195,6 +195,10 @@ tr.r3 td:first-child,.bridge .r3,.blk.r3{border-left:5px solid var(--leaf)}
 .blk p{font-size:.95rem}
 .trans{font-style:italic;color:var(--muted)}
 .btn.alt{background:var(--ocean);color:var(--paper)}
+.sub{display:grid;gap:4px;padding-left:12px;border-left:2px solid var(--line)}
+.sub b{font-size:.97rem}
+.lbl{display:inline-block;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ocean);margin-right:8px}
+.blk{max-width:90ch}
 footer{padding-block:28px;color:var(--muted);font-size:.85rem;text-align:center}
 :focus-visible{outline:3px solid var(--sun);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -422,7 +426,7 @@ footer{padding-block:28px;color:var(--muted);font-size:.85rem;text-align:center}
       <span class="eyebrow">Le sujet</span>
       <p class="sujet-txt">La démocratie est-elle un régime fragile ?</p>
       <span class="eyebrow">La problématique</span>
-      <p class="pb">Dans quelle mesure la démocratie, fondée sur la souveraineté du peuple et la garantie des libertés, est-elle exposée à des menaces qui peuvent la détruire, tout en restant capable de se défendre et de se réinventer ?</p>
+      <p class="pb">Dans quelle mesure la fragilité de la démocratie est-elle une faiblesse qui la menace de disparition, ou au contraire la condition même de sa capacité à se corriger et à se réinventer ?</p>
     </div>
 
     <p class="lead" style="margin:22px 0 14px">Ta mission. Note simplement tes idées clés pour chaque axe, quelques mots suffisent. Ajoute un exemple si tu en as un en tête. Les indications grisées sont là pour t'aider à démarrer.</p>
@@ -450,54 +454,70 @@ footer{padding-block:28px;color:var(--muted);font-size:.85rem;text-align:center}
       <h3 class="part-t">Le tableau complété</h3>
       <div class="tablewrap">
         <table class="full">
-          <thead><tr><th scope="col">Axe</th><th scope="col">Idée directrice</th><th scope="col">Arguments</th><th scope="col">Exemples précis</th><th scope="col">Notions et auteurs</th></tr></thead>
+          <thead><tr><th scope="col">Axe</th><th scope="col">Idée directrice</th><th scope="col">Arguments (sous-parties)</th><th scope="col">Exemples précis</th><th scope="col">Notions et auteurs</th></tr></thead>
           <tbody>
-            <tr class="r1"><td>Axe 1</td><td>La démocratie est un régime solide par ses principes et ses institutions.</td><td>Souveraineté du peuple. Séparation et équilibre des pouvoirs. État de droit. Alternance pacifique au pouvoir.</td><td>Athènes au Ve siècle av. J.-C. (Périclès). Constitution des États-Unis de 1787. Article 16 de la Déclaration des droits de l'homme de 1789. Élections de mi-mandat de novembre 2026, le Congrès change de majorité et devient un contre-pouvoir.</td><td>Souveraineté populaire, démocratie représentative, freins et contrepoids. Montesquieu, <i>De l'esprit des lois</i> (1748).</td></tr>
-            <tr class="r2"><td>Axe 2</td><td>Pourtant, c'est un régime vulnérable qui peut s'effondrer de l'intérieur.</td><td>Une démocratie peut mourir par ses propres règles. Les crises économiques fragilisent les institutions. La contestation des résultats et la désinformation minent la confiance.</td><td>Athènes, régime des Trente en 404 av. J.-C. Allemagne, Hitler nommé chancelier légalement le 30 janvier 1933 puis loi des pleins pouvoirs du 23 mars 1933. Assaut du Capitole à Washington le 6 janvier 2021.</td><td>Régime autoritaire, populisme, tyrannie de la majorité. Tocqueville, <i>De la démocratie en Amérique</i> (1835).</td></tr>
-            <tr class="r3"><td>Axe 3</td><td>La démocratie sait se défendre et se réinventer.</td><td>Les peuples reconquièrent la démocratie. Les constitutions prévoient des garde-fous. La construction européenne l'ancre. Les citoyens participent autrement.</td><td>Espagne, transition après la mort de Franco en 1975, Constitution de 1978, échec du coup d'État du 23 février 1981. Loi fondamentale allemande de 1949. Critères de Copenhague de 1993 pour entrer dans l'UE. Convention citoyenne pour le climat (2019-2020).</td><td>Transition démocratique, État de droit, démocratie participative. Churchill, la démocratie comme « le pire des régimes, à l'exception de tous les autres » (1947).</td></tr>
+            <tr class="r1"><td>Axe 1</td><td>La démocratie est un régime pensé pour durer, qui organise sa propre stabilité.</td><td>A. La légitimité tirée de la souveraineté du peuple.<br>B. Une architecture qui divise et limite le pouvoir.<br>C. L'alternance et la protection des libertés comme soupapes de sécurité.</td><td>Réformes de Clisthène (508-507 av. J.-C.). Article 3 de la DDHC (1789). Constitution américaine (1787), freins et contrepoids. Article 16 de la DDHC. Élections de mi-mandat de novembre 2026, le Congrès bascule et redevient un contre-pouvoir face à l'exécutif.</td><td>Souveraineté populaire, démocratie représentative, État de droit, alternance. Montesquieu (1748), Madison, <i>Le Fédéraliste</i> n° 51 (1788), Schumpeter (1942).</td></tr>
+            <tr class="r2"><td>Axe 2</td><td>Sa fragilité est pourtant consubstantielle, la démocratie peut être détruite par ses propres instruments.</td><td>A. Une critique ancienne, le peuple souverain peut se donner un maître.<br>B. Le suicide légal des démocraties au XXe siècle.<br>C. L'érosion contemporaine, de l'intérieur et sans coup d'État.</td><td>Les Trente à Athènes (404 av. J.-C.). Weimar, article 48, Hitler chancelier le 30 janvier 1933, loi des pleins pouvoirs du 23 mars 1933. Vote des pleins pouvoirs à Pétain le 10 juillet 1940 (569 voix pour, 80 contre). Hongrie de Viktor Orbán et « démocratie illibérale » revendiquée en 2014. Assaut du Capitole (6 janvier 2021).</td><td>Tyrannie de la majorité, despotisme doux, populisme, illibéralisme. Platon, <i>La République</i>. Tocqueville (1835-1840). Linz (1978). Zakaria (1997). Levitsky et Ziblatt, <i>La Mort des démocraties</i> (2018).</td></tr>
+            <tr class="r3"><td>Axe 3</td><td>Cette fragilité est aussi féconde, la démocratie apprend à se défendre et à se réinventer.</td><td>A. Les transitions démocratiques prouvent sa capacité de reconquête.<br>B. La « démocratie militante » se dote de garde-fous.<br>C. La participation citoyenne renouvelle la représentation.</td><td>Révolution des Œillets (1974), transition espagnole, Constitution de 1978, échec du coup d'État du 23 février 1981. Loi fondamentale de 1949, clause d'éternité (art. 79), interdiction du SRP (1952). Critères de Copenhague (1993), article 7 du TUE. Annulation de la présidentielle roumaine pour ingérence (décembre 2024). Assemblée citoyenne irlandaise (2016-2018), Convention citoyenne pour le climat (2019-2020).</td><td>Transition, démocratie militante, contre-démocratie, démocratie délibérative. Loewenstein (1937), Popper (1945), Huntington (1991), Lefort (1981), Rosanvallon (2006).</td></tr>
           </tbody>
         </table>
       </div>
 
       <h3 class="part-t">Du tableau au plan</h3>
       <div class="bridge">
-        <div class="r1"><b>Ligne Axe 1</b><span>devient la partie I</span></div>
-        <div class="r2"><b>Ligne Axe 2</b><span>devient la partie II</span></div>
-        <div class="r3"><b>Ligne Axe 3</b><span>devient la partie III</span></div>
+        <div class="r1"><b>Ligne Axe 1</b><span>devient la partie I, ses trois arguments deviennent A, B et C</span></div>
+        <div class="r2"><b>Ligne Axe 2</b><span>devient la partie II, même logique</span></div>
+        <div class="r3"><b>Ligne Axe 3</b><span>devient la partie III, même logique</span></div>
       </div>
-      <p class="hint" style="max-width:70ch;margin-top:10px">L'idée directrice devient le titre de la partie. Les arguments deviennent les sous-parties A et B. Les exemples et les notions nourrissent chaque paragraphe. Tu n'inventes rien au moment de rédiger, tout est déjà dans ton tableau.</p>
+      <p class="hint" style="max-width:72ch;margin-top:10px">L'idée directrice devient le titre de la partie. Chaque argument devient une sous-partie, développée en un paragraphe qui suit toujours le même ordre, une idée, un exemple précis et daté, une analyse qui relie l'exemple au sujet. Les auteurs viennent appuyer l'analyse, jamais la remplacer.</p>
 
       <h3 class="part-t">Le plan détaillé modèle</h3>
       <div class="plan">
         <div class="blk intro">
           <span class="eyebrow">Introduction</span>
-          <p><b>Accroche.</b> Le 6 janvier 2021, des partisans de Donald Trump envahissent le Capitole à Washington pour empêcher la certification de l'élection présidentielle, dans la plus ancienne démocratie moderne.</p>
-          <p><b>Définitions.</b> La démocratie est le « gouvernement du peuple, par le peuple, pour le peuple » (Lincoln, 1863). Un régime fragile est un régime exposé à des menaces qui peuvent le faire disparaître.</p>
-          <p><b>Contexte.</b> Née à Athènes, refondée par les révolutions américaine et française, la démocratie s'est imposée comme modèle mais elle a connu des effondrements au XXe siècle et des remises en cause aujourd'hui.</p>
-          <p><b>Problématique.</b> Dans quelle mesure la démocratie est-elle exposée à des menaces qui peuvent la détruire, tout en restant capable de se défendre et de se réinventer ?</p>
-          <p><b>Annonce du plan.</b> Nous verrons d'abord que la démocratie repose sur des principes qui la rendent solide, puis qu'elle reste vulnérable face aux menaces internes, avant de montrer qu'elle sait se défendre et se renouveler.</p>
+          <p><span class="lbl">Accroche</span> Le 6 janvier 2021, des partisans de Donald Trump envahissent le Capitole pour empêcher la certification de l'élection présidentielle. La scène se déroule dans la plus ancienne démocratie constitutionnelle du monde, celle que Tocqueville prenait pour modèle. Si même cette démocratie vacille, aucune n'est à l'abri.</p>
+          <p><span class="lbl">Analyse des termes</span> Étymologiquement, la démocratie (<i>dêmos</i>, le peuple, et <i>kratos</i>, le pouvoir) désigne le pouvoir du peuple, que Lincoln définit en 1863 comme « le gouvernement du peuple, par le peuple, pour le peuple ». Mais la démocratie est aussi une procédure, la libre compétition pour le pouvoir par l'élection (Schumpeter, 1942), et un ensemble de valeurs, les libertés et l'égalité garanties par l'État de droit. Un régime est « fragile » lorsqu'il peut être renversé ou vidé de sa substance. Cette fragilité peut être conjoncturelle, liée aux crises, ou structurelle, inscrite dans la nature même du régime.</p>
+          <p><span class="lbl">Contextualisation</span> Inventée à Athènes au Ve siècle av. J.-C., refondée par les révolutions américaine et française à la fin du XVIIIe siècle, la démocratie libérale semble triompher après 1945 puis en 1989. Pourtant, ses effondrements au XXe siècle et l'essor actuel des régimes dits illibéraux rappellent qu'aucune victoire n'est définitive.</p>
+          <p><span class="lbl">Problématique</span> Dans quelle mesure la fragilité de la démocratie est-elle une faiblesse qui la menace de disparition, ou au contraire la condition même de sa capacité à se corriger et à se réinventer ?</p>
+          <p><span class="lbl">Annonce du plan</span> Si la démocratie est un régime pensé pour durer, qui organise sa propre stabilité (I), elle porte en elle une fragilité consubstantielle qui permet de la détruire par ses propres instruments (II). Cette fragilité se révèle pourtant féconde, car elle oblige la démocratie à se défendre et à se réinventer (III).</p>
         </div>
+
         <div class="blk r1">
-          <h4>I. Un régime fondé sur des principes qui le rendent solide</h4>
-          <p><b>A. La souveraineté du peuple, d'Athènes aux démocraties représentatives.</b> La démocratie directe athénienne de Périclès, puis la souveraineté nationale affirmée en 1789. Le peuple choisit ses représentants.</p>
-          <p><b>B. Des institutions qui limitent le pouvoir.</b> Montesquieu et la séparation des pouvoirs. La Constitution américaine de 1787 et ses freins et contrepoids. Les élections de mi-mandat de 2026 montrent l'alternance en action.</p>
-          <p class="trans">Transition. Ces principes ne suffisent pourtant pas toujours à protéger la démocratie, qui peut être menacée de l'intérieur.</p>
+          <h4>I. Un régime pensé pour durer, qui organise sa propre stabilité</h4>
+          <div class="sub"><b>A. Une légitimité fondée sur la souveraineté du peuple</b>
+            <p>Les réformes de Clisthène (508-507 av. J.-C.) font des citoyens athéniens les acteurs du pouvoir, réunis à l'Ecclésia et tirés au sort pour de nombreuses charges. Les révolutions modernes transposent ce principe à l'échelle de la nation, l'article 3 de la Déclaration de 1789 plaçant le « principe de toute souveraineté » dans la nation. Un pouvoir qui procède du peuple dispose d'une légitimité plus solide qu'un pouvoir fondé sur la force ou la tradition, car les gouvernés y consentent.</p></div>
+          <div class="sub"><b>B. Une architecture qui divise et limite le pouvoir</b>
+            <p>Pour Montesquieu, dans <i>De l'esprit des lois</i> (1748), « il faut que, par la disposition des choses, le pouvoir arrête le pouvoir ». La Constitution américaine de 1787 traduit cette idée par un système de freins et contrepoids, que Madison justifie dans <i>Le Fédéraliste</i> n° 51 en opposant l'ambition à l'ambition. L'article 16 de la Déclaration de 1789 va jusqu'à affirmer qu'une société sans séparation des pouvoirs « n'a point de Constitution ».</p></div>
+          <div class="sub"><b>C. L'alternance et les libertés, des soupapes de sécurité</b>
+            <p>Parce qu'elle permet de changer de dirigeants sans violence, la démocratie canalise les conflits au lieu de les réprimer. Les élections de mi-mandat de novembre 2026, qui redonnent au Congrès une majorité opposée au président, montrent ce mécanisme à l'œuvre. Les libertés d'expression, de presse et d'association permettent en outre de critiquer le pouvoir et donc de corriger ses erreurs.</p></div>
+          <p class="trans">Transition. Ces garanties reposent pourtant sur un pari, celui que le peuple et ses représentants respecteront les règles du jeu. Or l'histoire montre que ce pari peut être perdu.</p>
         </div>
+
         <div class="blk r2">
-          <h4>II. Mais un régime vulnérable, menacé de l'intérieur</h4>
-          <p><b>A. La démocratie peut se détruire par ses propres règles.</b> Le régime des Trente à Athènes en 404 av. J.-C. L'Allemagne de 1933, où Hitler arrive au pouvoir légalement puis supprime la démocratie avec la loi des pleins pouvoirs.</p>
-          <p><b>B. Des fragilités contemporaines.</b> La contestation des résultats électoraux et l'assaut du Capitole en 2021. La désinformation et la défiance envers les institutions. Tocqueville avertissait déjà contre la tyrannie de la majorité.</p>
-          <p class="trans">Transition. Face à ces menaces, la démocratie n'est cependant pas désarmée.</p>
+          <h4>II. Une fragilité consubstantielle, la démocratie détruite par ses propres instruments</h4>
+          <div class="sub"><b>A. Une critique aussi ancienne que la démocratie</b>
+            <p>Dès l'Antiquité, Platon décrit dans <i>La République</i> une démocratie qui, par excès de liberté, finit par engendrer la tyrannie. Athènes elle-même bascule à deux reprises dans l'oligarchie, avec les Quatre-Cents en 411 puis les Trente en 404 av. J.-C. Au XIXe siècle, Tocqueville met en garde contre la « tyrannie de la majorité » et contre un « despotisme doux » qui pourrait naître de l'indifférence des citoyens.</p></div>
+          <div class="sub"><b>B. Le suicide légal des démocraties au XXe siècle</b>
+            <p>La République de Weimar en offre l'exemple le plus tragique. Affaiblie par la crise de 1929 et par l'usage répété de l'article 48, qui autorise des pouvoirs d'exception, elle voit Hitler nommé chancelier de façon légale le 30 janvier 1933. Après l'incendie du Reichstag, la loi des pleins pouvoirs du 23 mars 1933 abolit la démocratie par un vote du Parlement. En France, le 10 juillet 1940, les parlementaires accordent les pleins pouvoirs au maréchal Pétain par 569 voix contre 80. Le politiste Juan Linz (1978) montre que les démocraties meurent souvent de l'intérieur, par l'abdication de leurs élites.</p></div>
+          <div class="sub"><b>C. Une érosion contemporaine, lente et sans coup d'État</b>
+            <p>Aujourd'hui, la menace prend une forme plus discrète. Des dirigeants élus affaiblissent progressivement les contre-pouvoirs, la justice, la presse, l'opposition, tout en conservant les élections. Fareed Zakaria parle dès 1997 de « démocratie illibérale », expression que Viktor Orbán revendique en 2014 pour la Hongrie. Steven Levitsky et Daniel Ziblatt, dans <i>La Mort des démocraties</i> (2018), décrivent cette érosion par le non-respect des normes non écrites. La contestation des résultats électoraux jusqu'à l'assaut du Capitole en 2021, comme la désinformation de masse sur les réseaux sociaux, en sont des symptômes.</p></div>
+          <p class="trans">Transition. Pour autant, la démocratie n'est pas désarmée. Les leçons tirées de ses échecs lui ont permis de construire des défenses et d'inventer de nouvelles formes.</p>
         </div>
+
         <div class="blk r3">
-          <h4>III. Un régime capable de se défendre et de se réinventer</h4>
-          <p><b>A. Reconquérir et consolider la démocratie.</b> La transition espagnole après 1975, la Constitution de 1978 et l'échec du coup d'État de 1981 montrent qu'un peuple peut rétablir et défendre la démocratie.</p>
-          <p><b>B. Se protéger et s'ouvrir aux citoyens.</b> La Loi fondamentale allemande de 1949 prévoit des garde-fous. L'Union européenne impose le respect de l'État de droit avec les critères de Copenhague. Des formes de démocratie participative apparaissent, comme la Convention citoyenne pour le climat.</p>
+          <h4>III. Une fragilité féconde, la démocratie qui se défend et se réinvente</h4>
+          <div class="sub"><b>A. La reconquête démocratique, preuve de résilience</b>
+            <p>La « troisième vague » de démocratisation décrite par Samuel Huntington (1991) commence au Portugal avec la révolution des Œillets en 1974. En Espagne, après la mort de Franco en 1975, la transition aboutit à la Constitution de 1978 et résiste à la tentative de coup d'État du 23 février 1981, désavouée par le roi Juan Carlos. Un peuple privé de démocratie peut donc la reconstruire, et la consolider.</p></div>
+          <div class="sub"><b>B. La démocratie militante, se protéger de ses ennemis</b>
+            <p>Dès 1937, Karl Loewenstein appelle les démocraties à se défendre contre ceux qui utilisent leurs libertés pour les détruire, et Karl Popper formule en 1945 le « paradoxe de la tolérance ». La Loi fondamentale allemande de 1949 en tire les leçons, avec une clause d'éternité (article 79) et la possibilité d'interdire un parti antidémocratique, comme le SRP en 1952. L'Union européenne conditionne l'adhésion au respect de l'État de droit (critères de Copenhague, 1993) et peut sanctionner un État membre (article 7 du TUE). En décembre 2024, la Cour constitutionnelle roumaine annule l'élection présidentielle en raison d'ingérences étrangères.</p></div>
+          <div class="sub"><b>C. Réinventer la participation citoyenne</b>
+            <p>Pour Claude Lefort (1981), la démocratie se définit par un pouvoir qui reste un « lieu vide », que personne ne peut s'approprier définitivement, ce qui la rend à la fois incertaine et ouverte. Pierre Rosanvallon montre dans <i>La Contre-démocratie</i> (2006) que les citoyens surveillent, alertent et jugent les gouvernants au-delà du vote. Des dispositifs délibératifs le prolongent, comme l'assemblée citoyenne irlandaise (2016-2018), à l'origine du référendum de 2018 sur l'avortement, ou la Convention citoyenne pour le climat (2019-2020) en France.</p></div>
         </div>
+
         <div class="blk intro">
           <span class="eyebrow">Conclusion</span>
-          <p><b>Bilan.</b> La démocratie est un régime fragile, car elle peut être détruite par ceux qui utilisent ses règles contre elle. Mais cette fragilité est aussi sa force, puisqu'elle sait se défendre, se corriger et se renouveler.</p>
-          <p><b>Ouverture.</b> Les réseaux sociaux et l'intelligence artificielle posent un nouveau défi à l'information des citoyens, une question que tu retrouveras dans le thème 4.</p>
+          <p><span class="lbl">Réponse à la problématique</span> La démocratie est bien un régime fragile, et cette fragilité est structurelle. Parce qu'elle laisse le pouvoir ouvert à tous, elle peut être conquise par ceux qui veulent la détruire, comme le montrent Weimar ou les dérives illibérales actuelles. Mais cette même ouverture lui permet de reconnaître ses failles, de se doter de garde-fous et d'inventer de nouvelles formes de participation. Sa fragilité est donc moins une faiblesse fatale que la contrepartie de sa liberté, ce que résume Churchill en 1947 lorsqu'il la décrit comme « le pire des régimes, à l'exception de tous les autres ».</p>
+          <p><span class="lbl">Ouverture</span> Les plateformes numériques et l'intelligence artificielle posent désormais un défi inédit à l'information des citoyens, qui est le socle du débat démocratique. C'est tout l'enjeu du thème 4 du programme.</p>
         </div>
       </div>
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px">
