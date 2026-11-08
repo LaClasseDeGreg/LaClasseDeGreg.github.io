@@ -520,10 +520,6 @@ footer{padding-block:28px;color:var(--muted);font-size:.85rem;text-align:center}
           <p><span class="lbl">Ouverture</span> Les plateformes numériques et l'intelligence artificielle posent désormais un défi inédit à l'information des citoyens, qui est le socle du débat démocratique. C'est tout l'enjeu du thème 4 du programme.</p>
         </div>
       </div>
-      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:18px">
-        <button class="btn alt" id="copier2" type="button">Copier mes idées pour Greg</button>
-        <span id="toast2" role="status"></span>
-      </div>
     </div>
   </div>
 </section>
@@ -605,13 +601,7 @@ document.getElementById("valider").onclick=()=>{
   msg.textContent="";st.done=true;save();pushDb("méthode validée");const c=document.getElementById("corrige");c.hidden=false;
   c.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth",block:"start"});
 };
-document.getElementById("copier2").onclick=()=>{
-  const g=id=>document.getElementById(id).value.trim()||"...";
-  const t="MES IDÉES, La démocratie est-elle un régime fragile ?\n"+[1,2,3].map(k=>"Axe "+k+", "+g("m"+k)+" | exemple, "+g("e"+k)).join("\n");
-  const toast=document.getElementById("toast2");
-  const fail=()=>toast.textContent="La copie ne marche pas ici, recopie tes idées dans ton message à Greg.";
-  try{navigator.clipboard.writeText(t).then(()=>toast.textContent="Idées copiées, tu peux les envoyer à Greg.",fail)}catch(e){fail()}
-};
+
 document.getElementById("signer").onclick=()=>{
   const g=id=>document.getElementById(id).value.trim();
   const lab={yes:"accepté",talk:"à discuter",undefined:"sans réponse","":"sans réponse"};
