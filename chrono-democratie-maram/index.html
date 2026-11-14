@@ -840,7 +840,7 @@ function refreshTop(){ $("#xp").textContent=S.xp; $("#stt").textContent=D.stages
 
 /* ---------- porte ---------- */
 function unlock(){ $("#gate").hidden=true; $("#app").hidden=false; if(PROF && !$(".profban")) $("header.top").prepend(h("div",{class:"profban"},(REVUE?"Version de relecture pour Greg":"Mode professeur")+" · toutes les étapes sont ouvertes et se valident sans répondre")); refreshTop(); showMap(); }
-try{ if(sessionStorage.getItem(KEY+"-ok")==="1") unlock(); }catch(e){}
+setTimeout(()=>{ try{ if(sessionStorage.getItem(KEY+"-ok")==="1") unlock(); }catch(e){ console.error(e); } },0);
 function tryPwd(){ const v=$("#pwd").value.trim().toLowerCase(); if(v==="gregprof"){ try{ sessionStorage.setItem("chronodemo-prof","1"); sessionStorage.setItem("chronodemo-prof-v1-ok","1"); }catch(e){} location.reload(); return; } if(v==="maram"){ if(PROF && !REVUE){ try{ sessionStorage.removeItem("chronodemo-prof"); sessionStorage.setItem("chronodemo-maram-v1-ok","1"); }catch(e){} location.reload(); return; } try{sessionStorage.setItem(KEY+"-ok","1");}catch(e){} $("#gmsg").textContent="Machine activée. Accroche ta ceinture temporelle."; setTimeout(unlock,600);} else { $("#gmsg").textContent="Mot de passe incorrect. Glaukê fronce les sourcils."; const b=$(".gate .box"); b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); } }
 $("#go").onclick=tryPwd; $("#pwd").addEventListener("keydown",e=>{ if(e.key==="Enter") tryPwd(); });
 $("#home").onclick=()=>showMap();
