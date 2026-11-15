@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Les Gardiens du Temps</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f1426;--rock:#1f2742;--rock2:#2c365a;--gold:#ffd447;--text:#f3f5ff;--muted:#aab3d6;--ok:#3ddc84;--bad:#ff6b6b;--accent:#5b7cff}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{font-family:'Baloo 2',system-ui,sans-serif;background:radial-gradient(ellipse at 50% 0%,#24305a 0%,var(--bg) 70%) fixed;color:var(--text);padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);overflow-x:hidden}
+#sky{position:fixed;inset:0;pointer-events:none;z-index:0}#sky i{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;opacity:0;animation:tw 3.5s ease-in-out infinite}@keyframes tw{50%{opacity:.8;transform:scale(1.8)}}
+.screen{display:none;position:relative;z-index:1;max-width:580px;margin:0 auto;padding:16px 16px 110px;min-height:100vh;flex-direction:column;gap:14px}.screen.on{display:flex}
+h1{font-size:2rem;line-height:1.05;text-align:center;color:var(--gold);text-shadow:0 3px 0 #8a5a00}h2{font-size:1.3rem;line-height:1.15}
+.sub{color:var(--muted);text-align:center}.note{color:var(--muted);font-size:.9rem;text-align:center}
+.btn{font:inherit;font-weight:800;font-size:1.1rem;border:0;border-radius:18px;padding:13px 18px;background:var(--accent);color:#fff;box-shadow:0 5px 0 #34479e;cursor:pointer}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 #34479e}.btn:disabled{opacity:.45}
+.btn.gold{background:var(--gold);color:#3a2600;box-shadow:0 5px 0 #b98a00}.btn.ghost{background:var(--rock2);box-shadow:0 5px 0 #141a30}.btn.red{background:#c0392b;box-shadow:0 5px 0 #7d241b}
+.btn.small{font-size:.92rem;padding:7px 12px;border-radius:12px;box-shadow:0 3px 0 #141a30}
+.card{background:var(--rock);border-radius:22px;padding:16px}
+.row{display:flex;gap:10px;align-items:center}.grow{flex:1;min-width:0}
+.plist{display:flex;flex-direction:column;gap:10px}
+.pitem{display:flex;align-items:center;gap:12px;background:var(--rock);border-radius:20px;padding:10px 14px;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.35)}
+.pitem .av,.topbar .av{width:58px;height:58px;flex:none}.pitem b{font-size:1.25rem;display:block}.pitem small,.topbar small{color:var(--muted);font-weight:700}
+.hface{width:100%;height:100%;object-fit:cover;object-position:50% 20%;border-radius:50%;border:3px solid var(--gold);display:block}
+.bigface{width:170px;height:170px;border-radius:28px;object-fit:cover;object-position:50% 20%;border:4px solid var(--gold);box-shadow:0 0 34px rgba(255,212,71,.35);display:block;margin:0 auto}
+input[type=text]{font:inherit;font-size:1.2rem;padding:12px 14px;border-radius:14px;border:3px solid var(--rock2);background:#141a30;color:var(--text);outline:none;width:100%}
+.hgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.hgrid button{position:relative;border:4px solid transparent;border-radius:20px;padding:0;overflow:hidden;background:#141a30;cursor:pointer;aspect-ratio:1/1}
+.hgrid button.sel{border-color:var(--gold);transform:scale(1.05)}.hgrid img{width:100%;height:100%;object-fit:cover;display:block}
+.hgrid span{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff;font-weight:800;padding:10px 0 4px}
+.msg{color:var(--bad);font-weight:700;text-align:center;min-height:1.2em}
+.topbar{display:flex;align-items:center;gap:10px;background:var(--rock);border-radius:20px;padding:8px 12px}.topbar b{font-size:1.15rem;display:block;line-height:1.1}
+.xpbar{position:relative;height:16px;border-radius:9px;background:#141a30;overflow:hidden;margin-top:4px;border:2px solid var(--rock2)}
+.xpbar i{display:block;height:100%;background:linear-gradient(90deg,#5b7cff,#ff6b9d,#ffd447,#5b7cff);background-size:300% 100%;animation:xpf 3s linear infinite}@keyframes xpf{to{background-position:300% 0}}
+.xpbar span{position:absolute;inset:0;font-size:.72rem;font-weight:800;display:flex;align-items:center;justify-content:center;text-shadow:0 1px 2px #000}
+.mods{display:flex;flex-direction:column;gap:12px}
+.mod,.bossc{display:flex;gap:12px;align-items:center;border:0;font:inherit;color:inherit;text-align:left;background:linear-gradient(160deg,var(--rock2),var(--rock));border-radius:22px;padding:12px 14px;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,.4);border-left:6px solid var(--c,#ffd447)}
+.mod b,.bossc b{font-size:1.2rem;display:block;line-height:1.1}.mod small,.bossc small{display:block;color:var(--muted);font-weight:600;line-height:1.2}
+.mod.final,.bossc{border-left-color:#ff4d6d;background:linear-gradient(135deg,#3a1240,#1f2742)}
+.mi{width:70px;flex:none;display:flex;align-items:center;justify-content:center}.mi .monster{width:68px;height:76px}
+.mico{font-weight:800;font-size:1.7rem;line-height:1;text-align:center}.mico small{display:block;font-size:.8rem}
+.bar{height:10px;border-radius:6px;background:#141a30;overflow:hidden;margin:6px 0 2px}.bar i{display:block;height:100%;background:var(--gold)}
+.rom{font-family:Georgia,serif;font-weight:700;letter-spacing:1px}
+.learns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.learn{border:0;font:inherit;color:inherit;background:linear-gradient(160deg,#3a4a85,#26305a);border-radius:18px;padding:12px 8px;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.4);text-align:center}
+.learn b{display:block;font-size:1rem;line-height:1.1}.learn small{color:var(--muted);font-size:.8rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{font:inherit;font-weight:800;font-size:.9rem;padding:8px 12px;border-radius:12px;border:3px solid transparent;background:var(--rock2);color:var(--text);cursor:pointer}.chip.sel{border-color:var(--gold);background:#3a4a85}
+.exs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.exc{border:0;font:inherit;color:inherit;text-align:left;background:var(--rock);border-radius:18px;padding:12px;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.4);display:flex;flex-direction:column;gap:2px}
+.exc b{font-size:1.02rem;line-height:1.15}.exc small{color:var(--muted);font-size:.82rem;line-height:1.2}
+.stars{display:flex;gap:3px;margin-top:4px}.stars i{width:18px;height:18px;background:#3a4570;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}.stars i.on{background:var(--gold)}
+#sRes .stars{justify-content:center}#sRes .stars i{width:46px;height:46px}
+.qx{border:0;background:#141a30;color:var(--muted);font:inherit;font-weight:800;font-size:.85rem;border-radius:10px;padding:7px 11px;cursor:pointer;flex:none}
+.prog{display:flex;gap:4px;margin-top:4px}.prog i{flex:1;height:8px;border-radius:4px;background:#2c365a}.prog i.on{background:var(--ok)}.prog i.cur{background:var(--gold)}
+#exTop{display:flex;gap:10px;align-items:center}
+.qbox{background:linear-gradient(180deg,#26305a,#1d2547);border-radius:24px;padding:16px;display:flex;flex-direction:column;gap:12px;align-items:stretch}
+.qp{font-size:1.22rem;font-weight:700;line-height:1.3;text-align:center}.qp b{color:var(--gold)}
+.qv{display:flex;justify-content:center}
+.opts{display:grid;gap:10px}.opts.c1{grid-template-columns:1fr}.opts.c2{grid-template-columns:1fr 1fr}.opts.c4{grid-template-columns:repeat(4,1fr)}
+.opt{border:4px solid transparent;font:inherit;font-weight:800;font-size:1.15rem;color:var(--text);background:var(--rock2);border-radius:18px;min-height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.4);padding:8px;line-height:1.2}
+.opt.good{border-color:var(--ok);background:#1f5a3c}.opt.wrong{border-color:var(--bad);background:#5a1f2a}.opt small{font-size:.75rem;color:var(--muted)}
+.opts.frise{gap:0;border-radius:16px;overflow:hidden}.opts.frise .opt{border-radius:0;border-right:2px solid #141a30;min-height:80px}.opts.frise .opt:nth-child(odd){background:#33406b}
+.evt{display:inline-block;margin-top:6px;background:#fff3c4;color:#3a2600;border-radius:12px;padding:6px 12px;font-weight:800}
+.tab{font-family:Georgia,serif;font-weight:700;font-size:2.8rem;letter-spacing:3px;color:#4a3216;background:#d8c3a0;border:5px solid #9c7a4a;border-radius:16px;padding:8px 22px;text-align:center;min-width:140px;align-self:center;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}
+.tab.sm{font-size:2rem;min-width:90px;min-height:70px;padding:6px 14px}.tab small{font-family:'Baloo 2';font-size:.95rem;letter-spacing:0;color:#6b4f2a}
+.tab.good{border-color:var(--ok)}.tab.wrong{border-color:var(--bad)}.tab s{color:#a33}
+.feed{text-align:center;font-size:1.15rem;font-weight:700}.feed span{display:block;font-size:1rem;color:var(--muted);font-weight:600}.feed.ok b{color:var(--ok)}.feed.no b{color:var(--bad)}
+.inrow{display:flex;gap:8px;justify-content:center;align-items:center}.inrow .h{font-size:2rem}
+.inf{display:flex;flex-direction:column;align-items:center;color:var(--muted);font-weight:700}
+.inf input{width:96px;font:inherit;font-size:2rem;font-weight:800;text-align:center;border-radius:14px;border:4px solid var(--rock2);background:#141a30;color:var(--text);padding:4px}
+.inf input.foc{border-color:var(--gold)}.inf input.good{border-color:var(--ok)}.inf input.wrong{border-color:var(--bad)}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.pk{font:inherit;font-weight:800;font-size:1.4rem;border:0;border-radius:14px;padding:10px;background:var(--rock2);color:var(--text);box-shadow:0 4px 0 #141a30;cursor:pointer}.pk.go{background:var(--gold);color:#3a2600;font-size:1rem}
+.erow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.oslots{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:70px}.os{min-width:62px;min-height:62px;border-radius:14px;border:3px dashed #4a5a90;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;color:var(--muted);padding:4px 8px;font-size:1rem}
+.os.f{border-style:solid;border-color:var(--gold);color:var(--text);background:#2c365a}.os.good{border-color:var(--ok)}.os.wrong{border-color:var(--bad)}.os svg{width:56px;height:56px}
+.oitems{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.oi{font:inherit;font-weight:800;font-size:1.05rem;border:0;border-radius:14px;padding:10px 12px;background:var(--rock2);color:var(--text);box-shadow:0 4px 0 #141a30;cursor:pointer;display:flex;flex-direction:column;align-items:center}.oi:disabled{opacity:.25}.oi small,.os small{font-size:.75rem;color:var(--muted)}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:12px}.match>div{display:flex;flex-direction:column;gap:8px}
+.mt{font:inherit;font-weight:800;font-size:1rem;border:3px solid transparent;border-radius:14px;padding:8px;background:var(--rock2);color:var(--text);min-height:58px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.2}
+.mt.sel{border-color:var(--gold);transform:scale(1.04)}.mt.bad{border-color:var(--bad)}.mt.done{opacity:.95}.mt.c0{border-color:#3ddc84}.mt.c1{border-color:#4d96ff}.mt.c2{border-color:#ff9f43}.mt.c3{border-color:#ff6b9d}.mt small{color:var(--muted);font-size:.78rem}
+.ctext{font-size:1.15rem;line-height:2.1;background:#141a30;border-radius:16px;padding:12px}
+.blank{font:inherit;font-weight:800;border:0;border-bottom:3px solid var(--gold);background:#2c365a;color:var(--gold);border-radius:8px;padding:0 10px;min-width:54px;cursor:pointer}.blank.cur{outline:2px solid var(--gold)}.blank.good{background:#1f5a3c;color:#fff}.blank.wrong{background:#5a1f2a;color:#fff}
+.bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.tile{font:inherit;font-weight:800;font-size:1.05rem;border:0;border-radius:12px;padding:8px 12px;background:var(--gold);color:#3a2600;box-shadow:0 4px 0 #b98a00;cursor:pointer}.tile:disabled{opacity:.25}.tile.big{font-size:1.8rem;min-width:62px}
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.mc{position:relative;aspect-ratio:1/1;border:0;border-radius:14px;background:#5b7cff;color:#fff;font:inherit;font-weight:800;cursor:pointer;box-shadow:0 4px 0 #34479e;overflow:hidden}
+.mc .front{display:none}.mc.up{background:#fffbe9;color:#2a1a40}.mc.up .back{display:none}.mc.up .front{display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:1.05rem}.mc.ok{background:#c9f5dc}.mc .back{font-size:1.8rem}.mc svg{width:90%;height:90%}
+.cal{background:#fff;color:#2a1a40;border-radius:14px;padding:8px;width:100%;max-width:330px}.calh{text-align:center;font-weight:800;background:#ff6b9d;color:#fff;border-radius:8px;margin-bottom:6px}
+.calg{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;font-weight:700}.calg b{color:#ff6b9d}.calg span{background:#f2f0fa;border-radius:6px;padding:2px 0}
+.bossrow{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#3a1240,#1d2547);border:2px solid #ff4d6d;border-radius:18px;padding:8px}
+.mbox{position:relative;width:96px;flex:none}.mbox .monster{width:96px;height:108px;display:block;animation:mw 1.4s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes mw{50%{transform:rotate(-4deg) scale(1.04)}}.mbox.hit .monster{animation:mhit .55s}@keyframes mhit{20%{transform:translateX(-12px) rotate(-10deg);filter:brightness(1.8) sepia(1) hue-rotate(-40deg) saturate(4)}40%{transform:translateX(12px) rotate(10deg)}}
+.mbox.laugh .monster{animation:mlg .3s 4}@keyframes mlg{50%{transform:translateY(-12px) scale(1.08)}}
+.bubble{position:absolute;top:-10px;left:62px;white-space:nowrap;background:#fff;color:#2a1a40;font-weight:800;font-size:.82rem;padding:3px 10px;border-radius:12px;z-index:2}
+.hp{display:flex;flex-direction:column;gap:6px;font-weight:800;font-size:.85rem;flex:1;padding-top:14px;line-height:1.2}.hrt{color:#3a4570;font-size:1.3rem;margin-right:1px}.hrt.on{color:#ff4d6d}.hrt.me.on{color:#3ddc84}
+.mmini{width:110px}.mmini .monster{width:110px;height:124px;display:block;animation:mw 1.4s ease-in-out infinite;transform-origin:50% 100%}
+.stage{background:#141a30;border-radius:22px;padding:14px;min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.guide{display:flex;gap:10px;align-items:flex-start}.guide img{width:62px;height:62px;border-radius:50%;object-fit:cover;object-position:50% 15%;border:3px solid var(--gold);flex:none}
+.cap{background:#fff;color:#2a1a40;border-radius:18px 18px 18px 4px;padding:10px 14px;font-weight:700;font-size:1.1rem;line-height:1.35}
+.dots{display:flex;gap:5px;justify-content:center}.dots i{width:10px;height:10px;border-radius:50%;background:#2c365a}.dots i.on{background:var(--gold);transform:scale(1.3)}.dots i.done{background:#5b7cff}
+.chips2{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}.chipd{background:#2c365a;border-radius:12px;padding:6px 10px;font-weight:800;color:var(--muted);transition:all .3s;text-align:center;line-height:1.1}
+.chipd.on{background:var(--gold);color:#3a2600;transform:scale(1.06)}.chipd small{display:block;font-size:.72rem}.chipd.l31{background:#ffd447}.chipd.l30{background:#b388ff}.chipd.l28{background:#ff6b9d;color:#fff}
+.romrow{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.bigt{background:linear-gradient(135deg,#5b7cff,#ff6b9d);color:#fff;font-weight:800;font-size:1.3rem;border-radius:18px;padding:12px 16px;text-align:center;line-height:1.3}
+.datec{background:#fff;color:#2a1a40;border-radius:18px;padding:10px 26px;text-align:center;border-top:18px solid #ff6b9d}.datec b{display:block;font-size:3rem;line-height:1}.datec span{font-weight:800;font-size:1.3rem}.datec small{display:block;color:#8a7fb0;font-weight:700}
+.frz{display:flex;width:100%;overflow-x:auto;border-radius:12px}.seg{flex:1;min-width:70px;background:#2c365a;border-right:2px solid #141a30;padding:6px 4px;display:flex;flex-direction:column;gap:4px;align-items:center}.seg:nth-child(odd){background:#33406b}.seg b{font-family:Georgia,serif}
+.ev{background:#fff3c4;color:#3a2600;border-radius:8px;padding:2px 6px;font-weight:800;font-size:.85rem;text-align:center;line-height:1.1}.ev small{display:block;font-size:.65rem}
+.memo{display:flex;gap:12px;align-items:flex-start;background:var(--rock);border-radius:18px;padding:12px 14px}.memo span{flex:none;width:34px;height:34px;border-radius:50%;background:var(--gold);color:#3a2600;font-weight:800;display:flex;align-items:center;justify-content:center}.memo p{font-size:1.1rem;line-height:1.35}.memo b{color:var(--gold)}
+.pod{display:flex;flex-direction:column;gap:8px;background:var(--rock);border-radius:18px;padding:14px}.pod p{line-height:1.4}audio{width:100%}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}.stats div{background:#141a30;border-radius:16px;padding:10px 4px}.stats b{font-size:1.6rem;color:var(--gold);display:block;line-height:1}.stats small{color:var(--muted);font-weight:700;font-size:.8rem}
+.badges{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px}.badge{text-align:center;background:#141a30;border-radius:14px;padding:6px 2px;color:var(--muted)}.badge b{display:block;font-size:1.6rem;color:#3a4570}.badge.on b{color:var(--c)}.badge small{font-size:.65rem;line-height:1.1;display:block}
+#nav{position:fixed;left:0;right:0;bottom:0;z-index:15;display:flex;justify-content:center;gap:4px;padding:6px 8px calc(6px + env(safe-area-inset-bottom));background:rgba(15,20,38,.94);backdrop-filter:blur(8px);border-top:2px solid #1f2742}
+#nav button{flex:1;max-width:110px;border:0;background:none;color:var(--muted);font:inherit;font-weight:800;font-size:.75rem;display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:4px;border-radius:12px}#nav svg{width:24px;height:24px;display:block}
+.spark{position:fixed;width:16px;height:16px;z-index:40;pointer-events:none;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);animation:spk .9s ease-out forwards}@keyframes spk{to{transform:translate(var(--dx),var(--dy)) rotate(280deg) scale(.3);opacity:0}}
+.floatxp{position:fixed;z-index:41;transform:translateX(-50%);font-weight:800;font-size:1.6rem;color:var(--gold);text-shadow:0 3px 0 #8a5a00;pointer-events:none;animation:fx 1.4s ease-out forwards}@keyframes fx{to{transform:translate(-50%,-90px);opacity:0}}
+.toast{position:fixed;left:50%;top:16%;z-index:45;transform:translateX(-50%);background:linear-gradient(135deg,#5b7cff,#ff6b9d);padding:14px 26px;border-radius:22px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.5);animation:tst 2.4s ease forwards;pointer-events:none;min-width:200px}.toast b{display:block;font-size:1.6rem;color:#fff}.toast span{color:#fff;font-weight:700}
+@keyframes tst{0%{transform:translate(-50%,-30px) scale(.5);opacity:0}15%{transform:translate(-50%,0) scale(1.1);opacity:1}25%{transform:translate(-50%,0) scale(1)}85%{opacity:1}100%{opacity:0}}
+.conf{position:fixed;top:-20px;width:10px;height:16px;z-index:30;animation:fall linear forwards;pointer-events:none}@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+.pop{animation:popin .4s cubic-bezier(.3,1.6,.5,1) both}@keyframes popin{from{transform:scale(.4);opacity:0}}
+.shake{animation:sh .4s}@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.clk{max-width:100%;height:auto}
+</style>
+</head>
+<body>
+<div id="sky"></div>
+<section id="sStart" class="screen">
+  <img class="bigface" src="heroes/luna.jpg" alt="">
+  <h1>Les Gardiens<br>du Temps</h1>
+  <p class="sub">Le monstre Papa a volé les aiguilles du temps ! Apprends à lire l'heure, les jours, les mois, les chiffres romains et les siècles pour les récupérer.</p>
+  <h2>Qui joue ?</h2>
+  <div class="plist" id="plist"></div>
+  <button class="btn gold" onclick="newProfile()">+ Nouvelle gardienne ou nouveau gardien</button>
+</section>
+<section id="sEdit" class="screen">
+  <h2 style="text-align:center">Choisis ton héros</h2>
+  <img class="bigface" id="edPrev" alt="">
+  <div class="card"><input type="text" id="edName" maxlength="16" placeholder="Ton prénom" oninput="nameIn(this.value)"></div>
+  <div class="hgrid" id="edHeroes"></div>
+  <p class="msg" id="edMsg"></p>
+  <button class="btn gold" onclick="saveEd()">C'est parti !</button>
+</section>
+<section id="sMap" class="screen">
+  <div class="topbar" id="mapTop"></div>
+  <h1 style="font-size:1.7rem">La carte du temps</h1>
+  <p class="sub" style="margin-top:-8px">Choisis une île. Dans chacune, une leçon, un podcast, une fiche mémo, des exercices et un monstre à battre.</p>
+  <div class="mods" id="mods"></div>
+</section>
+<section id="sMod" class="screen">
+  <div class="row"><button class="btn small ghost" onclick="goMap()">Carte</button></div>
+  <div class="row" id="modHead"></div>
+  <h2>1. J'apprends</h2>
+  <div class="learns" id="modLearn"></div>
+  <h2>2. Je m'entraîne</h2>
+  <div class="chips" id="modLv"></div>
+  <div class="exs" id="modEx"></div>
+  <h2>3. Je relève le défi</h2>
+  <div id="modBoss"></div>
+</section>
+<section id="sEx" class="screen">
+  <div id="exTop"></div>
+  <div id="exBoss"></div>
+  <div class="qbox" id="exBox"></div>
+  <div class="feed" id="exFeed"></div>
+  <button class="btn gold" id="exNext" onclick="exNextClick()" hidden>Continuer</button>
+</section>
+<section id="sRes" class="screen"><div id="resBox" style="display:flex;flex-direction:column;gap:14px;align-items:stretch;text-align:center"></div></section>
+<section id="sLesson" class="screen">
+  <div class="row"><button class="btn small ghost" onclick="lsExit()">Retour</button><h2 class="grow" id="lsTitle" style="text-align:center"></h2></div>
+  <div class="stage" id="lsStage"></div>
+  <div class="guide"><img src="heroes/luna.jpg" alt=""><div class="cap" id="lsCap"></div></div>
+  <div class="dots" id="lsDots"></div>
+  <div class="erow"><button class="btn small ghost" onclick="lsPrev()">Précédent</button><button class="btn small gold" id="lsPlay" onclick="lsToggle()">Pause</button><button class="btn small ghost" onclick="lsNext()">Suivant</button></div>
+</section>
+<section id="sPod" class="screen">
+  <div class="row"><button class="btn small ghost" onclick="podExit()">Retour</button><h2 class="grow" id="podTitle" style="text-align:center"></h2></div>
+  <div class="guide"><img src="heroes/luna.jpg" alt=""><div class="cap">Installe-toi bien et écoute. Tu peux suivre le texte en même temps.</div></div>
+  <audio id="podAudio" controls preload="none"></audio>
+  <div class="pod" id="podTxt"></div>
+</section>
+<section id="sMemo" class="screen">
+  <div class="row"><button class="btn small ghost" onclick="openMod(MOD)">Retour</button><h2 class="grow" id="memoTitle" style="text-align:center"></h2></div>
+  <div id="memoBody" style="display:flex;flex-direction:column;gap:10px"></div>
+</section>
+<section id="sProf" class="screen"><div id="prBox" style="display:flex;flex-direction:column;gap:14px"></div></section>
+<nav id="nav">
+  <button onclick="navHome()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg><span>Accueil</span></button>
+  <button onclick="navMap()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Carte</span></button>
+  <button onclick="navProf()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg><span>Profil</span></button>
+  <button onclick="toggleVol()"><span id="volIco"></span><span id="volTxt">Son</span></button>
+</nav>
+<script>
+/* ================= Les Gardiens du Temps ================= */
+const CT={"L": {"heure": {"title": "Lire l'heure", "scenes": [["Bonjour, je suis Luna, gardienne du temps ! Aujourd'hui, on apprend à lire l'heure sur une pendule.", {"clock": [10, 10]}], ["Regarde bien. La pendule a deux aiguilles. La petite aiguille montre les heures.", {"clock": [3, 0], "hl": "h"}], ["La grande aiguille montre les minutes. Quand elle est tout en haut, sur le douze, c'est l'heure pile.", {"clock": [3, 0], "hl": "m"}], ["Ici, la petite aiguille est sur le trois et la grande aiguille sur le douze. Il est trois heures pile.", {"clock": [3, 0], "big": "3 h 00"}], ["Quand la grande aiguille fait un tour complet, une heure passe, et la petite aiguille avance d'un chiffre.", {"anim": [[3, 0], [4, 0]]}], ["Pour la grande aiguille, chaque chiffre vaut cinq minutes. Sur le un, cinq minutes. Sur le deux, dix minutes. Sur le trois, quinze minutes.", {"anim": [[4, 0], [4, 15]], "big": "5, 10, 15 minutes"}], ["Quand la grande aiguille est sur le trois, on dit et quart. Il est quatre heures et quart.", {"clock": [4, 15], "big": "4 h 15, quatre heures et quart"}], ["Sur le six, la grande aiguille a fait la moitié du tour. On dit et demie. Il est quatre heures et demie.", {"clock": [4, 30], "big": "4 h 30, quatre heures et demie"}], ["Sur le neuf, il manque un quart d'heure pour arriver à cinq heures. On dit cinq heures moins le quart.", {"clock": [4, 45], "big": "4 h 45, cinq heures moins le quart"}], ["Une journée dure vingt-quatre heures. L'après-midi, on ajoute douze. Deux heures de l'après-midi, c'est quatorze heures.", {"clock": [2, 0], "big": "2 h de l'après-midi = 14 h 00"}], ["À toi de jouer ! Entraîne-toi avec les exercices, et attention au monstre Papa qui veut voler les aiguilles !", {"clock": [10, 10], "monster": 1}]]}, "calendrier": {"title": "Les jours et les mois", "scenes": [["Une semaine compte sept jours. Lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche.", {"days": "seq"}], ["Après dimanche, une nouvelle semaine recommence avec lundi.", {"days": [6, 0]}], ["Hier, c'est le jour d'avant. Demain, c'est le jour d'après. Si aujourd'hui c'est mercredi, hier c'était mardi, et demain ce sera jeudi.", {"days": [1, 2, 3], "tags": ["hier", "aujourd'hui", "demain"]}], ["Une année compte douze mois. Janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre.", {"months": "seq"}], ["Les mois n'ont pas tous le même nombre de jours. Certains ont trente et un jours, d'autres trente. Février est le plus court, avec vingt-huit jours, ou vingt-neuf tous les quatre ans.", {"months": "len"}], ["Une astuce. Ferme tes poings et compte sur les bosses et les creux. Sur une bosse, le mois a trente et un jours. Dans un creux, il en a trente, ou moins pour février.", {"months": "len"}], ["Une année compte trois cent soixante-cinq jours, c'est à peu près cinquante-deux semaines.", {"big": "1 an = 12 mois = 52 semaines = 365 jours"}], ["Pour écrire une date, on donne le jour, le mois et l'année. Par exemple, le quinze novembre deux mille vingt-six.", {"date": ["15", "novembre", "2026"]}]]}, "romains": {"title": "Les chiffres romains", "scenes": [["Il y a très longtemps, les Romains écrivaient les nombres avec des lettres.", {"roman": ["I", "V", "X", "L", "C"]}], ["I vaut un. V vaut cinq. X vaut dix. L vaut cinquante. C vaut cent.", {"roman": ["I", "V", "X", "L", "C"], "sub": ["1", "5", "10", "50", "100"]}], ["Pour écrire deux et trois, on répète le I. Deux, c'est deux I. Trois, c'est trois I.", {"roman": ["II", "III"], "sub": ["2", "3"]}], ["Quand un petit chiffre est placé après un plus grand, on l'ajoute. V I, c'est cinq plus un, donc six. X V, c'est dix plus cinq, donc quinze.", {"roman": ["VI", "XV"], "sub": ["5 + 1 = 6", "10 + 5 = 15"]}], ["Quand un petit chiffre est placé avant un plus grand, on le retire. I V, c'est cinq moins un, donc quatre. I X, c'est dix moins un, donc neuf.", {"roman": ["IV", "IX"], "sub": ["5 − 1 = 4", "10 − 1 = 9"]}], ["Attention, on ne répète jamais un chiffre plus de trois fois. Quatre ne s'écrit pas avec quatre I, mais I V.", {"roman": ["IIII", "IV"], "sub": ["faux", "juste"]}], ["Pour lire un grand nombre, on le découpe en morceaux. X X I V, c'est dix, plus dix, plus quatre, donc vingt-quatre.", {"roman": ["XXIV"], "sub": ["10 + 10 + 4 = 24"]}], ["On trouve les chiffres romains sur certaines pendules, sur les monuments, et pour écrire les siècles !", {"clock": [3, 0], "rclock": 1}]]}, "siecles": {"title": "Les années et les siècles", "scenes": [["Une décennie dure dix ans. Un siècle dure cent ans. Un millénaire dure mille ans.", {"big": "10 ans = 1 décennie · 100 ans = 1 siècle · 1 000 ans = 1 millénaire"}], ["Nous sommes en deux mille vingt-six. Nous vivons au vingt et unième siècle, qu'on écrit X X I.", {"big": "2026 → XXIe siècle"}], ["Le vingt et unième siècle a commencé en deux mille un, et il finira en l'an deux mille cent.", {"big": "XXIe siècle, de 2001 à 2100"}], ["Pour trouver le siècle d'une année, on regarde le nombre de centaines et on ajoute un. Mille sept cent quatre-vingt-neuf. Dix-sept centaines, plus un, dix-huit. C'est le dix-huitième siècle.", {"big": "1789 → 17 + 1 = 18 → XVIIIe siècle"}], ["Attention aux années rondes ! L'an mille cinq cents appartient encore au quinzième siècle, car un siècle se termine toujours par une année en zéro zéro.", {"big": "1500 → XVe siècle (il finit en 1500)"}], ["Sur une frise chronologique, on range les événements du plus ancien au plus récent.", {"frise": 1}], ["Par exemple, la Révolution française en mille sept cent quatre-vingt-neuf, au dix-huitième siècle. Et les premiers pas sur la Lune en mille neuf cent soixante-neuf, au vingtième siècle.", {"frise": [1789, 1969]}], ["Et toi, tu es née au vingt et unième siècle ! Maintenant, entraîne-toi pour devenir une vraie gardienne du temps.", {"big": "XXIe siècle", "monster": 1}]]}}, "FB": {"f_bravo": "Bravo !", "f_super": "Super !", "f_excellent": "Excellent !", "f_genial": "Génial !", "f_presque": "Presque ! Regarde bien la correction.", "f_essaie": "Essaie encore, tu vas y arriver !", "f_win": "Bravo ! Tu as battu le monstre Papa ! Tu es une vraie gardienne du temps !", "f_lose": "Le monstre Papa a gagné cette fois. Réessaie, tu vas l'avoir !", "f_boss": "Grrr ! Je suis le monstre Papa, et j'ai volé les aiguilles du temps !"}};
+const KEY='gardiens-temps-v1';
+const $=id=>document.getElementById(id);
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const pad=n=>String(n).padStart(2,'0');
+function uniq(list,keyf){const s=new Set();return list.filter(x=>{const k=keyf(x);if(s.has(k))return false;s.add(k);return true})}
+let DB={profiles:[],current:null};
+function load(){try{const r=localStorage.getItem(KEY);if(r)DB=JSON.parse(r)}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(DB))}catch(e){}}
+const P=()=>DB.profiles.find(p=>p.id===DB.current);
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));window.scrollTo(0,0)}
+
+/* ---------- sons ---------- */
+const player=new Audio();let AC;
+function play(k){if(!k)return;try{player.pause();player.src='audio/'+k+'.mp3';player.play().catch(()=>{})}catch(e){}}
+function sfx(type){try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();const T={ok:[660,880,1175],win:[523,659,784,1047,1319],tap:[520],bad:[230,170],hit:[200,130],laugh:[640,520,640,520],flip:[700]},n=T[type]||T.tap;n.forEach((f,i)=>{const t=AC.currentTime+i*.1,o=AC.createOscillator(),g=AC.createGain();o.type=type==='bad'?'sawtooth':type==='hit'?'square':'triangle';o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(type==='bad'?.07:.16,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.22);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+.26)})}catch(e){}}
+const music=new Audio();music.loop=true;let track='',VOLS=[0,.25,.5],volI=1,musicOn=false;
+try{const v=localStorage.getItem(KEY+'-vol');if(v!==null)volI=+v}catch(e){}
+function setTrack(t){if(t===track)return;track=t;music.src='music/'+t+'.mp3';music.volume=VOLS[volI];if(musicOn&&volI)music.play().catch(()=>{})}
+document.addEventListener('pointerdown',()=>{if(musicOn)return;musicOn=true;if(!track)setTrack('cinematique');music.volume=VOLS[volI];if(volI)music.play().catch(()=>{})},{once:true});
+function toggleVol(){volI=(volI+1)%3;try{localStorage.setItem(KEY+'-vol',volI)}catch(e){}music.volume=VOLS[volI];if(volI){musicOn=true;music.play().catch(()=>{})}else music.pause();drawVol();toast(`<b>Musique</b><span>${['coupée','douce','forte'][volI]}</span>`)}
+function drawVol(){$('volIco').innerHTML=`<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/>${volI>0?'<path d="M16 9a4 4 0 0 1 0 6"/>':''}${volI>1?'<path d="M19 6a8 8 0 0 1 0 12"/>':''}${volI?'':'<path d="M16 9l5 6M21 9l-5 6"/>'}</svg>`;$('volTxt').textContent=['Muet','Son','Son +'][volI]}
+player.onplay=()=>{music.volume=VOLS[volI]*.25};player.onended=()=>{music.volume=VOLS[volI]};
+
+/* ---------- effets ---------- */
+function toast(h){const t=document.createElement('div');t.className='toast';t.innerHTML=h;document.body.appendChild(t);setTimeout(()=>t.remove(),2400)}
+function burst(el){if(!el)return;const r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,cols=['#ffd447','#fff','#ff9f43','#3ddc84','#4d96ff','#ff6b9d'];for(let i=0;i<16;i++){const s=document.createElement('div');s.className='spark';const a=Math.random()*Math.PI*2,d=50+Math.random()*90;s.style.left=cx+'px';s.style.top=cy+'px';s.style.setProperty('--dx',Math.cos(a)*d+'px');s.style.setProperty('--dy',Math.sin(a)*d+'px');s.style.background=rnd(cols);document.body.appendChild(s);setTimeout(()=>s.remove(),900)}}
+function confetti(){const cols=['#ffd447','#ff6b9d','#3ddc84','#4d96ff','#b388ff','#ff9f43'];for(let i=0;i<70;i++){const d=document.createElement('div');d.className='conf';d.style.left=Math.random()*100+'vw';d.style.background=rnd(cols);d.style.animationDuration=(2+Math.random()*2)+'s';d.style.animationDelay=Math.random()*.6+'s';document.body.appendChild(d);setTimeout(()=>d.remove(),5000)}}
+
+/* ---------- savoirs ---------- */
+const U=['zéro','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','onze','douze','treize','quatorze','quinze','seize'];
+function nfr(n){if(n<17)return U[n];if(n<20)return 'dix-'+U[n-10];if(n===100)return 'cent';const t=Math.floor(n/10),u=n%10;if(t===7||t===9){const b=t===7?'soixante':'quatre-vingt',r=n-(t===7?60:80);return b+(t===7&&r===11?' et ':'-')+nfr(r)}const b={2:'vingt',3:'trente',4:'quarante',5:'cinquante',6:'soixante',8:'quatre-vingt'}[t];if(!u)return b+(t===8?'s':'');if(u===1&&t!==8)return b+' et un';return b+'-'+U[u]}
+const HW=['minuit','une','deux','trois','quatre','cinq','six','sept','huit','neuf','dix','onze','midi'];
+const h12=h=>((h-1)%12+12)%12+1;
+function hw(h){h=h12(h);return h===12?'midi':HW[h]+(h===1?' heure':' heures')}
+function tw(h,m){if(m===0)return hw(h);if(m===15)return hw(h)+' et quart';if(m===30)return hw(h)+(h12(h)===12?' et demi':' et demie');if(m<30)return hw(h)+' '+nfr(m);const r=60-m;return hw(h12(h)+1)+' moins '+(r===15?'le quart':nfr(r))}
+const fd=(h,m)=>`${h} h ${pad(m)}`;
+const ROM=[[100,'C'],[90,'XC'],[50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']];
+function roman(n){let s='';for(const[v,r]of ROM)while(n>=v){s+=r;n-=v}return s}
+const DAYS=['lundi','mardi','mercredi','jeudi','vendredi','samedi','dimanche'];
+const MONTHS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+const MDAYS=[31,28,31,30,31,30,31,31,30,31,30,31];
+const ORD=n=>n===1?'1er':n+'e';
+const century=y=>Math.floor((y-1)/100)+1;
+const sie=c=>roman(c)+'e siècle';
+const EVENTS=[[800,'Charlemagne devient empereur'],[987,'Hugues Capet devient roi de France'],[1163,'On commence à construire Notre-Dame de Paris'],[1429,'Jeanne d’Arc délivre Orléans'],[1492,'Christophe Colomb arrive en Amérique'],[1515,'La bataille de Marignan'],[1610,'Mort du roi Henri IV'],[1643,'Louis XIV devient roi'],[1789,'La Révolution française'],[1804,'Napoléon devient empereur'],[1903,'Le premier vol en avion'],[1969,'Les premiers pas sur la Lune'],[2016,'Naissance de Mayla'],[2019,'Naissance d’Inaya']];
+const NAMES=['Inaya','Mayla','Luna','Papa','Maman'];
+const ACTS=[['se réveille',[6,7]],['prend son petit-déjeuner',[7,8]],['part à l’école',[8,8]],['va à la récréation',[10,10]],['mange à la cantine',[12,12]],['goûte',[16,16]],['fait ses devoirs',[17,18]],['dîne',[19,20]],['se couche',[20,21]]];
+
+/* ---------- horloge ---------- */
+function clockSVG(h,m,o={}){const s=o.size||170,ma=(h*60+m)*6,ha=(h12(h)%12+m/60)*30;let t='';for(let i=0;i<60;i++){const a=i*6*Math.PI/180,r1=i%5?86:79;t+=`<line x1="${(100+Math.sin(a)*r1).toFixed(1)}" y1="${(100-Math.cos(a)*r1).toFixed(1)}" x2="${(100+Math.sin(a)*92).toFixed(1)}" y2="${(100-Math.cos(a)*92).toFixed(1)}" stroke="#4a3d6b" stroke-width="${i%5?1.2:3}"/>`}
+ const nums=Array.from({length:12},(_,i)=>{const n=i+1,a=n*30*Math.PI/180,lab=o.roman?roman(n):n;return `<text x="${(100+Math.sin(a)*64).toFixed(1)}" y="${(100-Math.cos(a)*64+(o.roman?6:8)).toFixed(1)}" text-anchor="middle" font-size="${o.roman?(lab.length>2?14:18):22}" font-weight="800" fill="#2a1a40" font-family="${o.roman?'Georgia,serif':'Baloo 2,sans-serif'}">${lab}</text>`}).join('');
+ const mins=o.mins?Array.from({length:12},(_,i)=>{const a=i*30*Math.PI/180;return `<text x="${(100+Math.sin(a)*104).toFixed(1)}" y="${(100-Math.cos(a)*104+4).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="800" fill="#ff8fa3" font-family="Baloo 2,sans-serif">${i*5}</text>`}).join(''):'';
+ const hl=o.hl;const tr=o.tr?`transition:transform ${o.tr}ms ease-in-out;`:'';
+ return `<svg class="clk" width="${s}" height="${s}" viewBox="${o.mins?'-16 -16 232 232':'0 0 200 200'}"><circle cx="100" cy="100" r="97" fill="#fffbe9" stroke="#ffd447" stroke-width="6"/>${t}${nums}${mins}<g class="hh" style="transform-origin:100px 100px;transform:rotate(${ha}deg);${tr}"><line x1="100" y1="112" x2="100" y2="50" stroke="${hl==='h'?'#3ddc84':'#2a1a40'}" stroke-width="${hl==='h'?11:9}" stroke-linecap="round"/></g><g class="mh" style="transform-origin:100px 100px;transform:rotate(${ma}deg);${tr}"><line x1="100" y1="116" x2="100" y2="22" stroke="${hl==='m'?'#3ddc84':'#ff4d6d'}" stroke-width="${hl==='m'?7:5}" stroke-linecap="round"/></g><circle cx="100" cy="100" r="7" fill="#2a1a40"/></svg>`}
+function setHands(svg,h,m){const hh=svg.querySelector('.hh'),mh=svg.querySelector('.mh');hh.style.transform=`rotate(${(h12(h)%12+m/60)*30}deg)`;mh.style.transform=`rotate(${(h*60+m)*6}deg)`}
+
+/* ---------- monstre Papa ---------- */
+function spiky(){let p=[];for(let i=0;i<36;i++){const a=i/36*Math.PI*2,r=i%2?78:90;p.push((100+Math.cos(a)*r*.95).toFixed(1)+','+(140+Math.sin(a)*r*.85).toFixed(1))}return p.join(' ')}
+function monsterSVG(){return `<svg class="monster" viewBox="-10 -12 220 248"><defs><clipPath id="mface"><ellipse cx="100" cy="88" rx="50" ry="58"/></clipPath><radialGradient id="mfur" cx=".45" cy=".35" r=".75"><stop offset="0" stop-color="#b07cff"/><stop offset="1" stop-color="#4b1f8a"/></radialGradient></defs><path d="M58 52 Q24 18 40 -6 Q56 26 78 36Z" fill="#f6e7c8" stroke="#c9a96b" stroke-width="3"/><path d="M142 52 Q176 18 160 -6 Q144 26 122 36Z" fill="#f6e7c8" stroke="#c9a96b" stroke-width="3"/><path d="M32 132 Q4 150 12 186" stroke="#6a33b8" stroke-width="22" stroke-linecap="round" fill="none"/><path d="M168 132 Q196 112 192 78" stroke="#6a33b8" stroke-width="22" stroke-linecap="round" fill="none"/><polygon points="${spiky()}" fill="url(#mfur)"/><ellipse cx="70" cy="222" rx="24" ry="11" fill="#4b1f8a"/><ellipse cx="130" cy="222" rx="24" ry="11" fill="#4b1f8a"/><ellipse cx="100" cy="88" rx="57" ry="65" fill="#2e0f5c"/><image href="heroes/papa.jpg" x="48" y="28" width="104" height="120" clip-path="url(#mface)" preserveAspectRatio="xMidYMid slice"/><ellipse cx="100" cy="88" rx="52" ry="60" fill="none" stroke="#9b6bff" stroke-width="5" stroke-dasharray="7 5"/><g transform="translate(150,150) rotate(20)"><circle r="22" fill="#fffbe9" stroke="#ffd447" stroke-width="4"/><line x1="0" y1="0" x2="0" y2="-14" stroke="#2a1a40" stroke-width="4" stroke-linecap="round"/><line x1="0" y1="0" x2="10" y2="0" stroke="#ff4d6d" stroke-width="3" stroke-linecap="round"/></g></svg>`}
+
+/* ---------- héros ---------- */
+const HEROES=[['mayla','Mayla'],['inaya','Inaya'],['luna','Luna'],['mayla3d','Mayla 3D'],['inaya3d','Inaya 3D'],...Array.from({length:10},(_,i)=>['h'+pad(i+1),''])];
+const himg=h=>'heroes/'+h+'.jpg';
+const face=p=>`<img class="hface" src="${himg(p.hero)}" alt="">`;
+
+/* ---------- XP ---------- */
+const RANKS=['Apprentie du temps','Lectrice d’horloge','Gardienne des jours','Maîtresse des mois','Experte des chiffres romains','Gardienne des siècles','Reine du temps'];
+const XPL=150,lvl=p=>Math.floor((p.xp||0)/XPL)+1,rank=p=>RANKS[Math.min(lvl(p)-1,RANKS.length-1)];
+function xpBar(p){const x=(p.xp||0)%XPL;return `<div class="xpbar"><i style="width:${x/XPL*100}%"></i><span>Niveau ${lvl(p)} · ${x}/${XPL} XP</span></div>`}
+function addXP(n,el){const p=P(),b=lvl(p);p.xp=(p.xp||0)+n;save();const r=(el||document.body).getBoundingClientRect(),d=document.createElement('div');d.className='floatxp';d.textContent='+'+n+' XP';d.style.left=(r.left+r.width/2)+'px';d.style.top=Math.max(50,r.top)+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),1400);if(lvl(p)>b)setTimeout(()=>{sfx('win');confetti();toast(`<b>NIVEAU ${lvl(p)} !</b><span>${rank(p)}</span>`)},600)}
+
+/* ================= générateurs d'exercices ================= */
+const Q=(kind,o)=>Object.assign({kind},o);
+const qcm=(p,v,opts,o={})=>Q('qcm',Object.assign({p,v,opts:shuffle(opts)},o));
+function tRand(l){return [ri(1,12),l===1?rnd([0,30]):l===2?rnd([0,15,30,45]):5*ri(0,11)]}
+function tDistr(h,m,l){const c=[];if(m%5===0&&m>0&&m/5!==h12(h))c.push([m/5,(h12(h)%12)*5]);c.push([h12(h)%12+1,m],[h12(h+10),m],[h,(m+30)%60]);if(l>1)c.push([h,(m+15)%60],[h,(m+45)%60]);return uniq(shuffle(c).filter(x=>!(x[0]===h&&x[1]===m)),x=>x[0]+':'+x[1]).slice(0,3)}
+const twC=(h,m)=>cap(tw(h,m));
+const CLOZE={
+ heure:[["La {petite} aiguille indique les heures. La {grande} aiguille indique les minutes.",["moyenne"]],["Quand la grande aiguille est sur le 12, il est l’heure {pile}. Sur le 6, on dit et {demie}. Sur le 3, on dit et {quart}.",["moins"]],["Une heure dure {60} minutes. Une demi-heure dure {30} minutes. Un quart d’heure dure {15} minutes.",["100","45"]],["Une journée dure {24} heures. L’après-midi, 3 heures s’écrit aussi {15} heures.",["12","13"]],["Quand la grande aiguille est sur le 9, il manque un {quart} d’heure. On dit {moins} le quart.",["demie","et"]]],
+ calendrier:[["Une semaine compte {7} jours. Le jour qui suit le dimanche est le {lundi}.",["5","samedi"]],["Une année compte {12} mois et {365} jours.",["10","100"]],["Le mois le plus court de l’année est {février}. Le dernier mois de l’année est {décembre}.",["janvier","juin"]],["Hier, c’est le jour d’{avant}. Demain, c’est le jour d’{après}.",["été","hiver"]],["Avril, juin, septembre et novembre ont {30} jours. Les autres mois ont {31} jours, sauf février.",["29","32"]]],
+ romains:[["En chiffres romains, I vaut {1}, V vaut {5} et X vaut {10}.",["50","100"]],["Un petit chiffre placé après un plus grand s’{ajoute}. Placé avant, il se {retire}.",["efface","multiplie"]],["L vaut {50} et C vaut {100}. On ne répète jamais un chiffre plus de {3} fois.",["4","500"]],["IV vaut {4}, IX vaut {9} et XL vaut {40}.",["6","11","60"]]],
+ siecles:[["Un siècle dure {100} ans. Une décennie dure {10} ans. Un millénaire dure {1000} ans.",["12","50"]],["Nous vivons au {XXIe} siècle. Il a commencé en {2001}.",["XXe","2000"]],["Pour trouver le siècle d’une année, on prend le nombre de centaines et on ajoute {1}.",["10","2"]],["L’année 1789 est au {XVIIIe} siècle. L’année 1500 est au {XVe} siècle.",["XVIIe","XVIe"]]]};
+function cloze(mod){const[t,extra]=rnd(CLOZE[mod]),bl=[...t.matchAll(/\{([^}]+)\}/g)].map(x=>x[1]);return Q('cloze',{p:'Complète le texte avec les bonnes étiquettes.',text:t,blanks:bl,bank:shuffle([...bl,...extra])})}
+
+const GEN={
+/* ---- l'heure ---- */
+heure:{
+ lire:{t:'Lire la pendule',d:'Quelle heure est-il ?',g:l=>{const[h,m]=tRand(l),wd=Math.random()<.5,f=(a,b)=>wd?twC(a,b):fd(a,b);return qcm('Quelle heure indique la pendule ?',clockSVG(h,m),[{h:f(h,m),ok:1},...tDistr(h,m,l).map(([a,b])=>({h:f(a,b)}))],{corr:`Il est ${tw(h,m)} (${fd(h,m)}).`,cols:wd?1:2})}},
+ ecouter:{t:'Écoute et trouve',d:'Écoute l’heure et trouve la pendule.',g:l=>{const[h,m]=tRand(l);return qcm('Écoute bien. Quelle pendule indique cette heure ?','',[{h:clockSVG(h,m,{size:120}),ok:1},...tDistr(h,m,l).map(([a,b])=>({h:clockSVG(a,b,{size:120})}))],{audio:`t_${h}_${m}`,corr:`C’était ${tw(h,m)}.`,cols:2})}},
+ placer:{t:'Place les aiguilles',d:'Fais tourner les aiguilles.',g:l=>{const[h,m]=tRand(l);return Q('setclock',{p:`Place les aiguilles pour indiquer <b>${tw(h,m)}</b>${l===1?` (${fd(h,m)})`:''}.`,h,m,corr:`La petite aiguille vers le ${m>30?h12(h)+1:h12(h)}, la grande aiguille sur le ${m?m/5:12}.`})}},
+ saisir:{t:'Écris l’heure',d:'Tape les heures et les minutes.',g:l=>{const[h,m]=tRand(l);return Q('input',{p:'Écris l’heure indiquée par la pendule.',v:clockSVG(h,m),fields:[{lab:'heures',ans:[h12(h),h12(h)+12,h12(h)===12?0:-1]},{lab:'minutes',ans:[m]}],corr:`Il est ${fd(h12(h),m)}, ${tw(h,m)}.`})}},
+ relier:{t:'Relie les pendules',d:'Relie chaque pendule à son heure.',n:4,g:l=>{const ts=uniq(Array.from({length:12},()=>tRand(l)),x=>x+'').slice(0,4),wd=l>1&&Math.random()<.5;return Q('match',{p:'Relie chaque pendule à la bonne heure.',pairs:ts.map(([h,m])=>[clockSVG(h,m,{size:84}),wd?twC(h,m):fd(h,m)])})}},
+ mots:{t:'L’heure en lettres',d:'Passe des chiffres aux lettres.',g:l=>{const[h,m]=tRand(Math.max(l,2)),rev=Math.random()<.5,ds=tDistr(h,m,3);return rev?qcm(`Comment écrit-on <b>${fd(h,m)}</b> en lettres ?`,'',[{h:twC(h,m),ok:1},...ds.map(([a,b])=>({h:twC(a,b)}))],{cols:1,corr:`${fd(h,m)}, c’est ${tw(h,m)}.`}):qcm(`Comment écrit-on <b>${tw(h,m)}</b> en chiffres ?`,'',[{h:fd(h,m),ok:1},...ds.map(([a,b])=>({h:fd(a,b)}))],{cols:2,corr:`${cap(tw(h,m))}, c’est ${fd(h,m)}.`})}},
+ matin:{t:'Matin ou après-midi ?',d:'Ajoute 12 l’après-midi.',g:l=>{const[a,[x,y]]=rnd(ACTS),H=ri(x,y),m=l===1?rnd([0,30]):rnd([0,15,30,45]),who=rnd(NAMES.slice(0,3));return qcm(`${who} ${a}. Quelle heure est-il vraiment ?`,clockSVG(H,m),[{h:fd(H,m),ok:1},{h:fd((H+12)%24,m)},{h:fd(h12(H)%12===0?12:(H+11)%24,m)},{h:fd(H,(m+30)%60)}].filter((o,i,arr)=>arr.findIndex(z=>z.h===o.h)===i),{cols:2,corr:H>12?`L’après-midi, on ajoute 12. ${H-12} h + 12 = ${H} h.`:`Le matin, on garde le même nombre. Il est ${fd(H,m)}.`})}},
+ duree:{t:'Combien de temps ?',d:'Calcule l’heure de fin.',g:l=>{const H=ri(8,18),m=l===1?0:rnd([0,15,30,45]),D=l===1?rnd([30,60,120]):l===2?rnd([15,30,45,60,90]):rnd([20,35,45,50,75,90,105]),E=H*60+m+D,eh=Math.floor(E/60),em=E%60,who=rnd(NAMES),act=rnd(['commence un film','part au parc','commence ses devoirs','met un gâteau au four','commence un match']),dt=D>=60?`${Math.floor(D/60)} h${D%60?' '+D%60+' min':''}`:D+' minutes';return qcm(`${who} ${act} à <b>${fd(H,m)}</b>. Cela dure <b>${dt}</b>. À quelle heure est-ce fini ?`,clockSVG(H,m,{size:120}),[{h:fd(eh,em),ok:1},...uniq([[eh,(em+15)%60],[eh+1,em],[eh-1,em],[eh,(em+30)%60]],x=>x+'').filter(x=>!(x[0]===eh&&x[1]===em)).slice(0,3).map(([a,b])=>({h:fd(a,b)}))],{cols:2,corr:`${fd(H,m)} + ${dt} = ${fd(eh,em)}.`})}},
+ ordre:{t:'Range les heures',d:'De la plus tôt à la plus tard.',n:5,g:l=>{const ts=uniq(Array.from({length:10},()=>[ri(6,21),l===1?0:rnd([0,15,30,45])]),x=>x+'').slice(0,4);return Q('order',{p:'Range ces heures de la plus tôt à la plus tard.',items:ts.map(([h,m])=>({h:l===1&&h<=12?clockSVG(h,m,{size:76})+`<small>${h<12?'matin':'midi'}</small>`:fd(h,m),k:h*60+m})),corr:'On compare d’abord les heures, puis les minutes.'})}},
+ memory:{t:'Memory des pendules',d:'Retrouve les paires.',n:2,g:l=>{const ts=uniq(Array.from({length:14},()=>tRand(l)),x=>x+'').slice(0,6);return Q('memory',{p:'Retrouve chaque pendule et son heure.',pairs:ts.map(([h,m])=>[clockSVG(h,m,{size:64}),fd(h,m)])})}},
+ texte:{t:'Texte à trous',d:'Complète la leçon.',n:4,g:()=>cloze('heure')}},
+/* ---- jours et mois ---- */
+calendrier:{
+ jsuite:{t:'Avant, après',d:'Quel jour vient avant ou après ?',g:l=>{const i=ri(0,6),k=l===3?rnd([1,2,-1,-2]):rnd([1,-1]),j=(i+k+7)%7,lab=k===1?'après':k===-1?'avant':k===2?'deux jours après':'deux jours avant';return qcm(`Quel jour vient ${lab} <b>${DAYS[i]}</b> ?`,'',[{h:cap(DAYS[j]),ok:1},...shuffle(DAYS.filter((d,x)=>x!==j)).slice(0,3).map(d=>({h:cap(d)}))],{cols:2,corr:`${cap(lab)} ${DAYS[i]}, c’est ${DAYS[j]}.`})}},
+ hier:{t:'Hier et demain',d:'Hier, aujourd’hui, demain.',g:l=>{const i=ri(0,6),opts=l===1?[['hier',-1],['demain',1]]:[['hier',-1],['demain',1],['avant-hier',-2],['après-demain',2]],[w,k]=rnd(opts),j=(i+k+7)%7,fut=k>0;return qcm(`Aujourd’hui, c’est <b>${DAYS[i]}</b>. ${cap(w)}, ${fut?'ce sera':'c’était'} quel jour ?`,'',[{h:cap(DAYS[j]),ok:1},...shuffle(DAYS.filter((d,x)=>x!==j&&x!==i)).slice(0,3).map(d=>({h:cap(d)}))],{cols:2,corr:`${cap(w)}, ${fut?'ce sera':'c’était'} ${DAYS[j]}.`})}},
+ jordre:{t:'Range les jours',d:'Remets la semaine dans l’ordre.',n:4,g:l=>{const n=l===1?4:l===2?5:7,s=ri(0,6),it=Array.from({length:n},(_,x)=>(s+x)%7);return Q('order',{p:`Range ces jours dans l’ordre, en commençant par ${DAYS[s]}.`,items:it.map((d,x)=>({h:cap(DAYS[d]),k:x})),corr:'Lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche.'})}},
+ msuite:{t:'Le mois suivant',d:'Quel mois vient avant ou après ?',g:l=>{const i=ri(0,11),k=l===3?rnd([1,2,-1,-2]):rnd([1,-1]),j=(i+k+12)%12,lab=k===1?'après':k===-1?'avant':k===2?'deux mois après':'deux mois avant';return qcm(`Quel mois vient ${lab} <b>${MONTHS[i]}</b> ?`,'',[{h:cap(MONTHS[j]),ok:1},...shuffle(MONTHS.filter((d,x)=>x!==j)).slice(0,3).map(d=>({h:cap(d)}))],{cols:2,corr:`${cap(lab)} ${MONTHS[i]}, c’est ${MONTHS[j]}.`})}},
+ mnum:{t:'Le numéro du mois',d:'Mai, c’est le 5e mois.',g:l=>{const i=ri(0,11);return Math.random()<.5?qcm(`Quel est le numéro du mois de <b>${MONTHS[i]}</b> ?`,'',[{h:String(i+1),ok:1},...shuffle([...Array(12).keys()].filter(x=>x!==i)).slice(0,3).map(x=>({h:String(x+1)}))],{cols:4,corr:`${cap(MONTHS[i])} est le ${ORD(i+1)} mois de l’année.`}):qcm(`Quel est le <b>${ORD(i+1)}</b> mois de l’année ?`,'',[{h:cap(MONTHS[i]),ok:1},...shuffle(MONTHS.filter((d,x)=>x!==i)).slice(0,3).map(d=>({h:cap(d)}))],{cols:2,corr:`Le ${ORD(i+1)} mois, c’est ${MONTHS[i]}.`})}},
+ mjours:{t:'Combien de jours ?',d:'30, 31 ou 28 jours ?',g:l=>{const i=ri(0,11),a=i===1?'28 ou 29':String(MDAYS[i]);return qcm(`Combien de jours y a-t-il en <b>${MONTHS[i]}</b> ?`,'',['28 ou 29','30','31','32'].map(x=>({h:x,ok:x===a?1:0})),{cols:2,corr:`${cap(MONTHS[i])} a ${a} jours. Astuce des poings, bosse 31, creux 30.`})}},
+ mordre:{t:'Range les mois',d:'Remets l’année dans l’ordre.',n:4,g:l=>{const n=l===1?4:l===2?5:6,ix=l===1?(s=>Array.from({length:n},(_,x)=>s+x))(ri(0,12-n)):shuffle([...Array(12).keys()]).slice(0,n).sort((a,b)=>a-b);return Q('order',{p:'Range ces mois dans l’ordre de l’année.',items:ix.map(x=>({h:cap(MONTHS[x]),k:x})),corr:'Janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre.'})}},
+ calendrier:{t:'Lire un calendrier',d:'Trouve les dates sur le calendrier.',g:l=>{const mo=ri(0,11),y=2026,first=(new Date(y,mo,1).getDay()+6)%7,nd=new Date(y,mo+1,0).getDate(),cal=calHTML(y,mo);const t=l===1?0:rnd(l===2?[0,1]:[0,1,2]);
+   if(t===0){const d=ri(1,nd),wd=(first+d-1)%7;return qcm(`Quel jour de la semaine est le <b>${d} ${MONTHS[mo]} ${y}</b> ?`,cal,[{h:cap(DAYS[wd]),ok:1},...shuffle(DAYS.filter((_,x)=>x!==wd)).slice(0,3).map(z=>({h:cap(z)}))],{cols:2,corr:`Le ${d} ${MONTHS[mo]} est un ${DAYS[wd]}.`})}
+   if(t===1){const wd=ri(0,6),d=((wd-first+7)%7)+1;return qcm(`Quelle est la date du premier <b>${DAYS[wd]}</b> de ${MONTHS[mo]} ?`,cal,uniq([d,d+7,d===1?2:d-1,d+1],x=>x).map(x=>({h:`le ${x} ${MONTHS[mo]}`,ok:x===d?1:0})),{cols:2,corr:`Le premier ${DAYS[wd]} est le ${d} ${MONTHS[mo]}.`})}
+   const wd=ri(0,6),c=Array.from({length:nd},(_,i)=>(first+i)%7).filter(x=>x===wd).length;return qcm(`Combien y a-t-il de <b>${DAYS[wd]}s</b> en ${MONTHS[mo]} ${y} ?`,cal,[3,4,5,6].map(x=>({h:String(x),ok:x===c?1:0})),{cols:4,corr:`Il y a ${c} ${DAYS[wd]}s en ${MONTHS[mo]}.`})}},
+ date:{t:'Écrire une date',d:'14/07 ou 14 juillet ?',g:l=>{const mo=ri(0,11),d=ri(1,MDAYS[mo]),y=l===3?ri(1990,2030):2026,num=`${pad(d)}/${pad(mo+1)}/${y}`,txt=`le ${d===1?'1er':d} ${MONTHS[mo]} ${y}`;const alt=uniq([(mo+1)%12,(mo+11)%12,d<=12&&d-1!==mo?d-1:(mo+2)%12],x=>x).filter(x=>x!==mo).slice(0,3);return Math.random()<.5?qcm(`Comment écrit-on <b>${num}</b> en lettres ?`,'',[{h:cap(txt),ok:1},...alt.map(x=>({h:cap(`le ${d===1?'1er':d} ${MONTHS[x]} ${y}`)}))],{cols:1,corr:`${num} veut dire ${txt}. Le ${pad(mo+1)} est le mois de ${MONTHS[mo]}.`}):qcm(`Comment écrit-on <b>${txt}</b> en chiffres ?`,'',[{h:num,ok:1},...alt.map(x=>({h:`${pad(d)}/${pad(x+1)}/${y}`}))],{cols:2,corr:`${cap(txt)} s’écrit ${num}.`})}},
+ relier:{t:'Relie les mois',d:'Chaque mois avec son numéro.',n:4,g:l=>{const ix=shuffle([...Array(12).keys()]).slice(0,4);return l===1?Q('match',{p:'Relie chaque mois à son numéro.',pairs:ix.map(x=>[cap(MONTHS[x]),String(x+1)])}):Q('match',{p:'Relie chaque mois à son nombre de jours.',pairs:uniq(shuffle([...Array(12).keys()]),x=>MDAYS[x]).slice(0,3).map(x=>[cap(MONTHS[x]),x===1?'28 ou 29':String(MDAYS[x])])})}},
+ memory:{t:'Memory des mois',d:'Retrouve les paires.',n:2,g:()=>{const ix=shuffle([...Array(12).keys()]).slice(0,6);return Q('memory',{p:'Retrouve chaque mois et son numéro.',pairs:ix.map(x=>[cap(MONTHS[x]),String(x+1)])})}},
+ texte:{t:'Texte à trous',d:'Complète la leçon.',n:4,g:()=>cloze('calendrier')}},
+/* ---- chiffres romains ---- */
+romains:{
+ rlire:{t:'Lire en romain',d:'Quel nombre est écrit ?',g:l=>{const n=ri(1,[12,39,100][l-1]);return qcm(`Quel nombre est écrit en chiffres romains ?`,`<div class="tab">${roman(n)}</div>`,[{h:String(n),ok:1},...rDistr(n).map(x=>({h:String(x)}))],{cols:2,corr:`${roman(n)} = ${decomp(n)} = ${n}.`})}},
+ recrire:{t:'Écrire en romain',d:'Choisis la bonne écriture.',g:l=>{const n=ri(1,[12,39,100][l-1]),wrong=uniq([...rDistr(n).map(roman),badRoman(n)].filter(x=>x&&x!==roman(n)),x=>x).slice(0,3);return qcm(`Comment écrit-on <b>${n}</b> en chiffres romains ?`,'',[{h:`<span class="rom">${roman(n)}</span>`,ok:1},...wrong.map(x=>({h:`<span class="rom">${x}</span>`}))],{cols:2,corr:`${n} = ${decomp(n)}, donc ${roman(n)}.`})}},
+ rsaisir:{t:'Traduis le nombre',d:'Tape le nombre en chiffres.',g:l=>{const n=ri(1,[12,39,100][l-1]);return Q('input',{p:'Écris ce nombre avec nos chiffres.',v:`<div class="tab">${roman(n)}</div>`,fields:[{lab:'nombre',ans:[n]}],corr:`${roman(n)} = ${decomp(n)} = ${n}.`})}},
+ construire:{t:'Construis le nombre',d:'Assemble les lettres romaines.',g:l=>{const n=ri(1,[12,39,100][l-1]);return Q('build',{p:`Écris <b>${n}</b> en chiffres romains avec les tuiles.`,target:roman(n),tiles:n>39?['I','V','X','L','C']:['I','V','X','L'],corr:`${n} = ${decomp(n)}, donc ${roman(n)}.`})}},
+ dictee:{t:'Dictée romaine',d:'Écoute le nombre et écris-le.',g:l=>{const n=ri(1,[12,39,100][l-1]);return Q('build',{p:'Écoute le nombre, puis écris-le en chiffres romains.',audio:'n_'+n,target:roman(n),tiles:n>39?['I','V','X','L','C']:['I','V','X','L'],corr:`C’était ${n}, qui s’écrit ${roman(n)}.`})}},
+ relier:{t:'Relie les nombres',d:'Romain avec chiffre.',n:4,g:l=>{const ns=uniq(Array.from({length:10},()=>ri(1,[12,39,100][l-1])),x=>x).slice(0,4);return Q('match',{p:'Relie chaque nombre romain à sa valeur.',pairs:ns.map(n=>[`<span class="rom">${roman(n)}</span>`,String(n)])})}},
+ vf:{t:'Vrai ou faux ?',d:'Repère les erreurs.',g:l=>{const n=ri(2,[12,39,100][l-1]),ok=Math.random()<.5,s=ok?n:rnd(rDistr(n));return qcm(`Vrai ou faux ? <b class="rom">${roman(n)}</b> = <b>${s}</b>`,'',[{h:'Vrai',ok:ok?1:0},{h:'Faux',ok:ok?0:1}],{cols:2,corr:`${roman(n)} = ${decomp(n)} = ${n}.`})}},
+ compare:{t:'Le plus grand',d:'Compare deux nombres romains.',g:l=>{const M=[12,39,100][l-1],a=ri(1,M);let b=ri(1,M);while(b===a)b=ri(1,M);return qcm('Quel nombre est le plus grand ?','',[{h:`<span class="rom">${roman(a)}</span>`,ok:a>b?1:0},{h:`<span class="rom">${roman(b)}</span>`,ok:b>a?1:0}],{cols:2,corr:`${roman(a)} = ${a} et ${roman(b)} = ${b}.`})}},
+ pendule:{t:'La pendule romaine',d:'Lis l’heure en chiffres romains.',g:l=>{const[h,m]=tRand(l);return qcm('Quelle heure indique cette pendule romaine ?',clockSVG(h,m,{roman:1}),[{h:fd(h,m),ok:1},...tDistr(h,m,l).map(([a,b])=>({h:fd(a,b)}))],{cols:2,corr:`La petite aiguille indique ${roman(h12(h))}, donc ${h12(h)}. Il est ${tw(h,m)}.`})}},
+ calcul:{t:'Calcul romain',d:'Additionne en chiffres romains.',g:l=>{const M=[6,20,50][l-1],a=ri(1,M),b=ri(1,M),s=a+b;return qcm(`Combien font <b class="rom">${roman(a)} + ${roman(b)}</b> ?`,'',[{h:`<span class="rom">${roman(s)}</span>`,ok:1},...uniq([s+1,s-1,s+5,s+10].filter(x=>x>0&&x!==s),x=>x).slice(0,3).map(x=>({h:`<span class="rom">${roman(x)}</span>`}))],{cols:2,corr:`${a} + ${b} = ${s}, qui s’écrit ${roman(s)}.`})}},
+ memory:{t:'Memory romain',d:'Retrouve les paires.',n:2,g:l=>{const ns=uniq(Array.from({length:14},()=>ri(1,[12,39,100][l-1])),x=>x).slice(0,6);return Q('memory',{p:'Retrouve chaque nombre romain et sa valeur.',pairs:ns.map(n=>[`<span class="rom">${roman(n)}</span>`,String(n)])})}},
+ texte:{t:'Texte à trous',d:'Complète la leçon.',n:4,g:()=>cloze('romains')}},
+/* ---- années et siècles ---- */
+siecles:{
+ annee:{t:'Trouve le siècle',d:'Une année, quel siècle ?',g:l=>{const y=l===1?rnd(EVENTS)[0]:l===2?ri(400,2026):rnd([ri(400,2026),rnd([1500,1800,1900,2000,1700,1600,1000,1100]),rnd([1501,1801,1901,1701])]),c=century(y);return qcm(`L’année <b>${y}</b> est dans quel siècle ?`,'',[{h:sie(c),ok:1},...uniq([c-1,c+1,Math.floor(y/100)===c?c+2:Math.floor(y/100)].filter(x=>x>0&&x!==c),x=>x).slice(0,3).map(x=>({h:sie(x)}))],{cols:2,corr:y%100===0?`${y} termine le ${sie(c)}, car un siècle finit par une année en 00.`:`${y}, c’est ${Math.floor(y/100)} centaines, plus 1, donc ${c}. C’est le ${sie(c)}.`})}},
+ debut:{t:'Début et fin',d:'Quand commence un siècle ?',g:l=>{const c=ri(l===1?15:5,21),st=(c-1)*100+1,en=c*100,beg=Math.random()<.5,a=beg?st:en;return qcm(`En quelle année ${beg?'commence':'se termine'} le <b>${sie(c)}</b> ?`,'',uniq([a,beg?st-1:en+1,beg?st+100:en-100,beg?st-100:en-99],x=>x).map(x=>({h:String(x),ok:x===a?1:0})),{cols:2,corr:`Le ${sie(c)} va de ${st} à ${en}.`})}},
+ frise:{t:'La frise chronologique',d:'Place l’événement sur la frise.',g:l=>{const[y,e]=rnd(EVENTS),c=century(y),s0=Math.max(1,c-ri(0,3)),segs=[0,1,2,3].map(i=>s0+i);return qcm(`Où places-tu cet événement sur la frise ?<br><span class="evt">${e}${l<3?` (${y})`:''}</span>`,'',segs.map(x=>({h:`<b>${roman(x)}e</b><small>${(x-1)*100+1} à ${x*100}</small>`,ok:x===c?1:0})),{cols:4,frise:1,corr:`${e}, en ${y}, c’est le ${sie(c)}.`})}},
+ relier:{t:'Relie les événements',d:'Chaque événement avec son siècle.',n:4,g:()=>{const ev=uniq(shuffle(EVENTS),x=>century(x[0])).slice(0,4);return Q('match',{p:'Relie chaque événement à son siècle.',pairs:ev.map(([y,e])=>[`${e} <small>(${y})</small>`,sie(century(y))])})}},
+ ordre:{t:'Du plus ancien au plus récent',d:'Range les événements.',n:5,g:l=>{const ev=uniq(shuffle(EVENTS),x=>x[0]).slice(0,4);return Q('order',{p:'Range ces événements du plus ancien au plus récent.',items:ev.map(([y,e])=>({h:`${e}${l<3?` <small>(${y})</small>`:''}`,k:y})),corr:ev.slice().sort((a,b)=>a[0]-b[0]).map(x=>x[0]).join(', ')+'.'})}},
+ conv:{t:'Les durées',d:'Siècle, décennie, heures...',g:l=>{const B=[['Combien d’années dans un siècle ?',100,[10,1000,12]],['Combien d’années dans une décennie ?',10,[100,12,7]],['Combien d’années dans un millénaire ?',1000,[100,10,365]],['Combien de mois dans une année ?',12,[10,52,7]],['Combien de jours dans une semaine ?',7,[5,10,12]],['Combien d’heures dans une journée ?',24,[12,60,7]],['Combien de minutes dans une heure ?',60,[100,24,30]],['Combien de minutes dans une demi-heure ?',30,[15,50,60]]],B2=[['Combien de jours dans deux semaines ?',14,[7,12,20]],['Combien de minutes dans une heure et demie ?',90,[60,130,150]],['Combien de mois dans deux ans ?',24,[12,20,36]],['Combien d’années dans trois siècles ?',300,[30,3000,103]],['Combien de minutes dans un quart d’heure ?',15,[25,4,30]],['Combien d’heures dans deux jours ?',48,[24,36,72]]],[q,a,w]=rnd(l===1?B:B.concat(B2));return qcm(q,'',[{h:String(a),ok:1},...w.map(x=>({h:String(x)}))],{cols:2,corr:`La réponse est ${a}.`})}},
+ age:{t:'Calculer des années',d:'Âges et durées.',g:l=>{const B=[['Inaya est née en 2019. Quel âge a-t-elle à son anniversaire de 2026 ?',7],['Mayla est née en 2016. Quel âge a-t-elle à son anniversaire de 2026 ?',10],['Combien d’années séparent la naissance de Mayla (2016) et celle d’Inaya (2019) ?',3],['Nous sommes en 2026. Dans combien d’années serons-nous en 2030 ?',4],['Papa est né en 1984. Quel âge a-t-il à son anniversaire de 2026 ?',42]],B3=[['Combien d’années entre la Révolution (1789) et les premiers pas sur la Lune (1969) ?',180],['Notre-Dame a été commencée en 1163. Combien d’années avant 2026 ?',863],['Combien d’années entre Christophe Colomb (1492) et la Révolution (1789) ?',297]],[q,a]=rnd(l===3?B.concat(B3):B);return qcm(q,'',[{h:String(a),ok:1},...uniq([a+1,a-1,a+10,a>10?a-10:a+2],x=>x).slice(0,3).map(x=>({h:String(x)}))],{cols:2,corr:`On fait une soustraction. La réponse est ${a}.`})}},
+ memory:{t:'Memory des siècles',d:'Retrouve les paires.',n:2,g:()=>{const ys=uniq(shuffle(EVENTS),x=>century(x[0])).slice(0,6);return Q('memory',{p:'Retrouve chaque année et son siècle.',pairs:ys.map(([y])=>[String(y),roman(century(y))+'e'])})}},
+ texte:{t:'Texte à trous',d:'Complète la leçon.',n:4,g:()=>cloze('siecles')}}};
+function rDistr(n){const c=[n+1,n-1,n+5,n-5,n+10,n-10,mirror(n)].filter(x=>x>0&&x<=100&&x!==n);return uniq(shuffle(c),x=>x).slice(0,3)}
+function mirror(n){const r=roman(n);const sw=r.replace(/IV|IX|XL|XC/,m=>m[1]+m[0]);const v=parseRoman(sw);return v&&v!==n?v:n+2}
+function parseRoman(s){const V={I:1,V:5,X:10,L:50,C:100};let t=0;for(let i=0;i<s.length;i++){const a=V[s[i]],b=V[s[i+1]]||0;t+=a<b?-a:a}return t}
+function badRoman(n){const r=roman(n);if(r.includes('IV'))return r.replace('IV','IIII');if(r.includes('IX'))return r.replace('IX','VIIII');if(r.includes('XL'))return r.replace('XL','XXXX');return r.length>1?r.split('').reverse().join(''):'II'+r}
+function decomp(n){const parts=[];let x=n;for(const[v,r]of ROM)while(x>=v){parts.push(v);x-=v}return parts.join(' + ')}
+function calHTML(y,mo){const first=(new Date(y,mo,1).getDay()+6)%7,nd=new Date(y,mo+1,0).getDate();let c='';for(let i=0;i<first;i++)c+='<i></i>';for(let d=1;d<=nd;d++)c+=`<span>${d}</span>`;return `<div class="cal"><div class="calh">${cap(MONTHS[mo])} ${y}</div><div class="calg">${['L','M','M','J','V','S','D'].map(x=>`<b>${x}</b>`).join('')}${c}</div></div>`}
+
+/* ================= modules ================= */
+const MODS=[
+ {id:'heure',name:'Lire l’heure',sub:'La pendule, les minutes, le matin et l’après-midi',col:'#ffd447',ico:()=>clockSVG(4,15,{size:64}),boss:['lire','ecouter','saisir','mots','matin','duree']},
+ {id:'calendrier',name:'Les jours et les mois',sub:'La semaine, l’année, le calendrier, les dates',col:'#ff6b9d',ico:()=>`<div class="mico" style="color:#ff6b9d">15<small>nov.</small></div>`,boss:['jsuite','hier','msuite','mnum','mjours','date','calendrier']},
+ {id:'romains',name:'Les chiffres romains',sub:'I, V, X, L, C, lire, écrire, calculer',col:'#c9a266',ico:()=>`<div class="mico rom" style="color:#c9a266">XIV</div>`,boss:['rlire','recrire','vf','compare','pendule','calcul']},
+ {id:'siecles',name:'Les années et les siècles',sub:'Siècles, frise chronologique, durées',col:'#b388ff',ico:()=>`<div class="mico rom" style="color:#b388ff">XXIe</div>`,boss:['annee','debut','frise','conv','age']}];
+const MEMO={
+ heure:['La petite aiguille indique les <b>heures</b>, la grande aiguille indique les <b>minutes</b>.','Chaque chiffre vaut <b>5 minutes</b> pour la grande aiguille.','Sur le 12, l’heure <b>pile</b>. Sur le 3, <b>et quart</b>. Sur le 6, <b>et demie</b>. Sur le 9, <b>moins le quart</b> de l’heure suivante.','1 heure = <b>60 minutes</b>. 1 journée = <b>24 heures</b>.','L’après-midi, on ajoute 12. 3 h de l’après-midi = <b>15 h</b>.'],
+ calendrier:['1 semaine = <b>7 jours</b>. Lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche.','1 année = <b>12 mois</b> = 52 semaines = <b>365 jours</b> (366 tous les 4 ans).','Avril, juin, septembre, novembre ont <b>30 jours</b>. Février a <b>28 ou 29 jours</b>. Les autres ont <b>31 jours</b>.','Astuce des poings. Bosse = 31 jours, creux = 30 jours.','Une date s’écrit jour, mois, année. 14/07/2026 = <b>le 14 juillet 2026</b>.'],
+ romains:['<b>I</b> = 1, <b>V</b> = 5, <b>X</b> = 10, <b>L</b> = 50, <b>C</b> = 100.','Un petit chiffre <b>après</b> un grand s’ajoute. VI = 5 + 1 = <b>6</b>.','Un petit chiffre <b>avant</b> un grand se retire. IV = 5 − 1 = <b>4</b>, IX = <b>9</b>, XL = <b>40</b>.','On ne répète jamais un chiffre <b>plus de 3 fois</b>. 4 = IV et non IIII.','Pour lire, on découpe. XXIV = 10 + 10 + 4 = <b>24</b>.'],
+ siecles:['1 décennie = <b>10 ans</b>. 1 siècle = <b>100 ans</b>. 1 millénaire = <b>1 000 ans</b>.','Siècle d’une année = nombre de centaines <b>+ 1</b>. 1789 → 17 + 1 → <b>XVIIIe siècle</b>.','Un siècle finit par une année en 00. 1500 est au <b>XVe siècle</b>, 1501 au XVIe.','Nous vivons au <b>XXIe siècle</b>, de 2001 à 2100.','Sur une frise, on range les événements du <b>plus ancien</b> au <b>plus récent</b>.']};
+
+/* ================= écrans ================= */
+function renderStart(){setTrack('cinematique');$('plist').innerHTML=DB.profiles.map(p=>`<button class="pitem" onclick="pick('${p.id}')"><div class="av">${face(p)}</div><div class="grow"><b>${esc(p.name)}</b><small>${rank(p)} · niveau ${lvl(p)}</small></div></button>`).join('');show('sStart')}
+function pick(id){sfx('tap');DB.current=id;save();goMap()}
+let draft=null;
+function newProfile(edit){draft=edit?JSON.parse(JSON.stringify(P())):{id:'p'+Date.now(),name:'',hero:'inaya',xp:0,st:{},lv:{},boss:{}};$('edName').value=draft.name;renderEd();show('sEdit')}
+function renderEd(){$('edPrev').src=himg(draft.hero);$('edHeroes').innerHTML=HEROES.map(([id,n])=>`<button class="${draft.hero===id?'sel':''}" onclick="draft.hero='${id}';sfx('tap');renderEd()"><img src="${himg(id)}" alt="" loading="lazy">${n?`<span>${n}</span>`:''}</button>`).join('')}
+function nameIn(v){draft.name=v;const m=v.trim().toLowerCase();if(HEROES.some(h=>h[0]===m)){draft.hero=m;renderEd()}}
+function saveEd(){draft.name=$('edName').value.trim();if(!draft.name){$('edMsg').textContent='Écris ton prénom pour continuer !';return}const i=DB.profiles.findIndex(p=>p.id===draft.id);if(i>=0)DB.profiles[i]=draft;else DB.profiles.push(draft);DB.current=draft.id;save();sfx('ok');goMap()}
+function stars(n,max=3){return `<span class="stars">${Array.from({length:max},(_,i)=>`<i class="${i<n?'on':''}"></i>`).join('')}</span>`}
+function modStars(p,m){const ex=Object.keys(GEN[m]);let s=0;for(const e of ex)s+=Math.max(...[1,2,3].map(l=>((p.st[m]||{})[e+l]||0)));return [s,ex.length*3]}
+function goMap(){const p=P();if(!p)return renderStart();setTrack('cinematique');
+ $('mapTop').innerHTML=`<div class="av">${face(p)}</div><div class="grow"><b>Bonjour ${esc(p.name)} !</b><small>${rank(p)}</small>${xpBar(p)}</div>`;
+ $('mods').innerHTML=MODS.map(m=>{const[s,t]=modStars(p,m.id);return `<button class="mod" onclick="openMod('${m.id}')" style="--c:${m.col}"><div class="mi">${m.ico()}</div><div class="grow"><b>${m.name}</b><small>${m.sub}</small><div class="bar"><i style="width:${s/t*100}%"></i></div><small>${s} / ${t} étoiles${p.boss[m.id]?' · monstre battu':''}</small></div></button>`}).join('')+`<button class="mod final" onclick="startBoss('final')"><div class="mi">${monsterSVG()}</div><div class="grow"><b>Le grand défi du temps</b><small>Tout mélangé, contre le monstre Papa en personne !</small><small>${p.boss.final?'Défi réussi !':'Pour les vraies gardiennes du temps'}</small></div></button>`;
+ show('sMap')}
+let MOD=null;
+function curLv(){const p=P();return (p.lv||{})[MOD]||1}
+function setLv(l){P().lv[MOD]=l;save();sfx('tap');openMod(MOD)}
+function openMod(id){MOD=id;const m=MODS.find(x=>x.id===id),p=P(),l=curLv(),st=p.st[id]||{};setTrack('cinematique');
+ $('modHead').innerHTML=`<div class="mi">${m.ico()}</div><div class="grow"><h2>${m.name}</h2><small>${m.sub}</small></div>`;
+ $('modLearn').innerHTML=`<button class="learn" onclick="openLesson('${id}')"><b>La leçon animée</b><small>Regarde et écoute Luna</small></button><button class="learn" onclick="openPod('${id}')"><b>Le podcast</b><small>À écouter</small></button><button class="learn" onclick="openMemo('${id}')"><b>La fiche mémo</b><small>À retenir</small></button>`;
+ $('modLv').innerHTML=[['Facile',1],['Moyen',2],['Expert',3]].map(([n,v])=>`<button class="chip${l===v?' sel':''}" onclick="setLv(${v})">Niveau ${v} · ${n}</button>`).join('');
+ $('modEx').innerHTML=Object.entries(GEN[id]).map(([k,e])=>`<button class="exc" onclick="runEx('${k}')"><b>${e.t}</b><small>${e.d}</small>${stars(st[k+l]||0)}</button>`).join('');
+ $('modBoss').innerHTML=`<button class="bossc" onclick="startBoss('${id}')"><div class="mi">${monsterSVG()}</div><div class="grow"><b>Défi du monstre Papa</b><small>${p.boss[id]?'Battu ! Rejoue pour t’entraîner.':'Il a volé les aiguilles du temps. Bats-le !'}</small></div></button>`;
+ show('sMod')}
+
+/* ================= moteur d'exercices ================= */
+let R=null;
+function runEx(ex){const g=GEN[MOD][ex],l=curLv();R={mod:MOD,ex,l,n:g.n||8,i:0,ok:0,boss:null,gen:()=>g.g(l),title:g.t};setTrack('puissance');show('sEx');nextQ()}
+function startBoss(id){const mods=id==='final'?MODS:[MODS.find(m=>m.id===id)];const l=id==='final'?3:Math.max(2,(P().lv||{})[id]||1);R={mod:id,ex:'boss',l,n:99,i:0,ok:0,boss:{hp:id==='final'?8:6,max:id==='final'?8:6,lives:3},gen:()=>{const m=rnd(mods);return GEN[m.id][rnd(m.boss)].g(l)},title:id==='final'?'Le grand défi du temps':'Défi du monstre Papa'};setTrack('tension');show('sEx');play('f_boss');nextQ()}
+function bossBar(){const b=R.boss,h=(n,max,c)=>Array.from({length:max},(_,i)=>`<b class="hrt ${c}${i<n?' on':''}">♥</b>`).join('');return `<div class="bossrow"><div class="mbox" id="mbox">${monsterSVG()}<span class="bubble" id="mbub">${b.hp===b.max?'Grrr ! Rends-moi l’heure !':'Grrr…'}</span></div><div class="hp"><div>Monstre Papa<br>${h(b.hp,b.max,'')}</div><div>Toi<br>${h(b.lives,3,'me')}</div></div></div>`}
+function nextQ(){
+ if(!R.boss&&R.i>=R.n)return endEx();
+ const q=R.gen();R.q=q;R.done=false;
+ $('exTop').innerHTML=`<button class="qx" onclick="quitEx()">Quitter</button><div class="grow"><b>${R.title}</b>${R.boss?'':`<div class="prog">${Array.from({length:R.n},(_,i)=>`<i class="${i<R.i?'on':i===R.i?'cur':''}"></i>`).join('')}</div>`}</div>`;
+ $('exBoss').innerHTML=R.boss?bossBar():'';
+ $('exFeed').innerHTML='';$('exFeed').className='feed';$('exNext').hidden=true;
+ const box=$('exBox');box.innerHTML='';box.classList.remove('shake');void box.offsetWidth;box.classList.add('pop');
+ RENDER[q.kind](box,q,finish);
+ if(q.audio)setTimeout(()=>play(q.audio),250);
+}
+function finish(ok,el){if(R.done)return;R.done=true;const q=R.q,p=P();
+ if(ok){R.ok++;sfx('ok');burst(el||$('exBox'));addXP(10+(R.l-1)*5,el||$('exBox'));play(rnd(['f_bravo','f_super','f_excellent','f_genial']))}else{sfx('bad');const b=$('exBox');b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');play('f_presque')}
+ if(R.boss){const B=R.boss;if(ok){B.hp--;monsterAct('hit',B.hp<=0?'K.O. !':rnd(['Aïe !','Ouille !','Nooon !']))}else{B.lives--;monsterAct('laugh','Ha ha ha !')}}
+ $('exFeed').className='feed '+(ok?'ok':'no');$('exFeed').innerHTML=ok?`<b>${rnd(['Bravo !','Super !','Excellent !','Génial !','Parfait !'])}</b>${q.corr?`<span>${q.corr}</span>`:''}`:`<b>Presque !</b><span>${q.corr||'Regarde bien la correction.'}</span>`;
+ R.i++;const end=R.boss&&(R.boss.hp<=0||R.boss.lives<=0);$('exNext').hidden=false;$('exNext').textContent=end||(!R.boss&&R.i>=R.n)?'Voir le résultat':'Continuer';$('exNext').scrollIntoView({behavior:'smooth',block:'nearest'})}
+function exNextClick(){if(R.boss&&(R.boss.hp<=0||R.boss.lives<=0))return endBoss();nextQ()}
+function monsterAct(cls,txt){const m=$('mbox');if(!m)return;m.classList.remove('hit','laugh');void m.offsetWidth;m.classList.add(cls);$('mbub').textContent=txt;sfx(cls==='hit'?'hit':'laugh');setTimeout(()=>{if(R&&R.boss){const t=$('mbub').textContent;$('exBoss').innerHTML=bossBar();$('mbub').textContent=t}},600)}
+function quitEx(){player.pause();R=null;MOD&&MODS.some(m=>m.id===MOD)?openMod(MOD):goMap()}
+function endEx(){const p=P(),r=R.ok/R.n,s=r>=.85?3:r>=.6?2:r>=.35?1:0;p.st[R.mod]=p.st[R.mod]||{};const k=R.ex+R.l,best=p.st[R.mod][k]||0;if(s>best)p.st[R.mod][k]=s;save();if(s>=2){sfx('win');confetti()}
+ $('resBox').innerHTML=`<img class="bigface" src="${himg(p.hero)}" alt=""><h1>${s===3?'Parfait !':s===2?'Très bien !':s===1?'Pas mal !':'Courage !'}</h1>${stars(s)}<p class="sub">${R.ok} bonne${R.ok>1?'s':''} réponse${R.ok>1?'s':''} sur ${R.n}.${s<3?' Recommence pour gagner 3 étoiles !':''}</p><button class="btn gold" onclick="runEx('${R.ex}')">Rejouer</button><button class="btn ghost" onclick="openMod('${R.mod}')">Retour au module</button>`;setTrack('marche-victoire');show('sRes')}
+function endBoss(){const p=P(),won=R.boss.hp<=0;if(won){p.boss[R.mod]=true;save();sfx('win');confetti();addXP(R.mod==='final'?150:60,$('exBox'));play('f_win');setTrack('marche-victoire')}else{play('f_lose');setTrack('cinematique')}
+ $('resBox').innerHTML=`<div style="display:flex;align-items:flex-end;justify-content:center;gap:8px"><img class="bigface" src="${himg(p.hero)}" alt="" style="width:120px;height:120px"><div class="mmini">${monsterSVG()}</div></div><h1>${won?'Monstre battu !':'Le monstre a gagné…'}</h1><p class="sub">${won?'Tu as rendu les aiguilles au temps. Tu es une vraie gardienne du temps !':'Revois la leçon et la fiche mémo, puis réessaie. Tu vas l’avoir !'}</p><button class="btn gold" onclick="startBoss('${R.mod}')">${won?'Rejouer le défi':'Réessayer'}</button><button class="btn ghost" onclick="${R.mod==='final'?'goMap()':`openMod('${R.mod}')`}">Retour</button>`;show('sRes')}
+
+/* ================= rendus ================= */
+const RENDER={
+ qcm(box,q,done){box.innerHTML=`<p class="qp">${q.p}</p>${q.audio?`<button class="btn small ghost" onclick="play('${q.audio}')">Réécouter</button>`:''}${q.v?`<div class="qv">${q.v}</div>`:''}<div class="opts c${q.cols||2}${q.frise?' frise':''}">${q.opts.map((o,i)=>`<button class="opt" data-i="${i}">${o.h}</button>`).join('')}</div>`;
+  box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(R.done)return;const o=q.opts[+b.dataset.i];box.querySelectorAll('.opt').forEach((x,j)=>{x.disabled=true;if(q.opts[j].ok)x.classList.add('good')});if(!o.ok)b.classList.add('wrong');done(!!o.ok,b)})},
+ input(box,q,done){box.innerHTML=`<p class="qp">${q.p}</p>${q.v?`<div class="qv">${q.v}</div>`:''}<div class="inrow">${q.fields.map((f,i)=>`<label class="inf"><input type="number" inputmode="numeric" id="in${i}" min="0" max="100"><span>${f.lab}</span></label>`).join(q.fields.length>1?'<b class="h">h</b>':'')}</div><div class="pad">${[1,2,3,4,5,6,7,8,9,'Effacer',0,'Valider'].map(k=>`<button class="pk${k==='Valider'?' go':''}" data-k="${k}">${k}</button>`).join('')}</div>`;
+  let cur=0;const ins=q.fields.map((_,i)=>$('in'+i));ins.forEach((x,i)=>x.onfocus=()=>{cur=i});ins[0].classList.add('foc');
+  const focus=i=>{cur=i;ins.forEach((x,j)=>x.classList.toggle('foc',j===i))};ins.forEach((x,i)=>x.addEventListener('pointerdown',()=>focus(i)));
+  box.querySelectorAll('.pk').forEach(b=>b.onclick=()=>{if(R.done)return;const k=b.dataset.k;sfx('tap');if(k==='Effacer'){ins[cur].value='';return}if(k==='Valider'){const ok=q.fields.every((f,i)=>f.ans.includes(parseInt(ins[i].value,10)));ins.forEach((x,i)=>x.classList.add(q.fields[i].ans.includes(parseInt(x.value,10))?'good':'wrong'));done(ok,b);return}if(ins[cur].value.length<3)ins[cur].value+=k;if(ins[cur].value.length>=2&&cur<ins.length-1)focus(cur+1)})},
+ setclock(box,q,done){let h=12,m=0;box.innerHTML=`<p class="qp">${q.p}</p><div class="qv" id="sc">${clockSVG(h,m,{size:230,mins:1})}</div><div class="erow"><button class="btn small ghost" data-a="h-">Heure −</button><button class="btn small ghost" data-a="h+">Heure +</button><button class="btn small ghost" data-a="m-">Minutes −</button><button class="btn small ghost" data-a="m+">Minutes +</button></div><p class="note">Tu peux aussi faire glisser les aiguilles avec le doigt.</p><button class="btn gold" id="scOk" style="width:100%">Valider</button>`;
+  const svg=box.querySelector('svg'),upd=()=>setHands(svg,h,m);upd();
+  box.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{const a=b.dataset.a;if(a==='h+')h=h12(h+1);if(a==='h-')h=h12(h-1);if(a==='m+')m=(m+5)%60;if(a==='m-')m=(m+55)%60;sfx('tap');upd()});
+  let drag=null;const ang=e=>{const r=svg.getBoundingClientRect(),x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;return [(Math.atan2(x,-y)*180/Math.PI+360)%360,Math.hypot(x,y)/(r.width/2)]};
+  svg.addEventListener('pointerdown',e=>{e.preventDefault();const[a,d]=ang(e),ma=m*6,ha=(h%12+m/60)*30,dm=Math.min(Math.abs(a-ma),360-Math.abs(a-ma)),dh=Math.min(Math.abs(a-ha),360-Math.abs(a-ha));drag=(d<.55&&dh<40)||dh+10<dm?'h':'m';svg.setPointerCapture(e.pointerId)});
+  svg.addEventListener('pointermove',e=>{if(!drag)return;const[a]=ang(e);if(drag==='m'){m=Math.round(a/30)%12*5}else{h=h12(Math.round(a/30)||12)}upd()});
+  svg.addEventListener('pointerup',()=>{drag=null});svg.style.touchAction='none';
+  $('scOk').onclick=()=>{if(R.done)return;const ok=h12(h)===h12(q.h)&&m===q.m;if(!ok){svg.querySelector('.hh').style.transition=svg.querySelector('.mh').style.transition='transform .8s';setTimeout(()=>setHands(svg,q.h,q.m),300)}done(ok,$('scOk'))}},
+ order(box,q,done){const it=shuffle(q.items),seq=[];box.innerHTML=`<p class="qp">${q.p}</p><div class="oslots" id="osl">${q.items.map((_,i)=>`<span class="os">${i+1}</span>`).join('')}</div><div class="oitems">${it.map((x,i)=>`<button class="oi" data-i="${i}">${x.h}</button>`).join('')}</div><button class="btn small ghost" id="oRe">Recommencer</button>`;
+  const draw=()=>{$('osl').innerHTML=q.items.map((_,i)=>`<span class="os${seq[i]!=null?' f':''}">${seq[i]!=null?it[seq[i]].h:i+1}</span>`).join('');box.querySelectorAll('.oi').forEach(b=>b.disabled=seq.includes(+b.dataset.i)||R.done)};
+  box.querySelectorAll('.oi').forEach(b=>b.onclick=()=>{if(R.done)return;seq.push(+b.dataset.i);sfx('tap');draw();if(seq.length===it.length){const ks=seq.map(i=>it[i].k),ok=ks.every((k,i)=>i===0||k>=ks[i-1]);box.querySelectorAll('.os').forEach((s,i)=>s.classList.add(i===0||ks[i]>=ks[i-1]?'good':'wrong'));done(ok,$('osl'))}});
+  $('oRe').onclick=()=>{if(R.done)return;seq.length=0;draw()};draw()},
+ match(box,q,done){const L=shuffle(q.pairs.map((p,i)=>({h:p[0],i}))),Rr=shuffle(q.pairs.map((p,i)=>({h:p[1],i})));let sel=null,err=0,got=0;box.innerHTML=`<p class="qp">${q.p}</p><p class="note">Touche un élément à gauche, puis son partenaire à droite.</p><div class="match"><div>${L.map(x=>`<button class="mt l" data-i="${x.i}">${x.h}</button>`).join('')}</div><div>${Rr.map(x=>`<button class="mt r" data-i="${x.i}">${x.h}</button>`).join('')}</div></div>`;
+  box.querySelectorAll('.mt.l').forEach(b=>b.onclick=()=>{if(b.classList.contains('done')||R.done)return;box.querySelectorAll('.mt.l').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');sel=b;sfx('tap')});
+  box.querySelectorAll('.mt.r').forEach(b=>b.onclick=()=>{if(!sel||b.classList.contains('done')||R.done)return;if(sel.dataset.i===b.dataset.i){[sel,b].forEach(x=>{x.classList.remove('sel');x.classList.add('done','c'+(got%4))});got++;sfx('ok');sel=null;if(got===q.pairs.length){q.corr=err?`${err} erreur${err>1?'s':''} en chemin.`:'Aucune erreur, bravo !';done(err<=1,b)}}else{err++;b.classList.add('shake','bad');sfx('bad');setTimeout(()=>b.classList.remove('shake','bad'),500)}})},
+ cloze(box,q,done){const fill=Array(q.blanks.length).fill(null);let idx=0;const parts=q.text.split(/\{[^}]+\}/);
+  const draw=()=>{box.innerHTML=`<p class="qp">${q.p}</p><div class="ctext">${parts.map((t,i)=>esc(t)+(i<q.blanks.length?`<button class="blank${idx===i?' cur':''}${fill[i]!=null?' f':''}" data-b="${i}">${fill[i]!=null?esc(q.bank[fill[i]]):'?'}</button>`:'')).join('')}</div><div class="bank">${q.bank.map((w,i)=>`<button class="tile" data-w="${i}"${fill.includes(i)||R.done?' disabled':''}>${esc(w)}</button>`).join('')}</div><button class="btn gold" id="clOk" style="width:100%"${fill.includes(null)?' disabled':''}>Vérifier</button>`;
+   box.querySelectorAll('.blank').forEach(b=>b.onclick=()=>{if(R.done)return;const i=+b.dataset.b;fill[i]=null;idx=i;draw()});
+   box.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{if(R.done)return;fill[idx]=+b.dataset.w;sfx('tap');const nx=fill.indexOf(null);idx=nx<0?idx:nx;draw()});
+   $('clOk').onclick=()=>{if(R.done)return;const res=q.blanks.map((w,i)=>q.bank[fill[i]]===w);box.querySelectorAll('.blank').forEach((b,i)=>{b.classList.add(res[i]?'good':'wrong');if(!res[i])b.textContent=q.blanks[i]});q.corr=res.every(Boolean)?'Tout est juste !':'Les bonnes réponses sont maintenant écrites dans le texte.';done(res.every(Boolean),$('clOk'))}};draw()},
+ build(box,q,done){let s='';box.innerHTML=`<p class="qp">${q.p}</p>${q.audio?`<button class="btn small ghost" onclick="play('${q.audio}')">Réécouter</button>`:''}<div class="tab" id="bOut">&nbsp;</div><div class="bank">${q.tiles.map(t=>`<button class="tile rom big" data-t="${t}">${t}</button>`).join('')}</div><div class="erow"><button class="btn small ghost" id="bDel">Effacer</button><button class="btn small ghost" id="bClr">Tout effacer</button></div><button class="btn gold" id="bOk" style="width:100%">Valider</button>`;
+  const draw=()=>{$('bOut').innerHTML=s||'&nbsp;'};box.querySelectorAll('.tile').forEach(b=>b.onclick=()=>{if(R.done||s.length>=9)return;s+=b.dataset.t;sfx('tap');draw()});
+  $('bDel').onclick=()=>{s=s.slice(0,-1);draw()};$('bClr').onclick=()=>{s='';draw()};$('bOk').onclick=()=>{if(R.done||!s)return;const ok=s===q.target;$('bOut').classList.add(ok?'good':'wrong');if(!ok)$('bOut').innerHTML=`<s>${s}</s> ${q.target}`;done(ok,$('bOut'))}},
+ memory(box,q,done){const cards=shuffle(q.pairs.flatMap((p,i)=>[{h:p[0],i},{h:p[1],i}]));let open=[],moves=0,got=0,lock=false;box.innerHTML=`<p class="qp">${q.p}</p><div class="mem">${cards.map((c,k)=>`<button class="mc" data-k="${k}"><span class="back">?</span><span class="front">${c.h}</span></button>`).join('')}</div><p class="note" id="mvs">Coups joués 0</p>`;
+  box.querySelectorAll('.mc').forEach(b=>b.onclick=()=>{if(lock||b.classList.contains('up')||R.done)return;b.classList.add('up');sfx('flip');open.push(b);if(open.length===2){moves++;$('mvs').textContent='Coups joués '+moves;const[a,c]=open;if(cards[+a.dataset.k].i===cards[+c.dataset.k].i){a.classList.add('ok');c.classList.add('ok');open=[];got++;sfx('ok');if(got===q.pairs.length){q.corr=`Tu as trouvé toutes les paires en ${moves} coups.`;done(moves<=q.pairs.length*2+2,c)}}else{lock=true;setTimeout(()=>{a.classList.remove('up');c.classList.remove('up');open=[];lock=false},900)}}})}};
+
+/* ================= leçon animée, podcast, mémo ================= */
+let LS=null;
+function openLesson(id){LS={id,i:0,playing:true};setTrack('emotion');show('sLesson');$('lsTitle').textContent=CT.L[id].title;lessonScene()}
+function lessonScene(){const sc=CT.L[LS.id].scenes,[txt,v]=sc[LS.i];$('lsCap').textContent=txt;$('lsDots').innerHTML=sc.map((_,i)=>`<i class="${i===LS.i?'on':i<LS.i?'done':''}"></i>`).join('');$('lsPlay').textContent=LS.playing?'Pause':'Lecture';
+ const st=$('lsStage');st.innerHTML=visHTML(v);
+ if(v.anim){const svg=st.querySelector('svg');setTimeout(()=>{svg.querySelector('.hh').style.transition=svg.querySelector('.mh').style.transition='transform 3.2s ease-in-out';setHands(svg,v.anim[1][0],v.anim[1][1])},700)}
+ if(v.days==='seq'||v.months==='seq'){const els=st.querySelectorAll('.chipd');els.forEach((e,i)=>setTimeout(()=>e.classList.add('on'),400+i*(v.days?520:420)))}
+ if(LS.playing){player.onended=()=>{music.volume=VOLS[volI];if(LS&&LS.playing)setTimeout(()=>{if(!LS||!LS.playing)return;if(LS.i<sc.length-1){LS.i++;lessonScene()}else{LS.playing=false;$('lsPlay').textContent='Revoir';toast('<b>Leçon terminée</b><span>Place aux exercices !</span>')}},700)};play(`L_${LS.id}_${LS.i}`)}}
+function visHTML(v){let h='';
+ if(v.clock)h+=clockSVG(v.clock[0],v.clock[1],{size:200,hl:v.hl,roman:v.rclock});
+ if(v.anim)h+=clockSVG(v.anim[0][0],v.anim[0][1],{size:200});
+ if(v.monster)h+=`<div class="mmini">${monsterSVG()}</div>`;
+ if(v.days){const on=Array.isArray(v.days)?v.days:[];h+=`<div class="chips2">${DAYS.map((d,i)=>`<span class="chipd${on.includes(i)?' on':''}">${cap(d)}${v.tags&&on.includes(i)?`<small>${v.tags[on.indexOf(i)]}</small>`:''}</span>`).join('')}</div>`}
+ if(v.months)h+=`<div class="chips2">${MONTHS.map((m,i)=>`<span class="chipd${v.months==='len'?' on '+(MDAYS[i]===31?'l31':MDAYS[i]===30?'l30':'l28'):''}">${cap(m)}${v.months==='len'?`<small>${i===1?'28 ou 29':MDAYS[i]} j</small>`:''}</span>`).join('')}</div>`;
+ if(v.roman)h+=`<div class="romrow">${v.roman.map((r,i)=>`<div class="tab sm pop" style="animation-delay:${i*350}ms">${r}${v.sub?`<small>${v.sub[i]}</small>`:''}</div>`).join('')}</div>`;
+ if(v.date)h+=`<div class="datec"><b>${v.date[0]}</b><span>${v.date[1]}</span><small>${v.date[2]}</small></div>`;
+ if(v.frise){const ev=Array.isArray(v.frise)?EVENTS.filter(e=>v.frise.includes(e[0])):EVENTS.filter(e=>[1492,1789,1969,2019].includes(e[0]));h+=`<div class="frz">${[15,16,17,18,19,20,21].map(c=>`<div class="seg"><b>${roman(c)}e</b>${ev.filter(e=>century(e[0])===c).map(e=>`<span class="ev pop">${e[0]}<small>${e[1]}</small></span>`).join('')}</div>`).join('')}</div>`}
+ if(v.big)h+=`<div class="bigt pop">${v.big}</div>`;
+ return h}
+function lsPrev(){if(LS.i>0){LS.i--;LS.playing=true;lessonScene()}}
+function lsNext(){if(LS.i<CT.L[LS.id].scenes.length-1){LS.i++;LS.playing=true;lessonScene()}}
+function lsToggle(){if(LS.playing){LS.playing=false;player.pause();$('lsPlay').textContent='Lecture'}else{LS.playing=true;if(LS.i>=CT.L[LS.id].scenes.length-1&&$('lsPlay').textContent==='Revoir')LS.i=0;lessonScene()}}
+function lsExit(){LS=null;player.pause();player.onended=()=>{music.volume=VOLS[volI]};openMod(MOD)}
+function openPod(id){MOD=id;setTrack('emotion');music.pause();$('podTitle').textContent='Le podcast de Luna · '+CT.L[id].title;$('podTxt').innerHTML=CT.L[id].scenes.map(s=>`<p>${esc(s[0])}</p>`).join('');const a=$('podAudio');a.src=`audio/pod_${id}.mp3`;a.onplay=()=>music.pause();a.onpause=a.onended=()=>{if(volI&&musicOn)music.play().catch(()=>{})};show('sPod')}
+function podExit(){$('podAudio').pause();openMod(MOD)}
+function openMemo(id){$('memoTitle').textContent='Fiche mémo · '+CT.L[id].title;$('memoBody').innerHTML=MEMO[id].map((t,i)=>`<div class="memo pop" style="animation-delay:${i*80}ms"><span>${i+1}</span><p>${t}</p></div>`).join('');show('sMemo')}
+
+/* ================= profil ================= */
+function openProfile(){const p=P();if(!p)return renderStart();const tot=MODS.reduce((a,m)=>a+modStars(p,m.id)[0],0),max=MODS.reduce((a,m)=>a+modStars(p,m.id)[1],0);
+ $('prBox').innerHTML=`<img class="bigface" src="${himg(p.hero)}" alt=""><h1>${esc(p.name)}</h1><p class="sub">${rank(p)}</p>${xpBar(p)}<div class="stats"><div><b>${lvl(p)}</b><small>niveau</small></div><div><b>${tot}</b><small>étoiles sur ${max}</small></div><div><b>${Object.keys(p.boss).length}</b><small>monstres battus</small></div></div><div class="card"><h2>Mes badges</h2><div class="badges">${MODS.concat([{id:'final',name:'Grand défi',col:'#ff4d6d'}]).map(m=>`<div class="badge${p.boss[m.id]?' on':''}" style="--c:${m.col}"><b>${p.boss[m.id]?'★':'?'}</b><small>${m.name}</small></div>`).join('')}</div></div><button class="btn" onclick="newProfile(1)">Changer de héros ou de prénom</button><button class="btn ghost" onclick="DB.current=null;save();renderStart()">Changer de joueur</button><button class="btn red" id="delB" onclick="delP(this)">Supprimer ce profil</button>`;show('sProf')}
+function delP(b){if(!b.dataset.a){b.dataset.a=1;b.textContent='Sûr ? Touche encore';return}DB.profiles=DB.profiles.filter(p=>p.id!==DB.current);DB.current=null;save();renderStart()}
+function navHome(){player.pause();R=null;LS=null;renderStart()}
+function navMap(){player.pause();R=null;LS=null;if(P())goMap();else renderStart()}
+function navProf(){player.pause();R=null;LS=null;openProfile()}
+(function sky(){const s=$('sky');for(let i=0;i<36;i++){const d=document.createElement('i');d.style.left=Math.random()*100+'%';d.style.top=Math.random()*100+'%';d.style.animationDelay=(Math.random()*3)+'s';s.appendChild(d)}})();
+load();drawVol();if(P())goMap();else renderStart();
+
+</script>
+</body>
+</html>
