@@ -202,6 +202,50 @@ input[type=text]:focus{border-color:var(--accent)}
 .dress .stk{pointer-events:auto;cursor:grab;touch-action:none}
 .stk.sel{outline:3px dashed #fff;outline-offset:3px;border-radius:8px}
 .ctl{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:12px}
+
+.zone{margin-top:8px;padding:12px 14px;border-radius:18px;background:linear-gradient(135deg,#3a2f57,#241c3b);border-left:6px solid var(--gold)}
+.zone.locked{opacity:.6;border-left-color:#4a3d6b}
+.zone h2{font-size:1.25rem;line-height:1.1}.zone small{color:var(--muted);font-weight:600}
+.znum{display:inline-block;background:var(--gold);color:#3a2600;font-weight:800;font-size:.75rem;padding:2px 10px;border-radius:10px;margin-bottom:4px}
+.zone.locked .znum{background:#4a3d6b;color:var(--muted)}
+.lockcard{display:flex;gap:12px;align-items:center;background:#1b1430;border:2px dashed #4a3d6b;border-radius:18px;padding:14px;color:var(--muted);font-weight:700}
+.gico{font-weight:800;font-size:1.8rem;line-height:1}
+.convs{display:flex;flex-direction:column;gap:10px}
+.conv{display:flex;gap:12px;align-items:center;border:0;font:inherit;color:inherit;text-align:left;background:linear-gradient(160deg,var(--rock2),var(--rock));border-radius:20px;padding:10px 14px;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.4)}
+.conv b{font-size:1.1rem;display:block}.conv small{display:block;color:var(--muted)}
+.cimg{width:62px;height:62px;flex:none;border-radius:50%;overflow:hidden;border:3px solid var(--gold);background:#2e0f5c;display:flex;align-items:center;justify-content:center}
+.cimg img{width:100%;height:100%;object-fit:cover;object-position:50% 15%}.cimg svg{width:60px;height:68px}
+.slist{display:flex;flex-direction:column;gap:8px}
+.sline{display:flex;gap:8px;align-items:center;background:var(--rock);border-radius:16px;padding:10px 12px}
+.sline b{display:block;font-size:1.05rem}.sline u{color:var(--gold);text-decoration-thickness:3px}.sline small{color:var(--muted)}
+.rule{border:2px solid var(--gold)}.rule b{color:var(--gold)}.rule p{margin-top:4px;line-height:1.35}
+.scard{background:#1b1430;border-radius:18px;padding:14px 16px;text-align:center;width:100%}
+.scard b{font-size:1.45rem;display:block;line-height:1.3}.scard small{color:var(--muted);font-weight:600}
+.blank{display:inline-block;min-width:70px;border-bottom:4px solid var(--gold);color:var(--gold);animation:pu 1.2s ease-in-out infinite}
+.opts.one{grid-template-columns:1fr}
+.opt.sent,.copts .opt{font-size:1.1rem;min-height:58px;text-align:center;line-height:1.25;padding:10px 12px}
+.tile.word{width:auto;padding:0 14px;font-size:1.15rem}
+.slot.word{width:auto;min-width:46px;padding:0 8px;font-size:1.1rem}
+.echo{display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;width:100%}
+.etitle{font-weight:800;font-size:1.25rem;color:var(--gold)}.etitle small{display:block;color:var(--muted);font-size:.9rem;font-weight:600}
+.ephrase{font-size:1.6rem;font-weight:800;line-height:1.2}
+.efr{color:var(--muted);font-weight:600;display:block}
+.edots{display:flex;gap:10px;justify-content:center}
+.edots span{width:26px;height:26px;border-radius:50%;border:3px solid var(--gold);background:#1b1430;transition:all .3s}
+.edots span.on{background:var(--gold);box-shadow:0 0 14px var(--gold);transform:scale(1.15)}
+.erow{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.emsg{min-height:1.3em;font-weight:700;color:#ffb3c6}
+.chat{display:flex;flex-direction:column;gap:12px;min-height:120px}
+.bub{display:flex;gap:8px;align-items:flex-end;max-width:92%}
+.bub.k{align-self:flex-end;flex-direction:row-reverse}
+.bub .txt{background:#3a2f57;border-radius:18px 18px 18px 4px;padding:10px 14px}
+.bub.k .txt{background:#4b33b8;border-radius:18px 18px 4px 18px}
+.bub .txt b{display:block;font-size:1.15rem;line-height:1.25}.bub .fr2{color:#cfc6ee;font-weight:600}
+.gav{width:48px;height:48px;border-radius:50%;object-fit:cover;object-position:50% 15%;border:3px solid var(--gold);flex:none;background:#2e0f5c}
+.gav.m{display:flex;align-items:center;justify-content:center;overflow:hidden}.gav.m svg{width:46px;height:52px}
+.kav{width:44px;height:44px;flex:none}
+.copts{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+#convTitle small{display:block;font-size:.85rem;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -234,9 +278,9 @@ input[type=text]:focus{border-color:var(--accent)}
 <!-- CHOIX DE LA GROTTE -->
 <section id="sHub" class="screen">
   <div class="topbar" id="hubTop"></div>
-  <h1 style="font-size:1.7rem">Choisis ta grotte</h1>
-  <p class="sub" style="margin-top:-8px">Choose a cave!</p>
-  <div class="caves" id="caveList"></div>
+  <h1 style="font-size:1.7rem">Ton chemin d'explorateur</h1>
+  <p class="sub" style="margin-top:-8px">Trois étapes à franchir, de plus en plus difficiles.</p>
+  <div id="caveList"></div>
   <div class="card warncard" id="hubWarn"></div>
 </section>
 
@@ -269,7 +313,15 @@ input[type=text]:focus{border-color:var(--accent)}
   <button class="btn gold" onclick="openDress()">Cabine d'essayage <small style="font-weight:600">(lunettes, barbe, chapeaux…)</small></button>
   <button class="btn" onclick="editProfile()">Changer de héros</button>
   <button class="btn ghost" onclick="logout()">Changer d'explorateur</button>
+  <button class="btn ghost" onclick="unlockAll(this)">Mode Papa : tout débloquer</button>
   <button class="btn red" id="delBtn" onclick="delProfile()">Supprimer ce profil</button>
+</section>
+
+<!-- ATELIER DE CONVERSATION -->
+<section id="sConv" class="screen">
+  <div class="row"><button class="btn small ghost" onclick="goHub()">Étapes</button><h2 class="grow" id="convTitle" style="text-align:center"></h2></div>
+  <div class="chat" id="chat"></div>
+  <div class="card" id="convPanel"></div>
 </section>
 
 <!-- CABINE -->
@@ -766,6 +818,147 @@ function navProf(){$('qOv').classList.remove('on');B=null;stopT();openProfile()}
 (function sky(){const s=$('sky');for(let i=0;i<40;i++){const d=document.createElement('i');d.style.left=Math.random()*100+'%';d.style.top=Math.random()*100+'%';d.style.animationDelay=(Math.random()*3)+'s';d.style.animationDuration=(2+Math.random()*3)+'s';s.appendChild(d)}})();
 
 function quitQ(){stopT();$('qOv').classList.remove('on');B=null;setTrack('cinematique');renderMap()}
+
+/* ===== Étapes, conjugaison, conversation, répétition ===== */
+const GD={"GRAM": {"tobe": {"name": "The To Be Temple", "fr": "Le verbe être (to be)", "short": "To be", "icon": "I am", "tint": "#ff9f43", "rule": "Le verbe être au présent. I am, you are, he is, she is, it is, we are, they are.", "items": [["I ___ happy.", "am", ["is", "are"], "Je suis content."], ["She ___ my sister.", "is", ["am", "are"], "C'est ma sœur."], ["We ___ friends.", "are", ["is", "am"], "Nous sommes amis."], ["They ___ at school.", "are", ["is", "am"], "Ils sont à l'école."], ["He ___ ten years old.", "is", ["are", "am"], "Il a dix ans."], ["You ___ very tall.", "are", ["is", "am"], "Tu es très grand."], ["It ___ a big cat.", "is", ["are", "am"], "C'est un gros chat."], ["I ___ hungry.", "am", ["are", "is"], "J'ai faim."], ["The dogs ___ brown.", "are", ["is", "am"], "Les chiens sont marron."], ["My mum ___ a teacher.", "is", ["are", "am"], "Ma maman est professeure."], ["I ___ not scared!", "am", ["is", "are"], "Je n'ai pas peur !"], ["The sky ___ blue.", "is", ["are", "am"], "Le ciel est bleu."]]}, "present": {"name": "The Present Temple", "fr": "Le présent simple", "short": "Présent", "icon": "I play", "tint": "#3ec1d3", "rule": "Au présent, on ajoute -s au verbe avec he, she, it. I play, she plays. I go, he goes.", "items": [["I ___ football every day.", "play", ["plays", "playing"], "Je joue au foot tous les jours."], ["She ___ apples.", "likes", ["like", "liking"], "Elle aime les pommes."], ["He ___ to school by bus.", "goes", ["go", "going"], "Il va à l'école en bus."], ["We ___ TV in the evening.", "watch", ["watches", "watching"], "Nous regardons la télé le soir."], ["My cat ___ a lot.", "sleeps", ["sleep", "sleeping"], "Mon chat dort beaucoup."], ["They ___ English.", "speak", ["speaks", "speaking"], "Ils parlent anglais."], ["Tom ___ milk every morning.", "drinks", ["drink", "drinking"], "Tom boit du lait chaque matin."], ["I ___ in Sofia.", "live", ["lives", "living"], "J'habite à Sofia."], ["The dog ___ very fast.", "runs", ["run", "running"], "Le chien court très vite."], ["You ___ the piano.", "play", ["plays", "playing"], "Tu joues du piano."], ["My sister ___ books.", "reads", ["read", "reading"], "Ma sœur lit des livres."], ["Birds ___ in the sky.", "fly", ["flies", "flying"], "Les oiseaux volent dans le ciel."]]}, "past": {"name": "The Past Temple", "fr": "Le passé (prétérit)", "short": "Passé", "icon": "I played", "tint": "#b388ff", "rule": "Au passé, on ajoute -ed au verbe. play, played. jump, jumped. Verbes irréguliers à connaître par cœur. go, went. eat, ate. see, saw. have, had. do, did. be, was ou were. swim, swam. sing, sang.", "items": [["Yesterday I ___ football.", "played", ["play", "plays"], "Hier, j'ai joué au foot."], ["Last night we ___ a film.", "watched", ["watch", "watches"], "Hier soir, nous avons regardé un film."], ["Yesterday she ___ to the park.", "went", ["go", "goes"], "Hier, elle est allée au parc."], ["Yesterday I ___ a big cake.", "ate", ["eat", "eats"], "Hier, j'ai mangé un gros gâteau."], ["Last week we ___ a lion at the zoo.", "saw", ["see", "sees"], "La semaine dernière, nous avons vu un lion au zoo."], ["Last year he ___ a red bike.", "had", ["has", "have"], "L'année dernière, il avait un vélo rouge."], ["Last summer they ___ very happy.", "were", ["was", "are"], "L'été dernier, ils étaient très contents."], ["I ___ tired yesterday.", "was", ["were", "am"], "J'étais fatigué hier."], ["Yesterday she ___ her homework.", "did", ["do", "does"], "Hier, elle a fait ses devoirs."], ["Last summer we ___ in the sea.", "swam", ["swim", "swims"], "L'été dernier, nous avons nagé dans la mer."], ["Yesterday the cat ___ on the sofa.", "jumped", ["jump", "jumps"], "Hier, le chat a sauté sur le canapé."], ["Last night Mum ___ a song.", "sang", ["sing", "sings"], "Hier soir, maman a chanté une chanson."]]}, "future": {"name": "The Future Temple", "fr": "Le futur avec will", "short": "Futur", "icon": "I will", "tint": "#3ddc84", "rule": "Au futur, on met will devant le verbe. I will play. She will go. It will rain.", "items": [["Tomorrow I ___ to the cave.", "will go", ["went", "goes"], "Demain, j'irai à la grotte."], ["Next week we ___ a film.", "will watch", ["watched", "watches"], "La semaine prochaine, nous regarderons un film."], ["She ___ eleven next year.", "will be", ["was", "is"], "Elle aura onze ans l'année prochaine."], ["It ___ tomorrow.", "will rain", ["rained", "rains"], "Il pleuvra demain."], ["Tonight they ___ a cake.", "will make", ["made", "makes"], "Ce soir, ils feront un gâteau."], ["I ___ you tomorrow.", "will call", ["called", "calls"], "Je t'appellerai demain."], ["Next summer we ___ in the sea.", "will swim", ["swam", "swims"], "L'été prochain, nous nagerons dans la mer."], ["Tomorrow the monster ___ very angry.", "will be", ["was", "is"], "Demain, le monstre sera très en colère."], ["Later he ___ his homework.", "will do", ["did", "does"], "Plus tard, il fera ses devoirs."], ["Next week I ___ my grandma.", "will visit", ["visited", "visits"], "La semaine prochaine, je rendrai visite à ma mamie."]]}}, "CONV": [{"id": "hello", "title": "Say hello!", "fr": "Se présenter", "guide": "luna", "turns": [{"q": "Hello! I'm Luna. What's your name?", "qfr": "Bonjour ! Je suis Luna. Comment tu t'appelles ?", "a": "Hello! My name is {name}.", "afr": "Bonjour ! Je m'appelle {name}."}, {"q": "Nice to meet you! How are you today?", "qfr": "Enchantée ! Comment vas-tu aujourd'hui ?", "a": "I'm fine, thank you! And you?", "afr": "Je vais bien, merci ! Et toi ?"}, {"q": "I'm very well! Where do you live?", "qfr": "Je vais très bien ! Où habites-tu ?", "a": "I live in Sofia.", "afr": "J'habite à Sofia."}, {"q": "Cool! Do you like animals?", "qfr": "Super ! Tu aimes les animaux ?", "a": "Yes! I love cats and dogs.", "afr": "Oui ! J'adore les chats et les chiens."}, {"q": "Me too! Goodbye, see you soon!", "qfr": "Moi aussi ! Au revoir, à bientôt !", "a": "Goodbye Luna! See you!", "afr": "Au revoir Luna ! À bientôt !"}]}, {"id": "market", "title": "At the market", "fr": "Au marché", "guide": "luna", "turns": [{"q": "Good morning! What would you like?", "qfr": "Bonjour ! Qu'est-ce que tu voudrais ?", "a": "I would like three apples, please.", "afr": "Je voudrais trois pommes, s'il te plaît."}, {"q": "Here you are. Anything else?", "qfr": "Voilà. Autre chose ?", "a": "Yes, one banana, please.", "afr": "Oui, une banane, s'il te plaît."}, {"q": "Of course. That's two euros.", "qfr": "Bien sûr. Ça fait deux euros.", "a": "Here you are. Thank you!", "afr": "Voilà. Merci !"}, {"q": "Thank you! Have a nice day!", "qfr": "Merci ! Bonne journée !", "a": "You too! Goodbye!", "afr": "Toi aussi ! Au revoir !"}]}, {"id": "family", "title": "My family", "fr": "Ma famille et mes animaux", "guide": "luna", "turns": [{"q": "Have you got a brother or a sister?", "qfr": "As-tu un frère ou une sœur ?", "a": "I have got a sister.", "afr": "J'ai une sœur."}, {"q": "How old is she?", "qfr": "Quel âge a-t-elle ?", "a": "She is seven years old.", "afr": "Elle a sept ans."}, {"q": "Have you got a pet?", "qfr": "As-tu un animal ?", "a": "Yes, I have got a dog.", "afr": "Oui, j'ai un chien."}, {"q": "What colour is your dog?", "qfr": "De quelle couleur est ton chien ?", "a": "My dog is brown and white.", "afr": "Mon chien est marron et blanc."}, {"q": "What's your favourite colour?", "qfr": "Quelle est ta couleur préférée ?", "a": "My favourite colour is purple.", "afr": "Ma couleur préférée est le violet."}]}, {"id": "yesterday", "title": "Yesterday", "fr": "Hier (le passé)", "guide": "luna", "turns": [{"q": "What did you do yesterday?", "qfr": "Qu'as-tu fait hier ?", "a": "I played in the park.", "afr": "J'ai joué au parc."}, {"q": "Did you eat ice cream?", "qfr": "As-tu mangé une glace ?", "a": "Yes, I ate a big ice cream!", "afr": "Oui, j'ai mangé une grosse glace !"}, {"q": "Where did you go last weekend?", "qfr": "Où es-tu allé le week-end dernier ?", "a": "I went to the mountains.", "afr": "Je suis allé à la montagne."}, {"q": "What did you see?", "qfr": "Qu'as-tu vu ?", "a": "I saw a big brown bear!", "afr": "J'ai vu un gros ours brun !"}, {"q": "Was it fun?", "qfr": "C'était amusant ?", "a": "Yes, it was great!", "afr": "Oui, c'était génial !"}]}, {"id": "monster", "title": "Talk with the Papa Monster", "fr": "Discute avec le monstre Papa", "guide": "monster", "turns": [{"q": "Grrr! Who are you?", "qfr": "Grrr ! Qui es-tu ?", "a": "I am a brave explorer!", "afr": "Je suis un explorateur courageux !"}, {"q": "Are you scared of me?", "qfr": "Tu as peur de moi ?", "a": "No, I am not scared!", "afr": "Non, je n'ai pas peur !"}, {"q": "What will you do tomorrow?", "qfr": "Que feras-tu demain ?", "a": "I will go to school.", "afr": "J'irai à l'école."}, {"q": "What did you eat today?", "qfr": "Qu'as-tu mangé aujourd'hui ?", "a": "I ate pasta and an apple.", "afr": "J'ai mangé des pâtes et une pomme."}, {"q": "Do you want to be my friend?", "qfr": "Tu veux être mon ami ?", "a": "Yes! Let's play together!", "afr": "Oui ! Jouons ensemble !"}]}]};
+const SKEYS=["s_are_you_scared_of_me", "s_birds_fly_in_the_sky", "s_cool_do_you_like_animals", "s_did_you_eat_ice_cream", "s_do_you_want_to_be_my_friend", "s_good_morning_what_would_you_like", "s_goodbye_luna_see_you", "s_grrr_who_are_you", "s_have_you_got_a_brother_or_a_sister", "s_have_you_got_a_pet", "s_he_goes_to_school_by_bus", "s_he_is_ten_years_old", "s_hello_i_m_luna_what_s_your_name", "s_hello_my_name_is", "s_here_you_are_anything_else", "s_here_you_are_thank_you", "s_how_old_is_she", "s_i_am_a_brave_explorer", "s_i_am_happy", "s_i_am_hungry", "s_i_am_not_scared", "s_i_ate_pasta_and_an_apple", "s_i_have_got_a_sister", "s_i_live_in_sofia", "s_i_m_fine_thank_you_and_you", "s_i_m_very_well_where_do_you_live", "s_i_play_football_every_day", "s_i_played_in_the_park", "s_i_saw_a_big_brown_bear", "s_i_was_tired_yesterday", "s_i_went_to_the_mountains", "s_i_will_call_you_tomorrow", "s_i_will_go_to_school", "s_i_would_like_three_apples_please", "s_it_is_a_big_cat", "s_it_will_rain_tomorrow", "s_last_night_mum_sang_a_song", "s_last_night_we_watched_a_film", "s_last_summer_they_were_very_happy", "s_last_summer_we_swam_in_the_sea", "s_last_week_we_saw_a_lion_at_the_zoo", "s_last_year_he_had_a_red_bike", "s_later_he_will_do_his_homework", "s_me_too_goodbye_see_you_soon", "s_my_cat_sleeps_a_lot", "s_my_dog_is_brown_and_white", "s_my_favourite_colour_is_purple", "s_my_mum_is_a_teacher", "s_my_sister_reads_books", "s_next_summer_we_will_swim_in_the_sea", "s_next_week_i_will_visit_my_grandma", "s_next_week_we_will_watch_a_film", "s_nice_to_meet_you_how_are_you_today", "s_no_i_am_not_scared", "s_of_course_that_s_two_euros", "s_she_is_my_sister", "s_she_is_seven_years_old", "s_she_likes_apples", "s_she_will_be_eleven_next_year", "s_thank_you_have_a_nice_day", "s_the_dog_runs_very_fast", "s_the_dogs_are_brown", "s_the_sky_is_blue", "s_they_are_at_school", "s_they_speak_english", "s_tom_drinks_milk_every_morning", "s_tomorrow_i_will_go_to_the_cave", "s_tomorrow_the_monster_will_be_very_angry", "s_tonight_they_will_make_a_cake", "s_was_it_fun", "s_we_are_friends", "s_we_watch_tv_in_the_evening", "s_what_colour_is_your_dog", "s_what_did_you_do_yesterday", "s_what_did_you_eat_today", "s_what_did_you_see", "s_what_s_your_favourite_colour", "s_what_will_you_do_tomorrow", "s_where_did_you_go_last_weekend", "s_yes_i_ate_a_big_ice_cream", "s_yes_i_have_got_a_dog", "s_yes_i_love_cats_and_dogs", "s_yes_it_was_great", "s_yes_let_s_play_together", "s_yes_one_banana_please", "s_yesterday_i_ate_a_big_cake", "s_yesterday_i_played_football", "s_yesterday_she_did_her_homework", "s_yesterday_she_went_to_the_park", "s_yesterday_the_cat_jumped_on_the_sofa", "s_you_are_very_tall", "s_you_play_the_piano", "s_you_too_goodbye"];
+SKEYS.forEach(k=>CLIPS.add(k));
+const sk=t=>'s_'+String(t).toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'').slice(0,60);
+const audioText=t=>String(t).replace(/\s*\{name\}/,'');
+const fillN=t=>String(t).replace('{name}',(P()&&P().name)||'…');
+Object.entries(GD.GRAM).forEach(([k,c])=>{CAVES[k]={kind:'gram',name:c.name,fr:c.fr,short:c.short,icon:c.icon,tint:c.tint,rule:c.rule,q:'Complete the sentence!',qfr:'Complète la phrase.',words:c.items.map(([bl,a,d,fr])=>[bl.replace('___',a),fr,bl,a,d])}});
+const CONV=GD.CONV;
+VOLS=[0,.3,.55];
+const isGram=k=>CAVES[k]&&CAVES[k].kind==='gram';
+
+/* voix : vitesse réglable */
+let _rate=1;
+function sayAt(r,...t){_rate=r;say(...t)}
+function say(...ts){const r=_rate;_rate=1;const ks=ts.map(t=>CLIPS.has(t)?t:CLIPS.has(keyOf(t))?keyOf(t):sk(audioText(t)));queue=[];
+ if(!ks.every(k=>CLIPS.has(k))){speakTTS(ts.join('. '));return}
+ try{player.pause()}catch(e){}queue=ks.slice(1);player.dataset.rate=r;playNow(ks[0])}
+function playNow(k){player.src='audio/'+k+'.mp3';const r=+(player.dataset.rate||1);player.defaultPlaybackRate=r;player.playbackRate=r;try{player.preservesPitch=true}catch(e){}const pr=player.play();if(pr&&pr.catch)pr.catch(()=>{})}
+
+/* micro : dictée Claude, reconnaissance du navigateur, sinon bouton */
+let DICT=null,dictCb=null,dictTxt='',dictTarget='';
+try{if(window.claude&&window.claude.use)window.claude.use('dictation').then(d=>{DICT=d;if(!d)return;d.onFinal(({text})=>{dictTxt+=' '+text});d.onState(({state})=>{if(state==='idle'&&dictCb){const cb=dictCb;dictCb=null;cb(matchS(dictTxt,dictTarget),dictTxt.trim())}})}).catch(()=>{})}catch(e){}
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+const canMic=()=>!!(DICT||SR);
+function matchS(h,t){const n=s=>String(s).toLowerCase().replace(/[^a-z' ]/g,' ').split(/\s+/).filter(Boolean),hw=n(h),tw=n(t);if(!tw.length)return false;return tw.filter(w=>hw.includes(w)).length/tw.length>=.6}
+function hearKid(target,cb){
+ if(DICT){dictTxt='';dictTarget=target;dictCb=cb;DICT.start().catch(()=>{if(dictCb){dictCb=null;cb(null)}});setTimeout(()=>{try{DICT.stop().catch(()=>{})}catch(e){}},4500);return}
+ if(SR){let done=false;const r=new SR();r.lang='en-GB';r.interimResults=false;r.maxAlternatives=4;r.onresult=e=>{done=true;const alts=[...e.results[0]].map(a=>a.transcript);cb(alts.some(a=>matchS(a,target)),alts[0])};r.onerror=()=>{if(!done){done=true;cb(null)}};r.onend=()=>{if(!done){done=true;cb(false,'')}};try{r.start()}catch(e){cb(null)}return}
+ cb(null)}
+
+/* écho : écouter, répéter, recommencer plus vite */
+function echoUI(box,text,fr,reps,onDone,img){
+ const at=audioText(text);let n=0;
+ const draw=msg=>{box.innerHTML=`<div class="echo"><p class="etitle">Répète à voix haute ! <small>Repeat after me! (${reps} fois)</small></p>${img||''}<div class="ephrase">${esc(fillN(text))}</div><small class="efr">${esc(fillN(fr))}</small><div class="edots">${Array.from({length:reps},(_,i)=>`<span class="${i<n?'on':''}"></span>`).join('')}</div><div class="erow"><button class="btn small ghost" data-a="n">Écouter</button><button class="btn small ghost" data-a="s">Lentement</button>${canMic()?'<button class="btn small" data-a="m">Je parle (micro)</button>':''}</div><button class="btn gold" data-a="d" style="width:100%">Je l’ai dit !</button><p class="emsg">${msg||''}</p></div>`;box.querySelectorAll('button').forEach(b=>b.onclick=()=>act(b.dataset.a,b))};
+ const step=()=>{n++;const last=n>=reps;sfx(last?'ok':'tap');const dots=box.querySelectorAll('.edots span');if(dots[n-1])dots[n-1].classList.add('on');burst(box.querySelector('.edots'));
+  if(last){box.querySelectorAll('button').forEach(b=>b.disabled=true);setTimeout(onDone,600);return}
+  draw(n===reps-1?'Encore une fois, un peu plus vite !':'Super ! Encore une fois.');setTimeout(()=>sayAt(n===reps-1?1.15:1,at),300)};
+ const act=(a,b)=>{if(a==='n')sayAt(1,at);if(a==='s')sayAt(.7,at);if(a==='d')step();
+  if(a==='m'){b.textContent='J’écoute…';b.disabled=true;hearKid(at,(ok,heard)=>{if(ok)step();else draw(ok===null?'Le micro ne marche pas ici. Dis la phrase puis touche « Je l’ai dit ».':`J’ai entendu « ${esc(heard||'…')} ». Réessaie !`)})}};
+ draw();
+}
+
+/* étapes */
+function zoneOpen(z,p){if(z===1||p.unlockAll)return true;const m=p.medals||{},vm=Object.keys(CAVES).filter(k=>!isGram(k)&&m[k]).length,gm=Object.keys(CAVES).filter(k=>isGram(k)&&m[k]).length;return z===2?vm>=2:(vm>=2&&gm>=1)}
+function caveIcon(k){const c=CAVES[k];if(isGram(k))return `<span class="gico" style="color:${c.tint}">${c.icon}</span>`;if(k==='colors')return gemSVG('#ff6b9d',60);if(k==='numbers')return `<span style="font-weight:800;font-size:40px;color:#4d96ff">123</span>`;return `<span class="emo">${k==='animals'?'🦁':'🍎'}</span>`}
+function caveCard(p,k){const c=CAVES[k],st=stageOf(k),s=p.caves[k]||0;return `<button class="cave" onclick="openCave('${k}')" style="border-top:4px solid ${c.tint}"><div class="medals">${medals(p,k)}</div><div class="ci">${caveIcon(k)}</div><b>${c.name}</b><small>${c.fr}</small><small class="stg" style="color:${STAGES[st].c}">Niveau ${st} · ${STAGES[st].n}</small><div class="bar"><i style="width:${s/GOAL*100}%"></i></div><small>${s} / ${GOAL} ${icoStar(14)}</small></button>`}
+function zoneHead(n,t,sub,open){return `<div class="zone${open?'':' locked'}"><span class="znum">Étape ${n}</span><h2>${t}</h2><small>${sub}</small></div>`}
+function goHub(){
+ const p=P();if(!p)return renderStart();setTrack('cinematique');
+ const t=Object.values(p.trophies).reduce((a,b)=>a+b,0);
+ $('hubTop').innerHTML=`<div class="av">${face(p)}</div><div class="grow"><b>Hello ${esc(p.name)}!</b><small>${rank(p)} · ${icoStar(14)} ${p.stars} · ${t} trophée${t>1?'s':''}</small>${xpBar(p)}</div>`;
+ const vk=Object.keys(CAVES).filter(k=>!isGram(k)),gk=Object.keys(CAVES).filter(isGram),o2=zoneOpen(2,p),o3=zoneOpen(3,p),cv=p.conv||{};
+ $('caveList').innerHTML=zoneHead(1,'Les grottes des mots','Vocabulaire. Couleurs, animaux, nombres, nourriture.',1)+`<div class="caves">${vk.map(k=>caveCard(p,k)).join('')}</div>`
+ +zoneHead(2,'Le temple des verbes','Conjugaison. Être, présent, passé, futur.',o2)+(o2?`<div class="caves">${gk.map(k=>caveCard(p,k)).join('')}</div>`:`<div class="lockcard">${lockIco()}<p>Gagne un trophée dans 2 grottes des mots pour ouvrir le temple.</p></div>`)
+ +zoneHead(3,'Le village des dialogues','Ateliers de conversation. Écoute, réponds, répète.',o3)+(o3?`<div class="convs">${CONV.map((c,i)=>`<button class="conv" onclick="openConv(${i})"><div class="cimg">${c.guide==='monster'?monsterSVG():'<img src="heroes/luna.jpg" alt="">'}</div><div class="grow"><b>${c.title}</b><small>${c.fr}</small><small class="stg" style="color:${cv[c.id]?'#3ddc84':'var(--muted)'}">${cv[c.id]?`Réussi ×${cv[c.id]}`:`${c.turns.length} répliques à dire`}</small></div></button>`).join('')}</div>`:`<div class="lockcard">${lockIco()}<p>Gagne aussi un trophée dans le temple des verbes pour ouvrir le village.</p></div>`);
+ $('hubWarn').innerHTML=`<div class="mmini">${monsterSVG()}</div><p><b>Attention !</b> Le monstre Papa garde le trophée de chaque grotte. Gagne 9 étoiles, puis bats-le en 3 bonnes réponses.<br><small>Chaque grotte a 3 niveaux, Bronze, Argent et Or, de plus en plus difficiles.</small></p>`;
+ show('sHub');
+}
+const lockIco=()=>`<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#b9b0d6" stroke-width="2.2" stroke-linecap="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>`;
+function unlockAll(b){if(!b.dataset.arm){b.dataset.arm=1;b.textContent='Sûr ? Touche encore';setTimeout(()=>{delete b.dataset.arm;b.textContent='Mode Papa : tout débloquer'},4000);return}P().unlockAll=true;save();sfx('win');toast('<b>Tout est débloqué</b><span>Bonne exploration !</span>');goHub()}
+function openCave(k){cur=k;sfx('tap');setTrack(isGram(k)?'puissance':'cinematique');renderMap();show('sCave')}
+function openWords(){
+ const c=CAVES[cur];
+ if(isGram(cur)){$('wgrid').className='slist';$('wgrid').innerHTML=`<div class="card rule"><b>La règle</b><p>${c.rule}</p></div>`+c.words.map((w,i)=>`<div class="sline"><div class="grow"><b>${w[2].replace('___',`<u>${w[3]}</u>`)}</b><small>${w[1]}</small></div><button class="btn small ghost" onclick="say(CAVES[cur].words[${i}][0])">Écouter</button><button class="btn small ghost" onclick="sayAt(.7,CAVES[cur].words[${i}][0])">Lent</button></div>`).join('')}
+ else{$('wgrid').className='wgrid';$('wgrid').innerHTML=c.words.map((w,i)=>`<button class="wcard" onclick="say(CAVES[cur].words[${i}][0])">${pic(cur,w,cur==='numbers'?70:60)}<b>${w[0]}</b><small>${w[1]}</small></button>`).join('')}
+ show('sWords');
+}
+
+/* questions */
+function startQ(){
+ const p=P(),c=CAVES[cur],st=stageOf(cur),rev=p.review[cur]||[],g=isGram(cur);let w=null;
+ if((p.caves[cur]||0)===GOAL-1&&!B){B={hp:3,lives:3};combo=0;setTrack('tension');sfx('boss')}
+ if(rev.length&&Math.random()<.45){const r=rev.filter(x=>x!==lastWord);if(r.length)w=c.words.find(x=>x[0]===rnd(r))}
+ if(!w){do{w=rnd(c.words)}while(w[0]===lastWord)}
+ lastWord=w[0];
+ let types,t,opts,ri,tok=null;
+ if(g){types=['fill','fill','listenS'];if(st>=2)types.push('build','build');if(!B)types.push('echo');t=rnd(types);
+  const forms=[w[3],...w[4].slice(0,st===1?1:2)];
+  if(t==='fill'){opts=shuffle(forms);ri=opts.indexOf(w[3])}
+  else if(t==='listenS'){opts=shuffle(forms.map(f=>w[2].replace('___',f)));ri=opts.indexOf(w[0])}
+  else if(t==='build'){tok=w[0].replace(/[.!?,]/g,'').split(' ')}}
+ else{types=['listen','read'];if(st>=2&&w[0].length<=7&&!w[0].includes(' '))types.push('spell');if(!B)types.push('echo');t=rnd(types);
+  const n=st===1?3:4;opts=shuffle([w,...shuffle(c.words.filter(x=>x!==w)).slice(0,n-1)]);ri=opts.indexOf(w);if(t==='spell')tok=[...w[0]]}
+ Q={w,t,opts,ri,tok,done:false,gain:false,errors:0,pos:0};
+ renderQ();$('qOv').classList.add('on');
+}
+function renderQ(){
+ const c=CAVES[cur],w=Q.w;stopT();
+ $('qBoss').innerHTML=B?bossHTML():'';
+ $('qFeed').innerHTML='';$('qFeed').className='feed';$('qNext').hidden=true;
+ $('qSpk').innerHTML=spkIco(26);$('qSpk').style.display='none';
+ const o=$('qOpts');o.className='opts'+(Q.opts&&Q.opts.length===3?' three':'');o.innerHTML='';
+ const btns=f=>Q.opts.map((x,i)=>`<button class="opt pop" style="animation-delay:${i*60}ms" onclick="answer(${i},this)">${f(x)}</button>`).join('');
+ const tiles=()=>`<div class="tiles">${shuffle(Q.tok.map((l,i)=>({l,i}))).map((x,i)=>`<button class="tile pop${Q.t==='build'?' word':''}" style="animation-delay:${i*50}ms" data-t="${esc(x.l)}" onclick="tile(this)">${esc(x.l)}</button>`).join('')}</div>`;
+ const slots=()=>`<div class="slots">${Q.tok.map((_,i)=>`<span class="slot${Q.t==='build'?' word':''}" id="sl${i}"></span>`).join('')}</div>`;
+ switch(Q.t){
+  case 'listen':$('qPrompt').textContent='Listen and tap!';$('qFr').textContent='Écoute le mot et touche la bonne image.';$('qVis').innerHTML=`<button class="speak big" onclick="say(Q.w[0])" aria-label="Écouter">${spkIco(48)}</button>`;o.innerHTML=btns(x=>pic(cur,x,Q.opts.length===3?64:72));say(w[0]);break;
+  case 'read':$('qPrompt').textContent=c.q;$('qFr').textContent=c.qfr+' Choisis le bon mot.';$('qVis').innerHTML=`<div class="pop">${pic(cur,w,cur==='numbers'?150:110)}</div>`;o.innerHTML=btns(x=>x[0]);break;
+  case 'spell':$('qPrompt').textContent='Spell the word!';$('qFr').textContent='Écoute et touche les lettres dans le bon ordre.';$('qSpk').style.display='';$('qVis').innerHTML=pic(cur,w,cur==='numbers'?130:96)+slots();o.className='';o.innerHTML=tiles();say(w[0]);break;
+  case 'echo':$('qPrompt').textContent='Repeat after me!';$('qFr').textContent='Écoute bien, puis répète à voix haute.';o.className='';echoUI($('qVis'),w[0],w[1],isGram(cur)?2:3,()=>good($('qVis')),isGram(cur)?'':`<div class="pop">${pic(cur,w,cur==='numbers'?110:90)}</div>`);say(w[0]);break;
+  case 'fill':$('qPrompt').textContent='Complete the sentence!';$('qFr').textContent='Complète la phrase avec le bon verbe.';$('qVis').innerHTML=`<div class="scard pop"><b>${esc(w[2]).replace('___','<span class="blank">?</span>')}</b><small>${esc(w[1])}</small></div>`;o.innerHTML=btns(x=>esc(x));break;
+  case 'listenS':$('qPrompt').textContent='Listen and choose!';$('qFr').textContent='Écoute la phrase et choisis la bonne.';$('qVis').innerHTML=`<button class="speak big" onclick="say(Q.w[0])" aria-label="Écouter">${spkIco(48)}</button><small class="efr">${esc(w[1])}</small>`;o.className='opts one';o.innerHTML=btns(x=>esc(x));say(w[0]);break;
+  case 'build':$('qPrompt').textContent='Build the sentence!';$('qFr').textContent='Touche les mots dans le bon ordre.';$('qSpk').style.display='';$('qVis').innerHTML=`<div class="scard"><small>${esc(w[1])}</small></div>`+slots();o.className='';o.innerHTML=tiles();say(w[0]);break;
+ }
+ const tm=$('qTimer');
+ if(stageOf(cur)===3&&Q.t!=='echo'){const lim=(Q.t==='spell'||Q.t==='build')?24:13;let tl=lim;tm.hidden=false;$('qTimerBar').style.width='100%';TM=setInterval(()=>{tl-=.1;$('qTimerBar').style.width=Math.max(0,tl/lim*100)+'%';if(tl<=0){stopT();timeUp()}},100)}
+ else tm.hidden=true;
+}
+function revealTok(){if(Q.tok)Q.tok.forEach((ch,i)=>{const s=$('sl'+i);if(s)s.textContent=ch})}
+function timeUp(){if(Q.done)return;document.querySelectorAll('#qOpts .opt').forEach((b,j)=>{b.disabled=true;if(j===Q.ri)b.classList.add('good')});document.querySelectorAll('.tile').forEach(b=>b.disabled=true);revealTok();bad('Trop tard !')}
+function answer(i,btn){
+ if(Q.done)return;
+ document.querySelectorAll('#qOpts .opt').forEach((b,j)=>{b.disabled=true;if(j===Q.ri)b.classList.add('good')});
+ if(i===Q.ri){good(btn)}else{btn.classList.add('wrong','shake');bad()}
+}
+function tile(btn){
+ if(Q.done)return;const l=btn.dataset.t;
+ if(l===Q.tok[Q.pos]){btn.disabled=true;const s=$('sl'+Q.pos);s.textContent=l;s.classList.add('pop');Q.pos++;sfx('tap');
+  if(Q.pos===Q.tok.length){if(Q.errors<=1)good($('qVis'));else bad('Avec de l’aide !')}}
+ else{Q.errors++;btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');sfx('bad');
+  if(Q.errors>=4){revealTok();document.querySelectorAll('.tile').forEach(b=>b.disabled=true);bad('Nice try!')}}
+}
+function addReview(){const p=P(),r=p.review[cur]=p.review[cur]||[];if(!r.includes(Q.w[0]))r.push(Q.w[0]);save()}
+
+/* ateliers de conversation */
+let CV=null;
+function openConv(i){const c=CONV[i];CV={i,t:0};setTrack('emotion');sfx('tap');$('convTitle').innerHTML=`${c.title}<small>${c.fr}</small>`;$('chat').innerHTML='';show('sConv');setTimeout(convTurn,300)}
+function gAv(c){return c.guide==='monster'?`<div class="gav m">${monsterSVG()}</div>`:`<img class="gav" src="heroes/luna.jpg" alt="">`}
+function bubble(who,en,fr){const p=P(),c=CONV[CV.i],d=document.createElement('div');d.className='bub '+who+' pop';d.innerHTML=(who==='g'?gAv(c):`<div class="kav">${face(p)}</div>`)+`<div class="txt"><b>${esc(fillN(en))}</b><small class="fr2">${esc(fillN(fr))}</small></div>`;$('chat').appendChild(d);setTimeout(()=>d.scrollIntoView({behavior:'smooth',block:'center'}),50)}
+function convTurn(){const c=CONV[CV.i],T=c.turns[CV.t];bubble('g',T.q,T.qfr);say(T.q);
+ const others=c.turns.filter(x=>x!==T).map(x=>x.a);CV.opts=shuffle([T.a,...shuffle(others).slice(0,2)]);
+ $('convPanel').innerHTML=`<p class="hint">Que réponds-tu ?<small>Choose the right answer. Réplique ${CV.t+1} sur ${c.turns.length}</small></p><div class="erow"><button class="btn small ghost" onclick="say(CONV[CV.i].turns[CV.t].q)">Réécouter</button><button class="btn small ghost" onclick="sayAt(.7,CONV[CV.i].turns[CV.t].q)">Lentement</button></div><div class="copts">${CV.opts.map((o,i)=>`<button class="opt sent pop" style="animation-delay:${i*80}ms" onclick="convPick(${i},this)">${esc(fillN(o))}</button>`).join('')}</div>`}
+function convPick(i,btn){const c=CONV[CV.i],T=c.turns[CV.t];
+ if(CV.opts[i]===T.a){sfx('ok');burst(btn);addXP(5,btn);bubble('k',T.a,T.afr);say(T.a);
+  $('convPanel').innerHTML='<div id="echoBox"></div>';echoUI($('echoBox'),T.a,T.afr,2,()=>{addXP(10,$('convPanel'));CV.t++;if(CV.t>=c.turns.length)convEnd();else setTimeout(convTurn,350)})}
+ else{sfx('bad');btn.classList.add('wrong','shake');btn.disabled=true;floatTxt('Hmm, ça ne répond pas à la question',btn)}}
+function convEnd(){const p=P(),c=CONV[CV.i];p.conv=p.conv||{};p.conv[c.id]=(p.conv[c.id]||0)+1;save();setTrack('marche-victoire');sfx('win');confetti();setTimeout(()=>say('p_win'),500);addXP(40,$('convPanel'));
+ const nx=CONV[(CV.i+1)%CONV.length];
+ $('convPanel').innerHTML=`<div class="echo"><p class="etitle">Bravo ${esc(p.name)} ! Atelier réussi !<small>Great conversation! +40 XP</small></p><button class="btn gold" onclick="openConv(${(CV.i+1)%CONV.length})" style="width:100%">Atelier suivant <small style="font-weight:600">${nx.fr}</small></button><button class="btn ghost" onclick="openConv(${CV.i})" style="width:100%">Refaire cet atelier</button><button class="btn ghost" onclick="goHub()" style="width:100%">Retour aux étapes</button></div>`}
 
 load();drawVol();if(P())goHub();else renderStart();
 </script>
