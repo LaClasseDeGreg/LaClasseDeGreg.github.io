@@ -316,27 +316,34 @@ footer{max-width:1000px;margin:30px auto;padding:0 18px 40px;font-size:.8rem;col
     </table>
   </div>
   <div class="carte">
-    <h3>Le modèle, sur le sujet de ton JT</h3>
-    <p><b>Sujet</b> « Contrôler un détroit, est-ce être une puissance ? »</p>
+    <h3>Étape 1. Analyser le sujet</h3>
+    <p><b>Sujet</b> « L'essor de l'Empire ottoman, une puissance fondée sur la seule force ? »</p>
+    <div class="question">Que veut dire « essor » ?<textarea placeholder="Ta réponse"></textarea><button class="btn" onclick="montre(this)">Voir la réponse</button><div class="rep">Une croissance rapide et durable. Il faut expliquer comment la puissance grandit, mais aussi comment elle s'installe.</div></div>
+    <div class="question">Pourquoi le mot « seule » est-il un piège ?<textarea placeholder="Ta réponse"></textarea><button class="btn" onclick="montre(this)">Voir la réponse</button><div class="rep">Il invite à nuancer. La force compte, mais elle ne suffit pas à tout expliquer.</div></div>
+    <div class="question">Quelles bornes chronologiques choisir, et pourquoi ?<textarea placeholder="Ta réponse"></textarea><button class="btn" onclick="montre(this)">Voir la réponse</button><div class="rep">De 1453, quand Constantinople devient la capitale, à 1566, la mort de Soliman, sommet territorial et symbolique.</div></div>
+    <div class="question">Qu'est-ce qui, à côté de la force, explique l'essor ?<textarea placeholder="Ta réponse"></textarea><button class="btn" onclick="montre(this)">Voir la réponse</button><div class="rep">L'intégration des peuples vaincus, la légitimité religieuse (le califat, la protection des lieux saints) et la diplomatie (l'alliance avec François Ier en 1536).</div></div>
+  </div>
+  <div class="carte">
+    <h3>Étape 2. L'introduction modèle</h3>
     <p class="petit">Clique sur une couleur pour voir chaque brique dans le texte.</p>
     <div class="cle" id="cle"></div>
     <div class="modele" id="modele">
-      <p><span class="brique" data-b="1">Le 4 novembre 2026, les Gardiens de la révolution iraniens annoncent que quatre pétroliers ont pris feu au sud du détroit d'Ormuz après avoir heurté des mines. Deux jours plus tôt, le baril de Brent valait encore 106 dollars, contre environ 70 avant le début de la guerre, le 28 février. Un étroit couloir maritime suffit donc à faire trembler l'économie mondiale.</span></p>
-      <p><span class="brique" data-b="2">Un détroit est un passage maritime resserré entre deux terres, qui relie deux mers. Ormuz, large d'une quarantaine de kilomètres à son point le plus étroit, sépare l'Iran de la péninsule arabique et ouvre le golfe Persique sur l'océan Indien. La puissance, selon Raymond Aron, désigne la capacité d'un acteur à imposer sa volonté aux autres. Elle ne se limite pas à la force militaire, puisqu'elle peut aussi reposer sur la capacité de nuire.</span></p>
-      <p><span class="brique" data-b="3">La question se pose avec une acuité particulière depuis février 2026, mais elle est ancienne. Pendant la guerre Iran-Irak, entre 1984 et 1988, la « guerre des tankers » avait déjà fait du détroit un champ de bataille.</span> <span class="brique" data-b="4">Avant la guerre, environ un cinquième du pétrole consommé dans le monde transitait par Ormuz.</span></p>
-      <p><span class="brique" data-b="5">Or le paradoxe est frappant. L'Iran, puissance moyenne affaiblie par les sanctions, parvient à peser sur la première puissance mondiale, les États-Unis, et à faire monter les prix jusqu'en Europe et en Asie.</span></p>
-      <p><span class="brique" data-b="6">Dans quelle mesure le contrôle d'un détroit permet-il à une puissance moyenne de rivaliser avec les grandes puissances, et jusqu'où cette arme peut-elle se retourner contre celui qui l'utilise ?</span></p>
-      <p><span class="brique" data-b="7">Nous verrons d'abord que le détroit offre à l'Iran une capacité de nuisance qui en fait un acteur incontournable, avant de montrer que cette arme a un coût et des limites, face à la riposte américaine et à la dépendance de l'Iran envers ses propres exportations.</span></p>
+      <p><span class="brique" data-b="1">Le 24 juillet 2020, pour la première prière dans Sainte-Sophie redevenue mosquée, le chef des affaires religieuses turques prononce le sermon une épée à la main, en souvenir de la conquête de 1453. Près de six siècles plus tard, la victoire de Mehmed II reste un symbole de puissance que le pouvoir turc ne cesse de convoquer.</span></p>
+      <p><span class="brique" data-b="2">L'essor désigne une croissance rapide et durable. Appliqué à un État, il renvoie à l'affirmation de sa puissance, que Raymond Aron définit comme la capacité d'imposer sa volonté aux autres. Joseph Nye distingue le hard power, qui repose sur la contrainte militaire et économique, du soft power, qui repose sur l'attraction et l'influence. Un empire, enfin, est un vaste État qui domine des peuples divers sous une autorité unique.</span></p>
+      <p><span class="brique" data-b="3">L'étude commence en 1453, lorsque la prise de Constantinople fait d'un sultanat turc l'héritier de Byzance, et s'achève en 1566, à la mort de Soliman le Magnifique, quand l'empire atteint son apogée sur trois continents.</span> <span class="brique" data-b="4">À la même époque, l'Europe occidentale se tourne vers l'Atlantique et le Nouveau Monde, tandis que les Ottomans dominent la Méditerranée orientale et les routes qui relient l'Europe à l'Asie.</span></p>
+      <p><span class="brique" data-b="5">Or cet essor est paradoxal. Un émirat né de quelques tribus d'Anatolie gouverne des Balkans majoritairement chrétiens, protège les lieux saints de l'islam et s'allie en 1536 avec François Ier, le « roi très chrétien ». La puissance ottomane, que les Européens réduisent volontiers au sabre des janissaires, semble reposer aussi sur l'art d'intégrer les vaincus et de négocier.</span></p>
+      <p><span class="brique" data-b="6">Dans quelle mesure l'essor ottoman, de la prise de Constantinople à la mort de Soliman, repose-t-il autant sur l'habileté politique et diplomatique que sur la force des armes ?</span></p>
+      <p><span class="brique" data-b="7">Nous verrons d'abord que cet essor s'appuie sur une redoutable machine de conquête, qui associe une armée moderne, l'artillerie et le contrôle des détroits et des routes commerciales. Nous montrerons ensuite que cette puissance s'enracine et dure parce qu'elle sait intégrer les peuples soumis, se donner une légitimité religieuse et jouer le jeu diplomatique européen.</span></p>
     </div>
-    <div class="funfact"><b>Le lien avec l'Empire ottoman.</b> En 1453, Mehmed II prend Constantinople et contrôle le Bosphore. Aujourd'hui encore, la Turquie contrôle le Bosphore et les Dardanelles, dont le passage est réglé par la convention de Montreux de 1936. Les détroits sont une arme de puissance depuis des siècles.</div>
+    <div class="funfact"><b>Les quatre pièges à éviter.</b> Ne pas raconter l'histoire dans l'introduction, les faits servent l'argument. Ne pas recopier le sujet avec un point d'interrogation en guise de problématique, elle doit contenir la tension. Éviter « dans une première partie nous verrons », on annonce des idées, pas des numéros. Toujours justifier les bornes.</div>
   </div>
   <div class="carte">
-    <h3>À toi. Rédige ton introduction (12 minutes, sans IA)</h3>
+    <h3>Étape 3. À toi. Rédige ton introduction (12 minutes, sans IA)</h3>
     <p>Choisis un sujet.</p>
     <p>
-      <label><input type="radio" name="sujet" value="L'Empire ottoman, une puissance européenne ?" checked> A. L'Empire ottoman, une puissance européenne ?</label><br>
-      <label><input type="radio" name="sujet" value="Les États-Unis sont-ils encore la première puissance mondiale ?"> B. Les États-Unis sont-ils encore la première puissance mondiale ?</label><br>
-      <label><input type="radio" name="sujet" value="libre"> C. Un sujet d'actualité de ton choix <input id="sujetLibre" type="text" placeholder="Écris ton sujet" style="font:inherit;border:1px solid #cfd8e3;border-radius:6px;padding:2px 6px"></label>
+      <label><input type="radio" name="sujet" value="1453, une date qui change le monde ?" checked> A. 1453, une date qui change le monde ?</label><br>
+      <label><input type="radio" name="sujet" value="Soliman le Magnifique, sommet de la puissance ottomane ?"> B. Soliman le Magnifique, sommet de la puissance ottomane ?</label><br>
+      <label><input type="radio" name="sujet" value="libre"> C. Un autre sujet sur l'essor ottoman <input id="sujetLibre" type="text" placeholder="Écris ton sujet" style="font:inherit;border:1px solid #cfd8e3;border-radius:6px;padding:2px 6px"></label>
     </p>
     <p class="petit">Minuteur <b id="minuteur">12:00</b> <button class="btn" id="btnMinuteur" onclick="lanceMinuteur()">Lancer</button></p>
     <textarea id="monIntro" style="min-height:260px" placeholder="Ton introduction"></textarea>
@@ -345,12 +352,21 @@ footer{max-width:1000px;margin:30px auto;padding:0 18px 40px;font-size:.8rem;col
     <p class="score">Ta note <span id="noteIntro">0</span> / 10</p>
     <button class="btn" onclick="montre(this)">Voir le corrigé du sujet A</button>
     <div class="rep">
-      <b>Accroche.</b> En 1536, François Ier, « roi très chrétien », signe des accords avec Soliman le Magnifique contre les Habsbourg.<br>
-      <b>Définitions.</b> La puissance selon Aron. « Européenne » peut s'entendre au sens géographique (des territoires en Europe) ou au sens politique (un acteur du jeu diplomatique européen).<br>
-      <b>Bornes.</b> De 1453, quand Constantinople devient la capitale, à 1923, avec le traité de Lausanne.<br>
-      <b>Paradoxe.</b> L'empire est implanté en Europe pendant près de cinq siècles, mais il est perçu par les Européens comme « l'autre », le « Turc », puis comme « l'homme malade ».<br>
-      <b>Problématique.</b> Comment l'Empire ottoman passe-t-il du statut de puissance qui pèse sur l'équilibre européen à celui d'enjeu que se disputent les puissances européennes ?<br>
-      <b>Plan.</b> D'abord une puissance qui s'impose en Europe et dans son jeu diplomatique (1453-1683), puis un empire qui devient l'objet de la question d'Orient (1683-1923).
+      <b>Accroche.</b> Chaque 29 mai, Istanbul célèbre la conquête par des feux d'artifice et des reconstitutions.<br>
+      <b>Définitions.</b> Une date qui « change le monde » est une rupture aux conséquences durables et lointaines, une date charnière.<br>
+      <b>Bornes.</b> 1453, avec un regard en amont (le déclin byzantin) et en aval jusqu'au début du XVIe siècle.<br>
+      <b>Paradoxe.</b> Byzance n'était plus qu'une ville isolée et affaiblie, et pourtant sa chute est vécue comme un séisme dans toute l'Europe.<br>
+      <b>Problématique.</b> En quoi la prise d'une cité déjà isolée bouleverse-t-elle les équilibres de puissance en Méditerranée et en Europe ?<br>
+      <b>Plan.</b> D'abord une rupture géopolitique (une capitale impériale et le contrôle des détroits), puis une rupture symbolique et culturelle à nuancer (la fin de l'Empire romain d'Orient et le départ de savants grecs vers l'Italie, que les historiens relativisent aujourd'hui).
+    </div>
+    <button class="btn" onclick="montre(this)">Voir le corrigé du sujet B</button>
+    <div class="rep">
+      <b>Accroche.</b> En 1526, à Mohács, l'armée hongroise est anéantie en quelques heures.<br>
+      <b>Définitions.</b> Le sommet, c'est le point le plus haut, après lequel on redescend. La puissance selon Aron.<br>
+      <b>Bornes.</b> 1520 à 1566, le règne de Soliman.<br>
+      <b>Paradoxe.</b> Le règne qui marque l'apogée territoriale annonce déjà des limites, avec l'échec devant Vienne en 1529 et un empire trop vaste.<br>
+      <b>Problématique.</b> Le règne de Soliman est-il seulement l'apogée de la puissance ottomane, ou déjà le moment où apparaissent ses limites ?<br>
+      <b>Plan.</b> D'abord un sommet militaire, juridique et diplomatique, puis les premières limites (Vienne en 1529, le coût des guerres, les rivalités de succession).
     </div>
     <br><button class="btn or" onclick="termine('intro');aller('bilan')">Passer au bilan</button>
   </div>
