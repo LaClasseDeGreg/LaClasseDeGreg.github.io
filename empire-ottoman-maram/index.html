@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le Sultan et le Grand Vizir, l'Empire ottoman de l'essor au déclin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bleu:#123a63;--bleu2:#1f5f99;--turq:#139a9a;--rouge:#b8322a;--or:#c9a227;--creme:#fbf6ec;--encre:#1d2733;--gris:#6b7480;--ok:#1f8a4c;--ko:#b8322a}
+*{box-sizing:border-box}
+body{margin:0;font-family:Nunito,system-ui,sans-serif;color:var(--encre);background:var(--creme);line-height:1.6}
+body:before{content:"";position:fixed;inset:0;z-index:-1;opacity:.07;background-image:radial-gradient(circle at 25% 25%,var(--bleu2) 2px,transparent 3px),radial-gradient(circle at 75% 75%,var(--rouge) 2px,transparent 3px);background-size:38px 38px}
+h1,h2,h3{font-family:Cinzel,serif;color:var(--bleu);line-height:1.25}
+a{color:var(--bleu2)}
+#porte{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bleu),#0b2440)}
+#porte .boite{background:var(--creme);border:4px solid var(--or);border-radius:18px;padding:32px;max-width:440px;width:92%;text-align:center}
+#porte input{font-size:1.1rem;padding:10px 14px;border:2px solid var(--bleu2);border-radius:10px;width:100%;margin:10px 0}
+header{background:linear-gradient(135deg,var(--bleu),var(--bleu2));color:#fff;padding:14px 18px;position:sticky;top:0;z-index:10;box-shadow:0 3px 12px rgba(0,0,0,.2)}
+header .ligne{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;max-width:1100px;margin:auto}
+header h1{color:#fff;font-size:1.15rem;margin:0}
+.bourse{background:var(--or);color:var(--bleu);font-weight:800;border-radius:30px;padding:4px 14px}
+nav{max-width:1100px;margin:10px auto 0;display:flex;gap:6px;flex-wrap:wrap}
+nav button{font:inherit;font-size:.85rem;border:0;border-radius:20px;padding:5px 11px;cursor:pointer;background:rgba(255,255,255,.18);color:#fff}
+nav button.actif{background:var(--or);color:var(--bleu);font-weight:800}
+nav button.fait:after{content:" ✓"}
+main{max-width:1000px;margin:auto;padding:18px}
+section{display:none;animation:apparait .4s}
+section.visible{display:block}
+@keyframes apparait{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+.carte{background:#fff;border-radius:16px;padding:20px 22px;margin:16px 0;box-shadow:0 2px 10px rgba(18,58,99,.08);border-top:5px solid var(--turq)}
+.heros{border-radius:16px;overflow:hidden;position:relative;margin:10px 0 16px;background:var(--bleu)}
+.heros img{width:100%;max-height:360px;object-fit:cover;display:block}
+.heros .titre{position:absolute;left:0;right:0;bottom:0;padding:18px;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff}
+.heros .titre h2{color:#fff;margin:0}
+.guide{display:flex;gap:14px;align-items:flex-start;background:#e9f6f6;border-radius:14px;padding:14px;margin:14px 0;border-left:6px solid var(--turq)}
+.guide .chat{font-size:2.4rem;line-height:1}
+.funfact{background:#fff6dc;border-left:6px solid var(--or);border-radius:12px;padding:12px 16px;margin:14px 0}
+.funfact b:first-child{color:#8a6b00}
+.question{background:#eef3fa;border-left:6px solid var(--bleu2);border-radius:12px;padding:12px 16px;margin:14px 0}
+textarea{width:100%;min-height:70px;font:inherit;border:2px solid #cfd8e3;border-radius:10px;padding:8px;margin-top:6px;background:#fff}
+.btn{font:inherit;font-weight:800;border:0;border-radius:12px;padding:9px 16px;cursor:pointer;background:var(--bleu2);color:#fff;margin:6px 6px 0 0}
+.btn.or{background:var(--or);color:var(--bleu)}
+.btn.rouge{background:var(--rouge)}
+.btn.vert{background:var(--ok)}
+.btn:disabled{opacity:.45;cursor:default}
+.rep{display:none;margin-top:8px;padding:10px 12px;border-radius:10px;background:#e8f5ec;border-left:5px solid var(--ok)}
+.rep.montre,body.prof .rep{display:block}
+.grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px}
+.img{border-radius:12px;overflow:hidden;background:#eef0f3;min-height:120px}
+.img img{width:100%;display:block;max-height:340px;object-fit:contain;background:#222}
+.secours{padding:16px;font-size:.92rem}
+.video{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;background:#000;margin:10px 0}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lienvideo{display:block;background:var(--bleu);color:#fff;border-radius:12px;padding:16px;text-decoration:none;margin:10px 0}
+.lienvideo b{color:var(--or)}
+.item{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 0;border-bottom:1px dashed #d8dee6}
+.item .nom{flex:1 1 220px;font-weight:700}
+.choix button{font:inherit;font-size:.85rem;border:2px solid var(--bleu2);background:#fff;color:var(--bleu2);border-radius:20px;padding:4px 10px;cursor:pointer;margin:2px}
+.choix button.bon{background:var(--ok);border-color:var(--ok);color:#fff}
+.choix button.faux{background:var(--ko);border-color:var(--ko);color:#fff}
+.expl{flex-basis:100%;font-size:.92rem;color:#2b3a4a;display:none}
+.expl.montre{display:block}
+.score{font-weight:800;color:var(--bleu);font-size:1.1rem}
+.provinces{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.province{background:var(--turq);color:#fff;border-radius:8px;padding:4px 10px;font-weight:700;font-size:.85rem}
+.province.perdue{background:#c9ced6;text-decoration:line-through}
+.qcm button{display:block;width:100%;text-align:left;font:inherit;border:2px solid #cfd8e3;background:#fff;border-radius:10px;padding:9px 12px;margin:6px 0;cursor:pointer}
+.qcm button:hover{border-color:var(--bleu2)}
+.frise{display:flex;flex-direction:column;gap:6px}
+.frise button{font:inherit;text-align:left;border:2px solid var(--bleu2);background:#fff;border-radius:10px;padding:8px 12px;cursor:pointer}
+.frise button.place{background:var(--ok);color:#fff;border-color:var(--ok)}
+.ordre li{margin:3px 0}
+.brique{border-radius:6px;padding:1px 3px;transition:background .3s}
+.cle span{display:inline-block;border-radius:20px;padding:3px 10px;margin:3px;font-size:.85rem;font-weight:700;cursor:pointer;color:#fff}
+.modele p{margin:.6em 0}
+.coche label{display:block;padding:4px 0}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+td,th{border:1px solid #d8dee6;padding:7px 9px;text-align:left;vertical-align:top}
+th{background:var(--bleu);color:#fff}
+.firman{border:6px double var(--or);background:linear-gradient(#fffdf6,#f7ecd0);border-radius:16px;padding:26px;text-align:center}
+.firman h2{font-size:1.6rem}
+footer{max-width:1000px;margin:30px auto;padding:0 18px 40px;font-size:.8rem;color:var(--gris)}
+#confettis{position:fixed;inset:0;pointer-events:none;z-index:60}
+.petit{font-size:.88rem;color:var(--gris)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--bleu);color:#fff;padding:10px 18px;border-radius:30px;font-weight:700;z-index:70;opacity:0;transition:opacity .3s}
+.toast.on{opacity:1}
+@media(max-width:600px){header h1{font-size:1rem}main{padding:10px}.carte{padding:16px}}
+</style>
+</head>
+<body>
+
+<div id="porte">
+  <div class="boite">
+    <div style="font-size:3rem">🐈</div>
+    <h2>La Sublime Porte</h2>
+    <p>Pour entrer dans le palais de Topkapı, donne le mot de passe.</p>
+    <input id="mdp" type="password" placeholder="Mot de passe" autocomplete="off">
+    <button class="btn or" id="entrer">Entrer</button>
+    <p id="mdpErreur" class="petit" style="color:var(--rouge)"></p>
+  </div>
+</div>
+
+<header>
+  <div class="ligne">
+    <h1>Le Sultan et le Grand Vizir</h1>
+    <span class="bourse">🪙 <span id="akce">0</span> akçe</span>
+  </div>
+  <nav id="nav"></nav>
+</header>
+
+<main>
+
+<!-- 0 ACCUEIL -->
+<section id="s-accueil" data-titre="Accueil">
+  <div class="heros">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Conquest_of_Constantinople,_Zonaro.jpg?width=1200" alt="Fausto Zonaro, L'entrée de Mehmed II à Constantinople" onerror="this.parentNode.style.minHeight='160px';this.remove()">
+    <div class="titre"><h2>L'Empire ottoman, de l'essor au déclin (1453-1923)</h2><div>HGGSP Première, thème 2, les dynamiques des puissances internationales</div></div>
+  </div>
+  <div class="guide"><div class="chat">🐈</div><div><b>Merhaba Maram !</b> Je suis Pamuk, chat d'Istanbul. Mes ancêtres dormaient déjà sur les tapis de Topkapı quand Soliman y gouvernait. À Istanbul, les chats sont partout, dans les mosquées, les librairies et les cafés. Ils ont même plus de pouvoir que certains vizirs. Aujourd'hui, je t'emmène voir comment un petit émirat d'Anatolie est devenu l'un des plus grands empires du monde, puis comment il a disparu. À chaque bonne réponse, tu gagnes des akçe, les pièces d'argent ottomanes.</div></div>
+  <div class="carte">
+    <h3>Ton parcours</h3>
+    <ol>
+      <li>Le jeu d'entrée, Ottoman ou pas ?</li>
+      <li>Le cours 1, l'essor, avec une vidéo</li>
+      <li>La galerie, sept images à analyser</li>
+      <li>Le cours 2, le déclin, avec deux vidéos</li>
+      <li>Le jeu du Grand Vizir</li>
+      <li>La frise à remettre dans l'ordre</li>
+      <li>L'atelier, rédiger une introduction niveau Sciences Po</li>
+      <li>Le bilan et ton firman de fin de parcours</li>
+    </ol>
+    <p><b>Ce que tu dois savoir à la fin.</b> Définir la puissance, expliquer les facteurs de l'essor et du déclin ottoman, citer au moins dix dates et cinq acteurs, et rédiger une introduction complète.</p>
+    <button class="btn or" onclick="aller('entree')">Commencer le voyage</button>
+  </div>
+</section>
+
+<!-- 1 JEU D'ENTREE -->
+<section id="s-entree" data-titre="1. Ottoman ou pas ?">
+  <h2>Ottoman ou pas ?</h2>
+  <div class="guide"><div class="chat">🐈</div><div>Pour chaque lieu ou objet, dis s'il a été ottoman, s'il ne l'a pas été, ou si c'est une légende. Attention, il y a des pièges, et l'un des lieux te concerne de très près.</div></div>
+  <div class="carte" id="jeuEntree"></div>
+  <div class="carte">
+    <p class="score">Score <span id="scoreEntree">0</span> / 11</p>
+    <div class="question"><b>La grande question de Pamuk.</b> Un empire qui va de Tunis à Bagdad et de Budapest à La Mecque, c'est quoi, une puissance ? Donne trois critères.
+      <textarea id="q-puissance" placeholder="Ta réponse"></textarea>
+      <button class="btn" onclick="montre(this)">Voir la réponse</button>
+      <div class="rep">Le territoire, la force militaire, la religion et le prestige. On peut ajouter l'économie (les routes commerciales), la diplomatie et la culture. Retenir la définition de Raymond Aron, la puissance est la capacité d'un acteur à imposer sa volonté aux autres. Joseph Nye distingue le hard power (la force) et le soft power (l'attraction), et parle de smart power quand on combine les deux.</div>
+    </div>
+    <button class="btn or" onclick="termine('entree');aller('cours1')">Passer au cours 1</button>
+  </div>
+</section>
+
+<!-- 2 COURS 1 -->
+<section id="s-cours1" data-titre="2. L'essor">
+  <div class="heros">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Gentile_Bellini_003.jpg?width=1000" alt="Gentile Bellini, Portrait de Mehmed II, 1480" style="object-position:center 25%" onerror="this.remove()">
+    <div class="titre"><h2>La nuit où les bateaux ont traversé la terre</h2><div>Gentile Bellini, Portrait de Mehmed II, 1480, National Gallery de Londres</div></div>
+  </div>
+  <div class="carte">
+    <p>Printemps 1453. Constantinople, la ville la plus riche de la chrétienté, est la capitale de l'Empire byzantin depuis plus de mille ans. Elle est protégée par trois rangées de murailles et, du côté de la mer, par une énorme chaîne de fer tendue à l'entrée de la Corne d'Or, le port de la ville.</p>
+    <p>En face, un sultan de 21 ans, Mehmed II. Ses conseillers le trouvent trop jeune, trop pressé. Lui a un plan.</p>
+    <p>D'abord, un canon. Un ingénieur hongrois nommé Urbain lui propose une pièce d'artillerie géante, capable de lancer des boulets de plusieurs centaines de kilos.</p>
+    <div class="question"><b>Question de Pamuk.</b> Pourquoi un ingénieur chrétien travaille-t-il pour le sultan ?
+      <textarea placeholder="Ta réponse"></textarea>
+      <button class="btn" onclick="montre(this)">Voir la réponse</button>
+      <div class="rep">Pour l'argent. Le récit raconte qu'il avait d'abord proposé ses services à l'empereur byzantin, qui ne pouvait pas le payer. La puissance, c'est aussi avoir les moyens financiers d'attirer les meilleurs.</div>
+    </div>
+    <p>Ensuite, la chaîne. Elle bloque la flotte ottomane. Alors Mehmed fait une chose folle. Il fait construire une route de rondins graissés sur la colline de Galata et, en une nuit, des dizaines de navires sont tirés par des bœufs et des hommes à travers la terre ferme, puis remis à l'eau dans la Corne d'Or, derrière la chaîne. Au matin, les Byzantins découvrent la flotte ennemie au cœur de leur port.</p>
+    <p>Le <b>29 mai 1453</b>, après 53 jours de siège, la ville tombe. Mehmed entre dans Sainte-Sophie, qu'il transforme en mosquée. Constantinople devient la capitale ottomane, Istanbul. Mehmed gagne un surnom, <b>Fatih</b>, le Conquérant.</p>
+    <div class="question"><b>Question de Pamuk.</b> Pourquoi 1453 est-elle une date si importante, pas seulement pour les Ottomans ?
+      <textarea placeholder="Ta réponse"></textarea>
+      <button class="btn" onclick="montre(this)">Voir la réponse</button>
+      <div class="rep">C'est la fin de l'Empire romain d'Orient. Les Ottomans contrôlent désormais les détroits du Bosphore et des Dardanelles, entre la mer Noire et la Méditerranée. Pour beaucoup d'historiens, c'est une borne entre le Moyen Âge et l'époque moderne.</div>
+    </div>
+    <p>Un siècle plus tard, l'empire atteint son apogée avec <b>Soliman</b>, que les Européens surnomment le Magnifique et que ses sujets appellent Kanuni, le Législateur. En <b>1526</b>, à <b>Mohács</b>, il écrase l'armée hongroise. En <b>1529</b>, ses troupes sont devant Vienne. Et en <b>1536</b>, coup de théâtre diplomatique, le roi de France <b>François Ier</b>, « roi très chrétien », signe des accords avec le sultan musulman contre leur ennemi commun, les Habsbourg.</p>
+    <div class="question"><b>Question de Pamuk.</b> Qu'est-ce que l'alliance avec François Ier prouve sur la puissance ottomane ?
+      <textarea placeholder="Ta réponse"></textarea>
+      <button class="btn" onclick="montre(this)">Voir la réponse</button>
+      <div class="rep">L'Empire est un acteur reconnu du jeu diplomatique européen. On s'allie avec lui par intérêt, au-delà de la religion. C'est de la Realpolitik.</div>
+    </div>
+    <div class="funfact"><b>Le savais-tu ?</b> Les janissaires, l'infanterie d'élite, étaient recrutés par le devchirmé, un prélèvement de jeunes garçons chrétiens des Balkans. Ils étaient convertis, formés et payés par l'État. Certains devenaient grands vizirs, le plus haut poste après le sultan. Un enfant enlevé dans un village de Bosnie pouvait finir par gouverner l'empire.</div>
+    <div class="funfact"><b>Le savais-tu ?</b> La Tunisie devient une province ottomane en 1574. Les beys husseinites, au pouvoir à partir de 1705, reconnaissent l'autorité du sultan jusqu'au protectorat français de 1881. Les mosquées à minaret octogonal de Tunis, comme celle de Youssef Dey, rappellent encore cet héritage.</div>
+    <h3>Les grandes dates de l'essor</h3>
+    <table>
+      <tr><th>Date</th><th>Événement</th><th>Acteur</th></tr>
+      <tr><td>vers 1300</td><td>Naissance d'un petit émirat en Anatolie</td><td>Osman</td></tr>
+      <tr><td>1354</td><td>Gallipoli, premier pied en Europe</td><td>Orhan</td></tr>
+      <tr><td>29 mai 1453</td><td>Prise de Constantinople</td><td>Mehmed II</td></tr>
+      <tr><td>1516-1517</td><td>Conquête de la Syrie et de l'Égypte, prestige du califat</td><td>Sélim Ier</td></tr>
+      <tr><td>1526</td><td>Victoire de Mohács contre la Hongrie</td><td>Soliman</td></tr>
+      <tr><td>1529</td><td>Premier siège de Vienne</td><td>Soliman</td></tr>
+      <tr><td>1536</td><td>Accords avec la France</td><td>Soliman et François Ier</td></tr>
+      <tr><td>1574</td><td>La Tunisie devient province ottomane</td><td>Sélim II</td></tr>
+    </table>
+  </div>
+  <div class="carte">
+    <h3>Vidéo 1. The rise of the Ottoman Empire (TED-Ed, 5 min)</h3>
+    <p class="petit">Leçon de Mostafa Minawi, historien à l'université Cornell. En anglais, active les sous-titres français avec le bouton CC.</p>
+    <p><b>Consigne avant de lancer.</b> Note trois facteurs de l'essor ottoman.</p>
+    <div class="vid" data-yt="BnOS90_cwQA" data-lien="https://www.youtube.com/watch?v=BnOS90_cwQA" data-titre="The rise of the Ottoman Empire, TED-Ed"></div>
+    <div class="question">1. Quels facteurs de l'essor as-tu notés ?
+      <textarea placeholder="Ta réponse"></textarea><button class="btn" onclick="montre(this)">Voir la réponse</button>
+      <div class="rep">Une armée efficace, une position géographique entre deux empires affaiblis (Byzance et les Seldjoukides), une tolérance pragmatique envers les autres religions, et des alliances habiles, notamment par le mariage.</div></div>
+    <div class="question">2. Pourquoi les Ottomans laissent-ils vivre chrétiens et juifs ?
+      <textarea placeholder="Ta réponse"></textarea><button class="btn" onclick="montre(this)">Voir la réponse</button>
+      <div class="rep">Pour la paix intérieure et pour l'impôt qu'ils paient, la djizya. C'est le statut de dhimmi, protégé mais inférieur.</div></div>
+    <div class="question">3. Quelle forme de puissance la vidéo montre-t-elle le plus ?
+      <textarea placeholder="Ta réponse"></textarea><button class="btn" onclick="montre(this)">Voir la réponse</button>
+      <div class="rep">Le hard power militaire, mais avec un vrai savoir-faire administratif et politique. C'est déjà une forme de smart power.</div></div>
+    <button class="btn or" onclick="termine('cours1');aller('galerie')">Passer à la galerie</button>
+  </div>
+</section>
+
+<!-- 3 GALERIE -->
+<section id="s-galerie" data-titre="3. Images">
+  <h2>La galerie du palais</h2>
+  <div class="guide"><div class="chat">🐈</div><div>Pour chaque image, pose-toi trois questions. Qui l'a faite, quand et pour qui ? Qu'est-ce qu'on voit ? Qu'est-ce que l'image veut faire croire ? Écris ta réponse, puis compare avec la mienne.</div></div>
+  <div class="grille" id="galerie"></div>
+  <div class="carte"><button class="btn or" onclick="termine('galerie');aller('cours2')">Passer au cours 2</button></div>
+</section>
+
+<!-- 4 COURS 2 -->
+<section id="s-cours2" data-titre="4. Le déclin">
+  <div class="heros">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Le_Petit_Journal_Balkan_Crisis_(1908).jpg?width=1000" alt="Le Petit Journal, 18 octobre 1908" style="object-position:center 30%" onerror="this.remove()">
+    <div class="titre"><h2>L'homme malade qui ne voulait pas mourir</h2><div>Le Petit Journal, 18 octobre 1908</div></div>
+  </div>
+  <div class="carte">
+    <p><b>12 septembre 1683.</b> Devant Vienne, l'immense armée ottomane du grand vizir Kara Mustafa est surprise par la cavalerie du roi de Pologne, Jean III Sobieski. C'est la débâcle. Le grand vizir est exécuté sur ordre du sultan. Seize ans plus tard, en <b>1699</b>, au traité de <b>Karlowitz</b>, l'empire perd la Hongrie. Pour la première fois, il recule durablement.</p>
+    <div class="question"><b>Question de Pamuk.</b> Pourquoi parle-t-on de déclin relatif ?
+      <textarea placeholder="Ta réponse"></textarea><button class="btn" onclick="montre(this)">Voir la réponse</button>
+      <div class="rep">L'empire ne s'effondre pas. Ce sont les Européens qui avancent plus vite, avec la révolution scientifique, des États plus modernes et le commerce atlantique. On recule par rapport aux autres.</div></div>
+    <p>Au XIXe siècle, les coups pleuvent. La Grèce devient indépendante en <b>1830</b>. Le pacha d'Égypte, <b>Méhémet Ali</b>, se rend presque autonome et menace même le sultan. En <b>1853</b>, le tsar <b>Nicolas Ier</b> parle de « l'homme malade de l'Europe ». Toutes les puissances se demandent qui héritera de ses dépouilles. C'est la <b>question d'Orient</b>.</p>
+    <p>Mais le malade se soigne. À partir de <b>1839</b>, les réformes des <b>Tanzimat</b> modernisent l'armée, l'école et l'administration, et proclament l'égalité des sujets quelle que soit leur religion. En <b>1876</b>, l'empire adopte même une Constitution, suspendue deux ans plus tard par Abdülhamid II. Le problème, c'est l'argent. En 1875, l'État ne peut plus rembourser ses dettes, et à partir de <b>1881</b>, des Européens gèrent une partie de ses finances.</p>
+    <div class="question"><b>Question de Pamuk.</b> En quoi la dette est-elle une perte de souveraineté ?
+      <textarea placeholder="Ta réponse"></textarea><button class="btn" onclick="montre(this)">Voir la réponse</button>
+      <div class="rep">Des étrangers contrôlent des recettes de l'État, qui ne décide plus seul de son budget. Ça vaut aussi pour la Tunisie, en faillite en 1869, placée sous protectorat français en 1881.</div></div>
+    <div class="funfact"><b>Le savais-tu ?</b> En 1878, le traité de San Stefano, signé le 3 mars, crée une grande Bulgarie autonome. Le 3 mars est toujours la fête nationale bulgare. Et le 5 octobre 1908, la Bulgarie proclame son indépendance. C'est l'une des scènes de la couverture du Petit Journal ci-dessus.</div>
+    <p>En <b>1914</b>, l'empire entre en guerre aux côtés de l'Allemagne. En <b>1915</b>, il remporte une grande victoire aux <b>Dardanelles</b>, où un officier se fait un nom, <b>Mustafa Kemal</b>. La même année, le gouvernement des Jeunes-Turcs organise le <b>génocide des Arméniens</b>. En 1916, les accords <b>Sykes-Picot</b> préparent le partage du Moyen-Orient entre la France et le Royaume-Uni. En 1918, c'est la défaite. Le traité de <b>Sèvres</b> (1920) dépèce l'empire. Kemal refuse, mène la guerre et obtient un nouveau traité à <b>Lausanne</b>, le <b>24 juillet 1923</b>. La République de Turquie est proclamée le <b>29 octobre 1923</b>, et le califat est aboli en 1924.</p>
+    <div class="funfact"><b>Le savais-tu ?</b> Le dernier sultan, Mehmed VI, quitte Istanbul en novembre 1922 à bord d'un navire de guerre britannique. Six siècles d'empire s'achèvent sur un bateau étranger.</div>
+    <h3>Les grandes dates du déclin</h3>
+    <table>
+      <tr><th>Date</th><th>Événement</th><th>Acteur</th></tr>
+      <tr><td>1571</td><td>Défaite navale de Lépante</td><td>La Sainte Ligue</td></tr>
+      <tr><td>1683</td><td>Échec du second siège de Vienne</td><td>Kara Mustafa, Jean III Sobieski</td></tr>
+      <tr><td>1699</td><td>Traité de Karlowitz, perte de la Hongrie</td><td>Habsbourg</td></tr>
+      <tr><td>1774</td><td>Traité de Küçük Kaynarca, avancée russe vers la mer Noire</td><td>Catherine II</td></tr>
+      <tr><td>1830</td><td>Indépendance de la Grèce</td><td>Puissances européennes</td></tr>
+      <tr><td>1839</td><td>Début des Tanzimat</td><td>Abdülmecid Ier</td></tr>
+      <tr><td>1853</td><td>« L'homme malade de l'Europe »</td><td>Nicolas Ier</td></tr>
+      <tr><td>1881</td><td>Les dettes gérées par les Européens</td><td>Créanciers européens</td></tr>
+      <tr><td>1908</td><td>Révolution des Jeunes-Turcs, indépendance bulgare</td><td>Jeunes-Turcs, Ferdinand de Bulgarie</td></tr>
+      <tr><td>1915</td><td>Dardanelles, génocide des Arméniens</td><td>Mustafa Kemal, Jeunes-Turcs</td></tr>
+      <tr><td>1916</td><td>Accords Sykes-Picot</td><td>Mark Sykes, François Georges-Picot</td></tr>
+      <tr><td>1923</td><td>Traité de Lausanne, République turque</td><td>Mustafa Kemal</td></tr>
+    </table>
+  </div>
+  <div class="carte">
+    <h3>Vidéo 2. La chute de l'Empire ottoman, Le Dessous des cartes (Arte, 10 min)</h3>
+    <div class="vid" data-dm="xpbk9" data-lien="https://www.dailymotion.com/video/xpbk9" data-titre="La chute de l'Empire ottoman, Le Dessous des cartes"></div>
+    <h3>Vidéo bonus. What caused the fall of one of the most influential empires in history ? (TED-Ed, 7 min)</h3>
+    <div class="vid" data-yt="vRyoEoyXCEU" data-lien="https://www.youtube.com/watch?v=vRyoEoyXCEU" data-titre="The fall of the Ottoman Empire, TED-Ed"></div>
+    <div class="question">1. Cite trois facteurs du déclin.
+      <textarea placeholder="Ta réponse"></textarea><button class="btn" onclick="montre(this)">Voir la réponse</button>
+      <div class="rep">Les défaites militaires, la dette, les nationalismes des peuples des Balkans et les ambitions des puissances européennes.</div></div>
+    <div class="question">2. Qu'est-ce que la question d'Orient ?
+      <textarea placeholder="Ta réponse"></textarea><button class="btn" onclick="montre(this)">Voir la réponse</button>
+      <div class="rep">Le problème posé aux puissances européennes par l'affaiblissement de l'Empire ottoman et par le partage de ses territoires.</div></div>
+    <div class="question">3. Pourquoi 1923 est-elle à la fois une fin et un début ?
+      <textarea placeholder="Ta réponse"></textarea><button class="btn" onclick="montre(this)">Voir la réponse</button>
+      <div class="rep">C'est la fin de l'empire et la naissance de la Turquie moderne. Le traité de Lausanne fixe des frontières qui existent encore.</div></div>
+    <div class="funfact"><b>Lien avec aujourd'hui.</b> Le 10 juillet 2020, Sainte-Sophie redevient une mosquée. Le président Erdoğan joue sur la nostalgie de la grandeur ottomane, on parle de néo-ottomanisme. Pour aller plus loin, regarde le Dessous des cartes « Turquie, la puissance selon Erdogan ? » (Arte, 2019, 12 min).</div>
+    <button class="btn or" onclick="termine('cours2');aller('vizir')">Passer au jeu du Grand Vizir</button>
+  </div>
+</section>
+
+<!-- 5 GRAND VIZIR -->
+<section id="s-vizir" data-titre="5. Grand Vizir">
+  <h2>Le jeu du Grand Vizir</h2>
+  <div class="guide"><div class="chat">🐈</div><div>Te voilà grand vizir. Le sultan t'interroge. À chaque erreur, tu perds une province. Si tu en perds trois, tu finis comme Kara Mustafa en 1683, et il faudra recommencer. Courage, le sultan est exigeant mais juste.</div></div>
+  <div class="carte">
+    <div class="provinces" id="provinces"></div>
+    <p class="petit">Question <span id="numQ">1</span> / 13</p>
+    <h3 id="texteQ"></h3>
+    <div class="qcm" id="choixQ"></div>
+    <div id="retourQ"></div>
+  </div>
+</section>
+
+<!-- 6 FRISE -->
+<section id="s-frise" data-titre="6. Frise">
+  <h2>La frise du sultan</h2>
+  <div class="guide"><div class="chat">🐈</div><div>Clique sur les événements dans l'ordre chronologique, du plus ancien au plus récent. Si tu te trompes, tout se remélange.</div></div>
+  <div class="carte">
+    <div class="frise" id="frise"></div>
+    <ol class="ordre" id="ordreFrise"></ol>
+    <div id="retourFrise"></div>
+  </div>
+</section>
+
+<!-- 7 ATELIER INTRO -->
+<section id="s-intro" data-titre="7. Introduction">
+  <h2>L'atelier, une introduction niveau Sciences Po</h2>
+  <div class="carte">
+    <h3>Les 7 briques d'une introduction</h3>
+    <table>
+      <tr><th>Brique</th><th>Ce qu'on attend</th><th>Points</th></tr>
+      <tr><td>1. L'accroche</td><td>Un fait daté et précis, relié au sujet. Jamais « de tout temps ».</td><td>1</td></tr>
+      <tr><td>2. Les définitions</td><td>Chaque mot-clé défini, avec un auteur si possible (Aron, Nye).</td><td>2</td></tr>
+      <tr><td>3. Les bornes</td><td>Les dates de début et de fin, justifiées.</td><td>1</td></tr>
+      <tr><td>4. Le contexte</td><td>Pourquoi la question se pose, son intérêt.</td><td>1</td></tr>
+      <tr><td>5. Le paradoxe</td><td>Ce qui ne va pas de soi. C'est le cœur de l'introduction.</td><td>2</td></tr>
+      <tr><td>6. La problématique</td><td>Une question unique et ouverte, qui reprend le paradoxe.</td><td>2</td></tr>
+      <tr><td>7. L'annonce du plan</td><td>Souvent deux parties, annoncées de façon fluide.</td><td>1</td></tr>
+    </table>
+  </div>
+  <div class="carte">
+    <h3>Le modèle, sur le sujet de ton JT</h3>
+    <p><b>Sujet</b> « Contrôler un détroit, est-ce être une puissance ? »</p>
+    <p class="petit">Clique sur une couleur pour voir chaque brique dans le texte.</p>
+    <div class="cle" id="cle"></div>
+    <div class="modele" id="modele">
+      <p><span class="brique" data-b="1">Le 4 novembre 2026, les Gardiens de la révolution iraniens annoncent que quatre pétroliers ont pris feu au sud du détroit d'Ormuz après avoir heurté des mines. Deux jours plus tôt, le baril de Brent valait encore 106 dollars, contre environ 70 avant le début de la guerre, le 28 février. Un étroit couloir maritime suffit donc à faire trembler l'économie mondiale.</span></p>
+      <p><span class="brique" data-b="2">Un détroit est un passage maritime resserré entre deux terres, qui relie deux mers. Ormuz, large d'une quarantaine de kilomètres à son point le plus étroit, sépare l'Iran de la péninsule arabique et ouvre le golfe Persique sur l'océan Indien. La puissance, selon Raymond Aron, désigne la capacité d'un acteur à imposer sa volonté aux autres. Elle ne se limite pas à la force militaire, puisqu'elle peut aussi reposer sur la capacité de nuire.</span></p>
+      <p><span class="brique" data-b="3">La question se pose avec une acuité particulière depuis février 2026, mais elle est ancienne. Pendant la guerre Iran-Irak, entre 1984 et 1988, la « guerre des tankers » avait déjà fait du détroit un champ de bataille.</span> <span class="brique" data-b="4">Avant la guerre, environ un cinquième du pétrole consommé dans le monde transitait par Ormuz.</span></p>
+      <p><span class="brique" data-b="5">Or le paradoxe est frappant. L'Iran, puissance moyenne affaiblie par les sanctions, parvient à peser sur la première puissance mondiale, les États-Unis, et à faire monter les prix jusqu'en Europe et en Asie.</span></p>
+      <p><span class="brique" data-b="6">Dans quelle mesure le contrôle d'un détroit permet-il à une puissance moyenne de rivaliser avec les grandes puissances, et jusqu'où cette arme peut-elle se retourner contre celui qui l'utilise ?</span></p>
+      <p><span class="brique" data-b="7">Nous verrons d'abord que le détroit offre à l'Iran une capacité de nuisance qui en fait un acteur incontournable, avant de montrer que cette arme a un coût et des limites, face à la riposte américaine et à la dépendance de l'Iran envers ses propres exportations.</span></p>
+    </div>
+    <div class="funfact"><b>Le lien avec l'Empire ottoman.</b> En 1453, Mehmed II prend Constantinople et contrôle le Bosphore. Aujourd'hui encore, la Turquie contrôle le Bosphore et les Dardanelles, dont le passage est réglé par la convention de Montreux de 1936. Les détroits sont une arme de puissance depuis des siècles.</div>
+  </div>
+  <div class="carte">
+    <h3>À toi. Rédige ton introduction (12 minutes, sans IA)</h3>
+    <p>Choisis un sujet.</p>
+    <p>
+      <label><input type="radio" name="sujet" value="L'Empire ottoman, une puissance européenne ?" checked> A. L'Empire ottoman, une puissance européenne ?</label><br>
+      <label><input type="radio" name="sujet" value="Les États-Unis sont-ils encore la première puissance mondiale ?"> B. Les États-Unis sont-ils encore la première puissance mondiale ?</label><br>
+      <label><input type="radio" name="sujet" value="libre"> C. Un sujet d'actualité de ton choix <input id="sujetLibre" type="text" placeholder="Écris ton sujet" style="font:inherit;border:1px solid #cfd8e3;border-radius:6px;padding:2px 6px"></label>
+    </p>
+    <p class="petit">Minuteur <b id="minuteur">12:00</b> <button class="btn" id="btnMinuteur" onclick="lanceMinuteur()">Lancer</button></p>
+    <textarea id="monIntro" style="min-height:260px" placeholder="Ton introduction"></textarea>
+    <h3>Ton auto-évaluation</h3>
+    <div class="coche" id="coches"></div>
+    <p class="score">Ta note <span id="noteIntro">0</span> / 10</p>
+    <button class="btn" onclick="montre(this)">Voir le corrigé du sujet A</button>
+    <div class="rep">
+      <b>Accroche.</b> En 1536, François Ier, « roi très chrétien », signe des accords avec Soliman le Magnifique contre les Habsbourg.<br>
+      <b>Définitions.</b> La puissance selon Aron. « Européenne » peut s'entendre au sens géographique (des territoires en Europe) ou au sens politique (un acteur du jeu diplomatique européen).<br>
+      <b>Bornes.</b> De 1453, quand Constantinople devient la capitale, à 1923, avec le traité de Lausanne.<br>
+      <b>Paradoxe.</b> L'empire est implanté en Europe pendant près de cinq siècles, mais il est perçu par les Européens comme « l'autre », le « Turc », puis comme « l'homme malade ».<br>
+      <b>Problématique.</b> Comment l'Empire ottoman passe-t-il du statut de puissance qui pèse sur l'équilibre européen à celui d'enjeu que se disputent les puissances européennes ?<br>
+      <b>Plan.</b> D'abord une puissance qui s'impose en Europe et dans son jeu diplomatique (1453-1683), puis un empire qui devient l'objet de la question d'Orient (1683-1923).
+    </div>
+    <br><button class="btn or" onclick="termine('intro');aller('bilan')">Passer au bilan</button>
+  </div>
+</section>
+
+<!-- 8 BILAN -->
+<section id="s-bilan" data-titre="8. Bilan">
+  <h2>Ton bilan</h2>
+  <div class="carte">
+    <p>Ton prénom <input id="prenom" type="text" value="Maram" style="font:inherit;border:1px solid #cfd8e3;border-radius:6px;padding:4px 8px"></p>
+    <div class="question">Trois mots pour résumer la séance <textarea id="troisMots"></textarea></div>
+    <div class="question">Ta confiance sur le thème, de 1 à 10 <input id="confiance" type="range" min="1" max="10" value="6" oninput="document.getElementById('valConf').textContent=this.value"> <b id="valConf">6</b></div>
+    <div class="question">Ce qui t'a plu, ce qui t'a moins convaincue <textarea id="avis"></textarea></div>
+    <div class="question">Une question que tu veux poser à Greg <textarea id="maQuestion"></textarea></div>
+    <button class="btn vert" onclick="envoyer()">Envoyer mon bilan à Greg</button>
+    <button class="btn" onclick="copier()">Copier mon bilan</button>
+    <p id="etatEnvoi" class="petit"></p>
+  </div>
+  <div class="carte">
+    <h3>Ta mission de la semaine</h3>
+    <ol>
+      <li>Réécrire ton introduction au propre en tenant compte de la correction.</li>
+      <li>Regarder le Dessous des cartes « Turquie, la puissance selon Erdogan ? ».</li>
+      <li>Ajouter dans ton carnet cinq exemples datés de cette séance.</li>
+      <li>Refaire le jeu du Grand Vizir dans trois jours, sans regarder le cours.</li>
+    </ol>
+  </div>
+  <div class="firman" id="firman" style="display:none">
+    <div style="font-size:2.6rem">🐈 🪙</div>
+    <h2>Firman du sultan</h2>
+    <p>Par ordre de la Sublime Porte, <b id="nomFirman">Maram</b> est élevée au rang de <b>Grand Vizir de l'histoire ottomane</b>, avec un trésor de <b id="akceFirman">0</b> akçe.</p>
+    <p class="petit">Signé Pamuk, chat officiel du palais de Topkapı, et Greg</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p><b>Crédits.</b> Images Wikimedia Commons, œuvres du domaine public. Fausto Zonaro, L'entrée de Mehmed II à Constantinople (1903). Gentile Bellini, Portrait de Mehmed II (1480, National Gallery de Londres). Jean-Joseph Benjamin-Constant, L'Entrée de Mahomet II à Constantinople (1876, musée des Augustins, Toulouse). Miniature ottomane de la bataille de Mohács (XVIe siècle). Carte de l'Empire ottoman en 1683. Le Petit Journal, 18 octobre 1908. Carte des accords Sykes-Picot, 8 mai 1916 (National Archives, MPK 1/426). Vidéos TED-Ed (Mostafa Minawi) et Arte, Le Dessous des cartes.</p>
+  <p>LaClasseDeGreg, soutien HGGSP Première, novembre 2026.</p>
+</footer>
+
+<canvas id="confettis"></canvas>
+<div class="toast" id="toast"></div>
+
+<script>
+const SECTIONS=['accueil','entree','cours1','galerie','cours2','vizir','frise','intro','bilan'];
+const C='https://commons.wikimedia.org/wiki/Special:FilePath/';
+let etat={akce:0,faits:[],gagnes:{}};
+function lire(){try{const s=localStorage.getItem('ottomanMaram');if(s)etat=Object.assign(etat,JSON.parse(s))}catch(e){}}
+function sauver(){try{localStorage.setItem('ottomanMaram',JSON.stringify(etat))}catch(e){}}
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1800)}
+function gagne(cle,n){if(etat.gagnes[cle])return;etat.gagnes[cle]=1;etat.akce+=n;majBourse();sauver();toast('+'+n+' akçe')}
+function majBourse(){document.getElementById('akce').textContent=etat.akce}
+function montre(b){const r=b.nextElementSibling;r.classList.toggle('montre');b.textContent=r.classList.contains('montre')?'Cacher la réponse':'Voir la réponse';const t=b.parentNode.querySelector('textarea');if(t&&t.value.trim().length>15)gagne('q'+[...document.querySelectorAll('.question')].indexOf(b.parentNode),2)}
+
+/* porte */
+function ouvrir(prof){document.getElementById('porte').style.display='none';if(prof){document.body.classList.add('prof');toast('Mode professeur, tous les corrigés sont visibles')}try{sessionStorage.setItem('ottomanPorte',prof?'prof':'eleve')}catch(e){}}
+document.getElementById('entrer').onclick=()=>{const v=document.getElementById('mdp').value.trim().toLowerCase();if(v==='maram')ouvrir(false);else if(v==='gregprof')ouvrir(true);else document.getElementById('mdpErreur').textContent="Ce n'est pas le bon mot de passe."};
+document.getElementById('mdp').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('entrer').click()});
+try{const p=sessionStorage.getItem('ottomanPorte');if(p)ouvrir(p==='prof')}catch(e){}
+
+/* navigation */
+const nav=document.getElementById('nav');
+SECTIONS.forEach(s=>{const b=document.createElement('button');b.textContent=document.getElementById('s-'+s).dataset.titre;b.dataset.s=s;b.onclick=()=>aller(s);nav.appendChild(b)});
+function aller(s){SECTIONS.forEach(x=>document.getElementById('s-'+x).classList.toggle('visible',x===s));[...nav.children].forEach(b=>{b.classList.toggle('actif',b.dataset.s===s);b.classList.toggle('fait',etat.faits.includes(b.dataset.s))});if(location.hash!=='#'+s)history.replaceState(null,'','#'+s);window.scrollTo({top:0,behavior:'smooth'});if(s==='bilan')majFirman()}
+function termine(s){if(!etat.faits.includes(s)){etat.faits.push(s);gagne('fin'+s,5)}sauver()}
+
+/* videos */
+const enLigne=/github\.io$/.test(location.hostname)||location.protocol==='file:';
+document.querySelectorAll('.vid').forEach(v=>{const lien=`<a class="lienvideo" href="${v.dataset.lien}" target="_blank" rel="noopener">▶ <b>Ouvrir la vidéo</b> ${v.dataset.titre}</a>`;
+ if(enLigne){const src=v.dataset.yt?`https://www.youtube-nocookie.com/embed/${v.dataset.yt}`:`https://www.dailymotion.com/embed/video/${v.dataset.dm}`;v.innerHTML=`<div class="video"><iframe src="${src}" allowfullscreen loading="lazy" title="${v.dataset.titre}"></iframe></div>`+lien.replace('Ouvrir la vidéo','Si la vidéo ne s\'affiche pas, ouvre-la ici')}else v.innerHTML=lien});
+
+/* jeu d'entree */
+const ENTREE=[
+['La Tunisie','o',"Ottomane. Province ottomane à partir de 1574, puis gouvernée par les beys husseinites qui reconnaissent le sultan, jusqu'au protectorat français de 1881. C'était le piège personnel !"],
+['La Bulgarie','o',"Ottomane près de cinq siècles, de la fin du XIVe siècle à 1878. Sa fête nationale, le 3 mars, rappelle le traité de San Stefano."],
+['Le Maroc','p',"Pas ottoman. Il n'a jamais été conquis, c'est le grand piège."],
+['Vienne','p',"Pas ottomane. Assiégée deux fois, en 1529 et en 1683, elle n'est jamais tombée."],
+['La Hongrie','o',"Ottomane en grande partie, de 1541 à 1699 (traité de Karlowitz)."],
+["L'Égypte",'o',"Ottomane à partir de 1517, conquise par Sélim Ier."],
+["L'Iran",'p',"Pas ottoman. Les Safavides perses sont les grands rivaux, battus à Tchaldiran en 1514."],
+['La Mecque','o',"Ottomane. Le sultan se fait « serviteur des deux saintes mosquées », un énorme prestige religieux."],
+['La tulipe','o',"Ottomane. Elle arrive en Europe depuis l'Empire, et le mot viendrait du turc désignant le turban. Le début du XVIIIe siècle est même appelé l'ère des Tulipes."],
+['La Marche turque de Mozart','o',"Inspirée des Ottomans. Elle imite la musique militaire des janissaires, le mehter."],
+['Le croissant viennois','l',"Légende. On raconte qu'il célèbre la victoire de 1683 sur les Ottomans, mais rien ne le prouve. Méfie-toi des belles histoires !"]];
+let scoreE=0;
+const jE=document.getElementById('jeuEntree');
+ENTREE.forEach((it,i)=>{const d=document.createElement('div');d.className='item';d.innerHTML=`<span class="nom">${i+1}. ${it[0]}</span><span class="choix"><button data-v="o">Ottoman</button><button data-v="p">Pas ottoman</button><button data-v="l">Légende</button></span><div class="expl">${it[2]}</div>`;
+ d.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(d.dataset.fini)return;d.dataset.fini=1;const ok=b.dataset.v===it[1];b.classList.add(ok?'bon':'faux');if(!ok)d.querySelector(`[data-v="${it[1]}"]`).classList.add('bon');d.querySelector('.expl').classList.add('montre');if(ok){scoreE++;gagne('e'+i,1)}document.getElementById('scoreEntree').textContent=scoreE});jE.appendChild(d)});
+
+/* galerie */
+const GAL=[
+['Gentile_Bellini_003.jpg','Gentile Bellini, Portrait de Mehmed II, 1480','National Gallery, Londres',"Un sultan musulman fait venir un peintre de Venise, sa rivale commerciale. C'est du soft power, Mehmed se présente aussi comme un prince de la Renaissance, ouvert aux arts européens. Note l'arche et les couronnes, symboles de ses victoires."],
+['Benjamin-Constant-The_Entry_of_Mahomet_II_into_Constantinople-1876.jpg',"Jean-Joseph Benjamin-Constant, L'Entrée de Mahomet II à Constantinople, 1876",'Musée des Augustins, Toulouse',"C'est un regard européen du XIXe siècle, orientaliste, spectaculaire et fantasmé, peint plus de quatre siècles après. Ce n'est pas un document de 1453. Piège de quiz, le peintre s'appelle Benjamin-Constant mais n'a aucun lien avec Benjamin Constant, l'auteur du thème 1 !"],
+['Battle_of_Mohács,_Turkish_miniature.jpg','Miniature ottomane de la bataille de Mohács (1526)','XVIe siècle',"C'est l'image officielle de la victoire, une propagande du pouvoir. L'armée ottomane est ordonnée, le sultan domine, les ennemis sont en déroute. Les miniatures servent à glorifier le règne de Soliman."],
+['OttomanEmpireIn1683-fr.svg',"L'Empire ottoman à son extension maximale, 1683",'Carte, Wikimedia Commons',"Trois continents (Europe, Asie, Afrique) et trois mers (Méditerranée, mer Noire, mer Rouge). Les détroits du Bosphore et des Dardanelles sont au centre. Fais le lien avec Ormuz, contrôler un passage, c'est déjà être puissant."],
+['Le_Petit_Journal_Balkan_Crisis_(1908).jpg','Le Petit Journal, 18 octobre 1908','Presse française illustrée',"Le sultan Abdülhamid II regarde, impuissant, l'Autriche-Hongrie lui arracher la Bosnie et Ferdinand de Bulgarie proclamer l'indépendance de son pays. C'est « l'homme malade » qu'on dépèce sous ses yeux. Un regard français, qui se moque du sultan."],
+['MPK1-426_Sykes_Picot_Agreement_Map_signed_8_May_1916.jpg','Carte des accords Sykes-Picot, signée le 8 mai 1916','National Archives, Londres',"Des lignes tracées par un Britannique et un Français sur une carte du Moyen-Orient, en pleine guerre et en secret. Zone A pour la France, zone B pour le Royaume-Uni. Ces lignes sont à l'origine de bien des frontières actuelles."],
+['Conquest_of_Constantinople,_Zonaro.jpg',"Fausto Zonaro, L'entrée de Mehmed II à Constantinople, 1903","Peintre italien de la cour d'Abdülhamid II","Peinte pour un sultan du XXe siècle, la scène glorifie 1453 au moment où l'empire décline. C'est une image au service de la mémoire et de la fierté ottomane. Compare avec le tableau de Benjamin-Constant, même scène, deux regards."]];
+const g=document.getElementById('galerie');
+GAL.forEach((im,i)=>{const d=document.createElement('div');d.className='carte';d.innerHTML=`<div class="img"><img loading="lazy" alt="${im[1]}" src="${C+encodeURIComponent(im[0])}?width=800"></div><h3 style="font-size:1rem;margin:.6em 0 .2em">${i+1}. ${im[1]}</h3><div class="petit">${im[2]}</div><div class="question" style="margin-top:8px">Qui, quand, pour qui ? Qu'est-ce qu'on voit ? Que veut faire croire l'image ?<textarea placeholder="Ton analyse"></textarea><button class="btn" onclick="montre(this)">Voir la réponse</button><div class="rep">${im[3]}</div></div>`;
+ d.querySelector('img').onerror=function(){this.parentNode.innerHTML=`<div class="secours">🖼️ L'image ne s'affiche pas ici. <a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(im[0])}" target="_blank" rel="noopener">Ouvre-la sur Wikimedia Commons</a>.</div>`};g.appendChild(d)});
+
+/* grand vizir */
+const VIZ=[
+['En quelle année tombe Constantinople ?',['1453','1492','1526','1389'],0],
+['Quel sultan la prend, et à quel âge ?',['Soliman, à 30 ans','Mehmed II, à 21 ans','Sélim Ier, à 40 ans','Osman, à 18 ans'],1],
+["Comment s'appelle l'infanterie d'élite ottomane ?",['Les spahis','Les mamelouks','Les janissaires','Les akıncı'],2],
+['Quelle bataille de 1526 ouvre la Hongrie aux Ottomans ?',['Lépante','Mohács','Tchaldiran','Kosovo'],1],
+["Quel roi de France s'allie au sultan en 1536 ?",['Louis XIV','Henri IV','François Ier','Charles VIII'],2],
+['Quel est le surnom de Soliman chez ses sujets ?',['Fatih, le Conquérant','Kanuni, le Législateur','Yavuz, le Terrible','Gazi, le Victorieux'],1],
+['Quelle défaite de 1683 marque le grand tournant ?',['Le second siège de Vienne','La bataille de Lépante','La prise de Belgrade','Le siège de Malte'],0],
+['Quel traité de 1699 fait perdre la Hongrie ?',['Lausanne','Sèvres','Karlowitz','San Stefano'],2],
+["Qui parle de « l'homme malade de l'Europe » en 1853 ?",['Napoléon III','Le tsar Nicolas Ier','La reine Victoria','Bismarck'],1],
+['Comment appelle-t-on les réformes lancées en 1839 ?',['Les Tanzimat','La Nahda','Le Kémalisme','Les Capitulations'],0],
+['Quels accords de 1916 partagent le Moyen-Orient ?',['Accords de Munich','Accords Sykes-Picot','Accords de Yalta','Accords de Montreux'],1],
+['Quel traité de 1923 fonde les frontières de la Turquie ?',['Versailles','Sèvres','Lausanne','Karlowitz'],2],
+['Bonus tunisien. Depuis quand la Tunisie est-elle une province ottomane ?',['1453','1574','1705','1881'],1]];
+let qi=0,vies=3;const PROV=['Égypte','Hongrie','Syrie'];
+function majProv(){document.getElementById('provinces').innerHTML=PROV.map((p,i)=>`<span class="province ${i>=vies?'perdue':''}">${p}</span>`).join('')}
+function poseQ(){majProv();if(qi>=VIZ.length){document.getElementById('texteQ').textContent='Le sultan est satisfait, tu restes grand vizir !';document.getElementById('choixQ').innerHTML='';document.getElementById('retourQ').innerHTML='<button class="btn or" onclick="termine(\'vizir\');aller(\'frise\')">Passer à la frise</button>';gagne('vizirFini',10);confettis();return}
+ const q=VIZ[qi];document.getElementById('numQ').textContent=qi+1;document.getElementById('texteQ').textContent=q[0];document.getElementById('retourQ').innerHTML='';
+ document.getElementById('choixQ').innerHTML='';q[1].forEach((c,j)=>{const b=document.createElement('button');b.textContent=c;b.onclick=()=>{document.querySelectorAll('#choixQ button').forEach(x=>x.disabled=true);if(j===q[2]){b.style.background='#dff3e6';b.style.borderColor='var(--ok)';gagne('v'+qi,2);document.getElementById('retourQ').innerHTML='<p style="color:var(--ok);font-weight:800">Bravo, le sultan sourit.</p><button class="btn" onclick="qi++;poseQ()">Question suivante</button>'}else{b.style.background='#fbe3e1';b.style.borderColor='var(--ko)';vies--;majProv();if(vies<=0){document.getElementById('retourQ').innerHTML=`<p style="color:var(--ko);font-weight:800">La bonne réponse était ${q[1][q[2]]}. Tu as perdu trois provinces, tu finis comme Kara Mustafa en 1683 !</p><button class="btn rouge" onclick="qi=0;vies=3;poseQ()">Recommencer</button>`}else document.getElementById('retourQ').innerHTML=`<p style="color:var(--ko);font-weight:800">Non, c'était ${q[1][q[2]]}. Tu perds une province.</p><button class="btn" onclick="qi++;poseQ()">Question suivante</button>`}};document.getElementById('choixQ').appendChild(b)})}
+poseQ();
+
+/* frise */
+const FR=[[1453,'Prise de Constantinople'],[1526,'Bataille de Mohács'],[1536,'Accords avec François Ier'],[1683,'Second siège de Vienne'],[1699,'Traité de Karlowitz'],[1839,'Début des Tanzimat'],[1916,'Accords Sykes-Picot'],[1923,'Traité de Lausanne']];
+let pos=0;
+function melange(){pos=0;document.getElementById('ordreFrise').innerHTML='';document.getElementById('retourFrise').innerHTML='';const f=document.getElementById('frise');f.innerHTML='';[...FR].sort(()=>Math.random()-.5).forEach(e=>{const b=document.createElement('button');b.textContent=e[1];b.onclick=()=>{if(b.classList.contains('place'))return;if(e[0]===FR[pos][0]){b.classList.add('place');b.textContent=e[0]+'  '+e[1];document.getElementById('ordreFrise').insertAdjacentHTML('beforeend',`<li><b>${e[0]}</b> ${e[1]}</li>`);pos++;if(pos===FR.length){document.getElementById('retourFrise').innerHTML='<p style="color:var(--ok);font-weight:800">Parfait, la frise est en ordre !</p><button class="btn or" onclick="termine(\'frise\');aller(\'intro\')">Passer à l\'atelier introduction</button>';gagne('frise',10);confettis()}}else{toast('Pas encore, on remélange');setTimeout(melange,700)}};f.appendChild(b)})}
+melange();
+
+/* introduction */
+const BRIQUES=[['Accroche','#e67e22',1],['Définitions','#2e86de',2],['Bornes','#8e44ad',1],['Contexte','#16a085',1],['Paradoxe','#c0392b',2],['Problématique','#d4ac0d',2],['Plan','#2c3e50',1]];
+const cle=document.getElementById('cle');
+BRIQUES.forEach((b,i)=>{const s=document.createElement('span');s.textContent=(i+1)+'. '+b[0];s.style.background=b[1];s.onclick=()=>{document.querySelectorAll('.brique').forEach(x=>x.style.background=x.dataset.b==i+1?b[1]+'33':'transparent');gagne('cle'+i,1)};cle.appendChild(s)});
+const co=document.getElementById('coches');
+BRIQUES.forEach((b,i)=>{co.insertAdjacentHTML('beforeend',`<label><input type="checkbox" data-p="${b[2]}"> ${i+1}. ${b[0]} (${b[2]} pt${b[2]>1?'s':''})</label>`)});
+co.addEventListener('change',()=>{let n=0;co.querySelectorAll('input:checked').forEach(x=>n+=+x.dataset.p);document.getElementById('noteIntro').textContent=n});
+let tMin=null;
+function lanceMinuteur(){if(tMin)return;let s=720;const el=document.getElementById('minuteur');document.getElementById('btnMinuteur').disabled=true;tMin=setInterval(()=>{s--;el.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');if(s<=0){clearInterval(tMin);el.textContent='Temps écoulé !';toast('Temps écoulé, relis-toi')}},1000)}
+document.getElementById('monIntro').addEventListener('input',e=>{try{localStorage.setItem('ottomanIntro',e.target.value)}catch(x){}});
+try{const v=localStorage.getItem('ottomanIntro');if(v)document.getElementById('monIntro').value=v}catch(e){}
+
+/* bilan */
+function sujetChoisi(){const r=document.querySelector('input[name=sujet]:checked').value;return r==='libre'?document.getElementById('sujetLibre').value:r}
+function texteBilan(){return `Bilan du parcours Empire ottoman
+Élève ${document.getElementById('prenom').value}
+Akçe gagnés ${etat.akce}
+Étapes terminées ${etat.faits.join(', ')||'aucune'}
+Score Ottoman ou pas ${scoreE} sur 11
+Trois mots ${document.getElementById('troisMots').value}
+Confiance ${document.getElementById('confiance').value} sur 10
+Avis ${document.getElementById('avis').value}
+Question pour Greg ${document.getElementById('maQuestion').value}
+Sujet d'introduction ${sujetChoisi()}
+Auto-évaluation ${document.getElementById('noteIntro').textContent} sur 10
+Introduction
+${document.getElementById('monIntro').value}`}
+async function envoyer(){const e=document.getElementById('etatEnvoi');e.textContent='Envoi en cours...';
+ try{const r=await fetch('https://formsubmit.co/ajax/laclassedegreg@gmail.com',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({_subject:'Bilan Empire ottoman de '+document.getElementById('prenom').value,_template:'box',bilan:texteBilan()})});if(!r.ok)throw 0;e.textContent='Ton bilan est parti, Greg le reçoit directement. Bravo !';termine('bilan');majFirman();confettis()}
+ catch(x){e.textContent="L'envoi n'a pas fonctionné ici. Clique sur Copier mon bilan et colle-le dans un message à Greg."}}
+async function copier(){try{await navigator.clipboard.writeText(texteBilan());toast('Bilan copié')}catch(x){toast('Copie impossible, sélectionne le texte à la main')}}
+function majFirman(){const f=document.getElementById('firman');if(etat.faits.length>=6||document.body.classList.contains('prof')){f.style.display='block';document.getElementById('nomFirman').textContent=document.getElementById('prenom').value;document.getElementById('akceFirman').textContent=etat.akce}}
+
+/* confettis */
+function confettis(){const c=document.getElementById('confettis'),x=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;const p=Array.from({length:120},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height/2,v:2+Math.random()*4,r:4+Math.random()*5,c:['#c9a227','#139a9a','#b8322a','#1f5f99'][Math.floor(Math.random()*4)]}));let n=0;(function f(){x.clearRect(0,0,c.width,c.height);p.forEach(q=>{q.y+=q.v;q.x+=Math.sin(q.y/30);x.fillStyle=q.c;x.fillRect(q.x,q.y,q.r,q.r*1.6)});if(n++<160)requestAnimationFrame(f);else x.clearRect(0,0,c.width,c.height)})()}
+
+/* demarrage */
+lire();majBourse();
+const h=location.hash.replace('#','');aller(SECTIONS.includes(h)?h:'accueil');
+window.addEventListener('hashchange',()=>{const k=location.hash.replace('#','');if(SECTIONS.includes(k))aller(k)});
+</script>
+</body>
+</html>
