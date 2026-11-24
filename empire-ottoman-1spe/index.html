@@ -15,7 +15,12 @@ button,a,label,input{touch-action:manipulation}
 h1,h2,h3{font-family:Cinzel,Georgia,serif;color:var(--bleu);line-height:1.25}
 a{color:var(--bleu2)}
 [hidden]{display:none!important}
-#porte{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--bleu),#0b2440);padding:16px}
+#porte{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(rgba(11,36,64,.55),rgba(11,36,64,.8)),url(img/topkapi.jpg) center/cover no-repeat,var(--bleu);padding:16px}
+#porte .boite{box-shadow:0 10px 40px rgba(0,0,0,.45)}
+.banniere{display:block;width:calc(100% + 52px);margin:-26px -26px 0;height:170px;object-fit:cover;border-radius:14px 14px 0 0}
+.pamuk.haut{margin-top:-50px;position:relative}
+.pamuk{width:96px;height:96px;border-radius:50%;object-fit:cover;border:4px solid var(--or);display:block;margin:0 auto 6px}
+.credit{font-size:.7rem;color:rgba(255,255,255,.8);position:fixed;bottom:6px;right:10px;margin:0}
 #porte .boite{background:var(--creme);border:4px solid var(--or);border-radius:18px;padding:26px;max-width:460px;width:100%;text-align:center}
 #porte select,#porte input{font-size:16px;padding:10px 12px;border:2px solid var(--bleu2);border-radius:10px;width:100%;margin:8px 0;background:#fff;color:var(--encre)}
 .lien{background:none;border:0;color:var(--bleu2);text-decoration:underline;font:inherit;cursor:pointer;padding:6px}
@@ -34,10 +39,11 @@ section.visible{display:block}
 .carte{background:#fff;border-radius:16px;padding:18px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(18,58,99,.08);border-top:5px solid var(--turq)}
 .heros{border-radius:16px;overflow:hidden;position:relative;margin:10px 0 16px;background:var(--bleu);min-height:140px}
 .heros img{width:100%;max-height:360px;object-fit:cover;display:block}
-.heros .titre{position:absolute;left:0;right:0;bottom:0;padding:16px;background:linear-gradient(transparent,rgba(0,0,0,.78));color:#fff}
+.heros .titre{position:absolute;left:0;right:0;bottom:0;padding:16px;background:linear-gradient(transparent,rgba(0,0,0,.6) 25%,rgba(0,0,0,.88));color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.6)}
 .heros .titre h2{color:#fff;margin:0}
 .guide{display:flex;gap:12px;align-items:flex-start;background:#e9f6f6;border-radius:14px;padding:14px;margin:14px 0;border-left:6px solid var(--turq)}
-.guide .chat{font-size:2.2rem;line-height:1}
+.guide .chat{width:58px;height:58px;flex:0 0 58px;border-radius:50%;object-fit:cover;border:3px solid var(--turq)}
+.vizimg{width:100%;height:200px;object-fit:cover;border-radius:12px;display:block;margin:4px 0 10px;background:#e5e8ec}
 .funfact{background:#fff6dc;border-left:6px solid var(--or);border-radius:12px;padding:12px 16px;margin:14px 0}
 .question{background:#eef3fa;border-left:6px solid var(--bleu2);border-radius:12px;padding:12px 16px;margin:14px 0}
 textarea{width:100%;min-height:70px;font:inherit;font-size:16px;border:2px solid #cfd8e3;border-radius:10px;padding:8px;margin-top:6px;background:#fff;color:var(--encre)}
@@ -95,9 +101,10 @@ body.prof .profonly{display:block}
 
 <div id="porte">
   <div class="boite">
-    <div style="font-size:3rem">🐈</div>
+    <img class="banniere" src="img/zonaro.jpg" alt="Fausto Zonaro, L'entrée de Mehmed II à Constantinople">
+    <img class="pamuk haut" src="img/pamuk.jpg" alt="Pamuk, chat d'Istanbul">
     <h2 style="margin:.2em 0">La Sublime Porte</h2>
-    <p style="margin:.3em 0">Bienvenue au palais de Topkapı. Qui entre ?</p>
+    <p style="margin:.3em 0">Bienvenue au palais de Topkapı. Je suis Pamuk, le chat du palais. Qui entre ?</p>
     <select id="eleve"><option value="">Choisis ton nom dans la liste</option></select>
     <button class="lien" type="button" id="btnVisiteur">Je suis visiteur ou visiteuse</button>
     <input id="visiteur" type="text" maxlength="30" placeholder="Ton prénom" autocomplete="off" hidden>
@@ -109,6 +116,7 @@ body.prof .profonly{display:block}
       <button class="btn" type="button" id="entrerProf">Entrer</button>
     </div>
   </div>
+  <p class="credit">Fond, porte du Salut, Topkapı (photo A. Savin). Bandeau, Fausto Zonaro, L'entrée de Mehmed II à Constantinople</p>
 </div>
 
 <div id="app" hidden>
@@ -116,7 +124,7 @@ body.prof .profonly{display:block}
   <div class="ligne">
     <h1>Le Sultan et le Grand Vizir</h1>
     <span class="qui" id="qui"></span>
-    <span class="bourse">🪙 <span id="akce">0</span> akçe</span>
+    <span class="bourse"><span id="akce">0</span> akçe</span>
   </div>
   <nav id="nav"></nav>
 </header>
@@ -137,10 +145,10 @@ body.prof .profonly{display:block}
 
 <section id="s-accueil" data-titre="Accueil">
   <div class="heros">
-    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Conquest_of_Constantinople,_Zonaro.jpg?width=1200" alt="Fausto Zonaro, L'entrée de Mehmed II à Constantinople" onerror="this.style.display='none'">
+    <img src="img/zonaro.jpg" alt="Fausto Zonaro, L'entrée de Mehmed II à Constantinople" onerror="this.style.display='none'">
     <div class="titre"><h2>L'Empire ottoman, de l'essor au déclin (1453-1923)</h2><div>HGGSP Première, thème 2, les dynamiques des puissances internationales</div></div>
   </div>
-  <div class="guide"><div class="chat">🐈</div><div><b>Merhaba <span class="prenom">voyageur</span> !</b> Je suis Pamuk, chat d'Istanbul. Mes ancêtres dormaient déjà sur les tapis de Topkapı quand Soliman y gouvernait, et mes cousins ronronnaient dans les bains de Sofia. Aujourd'hui, je t'emmène voir comment un petit émirat d'Anatolie est devenu l'un des plus grands empires du monde, comment il a gouverné la Bulgarie pendant près de cinq siècles, puis comment il a disparu. À chaque bonne réponse, tu gagnes des akçe, les pièces d'argent ottomanes.</div></div>
+  <div class="guide"><img class="chat" src="img/pamuk.jpg" alt="Pamuk"><div><b>Merhaba <span class="prenom">voyageur</span> !</b> Je suis Pamuk, chat d'Istanbul. Mes ancêtres dormaient déjà sur les tapis de Topkapı quand Soliman y gouvernait, et mes cousins ronronnaient dans les bains de Sofia. Aujourd'hui, je t'emmène voir comment un petit émirat d'Anatolie est devenu l'un des plus grands empires du monde, comment il a gouverné la Bulgarie pendant près de cinq siècles, puis comment il a disparu. À chaque bonne réponse, tu gagnes des akçe, les pièces d'argent ottomanes.</div></div>
   <a class="btn" href="dossier/" style="display:block;text-align:center">Le cours illustré, version mobile</a>
   <div class="carte">
     <h3>Ton parcours</h3>
@@ -162,8 +170,11 @@ body.prof .profonly{display:block}
 </section>
 
 <section id="s-entree" data-titre="1. Ottoman ou pas ?">
-  <h2>Ottoman ou pas ?</h2>
-  <div class="guide"><div class="chat">🐈</div><div>Pour chaque lieu ou objet, dis s'il a été ottoman, s'il ne l'a pas été, ou si c'est une légende. Attention aux pièges, et le premier lieu te concerne de très près.</div></div>
+  <div class="heros">
+    <img src="img/carte1683.jpg" alt="L'Empire ottoman à son extension maximale, 1683, sur trois continents" style="object-position:center">
+    <div class="titre"><h2>Ottoman ou pas ?</h2><div>L'Empire ottoman à son extension maximale, 1683, sur trois continents</div></div>
+  </div>
+  <div class="guide"><img class="chat" src="img/pamuk.jpg" alt="Pamuk"><div>Pour chaque lieu ou objet, dis s'il a été ottoman, s'il ne l'a pas été, ou si c'est une légende. Attention aux pièges, et le premier lieu te concerne de très près.</div></div>
   <div class="carte" id="jeuEntree"></div>
   <div class="carte">
     <p class="score">Score <span id="scoreEntree">0</span> / 11</p>
@@ -177,7 +188,7 @@ body.prof .profonly{display:block}
 
 <section id="s-cours1" data-titre="2. L'essor">
   <div class="heros">
-    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Gentile_Bellini_003.jpg?width=1000" alt="Gentile Bellini, Portrait de Mehmed II" style="object-position:center 25%" onerror="this.style.display='none'">
+    <img src="img/mehmed.jpg" alt="Gentile Bellini, Portrait de Mehmed II" style="object-position:center 25%" onerror="this.style.display='none'">
     <div class="titre"><h2>La nuit où les bateaux ont traversé la terre</h2><div>Gentile Bellini, Portrait de Mehmed II, 1480, National Gallery de Londres</div></div>
   </div>
   <div class="carte">
@@ -231,15 +242,18 @@ body.prof .profonly{display:block}
 </section>
 
 <section id="s-galerie" data-titre="3. Images">
-  <h2>La galerie du palais</h2>
-  <div class="guide"><div class="chat">🐈</div><div>Pour chaque image, pose-toi trois questions. Qui l'a faite, quand et pour qui ? Qu'est-ce qu'on voit ? Qu'est-ce que l'image veut faire croire ? Écris ta réponse, puis compare avec la mienne.</div></div>
+  <div class="heros">
+    <img src="img/topkapi.jpg" alt="La porte du Salut, palais de Topkapı, Istanbul (photo A. Savin)" style="object-position:center 40%">
+    <div class="titre"><h2>La galerie du palais</h2><div>La porte du Salut, palais de Topkapı, Istanbul (photo A. Savin)</div></div>
+  </div>
+  <div class="guide"><img class="chat" src="img/pamuk.jpg" alt="Pamuk"><div>Pour chaque image, pose-toi trois questions. Qui l'a faite, quand et pour qui ? Qu'est-ce qu'on voit ? Qu'est-ce que l'image veut faire croire ? Écris ta réponse, puis compare avec la mienne.</div></div>
   <div class="grille" id="galerie"></div>
   <div class="carte"><button class="btn or" type="button" onclick="termine('galerie');aller('cours2')">Passer au cours 2</button></div>
 </section>
 
 <section id="s-cours2" data-titre="4. Le déclin">
   <div class="heros">
-    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Le_Petit_Journal_Balkan_Crisis_(1908).jpg?width=1000" alt="Le Petit Journal, 18 octobre 1908" style="object-position:center 30%" onerror="this.style.display='none'">
+    <img src="img/petitjournal.jpg" alt="Le Petit Journal, 18 octobre 1908" style="object-position:center 30%" onerror="this.style.display='none'">
     <div class="titre"><h2>L'homme malade qui ne voulait pas mourir</h2><div>Le Petit Journal, 18 octobre 1908</div></div>
   </div>
   <div class="carte">
@@ -291,8 +305,11 @@ body.prof .profonly{display:block}
 </section>
 
 <section id="s-bulgarie" data-titre="5. Bulgarie">
-  <h2>Dossier. La Bulgarie ottomane</h2>
-  <div class="guide"><div class="chat">🐈</div><div>Tu vis à Sofia, dans une ancienne ville ottomane. L'histoire bulgare montre, à l'échelle d'un territoire, comment l'empire domine, intègre, puis perd une province. Ouvre l'œil, tu connais sûrement certains lieux.</div></div>
+  <div class="heros">
+    <img src="img/rila.jpg" alt="Le monastère de Rila, gardien de la langue et de la mémoire bulgares" style="object-position:center">
+    <div class="titre"><h2>Dossier. La Bulgarie ottomane</h2><div>Le monastère de Rila, gardien de la langue et de la mémoire bulgares</div></div>
+  </div>
+  <div class="guide"><img class="chat" src="img/pamuk.jpg" alt="Pamuk"><div>Tu vis à Sofia, dans une ancienne ville ottomane. L'histoire bulgare montre, à l'échelle d'un territoire, comment l'empire domine, intègre, puis perd une province. Ouvre l'œil, tu connais sûrement certains lieux.</div></div>
   <div class="carte">
     <div class="pleine"><a href="img/frise-bulgarie.jpg" target="_blank" rel="noopener"><img src="img/frise-bulgarie.jpg" alt="Frise, la Bulgarie ottomane de la conquête à l'indépendance" loading="lazy"></a><span class="petit">Touche l\'image pour l\'agrandir.</span></div>
     <h3>1. La conquête et l'organisation ottomane</h3>
@@ -322,11 +339,15 @@ body.prof .profonly{display:block}
 </section>
 
 <section id="s-vizir" data-titre="6. Grand Vizir">
-  <h2>Le jeu du Grand Vizir</h2>
-  <div class="guide"><div class="chat">🐈</div><div>Te voilà grand vizir. Le sultan t'interroge. À chaque erreur, tu perds une province. Si tu en perds trois, tu finis comme Kara Mustafa en 1683, et il faudra recommencer. Courage, le sultan est exigeant mais juste.</div></div>
+  <div class="heros">
+    <img src="img/soliman.jpg" alt="Soliman le Magnifique, portrait vénitien vers 1530" style="object-position:center 25%">
+    <div class="titre"><h2>Le jeu du Grand Vizir</h2><div>Soliman le Magnifique, portrait vénitien vers 1530</div></div>
+  </div>
+  <div class="guide"><img class="chat" src="img/pamuk.jpg" alt="Pamuk"><div>Te voilà grand vizir. Le sultan t'interroge. À chaque erreur, tu perds une province. Si tu en perds trois, tu finis comme Kara Mustafa en 1683, et il faudra recommencer. Courage, le sultan est exigeant mais juste.</div></div>
   <div class="carte">
     <div class="provinces" id="provinces"></div>
     <p class="petit">Question <span id="numQ">1</span> / <span id="totQ">15</span></p>
+    <img id="imgQ" class="vizimg" alt="" src="img/zonaro.jpg">
     <h3 id="texteQ"></h3>
     <div class="qcm" id="choixQ"></div>
     <div id="retourQ"></div>
@@ -334,8 +355,11 @@ body.prof .profonly{display:block}
 </section>
 
 <section id="s-frise" data-titre="7. Frise">
-  <h2>La frise du sultan</h2>
-  <div class="guide"><div class="chat">🐈</div><div>Touche les événements dans l'ordre chronologique, du plus ancien au plus récent. Si tu te trompes, tout se remélange.</div></div>
+  <div class="heros">
+    <img src="img/vienne.jpg" alt="Frans Geffels, la bataille de Vienne, 12 septembre 1683" style="object-position:center">
+    <div class="titre"><h2>La frise du sultan</h2><div>Frans Geffels, la bataille de Vienne, 12 septembre 1683</div></div>
+  </div>
+  <div class="guide"><img class="chat" src="img/pamuk.jpg" alt="Pamuk"><div>Touche les événements dans l'ordre chronologique, du plus ancien au plus récent. Si tu te trompes, tout se remélange.</div></div>
   <div class="carte">
     <div class="frise" id="frise"></div>
     <ol id="ordreFrise"></ol>
@@ -345,7 +369,10 @@ body.prof .profonly{display:block}
 </section>
 
 <section id="s-intro" data-titre="8. Introduction">
-  <h2>L'atelier, une introduction niveau Sciences Po</h2>
+  <div class="heros">
+    <img src="img/sainte-sophie.jpg" alt="Sainte-Sophie, Istanbul. Basilique, mosquée en 1453, musée en 1934, de nouveau mosquée en 2020" style="object-position:center">
+    <div class="titre"><h2>L'atelier, une introduction niveau Sciences Po</h2><div>Sainte-Sophie, Istanbul. Basilique, mosquée en 1453, musée en 1934, de nouveau mosquée en 2020</div></div>
+  </div>
   <div class="carte">
     <h3>Les 7 briques d'une introduction</h3>
     <div class="tablo"><table>
@@ -405,7 +432,10 @@ body.prof .profonly{display:block}
 </section>
 
 <section id="s-cours" data-titre="9. Les cours">
-  <h2>Les cours à télécharger</h2>
+  <div class="heros">
+    <img src="img/devchirme.jpg" alt="Le devchirmé, recrutement de garçons chrétiens des Balkans, miniature du Süleymanname, 1558" style="object-position:center 30%">
+    <div class="titre"><h2>Les cours à télécharger</h2><div>Le devchirmé, recrutement de garçons chrétiens des Balkans, miniature du Süleymanname, 1558</div></div>
+  </div>
   <div class="carte">
     <div class="question" style="border-left-color:var(--or);background:#fff6dc"><b>L'essentiel en un seul dossier</b> (4 pages, illustré)<br>Tout le cours, essor, déclin, Bulgarie, repères et méthode, avec les activités à faire au stylo. Il existe aussi en version mobile, à lire sur ton téléphone.<br>
       <a class="btn or" href="cours/Dossier_Empire_ottoman_4_pages.pdf" target="_blank" rel="noopener">Télécharger le dossier complet (4 pages)</a>
@@ -427,7 +457,10 @@ body.prof .profonly{display:block}
 </section>
 
 <section id="s-bilan" data-titre="10. Bilan">
-  <h2>Ton bilan</h2>
+  <div class="heros">
+    <img src="img/ataturk.jpg" alt="Mustafa Kemal Atatürk, fondateur de la République turque en 1923" style="object-position:center 20%">
+    <div class="titre"><h2>Ton bilan</h2><div>Mustafa Kemal Atatürk, fondateur de la République turque en 1923</div></div>
+  </div>
   <div class="carte">
     <div class="question">Trois mots pour résumer ce que tu as appris <textarea id="troisMots"></textarea></div>
     <div class="question">Ta confiance sur le thème, de 1 à 10 <input id="confiance" type="range" min="1" max="10" value="6"> <b id="valConf">6</b></div>
@@ -447,7 +480,7 @@ body.prof .profonly{display:block}
     </ol>
   </div>
   <div class="firman" id="firman" hidden>
-    <div style="font-size:2.6rem">🐈 🪙</div>
+    <img class="pamuk" src="img/pamuk.jpg" alt="Pamuk">
     <h2>Firman du sultan</h2>
     <p>Par ordre de la Sublime Porte, <b id="nomFirman"></b> est élevé·e au rang de <b>Grand Vizir de l'histoire ottomane</b>, avec un trésor de <b id="akceFirman">0</b> akçe.</p>
     <p class="petit">Signé Pamuk, chat officiel du palais de Topkapı, et M. Cron</p>
@@ -459,6 +492,7 @@ body.prof .profonly{display:block}
 <footer>
   <p><button class="lien" type="button" id="changer">Changer d'utilisateur</button></p>
   <p><b>Crédits.</b> Images Wikimedia Commons. Œuvres du domaine public, Fausto Zonaro, L'entrée de Mehmed II à Constantinople (1903), Gentile Bellini, Portrait de Mehmed II (1480, National Gallery), Jean-Joseph Benjamin-Constant, L'Entrée de Mahomet II à Constantinople (1876, musée des Augustins, Toulouse), miniature ottomane de la bataille de Mohács (XVIe siècle), Le Petit Journal (18 octobre 1908), carte des accords Sykes-Picot (National Archives, MPK 1/426), signature du traité de San Stefano (gravure de 1878). Photographie de la mosquée Banya Bashi par MrPanyGoff et carte de la Bulgarie en 1878 par Todor Bozhinov, licence CC BY-SA 3.0. Carte de l'Empire ottoman en 1683, Wikimedia Commons. Vidéos TED-Ed (Mostafa Minawi) et Europe 1. Frises et schéma réalisés pour LaClasseDeGreg.</p>
+  <p><b>Photos et œuvres ajoutées.</b> Pamuk, chats d'Istanbul (Pelle Sten, CC BY 2.0). Porte du Salut, palais de Topkapı (A. Savin, Wikimedia Commons). Monastère de Rila, Sainte-Sophie, Wikimedia Commons. Soliman, portrait vénitien vers 1530. Frans Geffels, bataille de Vienne (1683). Süleymanname, le devchirmé (1558). Atatürk, années 1930. Carte de l'Empire ottoman en 1683, Wikimedia Commons.</p>
   <p>LaClasseDeGreg, Lycée Victor Hugo de Sofia, 1SPE HGGSP, novembre 2026.</p>
 </footer>
 </div>
@@ -541,19 +575,19 @@ function jeuEntree(){var scoreE=0,jE=$("jeuEntree");jE.innerHTML="";
   d.querySelectorAll("button").forEach(function(b){b.onclick=function(){if(d.dataset.fini)return;d.dataset.fini=1;var ok=b.dataset.v===it[1];b.classList.add(ok?"bon":"faux");if(!ok)d.querySelector('[data-v="'+it[1]+'"]').classList.add("bon");d.querySelector(".expl").classList.add("montre");if(ok){scoreE++;gagne("e"+i,1)}$("scoreEntree").textContent=scoreE;etat.scores.entree=scoreE;sauve()}});jE.appendChild(d)})}
 
 /* galerie */
-var GAL=[["Gentile_Bellini_003.jpg","","Gentile Bellini, Portrait de Mehmed II, 1480","National Gallery, Londres","Un sultan musulman fait venir un peintre de Venise, sa rivale commerciale. C'est du soft power, Mehmed se présente aussi comme un prince de la Renaissance, ouvert aux arts européens. Note l'arche et les couronnes, symboles de ses victoires."],
+var GAL=[["Gentile_Bellini_003.jpg","img/mehmed.jpg","Gentile Bellini, Portrait de Mehmed II, 1480","National Gallery, Londres","Un sultan musulman fait venir un peintre de Venise, sa rivale commerciale. C'est du soft power, Mehmed se présente aussi comme un prince de la Renaissance, ouvert aux arts européens. Note l'arche et les couronnes, symboles de ses victoires."],
 ["","img/benjamin-constant.jpg","Jean-Joseph Benjamin-Constant, L'Entrée de Mahomet II à Constantinople, 1876","Musée des Augustins, Toulouse","C'est un regard européen du XIXe siècle, orientaliste, spectaculaire et fantasmé, peint plus de quatre siècles après. Ce n'est pas un document de 1453. Piège de quiz, le peintre s'appelle Benjamin-Constant mais n'a aucun lien avec Benjamin Constant, l'auteur étudié dans le thème 1."],
-["Battle_of_Mohács,_Turkish_miniature.jpg","","Miniature ottomane de la bataille de Mohács (1526)","XVIe siècle","C'est l'image officielle de la victoire, une propagande du pouvoir. L'armée ottomane est ordonnée, le sultan domine, les ennemis sont en déroute. Les miniatures servent à glorifier le règne de Soliman."],
-["OttomanEmpireIn1683-fr.svg","","L'Empire ottoman à son extension maximale, 1683","Carte, Wikimedia Commons","Trois continents (Europe, Asie, Afrique) et trois mers (Méditerranée, mer Noire, mer Rouge). Repère Sofia et la Roumélie. Les détroits du Bosphore et des Dardanelles sont au centre. Contrôler un passage, c'est déjà être puissant."],
-["Banya_Bashi_Mosque_Sofia.jpg","","La mosquée Banya Bashi à Sofia, construite en 1566-1567","Photographie MrPanyGoff, CC BY-SA 3.0","Une mosquée construite par Mimar Sinan, l'architecte de Soliman, au cœur de Sofia. Elle montre que la puissance ottomane s'inscrit dans le paysage des villes conquises, c'est du soft power architectural. Elle rappelle aussi que l'histoire ottomane fait partie de l'histoire de Sofia."],
+["Battle_of_Mohács,_Turkish_miniature.jpg","img/mohacs.jpg","Miniature ottomane de la bataille de Mohács (1526)","XVIe siècle","C'est l'image officielle de la victoire, une propagande du pouvoir. L'armée ottomane est ordonnée, le sultan domine, les ennemis sont en déroute. Les miniatures servent à glorifier le règne de Soliman."],
+["OttomanEmpireIn1683-fr.svg","img/carte1683.jpg","L'Empire ottoman à son extension maximale, 1683","Carte, Wikimedia Commons","Trois continents (Europe, Asie, Afrique) et trois mers (Méditerranée, mer Noire, mer Rouge). Repère Sofia et la Roumélie. Les détroits du Bosphore et des Dardanelles sont au centre. Contrôler un passage, c'est déjà être puissant."],
+["Banya_Bashi_Mosque_Sofia.jpg","img/banya-bashi.jpg","La mosquée Banya Bashi à Sofia, construite en 1566-1567","Photographie MrPanyGoff, CC BY-SA 3.0","Une mosquée construite par Mimar Sinan, l'architecte de Soliman, au cœur de Sofia. Elle montre que la puissance ottomane s'inscrit dans le paysage des villes conquises, c'est du soft power architectural. Elle rappelle aussi que l'histoire ottomane fait partie de l'histoire de Sofia."],
 ["Treaty_of_San_Stefano.jpg","","La signature du traité de San Stefano, gravure de 1878","Presse illustrée, mars 1878","Le traité du 3 mars 1878, signé entre la Russie victorieuse et l'Empire ottoman, crée une grande Bulgarie autonome. La scène montre que l'avenir des Balkans se décide entre grandes puissances. Le 3 mars est aujourd'hui la fête nationale bulgare."],
-["Bulgaria-SanStefano_-(1878)-byTodorBozhinov.png","","La Bulgarie selon le traité de San Stefano, puis selon le Congrès de Berlin (1878)","Carte de Todor Bozhinov, CC BY-SA 3.0","Compare les deux frontières. À Berlin, les puissances européennes réduisent la Bulgarie pour limiter l'influence russe. La Roumélie orientale et la Macédoine restent ottomanes. C'est la question d'Orient en une carte."],
-["Le_Petit_Journal_Balkan_Crisis_(1908).jpg","","Le Petit Journal, 18 octobre 1908","Presse française illustrée","Le sultan Abdülhamid II regarde, impuissant, l'Autriche-Hongrie lui arracher la Bosnie et Ferdinand de Bulgarie proclamer l'indépendance de son pays (octobre 1908). C'est « l'homme malade » qu'on dépèce sous ses yeux, vu par la presse française."],
-["MPK1-426_Sykes_Picot_Agreement_Map_signed_8_May_1916.jpg","","Carte des accords Sykes-Picot, signée le 8 mai 1916","National Archives, Londres","Des lignes tracées par un Britannique et un Français sur une carte du Moyen-Orient, en pleine guerre et en secret. Zone A pour la France, zone B pour le Royaume-Uni. Ces lignes sont à l'origine de bien des frontières actuelles."]];
+["Bulgaria-SanStefano_-(1878)-byTodorBozhinov.png","img/sanstefano.jpg","La Bulgarie selon le traité de San Stefano, puis selon le Congrès de Berlin (1878)","Carte de Todor Bozhinov, CC BY-SA 3.0","Compare les deux frontières. À Berlin, les puissances européennes réduisent la Bulgarie pour limiter l'influence russe. La Roumélie orientale et la Macédoine restent ottomanes. C'est la question d'Orient en une carte."],
+["Le_Petit_Journal_Balkan_Crisis_(1908).jpg","img/petitjournal.jpg","Le Petit Journal, 18 octobre 1908","Presse française illustrée","Le sultan Abdülhamid II regarde, impuissant, l'Autriche-Hongrie lui arracher la Bosnie et Ferdinand de Bulgarie proclamer l'indépendance de son pays (octobre 1908). C'est « l'homme malade » qu'on dépèce sous ses yeux, vu par la presse française."],
+["MPK1-426_Sykes_Picot_Agreement_Map_signed_8_May_1916.jpg","img/sykes.jpg","Carte des accords Sykes-Picot, signée le 8 mai 1916","National Archives, Londres","Des lignes tracées par un Britannique et un Français sur une carte du Moyen-Orient, en pleine guerre et en secret. Zone A pour la France, zone B pour le Royaume-Uni. Ces lignes sont à l'origine de bien des frontières actuelles."]];
 function galerie(){var g=$("galerie");g.innerHTML="";
  GAL.forEach(function(im,i){var d=document.createElement("div");d.className="carte";var src=im[1]||(CMN+encodeURIComponent(im[0])+"?width=700");
   d.innerHTML='<div class="img"><img loading="lazy" alt="'+im[2].replace(/"/g,"")+'" src="'+src+'"></div><h3 style="font-size:1rem;margin:.6em 0 .2em">'+(i+1)+". "+im[2]+'</h3><div class="petit">'+im[3]+'</div><div class="question" style="margin-top:8px">Qui, quand, pour qui ? Qu\'est-ce qu\'on voit ? Que veut faire croire l\'image ?<textarea placeholder="Ton analyse"></textarea><button class="btn" type="button" onclick="montre(this)">Voir la réponse</button><div class="rep">'+im[4]+"</div></div>";
-  var img=d.querySelector("img");img.onerror=function(){this.parentNode.innerHTML='<div class="secours">🖼️ L\'image ne s\'affiche pas ici. <a href="https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(im[0]||"Benjamin-Constant-The_Entry_of_Mahomet_II_into_Constantinople-1876.jpg")+'" target="_blank" rel="noopener">Ouvre-la sur Wikimedia Commons</a>.</div>'};g.appendChild(d)})}
+  var img=d.querySelector("img");img.onerror=function(){this.parentNode.innerHTML='<div class="secours">L\'image ne s\'affiche pas ici. <a href="https://commons.wikimedia.org/wiki/File:'+encodeURIComponent(im[0]||"Benjamin-Constant-The_Entry_of_Mahomet_II_into_Constantinople-1876.jpg")+'" target="_blank" rel="noopener">Ouvre-la sur Wikimedia Commons</a>.</div>'};g.appendChild(d)})}
 
 /* vrai ou faux Bulgarie */
 var VF=[["Sofia est prise par les Ottomans à la fin du XIVe siècle.",1,"Vrai, vers 1382."],["La mosquée Banya Bashi a été construite par Mimar Sinan.",1,"Vrai, en 1566-1567."],["L'Exarchat bulgare est créé en 1870 contre l'avis du sultan.",0,"Faux, il est créé par un firman, un décret du sultan."],["Vasil Levski est pendu à Sofia en 1873.",1,"Vrai, il est devenu « l'Apôtre de la liberté »."],["Le traité de San Stefano est signé le 3 mars 1878.",1,"Vrai, c'est la fête nationale bulgare."],["Le Congrès de Berlin agrandit la Bulgarie de San Stefano.",0,"Faux, il la réduit pour limiter l'influence russe."],["La Bulgarie devient indépendante dès 1878.",0,"Faux, elle est une principauté autonome, vassale du sultan, jusqu'à l'indépendance de 1908."],["Victor Hugo dénonce en 1876 les massacres commis dans les Balkans.",1,"Vrai, dans son appel « Pour la Serbie »."]];
@@ -577,11 +611,12 @@ var VIZ=[["En quelle année tombe Constantinople ?",["1453","1492","1526","1389"
 ["Quels accords de 1916 partagent le Moyen-Orient ?",["Accords de Munich","Accords Sykes-Picot","Accords de Yalta","Accords de Montreux"],1],
 ["Quel traité de 1923 fonde les frontières de la Turquie ?",["Versailles","Sèvres","Lausanne","Karlowitz"],2],
 ["En quelle année la Bulgarie proclame-t-elle son indépendance ?",["1878","1885","1908","1918"],2]];
+var VIZIMG=["zonaro","mehmed","devchirme","mohacs","carte1683","soliman","vienne","carte1683","petitjournal","topkapi","sanstefano","sanstefano","sykes","ataturk","petitjournal"];
 var qi=0,vies=3,bons=0,PROV=["Égypte","Hongrie","Roumélie"];
 function majProv(){$("provinces").innerHTML=PROV.map(function(p,i){return '<span class="province'+(i>=vies?" perdue":"")+'">'+p+"</span>"}).join("")}
 function poseQ(){majProv();$("totQ").textContent=VIZ.length;
  if(qi>=VIZ.length){$("texteQ").textContent="Le sultan est satisfait, tu restes grand vizir !";$("choixQ").innerHTML="";$("retourQ").innerHTML='<p class="score">'+bons+" bonnes réponses sur "+VIZ.length+'</p><button class="btn or" type="button" id="versFrise">Passer à la frise</button>';$("versFrise").onclick=function(){termine("vizir");aller("frise")};etat.scores.vizir=bons;sauve();gagne("vizirFini",10);confettis();return}
- var q=VIZ[qi];$("numQ").textContent=qi+1;$("texteQ").textContent=q[0];$("retourQ").innerHTML="";$("choixQ").innerHTML="";
+ var q=VIZ[qi];$("numQ").textContent=qi+1;$("imgQ").src="img/"+VIZIMG[qi]+".jpg";$("texteQ").textContent=q[0];$("retourQ").innerHTML="";$("choixQ").innerHTML="";
  q[1].forEach(function(c,j){var b=document.createElement("button");b.type="button";b.textContent=c;b.onclick=function(){var all=$("choixQ").querySelectorAll("button");for(var t=0;t<all.length;t++)all[t].disabled=true;
   if(j===q[2]){b.style.background="#dff3e6";b.style.borderColor="#1f8a4c";bons++;gagne("v"+qi,2);$("retourQ").innerHTML='<p style="color:#1f8a4c;font-weight:800">Bravo, le sultan sourit.</p><button class="btn" type="button" id="suiv">Question suivante</button>';$("suiv").onclick=function(){qi++;poseQ()}}
   else{b.style.background="#fbe3e1";b.style.borderColor="#b8322a";vies--;majProv();
