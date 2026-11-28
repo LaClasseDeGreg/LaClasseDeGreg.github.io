@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>L'architecte du plan, Maram</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE  encourageant, précis, une élève de Première qui construit son premier plan de dissertation
+   IDEA   un chantier d'architecte, des briques à poser à la bonne place dans un édifice
+   PICTURE le plan lui-même, un édifice en trois colonnes qui se remplit de briques vertes
+   COLOUR bleu Europe #0b2a8a, jaune #ffcc00, vert validé #1d8a4e, rouge #c0392b
+   TYPE / LAYOUT Archivo + Source Sans 3, réserve de cartes en haut, plan en dessous */
+:root{--bg:#f4f6fc;--card:#fff;--ink:#0d1640;--mute:#4a5478;--blue:#0b2a8a;--star:#ffcc00;--ok:#1d8a4e;--ko:#c0392b;--line:#d3d9ee}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Source Sans 3",system-ui,sans-serif;overflow-x:clip;padding-bottom:110px}
+h1,h2,h3{font-family:Archivo,system-ui,sans-serif;line-height:1.1;margin:0 0 .4em;text-wrap:balance}
+h1{font-size:clamp(26px,4.5vw,42px);font-weight:800}h2{font-size:clamp(20px,3vw,26px);font-weight:800}h3{font-size:17px;font-weight:700}
+header{background:var(--blue);color:#fff;padding:20px max(4vw,16px)}
+header p{color:#dfe5ff;margin:.3em 0;max-width:70ch}
+.steps{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.steps span{padding:6px 12px;border-radius:20px;background:#22409e;font-size:14px;font-weight:600}
+.steps span.on{background:var(--star);color:#0d1640}.steps span.done{background:var(--ok)}
+.wrap{max-width:1000px;margin:0 auto;padding:18px max(3vw,12px)}
+.tip{display:flex;gap:12px;background:#fff8d6;border-radius:12px;padding:14px;margin-bottom:16px;border-left:5px solid var(--star)}
+.tip svg{flex:none;width:48px;height:48px}
+.tip ul{margin:.3em 0 0;padding-left:1.1em}
+.pool{position:sticky;top:0;z-index:3;background:var(--bg);padding:10px 0 12px;border-bottom:2px dashed var(--line);margin-bottom:14px}
+.pool h3{margin:0 0 8px}
+.cards{display:flex;flex-wrap:wrap;gap:8px;max-height:38vh;overflow:auto}
+.cardx{flex:1 1 260px;max-width:100%;text-align:left;background:var(--card);border:2px solid var(--line);border-radius:10px;padding:9px 12px;font:inherit;color:inherit;cursor:pointer;min-height:44px;box-shadow:0 2px 0 var(--line)}
+.cardx.sel{border-color:var(--blue);background:#e8edff;box-shadow:0 0 0 3px var(--star)}
+.cardx.bad{border-color:var(--ko);animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@media(prefers-reduced-motion:reduce){.cardx.bad{animation:none}}
+.slot{border:2px dashed #9aa6cf;border-radius:10px;padding:10px 12px;min-height:48px;background:#fff;cursor:pointer;margin:6px 0}
+.slot .lab{display:block;font-size:13px;font-weight:700;color:var(--mute);text-transform:none}
+.slot .txt{color:#8890ad;font-style:italic}
+.slot.ok{border:2px solid var(--ok);background:#e3f5ea;cursor:default}
+.slot.ok .txt{color:var(--ink);font-style:normal}
+.slot.ko{border:2px solid var(--ko);background:#fbe7e4}
+.slot.fixed{border:2px solid var(--line);background:#eef2ff;cursor:default}
+.slot.fixed .txt{color:var(--ink);font-style:normal;font-weight:600}
+.slot.target{box-shadow:0 0 0 3px var(--star)}
+.bin{border-color:#b9a36a;background:#fffaf0}
+.part{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin:12px 0}
+.sub{margin-left:clamp(6px,2vw,22px);padding-left:10px;border-left:3px solid #c9d2f0}
+.args{margin-left:clamp(6px,2vw,22px)}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:5;padding:12px max(4vw,16px);background:var(--blue);color:#fff;font-weight:600;min-height:64px;display:flex;align-items:center;gap:12px}
+.bar.ok{background:var(--ok)}.bar.ko{background:var(--ko)}
+.bar span{flex:1}
+button.main{min-height:44px;border-radius:10px;border:0;background:var(--star);color:#0d1640;font:700 16px "Source Sans 3",sans-serif;padding:8px 16px;cursor:pointer}
+button.ghost{min-height:44px;border-radius:10px;border:2px solid var(--line);background:#fff;color:var(--ink);font:600 15px "Source Sans 3",sans-serif;padding:8px 14px;cursor:pointer}
+button:focus-visible,.cardx:focus-visible,.slot:focus-visible{outline:3px solid var(--star);outline-offset:2px}
+.done-box{background:#e3f5ea;border:2px solid var(--ok);border-radius:14px;padding:16px;margin:16px 0}
+.score{font:800 clamp(34px,6vw,54px) Archivo,sans-serif;color:var(--blue)}
+#lock{position:fixed;inset:0;background:var(--blue);color:#fff;display:grid;place-items:center;z-index:9;padding:20px;text-align:center}
+#lock input{min-height:44px;border-radius:10px;border:0;padding:6px 12px;font-size:16px}
+textarea,input[type=text],input[type=number]{font:inherit;font-size:16px;border:2px solid var(--line);border-radius:10px;padding:8px;width:100%}
+.hide{display:none!important}
+@media(max-width:600px){.cards{max-height:30vh}.cardx{flex-basis:100%;padding:8px 10px;font-size:15px}header{padding:14px 16px}header p{font-size:15px}}
+.muted{color:var(--mute);font-size:14px}
+</style>
+</head>
+<body>
+<div id="lock"><div>
+<h1>L'architecte du plan</h1>
+<p>Bonjour Maram, entre ton mot de passe pour ouvrir le chantier.</p>
+<p><input id="pw" type="password" aria-label="Mot de passe"> <button class="main" id="go">Entrer</button></p>
+<p id="pwmsg" class="hide">Ce n'est pas le bon mot de passe, réessaie.</p>
+</div></div>
+
+<header>
+<h1>L'architecte du plan</h1>
+<p><b>Sujet.</b> <span id="sujet"></span></p>
+<p>Toutes les briques de la dissertation sont mélangées. À toi de reconstruire le plan détaillé, étape par étape. Touche une carte, puis touche la case où elle doit aller. Certaines cartes sont des pièges, place-les dans la case « À écarter ».</p>
+<div class="steps" id="steps"></div>
+</header>
+
+<main class="wrap">
+<div class="tip" id="tip"></div>
+<div class="pool" id="poolBox"><h3 id="poolTitle">Tes cartes</h3><div class="cards" id="pool"></div></div>
+<div id="board"></div>
+<div id="final" class="hide"></div>
+</main>
+<div class="bar" id="bar"><span id="msg">Touche une carte pour commencer.</span><button class="main hide" id="next">Étape suivante</button></div>
+
+<svg width="0" height="0" style="position:absolute"><defs><g id="owl"><ellipse cx="30" cy="34" rx="20" ry="22" fill="#8a6a3d"/><ellipse cx="30" cy="40" rx="12" ry="13" fill="#d9c29a"/><circle cx="22" cy="26" r="8" fill="#fff"/><circle cx="38" cy="26" r="8" fill="#fff"/><circle cx="22" cy="26" r="4" fill="#0d1640"/><circle cx="38" cy="26" r="4" fill="#0d1640"/><path d="M27 32 L30 37 L33 32Z" fill="#ffcc00"/></g></defs></svg>
+
+<script>
+{
+const P={"sujet":"Dans quelle mesure l'Union européenne, fondée par des démocraties et pour elles, peut-elle être considérée elle-même comme une démocratie ?","intro":[{"id":"acc","label":"Accroche","text":"12 avril 2026, les Hongrois chassent Viktor Orbán du pouvoir. Le 29 mai, Bruxelles débloque 16,4 milliards d'euros gelés au nom de l'État de droit","why":"Une accroche est un fait précis et daté qui fait entrer directement dans le problème."},{"id":"ue","label":"Définir l'Union européenne","text":"UE, organisation de 27 États et 450 millions d'habitants, née à Maastricht en 1992, héritière de la CECA (1951) et de la CEE (1957)","why":"Cette carte définit l'un des deux termes du sujet, l'Union européenne."},{"id":"demo","label":"Définir la démocratie","text":"Démocratie en trois sens, un régime (élections, contrôle des gouvernants), des valeurs (droits, État de droit), une pratique (participation, confiance)","why":"Cette carte définit le second terme du sujet. Distinguer plusieurs sens est la marque d'une bonne introduction."},{"id":"enj","label":"Paradoxe et enjeux","text":"Un concept pensé pour l'État-nation, appliqué à un « objet politique non identifié » (Delors, 1985) qui exerce des pouvoirs croissants, l'euro dans 21 pays","why":"Cette carte montre pourquoi la question pose problème, c'est le paradoxe qui justifie la problématique."},{"id":"pb","label":"Problématique","text":"Dans quelle mesure l'UE, fondée par des démocraties et pour elles, peut-elle être considérée elle-même comme une démocratie ?","why":"La problématique est une vraie question qui pose une tension, elle vient juste avant l'annonce du plan."},{"id":"ann","label":"Annonce du plan","text":"Une architecture démocratique réelle (I), une démocratie incomplète accusée de déficit (II), une démocratie originale en construction (III)","why":"L'annonce du plan clôt l'introduction en donnant les trois étapes de la démonstration."}],"introTraps":[{"text":"L'UE est-elle une démocratie ou pas ?","why":"C'est une simple reformulation du sujet qui appelle un oui ou un non. Ce n'est pas une problématique."},{"text":"Depuis toujours, les hommes rêvent de démocratie","why":"Accroche trop vague et sans date. Une accroche doit être précise."}],"parts":[{"id":"I","title":"I. Une architecture démocratique réelle, fondée sur une double légitimité","why":"La première partie établit ce qui est vrai dans le sujet, l'UE a bien des institutions démocratiques. On commence par le « oui »."},{"id":"II","title":"II. Une démocratie incomplète, accusée de déficit démocratique","why":"La deuxième partie nuance la première, c'est le « mais » du plan dialectique."},{"id":"III","title":"III. Une démocratie originale en construction, qui se renforce face aux crises","why":"La troisième partie dépasse l'opposition entre le oui et le mais. Elle propose une réponse plus fine."}],"partTraps":[{"text":"Les institutions européennes","why":"C'est un thème, pas une idée. Un titre de partie doit affirmer quelque chose qui répond à la problématique."}],"subs":[{"id":"IA","part":"I","title":"A. La représentation directe des citoyens, un Parlement devenu colégislateur","why":"Elle porte sur les citoyens et le Parlement, c'est la preuve la plus directe de démocratie, donc la partie I.","args":[{"text":"Suffrage universel direct depuis juin 1979, 720 députés depuis 2024, groupes politiques transnationaux","why":"Le vote direct des citoyens pour le Parlement relève de la représentation directe (I.A)."},{"text":"Codécision (Maastricht) devenue procédure législative ordinaire (Lisbonne, 2009), investiture et censure de la Commission, démission Santer (1999), 401 voix pour von der Leyen (2024)","why":"Les pouvoirs du Parlement, voter les lois et contrôler la Commission, vont en I.A."}]},{"id":"IB","part":"I","title":"B. La représentation des États par des gouvernements élus","why":"Elle porte sur les gouvernements élus, l'autre pilier de la double légitimité, donc la partie I.","args":[{"text":"Démocratie déléguée, ministres au Conseil de l'UE, chefs d'État au Conseil européen, majorité qualifiée de 55 % des États et 65 % de la population","why":"Le Conseil et le vote des États relèvent de la représentation des États (I.B)."},{"text":"Moravcsik (2002), un déficit démocratique exagéré, parlements nationaux gardiens de la subsidiarité depuis 2009","why":"Moravcsik défend la légitimité des gouvernements élus, cet auteur va en I.B."}]},{"id":"IC","part":"I","title":"C. Des droits et une participation qui font du citoyen un acteur","why":"Les droits et la participation complètent l'architecture démocratique, donc la partie I.","args":[{"text":"Citoyenneté européenne (1992), Charte des droits fondamentaux (2000, contraignante en 2009), annulation de la directive sur les données par la Cour (2014)","why":"Citoyenneté et droits fondamentaux, c'est I.C."},{"text":"Initiative citoyenne, un million de signatures dans sept États (12e réussie en février 2026), Conférence sur l'avenir de l'Europe, 800 citoyens tirés au sort","why":"Ce sont des outils de participation, ils vont en I.C."}]},{"id":"IIA","part":"II","title":"A. Des institutions puissantes et peu soumises au suffrage","why":"Elle critique la place d'institutions non élues, c'est un argument du déficit démocratique, donc la partie II.","args":[{"text":"Monopole de l'initiative de la Commission, BCE indépendante, trilogues négociés à huis clos","why":"Des pouvoirs exercés loin du vote, c'est II.A."},{"text":"Arrêts Van Gend en Loos (1963) et Costa contre ENEL (1964), Majone et l'« État régulateur »","why":"Le poids des juges et des experts non élus relève de II.A."}]},{"id":"IIB","part":"II","title":"B. Un lien fragile entre l'UE et ses citoyens","why":"Elle montre la faiblesse de la participation, c'est un argument critique, donc la partie II.","args":[{"text":"Participation de 62 % en 1979, tombée à 42,6 % en 2014, « élections de second ordre » (Reif et Schmitt, 1980), pas d'espace public européen","why":"Abstention et absence d'espace public, c'est le lien fragile avec les citoyens (II.B)."},{"text":"Proportionnalité dégressive, 90 000 habitants par député maltais contre plus de 870 000 en Allemagne, arrêt de Karlsruhe sur Lisbonne (2009)","why":"L'inégalité de représentation affaiblit le lien avec les citoyens (II.B)."}]},{"id":"IIC","part":"II","title":"C. Des votes populaires contournés ou contestés","why":"Elle porte sur les référendums perdus ou contournés, une critique de la démocratie européenne, donc la partie II.","args":[{"text":"Non danois (1992), non français à 54,7 % et non néerlandais (2005), traité de Lisbonne ratifié sans référendum en France (2008)","why":"Des référendums perdus puis contournés, c'est II.C."},{"text":"Irlande appelée à revoter (2008 et 2009), référendum grec de 2015 (61 % de non), Brexit le 23 juin 2016 (51,9 %)","why":"D'autres votes populaires contre l'UE, c'est II.C."}]},{"id":"IIIA","part":"III","title":"A. La démocratie comme valeur commune que l'UE défend","why":"Elle montre l'UE protectrice de la démocratie, un argument qui dépasse le débat, donc la partie III.","args":[{"text":"Entrée de la Grèce (1981), de l'Espagne et du Portugal (1986), critères de Copenhague (1993)","why":"La démocratie comme condition d'entrée, c'est III.A."},{"text":"Articles 2 et 7 du traité sur l'UE, conditionnalité des fonds (2020, validée par la Cour en 2022), fonds hongrois débloqués en 2026","why":"Les outils pour défendre l'État de droit, c'est III.A."}]},{"id":"IIIB","part":"III","title":"B. Des réformes qui rapprochent l'UE de ses citoyens","why":"Elle montre une démocratie qui progresse, donc la partie III, celle du dépassement.","args":[{"text":"Têtes de liste (Spitzenkandidaten), Juncker en 2014, procédure contournée en 2019, retrouvée en 2024","why":"Une réforme qui relie le vote au choix de la Commission, c'est III.B."},{"text":"Participation remontée à 50,7 % en 2019 puis à environ 51 % en 2024, crises qui rendent l'Europe visible","why":"Le retour des électeurs montre une démocratie qui se renforce (III.B)."}]},{"id":"IIIC","part":"III","title":"C. Une « démoïcratie » plutôt qu'une démocratie nationale agrandie","why":"Elle propose une nouvelle façon de penser la démocratie européenne, c'est l'aboutissement de la partie III.","args":[{"text":"Scharpf, légitimité par les entrées et par les résultats, Habermas et le patriotisme constitutionnel","why":"Des auteurs qui pensent une démocratie au-delà de la nation, c'est III.C."},{"text":"Nicolaïdis et la « démoïcratie », une union de peuples qui gouvernent ensemble sans fusionner","why":"La démoïcratie est le concept qui donne son titre à III.C."}]}],"subTraps":[{"text":"Le Brexit","why":"Le Brexit est un exemple, pas une idée. Un titre de sous-partie doit être une phrase qui affirme quelque chose."}],"argTraps":[{"text":"La Cour européenne des droits de l'homme de Strasbourg, créée en 1959","why":"Hors sujet. Elle dépend du Conseil de l'Europe, une autre organisation que l'UE. Attention au faux ami."},{"text":"La liste des douze pays fondateurs de l'OTAN en 1949","why":"Hors sujet. L'OTAN est une alliance militaire, elle ne dit rien de la démocratie européenne."}],"ends":[{"id":"T1","label":"Transition entre I et II","text":"Si l'UE possède les institutions d'une démocratie, encore faut-il que les citoyens s'en saisissent et que les élus décident vraiment","why":"Elle fait le bilan de la partie I (des institutions démocratiques) et annonce la partie II (le déficit)."},{"id":"T2","label":"Transition entre II et III","text":"Ce déficit repose sur une comparaison avec l'État-nation, or l'UE n'est pas un État et sa démocratie doit être pensée autrement","why":"Elle fait le bilan de la partie II (le déficit) et ouvre la partie III (une démocratie originale)."},{"id":"C1","label":"Conclusion, la réponse","text":"Une démocratie d'un type inédit, double légitimité et droits étendus, mais un déficit réel, une démocratie de plusieurs peuples en construction","why":"Cette carte répond clairement à la problématique, c'est le bilan de la conclusion."},{"id":"C2","label":"Conclusion, l'ouverture","text":"Une Union de 30 ou 35 membres pourra-t-elle garder l'unanimité sans paralyser sa démocratie ?","why":"Une ouverture élargit la réflexion vers une question d'avenir, elle termine la conclusion."}],"endTraps":[{"text":"Pour conclure, un nouvel exemple, l'élection présidentielle roumaine annulée en 2024","why":"On n'apporte jamais d'exemple nouveau en conclusion. Tout doit avoir été démontré avant."}]};
+const DISS=[["p", "**Sujet.** Dans quelle mesure l'Union européenne, fondée par des démocraties et pour elles, peut-elle être considérée elle-même comme une démocratie ?"], ["h2", "Introduction"], ["pi", "Le 12 avril 2026, les électeurs hongrois mettent fin à seize années de pouvoir de Viktor Orbán, qui revendiquait depuis 2014 la construction d'une « démocratie illibérale ». Six semaines plus tard, le nouveau Premier ministre, Péter Magyar, obtient de la présidente de la Commission européenne le déblocage de 16,4 milliards d'euros gelés pour atteintes à l'État de droit. La scène est révélatrice. Une institution dont les membres ne sont pas directement élus avait sanctionné un gouvernement issu des urnes, puis elle récompense l'alternance voulue par un autre vote. L'Union européenne apparaît à la fois comme une gardienne de la démocratie et comme un pouvoir dont la nature démocratique est discutée."], ["pi", "L'Union européenne désigne l'organisation politique et juridique créée par le traité de Maastricht en 1992, héritière des Communautés fondées par les traités de Paris (1951) et de Rome (1957). Elle rassemble aujourd'hui 27 États et environ 450 millions d'habitants. La démocratie, littéralement le pouvoir du peuple, peut s'entendre en trois sens. C'est d'abord un régime, dans lequel les gouvernés choisissent et contrôlent les gouvernants par des élections libres. C'est aussi un ensemble de valeurs, libertés, égalité, État de droit, protection des minorités. C'est enfin une pratique, faite de participation et de confiance des citoyens. Or ce concept a été pensé pour l'État, cadre d'un peuple souverain. L'UE n'est pas un État et ne repose pas sur un peuple unique. Jacques Delors la qualifiait en 1985 d'« objet politique non identifié »."], ["pi", "Le sujet est d'autant plus important que l'UE exerce depuis plusieurs décennies des compétences autrefois réservées aux États, la monnaie pour 21 d'entre eux depuis l'entrée de la Bulgarie dans la zone euro en janvier 2026, le commerce, la concurrence, une large part du droit économique et environnemental. Le pouvoir qu'elle exerce appelle une légitimité. Il s'agit donc de se demander **dans quelle mesure l'Union européenne, fondée par des démocraties et pour elles, peut être considérée elle-même comme une démocratie.**"], ["pi", "L'UE possède une véritable architecture démocratique, fondée sur une double légitimité (I). Mais cette démocratie reste incomplète et fait l'objet d'un procès récurrent en déficit démocratique (II). Elle apparaît dès lors comme une démocratie originale, toujours en construction, qui se renforce au fil de ses crises (III)."], ["h2", "I. Une architecture démocratique réelle, fondée sur une double légitimité"], ["h3", "A. La représentation directe des citoyens, un Parlement devenu colégislateur"], ["pi", "Le premier pilier de la démocratie européenne est la représentation directe des citoyens. L'Assemblée commune de la CECA, réunie pour la première fois en septembre 1952, ne comptait que 78 parlementaires désignés par les parlements nationaux et n'avait qu'un rôle consultatif. Depuis juin 1979, les députés européens sont élus au suffrage universel direct. Depuis les élections de juin 2024, ils sont 720 et siègent par groupes politiques transnationaux, et non par nationalité, ce qui fait du Parlement le seul organe où s'exprime un clivage partisan proprement européen."], ["pi", "Surtout, ses pouvoirs n'ont cessé de croître. Le traité de Maastricht crée la codécision, que le traité de Lisbonne, en vigueur depuis le 1er décembre 2009, transforme en procédure législative ordinaire. Dans la grande majorité des domaines, aucun règlement ni aucune directive ne peut être adopté sans l'accord du Parlement. Celui-ci vote le budget avec le Conseil, élit le président de la Commission sur proposition du Conseil européen, auditionne chaque commissaire et peut renverser le collège par une motion de censure. La menace d'une telle motion a conduit la Commission Santer à démissionner en mars 1999. En juillet 2024, Ursula von der Leyen n'est reconduite qu'après avoir obtenu 401 voix de députés. Le Parlement européen est donc devenu un véritable organe de contrôle de l'exécutif, conformément à l'article 10 du traité sur l'UE selon lequel le fonctionnement de l'Union « est fondé sur la démocratie représentative »."], ["h3", "B. La représentation des États par des gouvernements élus"], ["pi", "Le second pilier est indirect. Les États sont représentés au Conseil de l'UE par leurs ministres et au Conseil européen par leurs chefs d'État ou de gouvernement, tous issus d'élections nationales. Le citoyen qui vote à Sofia ou à Paris participe donc aussi, par délégation, aux décisions européennes. Le vote à la majorité qualifiée, qui exige 55 % des États représentant 65 % de la population, combine d'ailleurs l'égalité des États et le poids démographique des peuples. Au Conseil européen, les chefs d'État ou de gouvernement fixent les grandes orientations et proposent le président de la Commission, ce qui relie les choix européens aux majorités sorties des urnes nationales."], ["pi", "Pour le politiste Andrew Moravcsik, cette légitimité intergouvernementale suffit largement. Dans un article de 2002, il soutient que le déficit démocratique est exagéré, puisque l'UE est étroitement contrôlée par des gouvernements élus et responsables devant leurs parlements. Depuis 2009, ces parlements nationaux peuvent d'ailleurs contester une proposition de la Commission qu'ils jugent contraire au principe de subsidiarité. L'UE n'échappe donc pas aux démocraties nationales, elle en est le prolongement."], ["h3", "C. Des droits et une participation qui font du citoyen un acteur"], ["pi", "Enfin, l'UE garantit des droits qui sont la substance même de la démocratie libérale. La citoyenneté européenne, créée par Maastricht, s'ajoute à la citoyenneté nationale et donne le droit de circuler, de s'installer, de voter et d'être élu aux élections municipales et européennes dans un autre État membre. La Charte des droits fondamentaux, proclamée en 2000 et contraignante depuis 2009, est appliquée par la Cour de justice, qui n'hésite pas à annuler une loi européenne qui la méconnaît, comme la directive sur la conservation des données en 2014."], ["pi", "Le traité de Lisbonne y a ajouté des instruments de démocratie participative. L'initiative citoyenne européenne permet à un million de citoyens issus d'au moins sept États d'obliger la Commission à se prononcer. En février 2026, celle-ci a répondu à la douzième initiative réussie, « My Voice, My Choice », consacrée à l'accès à l'avortement. La Conférence sur l'avenir de l'Europe, de mai 2021 à mai 2022, a réuni 800 citoyens tirés au sort, qui ont formulé 49 propositions. L'UE dispose donc, sur le papier, de la plupart des attributs d'une démocratie."], ["pi", "*Si l'Union européenne possède bien les institutions et les droits d'une démocratie, encore faut-il que les citoyens s'en saisissent et que ces institutions élues décident réellement. C'est précisément ce que contestent les tenants du déficit démocratique.*"], ["h2", "II. Une démocratie incomplète, accusée de déficit démocratique"], ["h3", "A. Des institutions puissantes et peu soumises au suffrage"], ["pi", "Le cœur du pouvoir européen se trouve dans des institutions qui ne procèdent pas directement du vote. La Commission détient le monopole de l'initiative législative, ce qui prive le Parlement de la prérogative la plus élémentaire d'une assemblée, proposer la loi. La Banque centrale européenne conduit en toute indépendance la politique monétaire de la zone euro, conformément aux traités. La Cour de justice a, par ses arrêts Van Gend en Loos (1963) et Costa contre ENEL (1964), affirmé l'effet direct et la primauté du droit européen, sans que ces principes aient été soumis aux peuples. Giandomenico Majone justifiait cette architecture en décrivant l'UE comme un « État régulateur », légitime par l'expertise plus que par le vote. Mais c'est précisément cette délégation à des experts que dénoncent les critiques. S'y ajoute l'opacité des procédures, puisque l'essentiel des compromis législatifs se négocie en trilogues, à huis clos, entre la Commission, le Conseil et le Parlement."], ["h3", "B. Un lien fragile entre l'UE et ses citoyens"], ["pi", "Le principal point faible de la démocratie européenne tient moins à ses institutions qu'à la fragilité de son lien avec les citoyens. Lors des premières élections directes de 1979, 62 % des électeurs se déplacent, mais la participation baisse ensuite à chaque scrutin, jusqu'à 42,6 % en 2014. Dès 1980, Karlheinz Reif et Hermann Schmitt qualifient ces scrutins d'« élections de second ordre », où l'on vote surtout pour sanctionner son gouvernement national. Ce faible engagement s'explique par l'absence d'un espace public européen, sans langue, sans médias et sans partis réellement communs, si bien que les citoyens votent dans 27 débats nationaux juxtaposés."], ["pi", "La représentation elle-même est inégale. En vertu de la proportionnalité dégressive, un député maltais représente environ 90 000 habitants, un député allemand plus de 870 000. Dans son arrêt de juin 2009 sur le traité de Lisbonne, la Cour constitutionnelle allemande en tirait la conclusion que le Parlement européen ne représente pas un peuple européen souverain et que la légitimité démocratique principale reste celle des parlements nationaux. L'UE dispose donc des formes de la démocratie représentative, mais pas encore pleinement de sa substance, la conscience d'appartenir à un même corps politique."], ["h3", "C. Des votes populaires contournés ou contestés"], ["pi", "Lorsque les citoyens sont consultés directement, ils ont plusieurs fois désavoué la construction européenne. Le Danemark rejette Maastricht en juin 1992 avant de l'approuver l'année suivante, assorti de dérogations. En mai et juin 2005, les Français, à 54,7 %, puis les Néerlandais repoussent le traité établissant une Constitution pour l'Europe. Or le traité de Lisbonne, qui en reprend l'essentiel, est ratifié en France par voie parlementaire en 2008, ce qu'une partie de l'opinion vit comme un vote confisqué. L'Irlande, qui dit non à Lisbonne en 2008, est appelée à revoter en 2009. En juillet 2015, 61 % des Grecs rejettent par référendum le plan des créanciers, avant que leur gouvernement accepte quelques jours plus tard un accord plus rigoureux encore. Le 23 juin 2016, enfin, 51,9 % des Britanniques votent pour quitter l'Union. Ces épisodes nourrissent l'image d'une Europe qui ne respecterait le vote des peuples que lorsqu'il lui est favorable."], ["pi", "*Le diagnostic de déficit démocratique est donc fondé. Il repose toutefois sur une comparaison implicite avec la démocratie nationale. Or l'UE n'est pas un État, et sa démocratie gagne peut-être à être pensée autrement, comme une démocratie originale qui se construit en affrontant ses crises.*"], ["h2", "III. Une démocratie originale en construction, qui se renforce face aux crises"], ["h3", "A. La démocratie comme valeur commune que l'UE défend"], ["pi", "L'UE ne se contente pas d'être plus ou moins démocratique, elle a fait de la démocratie une condition d'appartenance. L'adhésion de la Grèce en 1981, puis de l'Espagne et du Portugal en 1986, a ancré des démocraties tout juste sorties de dictatures. Les critères de Copenhague, adoptés en juin 1993, exigent de tout candidat des institutions stables garantissant la démocratie, l'État de droit et les droits de l'homme. L'article 2 du traité sur l'UE en fait des valeurs communes, que l'article 7 permet de défendre. Cet article s'est certes heurté à la règle de l'unanimité contre la Pologne et la Hongrie. Mais le règlement de décembre 2020 sur la conditionnalité, validé par la Cour de justice en février 2022, a permis de geler des fonds hongrois. Après l'alternance d'avril 2026, ces fonds ont été débloqués par étapes, en échange de réformes contre la corruption et pour l'indépendance de la justice. L'UE apparaît ainsi comme une communauté de valeurs qui protège la démocratie là où elle est le plus menacée, au niveau national."], ["h3", "B. Des réformes qui rapprochent l'UE de ses citoyens"], ["pi", "Les institutions ont par ailleurs répondu aux critiques. La procédure des têtes de liste, ou Spitzenkandidaten, lancée en 2014, a lié le vote européen au choix du président de la Commission, Jean-Claude Juncker étant alors le candidat du parti arrivé en tête. Contournée en 2019, elle a retrouvé sa logique en 2024 avec la reconduction de la candidate du PPE. Surtout, la participation remonte, à 50,7 % en 2019 puis à environ 51 % en 2024, son niveau le plus élevé depuis trente ans. Les crises, du Brexit à la pandémie et à la guerre en Ukraine, ont rendu visibles les enjeux européens et accru l'intérêt des citoyens. La démocratie européenne n'est pas figée, elle progresse par réformes successives. L'attention portée en 2026 aux élections hongroises, suivies dans toute l'Europe, montre d'ailleurs que les citoyens européens se sentent de plus en plus concernés par la vie démocratique de leurs voisins."], ["h3", "C. Une « démoïcratie » plutôt qu'une démocratie nationale agrandie"], ["pi", "Il faut enfin dépasser le modèle de l'État-nation pour juger l'UE. Fritz Scharpf distingue la légitimité par les entrées, qui naît de la participation, et la légitimité par les résultats, qui naît de l'efficacité. L'UE a longtemps compensé la faiblesse de la première par la seconde, paix, marché unique, monnaie, protection commune. Jürgen Habermas imagine quant à lui un « patriotisme constitutionnel » européen, fondé sur l'adhésion à des droits et à des principes plutôt que sur une identité nationale. Kalypso Nicolaïdis propose enfin le concept de « démoïcratie », c'est-à-dire une union de peuples qui gouvernent ensemble sans fusionner en un seul. Dans cette perspective, la double légitimité de l'UE n'est pas un défaut mais sa nature même, et sa démocratie se mesure à sa capacité à respecter à la fois les citoyens et les peuples."], ["h2", "Conclusion"], ["pi", "L'Union européenne est bien une démocratie, mais une démocratie d'un type inédit. Elle repose sur une double légitimité, celle des citoyens représentés au Parlement et celle des États représentés par leurs gouvernements élus, et elle garantit des droits étendus. Elle souffre néanmoins d'un déficit réel, qui tient à la place d'institutions non élues, à la faiblesse de l'espace public européen et au traitement parfois désinvolte des votes populaires. Plutôt qu'une démocratie nationale agrandie, elle est une démocratie de plusieurs peuples, en construction permanente, qui a fait de la défense de la démocratie une raison d'être."], ["pi", "Reste une question décisive pour les années à venir. À l'heure où le Monténégro, l'Albanie, la Moldavie et l'Ukraine avancent vers l'adhésion, une Union de 30 ou 35 membres pourra-t-elle conserver la règle de l'unanimité sans paralyser sa démocratie, et l'abandonner sans heurter la souveraineté de ses peuples ?"]];
+const nb=s=>String(s).replace(/ ([?!;»%])/g,' $1').replace(/« /g,'« ');
+const esc=s=>nb(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const PRAISE=["Bravo Maram, c'est exactement ça.","Parfait, la brique tient.","Excellent, tu as l'œil d'une architecte.","Très bien vu.","Oui. Tu construis un vrai plan.","Juste. On continue sur cette lancée."];
+const CHEER=["Pas encore, mais tu es sur la bonne voie.","Presque. Relis le conseil, tu vas trouver.","Ce n'est pas la bonne case, essaie encore.","Une erreur, c'est un indice. Réessaie."];
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+
+// Étapes
+const STEPS=[
+ {name:"Introduction",tip:["L'introduction se construit en cinq briques, dans cet ordre, accroche, définitions, paradoxe et enjeux, problématique, annonce du plan.","Une accroche est un fait daté et précis, jamais une généralité.","On définit chaque terme du sujet, et la démocratie a plusieurs sens.","La problématique pose une tension, ce n'est pas le sujet recopié."]},
+ {name:"Grandes parties",tip:["Le sujet commence par « Dans quelle mesure », il appelle un plan dialectique en trois temps.","Partie I, ce qui est vrai (le oui). Partie II, les limites (le mais). Partie III, une réponse qui dépasse l'opposition.","Un titre de partie est une phrase qui affirme une idée, pas un simple thème."]},
+ {name:"Sous-parties",tip:["Chaque partie se découpe en deux ou trois sous-parties, chacune porte une seule idée.","Demande-toi pour chaque titre, est-ce un argument pour (I), une critique (II) ou un dépassement (III) ?","Dans une partie, on va du plus évident au plus discuté.","Un exemple seul n'est jamais un titre."]},
+ {name:"Arguments et exemples",tip:["Chaque sous-partie se nourrit d'exemples datés, de chiffres et d'auteurs.","Relis bien le titre de la sous-partie, l'exemple doit le prouver.","Chaque sous-partie reçoit deux cartes. Un exemple ne sert qu'une fois.","Méfie-toi des faux amis, tout ce qui est européen n'est pas l'Union européenne."]},
+ {name:"Transitions et conclusion",tip:["Une transition fait le bilan de la partie qui s'achève puis pose la question qui ouvre la suivante.","La conclusion répond clairement à la problématique, sans exemple nouveau.","L'ouverture élargit vers une question d'avenir."]}
+];
+
+let st={step:0,placed:{},errors:[0,0,0,0,0],done:[]};
+try{const s=JSON.parse(localStorage.getItem('planMaram')||'null');if(s&&s.placed)st=s}catch(e){}
+const save=()=>{try{localStorage.setItem('planMaram',JSON.stringify(st))}catch(e){}};
+
+// Cartes de chaque étape. Chaque carte a une clé de destination (dest) et un message (why)
+function cardsFor(n){
+ if(n===0)return [...P.intro.map(x=>({k:'i_'+x.id,dest:'i_'+x.id,text:x.text,why:x.why})),...P.introTraps.map((x,i)=>({k:'it'+i,dest:'bin0',text:x.text,why:x.why}))];
+ if(n===1)return [...P.parts.map(x=>({k:'p_'+x.id,dest:'p_'+x.id,text:x.title.replace(/^[IV]+\. /,''),why:x.why})),...P.partTraps.map((x,i)=>({k:'pt'+i,dest:'bin1',text:x.text,why:x.why}))];
+ if(n===2)return [...P.subs.map(x=>({k:'s_'+x.id,dest:'s_'+x.id,text:x.title.replace(/^[ABC]\. /,''),why:x.why})),...P.subTraps.map((x,i)=>({k:'st'+i,dest:'bin2',text:x.text,why:x.why}))];
+ if(n===3)return [...P.subs.flatMap(x=>x.args.map((a,j)=>({k:'a_'+x.id+j,dest:'a_'+x.id,text:a.text,why:a.why}))),...P.argTraps.map((x,i)=>({k:'at'+i,dest:'bin3',text:x.text,why:x.why}))];
+ return [...P.ends.map(x=>({k:'e_'+x.id,dest:'e_'+x.id,text:x.text,why:x.why})),...P.endTraps.map((x,i)=>({k:'et'+i,dest:'bin4',text:x.text,why:x.why}))];
+}
+let pool=[],sel=null;
+
+function slotHTML(id,label,step,fixedText){
+ const pl=st.placed[id];
+ if(fixedText!==undefined)return `<div class="slot fixed"><span class="lab">${esc(label)}</span><span class="txt">${esc(fixedText)}</span></div>`;
+ const filled=pl&&pl.length?pl.map(k=>esc(textOf(k))).join('<br><br>'):'';
+ const full=isFull(id);
+ return `<div class="slot ${full?'ok':''} ${id.startsWith('bin')?'bin':''}" data-slot="${id}" role="button" tabindex="0" aria-label="${esc(label)}"><span class="lab">${esc(label)}</span><span class="txt">${filled||'Touche une carte puis cette case'}</span></div>`;
+}
+const ALL=[0,1,2,3,4].flatMap(cardsFor);
+const textOf=k=>(ALL.find(c=>c.k===k)||{}).text||'';
+function capacity(id){if(id.startsWith('a_'))return 2;if(id.startsWith('bin'))return ALL.filter(c=>c.dest===id).length;return 1}
+const isFull=id=>(st.placed[id]||[]).length>=capacity(id);
+
+function partTitle(p){return isDone(1)||st.placed['p_'+p.id]?p.title:p.id+'. ?'}
+const isDone=n=>st.done.includes(n);
+
+function render(){
+ const n=st.step;
+ document.getElementById('sujet').textContent=nb(P.sujet);
+ document.getElementById('steps').innerHTML=STEPS.map((s,i)=>`<span class="${i===n?'on':isDone(i)?'done':''}">${i+1}. ${s.name}</span>`).join('');
+ if(n>4)return renderFinal();
+ document.getElementById('tip').innerHTML=`<svg viewBox="0 0 60 60"><use href="#owl"/></svg><div><b>Conseil de méthode de Glaukê, étape ${n+1}</b><ul>${STEPS[n].tip.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></div>`;
+ const placedKeys=Object.values(st.placed).flat();
+ pool=shuffle(cardsFor(n).filter(c=>!placedKeys.includes(c.k)));
+ drawPool();
+ let h='';
+ const bin=(i)=>slotHTML('bin'+i,'À écarter, pièges et hors sujet',n);
+ if(n===0){h+=`<div class="part"><h2>Introduction</h2>${P.intro.map(x=>slotHTML('i_'+x.id,x.label,n)).join('')}${bin(0)}</div>`}
+ else{
+  h+=`<div class="part"><h2>Introduction</h2><p class="muted">Validée. ${esc(P.intro[4].text)}</p></div>`;
+  P.parts.forEach((p,pi)=>{
+   h+=`<div class="part">`;
+   h+=n===1?slotHTML('p_'+p.id,'Partie '+p.id,n):`<h2>${esc(p.title)}</h2>`;
+   if(n>=2)P.subs.filter(s=>s.part===p.id).forEach(s=>{
+     h+=`<div class="sub">`;
+     h+=n===2?slotHTML('s_'+s.id,'Sous-partie '+s.id.replace(p.id,p.id+'.'),n):`<h3>${esc(s.title)}</h3>`;
+     if(n===3)h+=`<div class="args">${slotHTML('a_'+s.id,'Arguments et exemples, deux cartes',n)}</div>`;
+     if(n>3)h+=`<div class="args muted">${s.args.map(a=>esc(a.text)).join('<br>')}</div>`;
+     h+=`</div>`});
+   if(n===4&&pi<2)h+=slotHTML('e_T'+(pi+1),P.ends[pi].label,n);
+   h+=`</div>`});
+  if(n===4)h+=`<div class="part"><h2>Conclusion</h2>${slotHTML('e_C1',P.ends[2].label,n)}${slotHTML('e_C2',P.ends[3].label,n)}</div>`;
+  h+=bin(n);
+ }
+ document.getElementById('board').innerHTML=h;
+ document.querySelectorAll('[data-slot]').forEach(el=>{el.onclick=()=>drop(el.dataset.slot,el);el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();drop(el.dataset.slot,el)}};
+   el.ondragover=e=>e.preventDefault();el.ondrop=e=>{e.preventDefault();const k=e.dataTransfer.getData('text');sel=pool.find(c=>c.k===k)||null;drop(el.dataset.slot,el)}});
+ checkStep();
+}
+function drawPool(){
+ const box=document.getElementById('pool');
+ box.innerHTML=pool.map(c=>`<button class="cardx ${sel&&sel.k===c.k?'sel':''}" draggable="true" data-k="${c.k}">${esc(c.text)}</button>`).join('');
+ box.querySelectorAll('.cardx').forEach(b=>{b.onclick=()=>{sel=pool.find(c=>c.k===b.dataset.k);drawPool();say('Bien, maintenant touche la case où va cette carte.','')};
+   b.ondragstart=e=>{e.dataTransfer.setData('text',b.dataset.k)}});
+ document.getElementById('poolTitle').textContent=pool.length?`Tes cartes (${pool.length} à placer)`:'Toutes les cartes sont placées';
+}
+function say(t,cls){const b=document.getElementById('bar');b.className='bar '+(cls||'');document.getElementById('msg').textContent=nb(t)}
+function drop(id,el){
+ if(!sel){say('Choisis d’abord une carte dans la réserve, en haut.','');return}
+ if(isFull(id)&&!id.startsWith('bin')){say('Cette case est déjà bien remplie. Choisis une autre case.','');return}
+ if(sel.dest===id){
+  (st.placed[id]=st.placed[id]||[]).push(sel.k);save();
+  say(pick(PRAISE)+' '+sel.why,'ok');sel=null;render();
+ }else{
+  st.errors[st.step]++;save();
+  el.classList.add('ko');setTimeout(()=>el.classList.remove('ko'),900);
+  const b=document.querySelector(`.cardx[data-k="${sel.k}"]`);if(b){b.classList.add('bad');setTimeout(()=>b.classList.remove('bad'),600)}
+  say(pick(CHEER)+' Indice, '+hint(sel),'ko');
+ }
+}
+function hint(c){
+ if(c.dest.startsWith('bin'))return 'cette carte est peut-être un piège. Est-elle vraiment utile au plan ?';
+ if(c.dest.startsWith('i_'))return 'repense à l’ordre des cinq briques de l’introduction.';
+ if(c.dest.startsWith('p_'))return 'oui, mais, puis dépassement. Où se place cette idée ?';
+ if(c.dest.startsWith('s_')){const s=P.subs.find(x=>'s_'+x.id===c.dest);return s.part==='I'?'cette idée montre-t-elle une force de la démocratie européenne ?':s.part==='II'?'cette idée critique-t-elle la démocratie européenne ?':'cette idée propose-t-elle une réponse ou un dépassement ?'}
+ if(c.dest.startsWith('a_')){const s=P.subs.find(x=>'a_'+x.id===c.dest);return 'cet exemple prouve une idée de la partie '+s.part+'. Relis les titres des sous-parties de cette partie.'}
+ return 'une transition relie deux parties, la conclusion répond puis ouvre.';
+}
+function checkStep(){
+ const n=st.step,left=pool.length;
+ const nx=document.getElementById('next');
+ if(left===0&&n<=4){
+  if(!isDone(n)){st.done.push(n);save()}
+  const e=st.errors[n];
+  say(`Étape ${n+1} terminée ${e===0?'sans aucune erreur, impressionnant':(e===1?'avec une erreur, que tu as corrigée':'avec '+e+' erreurs, que tu as toutes corrigées')}. ${['Ton introduction tient debout.','Tes trois piliers sont posés.','La charpente est en place.','Ton plan est bien nourri d’exemples.','Le plan est complet.'][n]}`,'ok');
+  nx.classList.remove('hide');nx.textContent=n===4?'Voir mon plan complet':'Étape suivante';
+ }else nx.classList.add('hide');
+}
+document.getElementById('next').onclick=()=>{st.step++;save();sel=null;window.scrollTo({top:0,behavior:'smooth'});render()};
+
+const md=t=>esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\*(.+?)\*/g,'<i>$1</i>');
+function dissHTML(){return DISS.map(([k,t])=>k==='h2'?`<h2 style="margin-top:18px">${md(t)}</h2>`:k==='h3'?`<h3 style="color:#8a6a10;margin-top:12px">${md(t)}</h3>`:`<p style="text-align:justify;${k==='pi'?'text-indent:1.5em;':''}">${md(t)}</p>`).join('')}
+function renderFinal(){
+ document.getElementById('tip').classList.add('hide');document.getElementById('poolBox').classList.add('hide');document.getElementById('next').classList.add('hide');
+ const tot=st.errors.reduce((a,b)=>a+b,0);
+ say('Bravo Maram, ton plan détaillé est complet.','ok');
+ let h=`<div class="done-box"><div class="score">Plan complet</div><p>Tu as reconstruit tout le plan de la dissertation, avec ${tot===0?'zéro erreur. Remarquable.':tot+' erreur'+(tot>1?'s':'')+' corrigée'+(tot>1?'s':'')+'. Chaque erreur corrigée est une règle de méthode apprise.'}</p>
+ <p><b>Ce que tu viens de pratiquer.</b> Une introduction en cinq briques, un plan dialectique (oui, mais, dépassement), des titres qui affirment une idée, deux exemples datés par sous-partie, des transitions qui font le bilan et ouvrent la suite, une conclusion qui répond puis ouvre.</p></div>`;
+ h+=`<div class="part" id="diss"><h2>La dissertation corrigée</h2><p class="muted">Tu as construit le plan toi-même. Lis maintenant la version rédigée et observe comment chaque carte que tu as placée devient une phrase argumentée, avec une idée, un exemple daté, une analyse et un lien avec la problématique. Les transitions sont en italique.</p>${dissHTML()}</div>`;
+ h+=`<div class="part"><h2>Mon bilan</h2><label>Trois mots sur ce que j'ai appris<input id="mots" type="text"></label><p><label>Ma confiance pour construire un plan, sur 10 <input id="conf" type="number" min="0" max="10" style="width:90px"></label></p><label>Ce qui reste difficile pour moi<textarea id="avis" rows="3"></textarea></label><p><button class="main" id="send">Envoyer mon bilan</button> <button class="ghost" id="copy">Copier mon bilan</button></p><p id="sm" class="muted"></p><p><button class="ghost" id="reset">Recommencer le jeu</button></p></div>`;
+ document.getElementById('board').innerHTML='';const f=document.getElementById('final');f.innerHTML=h;f.classList.remove('hide');
+ const txt=()=>`L'architecte du plan, Maram\nErreurs par étape ${st.errors.join(', ')} (total ${tot})\nTrois mots ${document.getElementById('mots').value}\nConfiance ${document.getElementById('conf').value}/10\nDifficultés ${document.getElementById('avis').value}`;
+ document.getElementById('copy').onclick=async()=>{try{await navigator.clipboard.writeText(txt());document.getElementById('sm').textContent='Bilan copié, envoie-le à Greg sur WhatsApp.'}catch(e){document.getElementById('sm').textContent='Copie impossible ici, fais une capture d’écran.'}};
+ document.getElementById('send').onclick=async()=>{const m=document.getElementById('sm');m.textContent='Envoi en cours...';try{const r=await fetch('https://formsubmit.co/ajax/laclassedegreg@gmail.com',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({_subject:'Bilan L’architecte du plan, Maram',bilan:txt()})});if(!r.ok)throw 0;m.textContent='Bilan envoyé, merci Maram.'}catch(e){m.textContent='L’envoi ne passe pas ici. Utilise Copier mon bilan et envoie-le sur WhatsApp.'}};
+ document.getElementById('reset').onclick=()=>{st={step:0,placed:{},errors:[0,0,0,0,0],done:[]};save();location.reload()};
+}
+
+const lock=document.getElementById('lock');
+let ok=false;try{ok=sessionStorage.getItem('planOK')==='1'}catch(e){}
+if(ok)lock.classList.add('hide');
+const tryPw=()=>{if(document.getElementById('pw').value.trim().toLowerCase()==='maram'){lock.classList.add('hide');try{sessionStorage.setItem('planOK','1')}catch(e){}}else document.getElementById('pwmsg').classList.remove('hide')};
+document.getElementById('go').onclick=tryPw;document.getElementById('pw').onkeydown=e=>{if(e.key==='Enter')tryPw()};
+render();
+}
+</script>
+</body>
+</html>
