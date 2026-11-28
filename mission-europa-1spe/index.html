@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mission Europa, 1SPE HGGSP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE  enjoué, valorisant, une élève de Première guidée par Glaukê
+   IDEA   le drapeau européen qui se complète, une étoile par bonne réponse
+   PICTURE le cercle des douze étoiles au-dessus de l'hémicycle de Strasbourg
+   COLOUR bleu Europe #0b2a8a dominant, jaune étoile #ffcc00 accent, blanc
+   TYPE / LAYOUT Archivo 800 + Source Sans 3, une colonne calme, cartes d'étapes */
+:root{color-scheme:light;--bg:#f4f6fc;--card:#fff;--ink:#0d1640;--mute:#4a5478;--blue:#0b2a8a;--star:#ffcc00;--ok:#1d8a4e;--ko:#c0392b;--line:#d9def0}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#08113a;--card:#0f1c55;--ink:#eef1ff;--mute:#b7bfe6;--line:#26357a}}
+:root[data-theme=dark]{color-scheme:dark;--bg:#08113a;--card:#0f1c55;--ink:#eef1ff;--mute:#b7bfe6;--line:#26357a}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 "Source Sans 3",system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3{font-family:Archivo,system-ui,sans-serif;line-height:1.08;text-wrap:balance;margin:0 0 .4em}
+h1{font-size:clamp(32px,5vw,50px);font-weight:800}h2{font-size:clamp(24px,3vw,32px);font-weight:800}h3{font-size:19px;font-weight:500}
+.hero{background:var(--blue);color:#fff;padding:clamp(24px,4vw,56px) max(5vw,16px);display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center}
+.hero p{color:#dfe5ff;max-width:60ch}
+.fig{position:relative;min-height:300px}.fig svg{position:absolute;inset:0;width:100%;height:100%}
+.wrap{max-width:900px;margin:0 auto;padding:24px max(4vw,16px) 64px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:clamp(18px,3vw,30px);margin:0 0 22px}
+.guide{display:flex;gap:14px;align-items:flex-start;background:#fff8d6;color:#0d1640;border-radius:12px;padding:14px 16px;margin:0 0 18px}
+.guide b{font-family:Archivo}
+.owl{flex:none;width:54px;height:54px}
+button,select,input,textarea{font:inherit;color:inherit}
+button{min-height:44px;border-radius:10px;border:2px solid var(--blue);background:var(--blue);color:#fff;padding:8px 16px;font-weight:700;cursor:pointer}
+button.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+button:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid var(--star);outline-offset:2px}
+button[disabled]{opacity:.45;cursor:default}
+.opts{display:grid;gap:8px;margin:12px 0}
+.opts button{background:transparent;color:var(--ink);border-color:var(--line);text-align:left;font-weight:600}
+.opts button.good{border-color:var(--ok);background:#e3f5ea;color:#0d1640}
+.opts button.bad{border-color:var(--ko);background:#fbe7e4;color:#0d1640}
+.expl{border-left:4px solid var(--star);padding:6px 12px;margin:8px 0 0;color:var(--mute)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.pair{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+select{min-height:44px;border-radius:10px;border:2px solid var(--line);background:var(--card);padding:6px 10px;font-size:16px;width:100%}
+.pair.good select{border-color:var(--ok)}.pair.bad select{border-color:var(--ko)}
+.step{display:flex;gap:10px;align-items:center;padding:10px 12px;border:2px solid var(--line);border-radius:10px;margin:0 0 8px;background:var(--card)}
+.step span{flex:1}.step button{min-height:40px;padding:4px 10px}
+.step.good{border-color:var(--ok)}
+textarea{width:100%;min-height:130px;border-radius:10px;border:2px solid var(--line);background:var(--card);padding:10px;font-size:16px}
+input[type=text],input[type=password],input[type=number]{min-height:44px;border-radius:10px;border:2px solid var(--line);background:var(--card);padding:6px 12px;font-size:16px}
+.model{background:#eef2ff;color:#0d1640;border-radius:10px;padding:12px 14px;margin-top:10px}
+.kw{display:inline-block;margin:3px 4px 0 0;padding:2px 9px;border-radius:20px;font-size:14px;border:1px solid var(--line)}
+.kw.hit{background:var(--ok);color:#fff;border-color:var(--ok)}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.tabs button.on{background:var(--star);border-color:var(--star);color:#0d1640}
+.score{font-family:Archivo;font-size:clamp(40px,7vw,64px);font-weight:800;color:var(--blue)}
+:root[data-theme=dark] .score{color:var(--star)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .score{color:var(--star)}}
+.hide{display:none!important}
+#lock{position:fixed;inset:0;background:var(--blue);color:#fff;display:grid;place-items:center;z-index:9;padding:20px}
+#lock .box{max-width:420px;text-align:center}
+small,.mute{color:var(--mute)}
+.dl{display:flex;flex-wrap:wrap;gap:8px}.dl a{background:#ffcc00;color:#0d1640;font-weight:700;text-decoration:none;border-radius:10px;padding:9px 14px;min-height:44px;display:inline-flex;align-items:center}
+.corr li{margin:6px 0}.model .mute,.guide .mute{color:#4a5478}
+footer{color:var(--mute);font-size:14px;text-align:center;padding:20px}
+@media(max-width:600px){.hero{grid-template-columns:1fr;gap:6px;padding:18px 16px}.hero h1{font-size:28px}.hero p{font-size:15px;margin:6px 0}.fig{min-height:150px;order:-1}.pair{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:no-preference){.star-on{animation:pop .5s ease}@keyframes pop{0%{transform:scale(.2)}70%{transform:scale(1.3)}100%{transform:scale(1)}}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+<div>
+<h1>Mission Europa, l'Union européenne et la démocratie</h1>
+<p>Glaukê, la chouette d'Athéna, a quitté l'Agora pour le Parlement européen. Ta mission, rallumer les douze étoiles du drapeau. Chaque bonne réponse du quiz en allume une. Les onglets te laissent passer d'une étape à l'autre quand tu veux. Ensuite, deux épreuves t'attendent, les institutions et les questions ouvertes.</p>
+<p><b id="starsTxt">0 étoile allumée sur 12</b> <span class="gchip" id="qui"></span></p>
+<p class="dl"><a href="cours/Cours1_UE_et_democratie.pdf" target="_blank" rel="noopener">Cours 1, l'UE et la démocratie (PDF)</a> <a href="cours/Cours2_Institutions_europeennes.pdf" target="_blank" rel="noopener">Cours 2, les institutions européennes (PDF)</a></p>
+</div>
+<div class="fig" aria-label="Le cercle des douze étoiles au-dessus de l'hémicycle"><svg id="flag" viewBox="0 0 400 320"></svg></div>
+</header>
+
+<main class="wrap">
+<nav class="tabs" aria-label="Étapes">
+<button data-t="quiz" class="on">1. Le quiz Europa</button>
+<button data-t="inst">2. Qui fait quoi&nbsp;?</button>
+<button data-t="open">3. Questions ouvertes</button>
+<button data-t="bilan">4. Mon bilan</button>
+<button data-t="prof" id="tabProf" class="hide">Espace prof</button>
+</nav>
+
+<section id="quiz" class="pane">
+<div class="guide"><svg class="owl" viewBox="0 0 60 60"><use href="#owlS"/></svg><div><b>Glaukê</b> Douze questions, douze étoiles. Si tu te trompes, lis l'explication, elle vaut une fiche de révision.</div></div>
+<div class="card" id="qbox"></div>
+</section>
+
+<section id="inst" class="pane hide">
+<div class="guide"><svg class="owl" viewBox="0 0 60 60"><use href="#owlS"/></svg><div><b>Glaukê</b> Sept institutions, sept rôles. Associe chaque rôle à la bonne institution, puis remets dans l'ordre le trajet d'une loi européenne.</div></div>
+<div class="card"><h2>Épreuve A, à chacun son rôle</h2><div id="pairs"></div><div class="row" style="margin-top:14px"><button id="chkPairs">Vérifier</button><span id="pairMsg" class="mute"></span></div></div>
+<div class="card"><h2>Épreuve B, le trajet d'une loi</h2><p class="mute">Procédure législative ordinaire, celle de la grande majorité des lois européennes. Utilise les flèches pour remettre les étapes dans l'ordre.</p><div id="steps"></div><div class="row"><button id="chkSteps">Vérifier l'ordre</button><span id="stepMsg" class="mute"></span></div></div>
+</section>
+
+<section id="open" class="pane hide">
+<div class="guide"><svg class="owl" viewBox="0 0 60 60"><use href="#owlS"/></svg><div><b>Glaukê</b> Ici, pas de cases à cocher. Tu rédiges trois à cinq phrases, sans IA, avec au moins un exemple daté. Ensuite seulement, tu compares avec le corrigé et tu vois quels mots-clés tu as utilisés.</div></div>
+<div id="openBox"></div>
+</section>
+
+<section id="bilan" class="pane hide">
+<div class="card">
+<h2>Mon bilan de mission</h2>
+<div class="score" id="sc">0 sur 12</div>
+<p class="mute" id="scDetail"></p>
+<label for="mots">Trois mots pour résumer ce que tu retiens</label><input id="mots" type="text" style="width:100%">
+<p><label for="conf">Ma confiance sur ce chapitre, sur 10</label> <input id="conf" type="number" min="0" max="10" style="width:90px"></p>
+<label for="avis">Ce qui m'a plu, ce qui reste flou</label><textarea id="avis"></textarea>
+<div class="row" style="margin-top:12px"><button id="send">Envoyer mon bilan à M. Cron</button><button id="copy" class="ghost">Copier mon bilan</button></div>
+<p id="sendMsg" class="mute"></p>
+</div>
+</section>
+<section id="prof" class="pane hide"><div class="card"><h2>Espace professeur</h2><p>Mode professeur activé. Les onglets sont libres et voici tous les corrigés, pour projeter le parcours en classe. Les bilans des élèves arrivent sur <b>laclassedegreg@gmail.com</b>, avec le nom de l'élève dans l'objet.</p><div id="corr" class="corr"></div></div></section>
+</main>
+<footer>LaClasseDeGreg, Lycée Victor Hugo de Sofia, 1SPE HGGSP, thème 1, objet de travail conclusif. Faits d'actualité vérifiés au 28 novembre 2026.</footer>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+<g id="owlS"><ellipse cx="30" cy="34" rx="20" ry="22" fill="#8a6a3d"/><ellipse cx="30" cy="40" rx="12" ry="13" fill="#d9c29a"/><circle cx="22" cy="26" r="8" fill="#fff"/><circle cx="38" cy="26" r="8" fill="#fff"/><circle cx="22" cy="26" r="4" fill="#0d1640"/><circle cx="38" cy="26" r="4" fill="#0d1640"/><path d="M27 32 L30 37 L33 32Z" fill="#ffcc00"/><path d="M12 14 L18 20 M48 14 L42 20" stroke="#8a6a3d" stroke-width="5" stroke-linecap="round"/></g>
+<path id="starP" d="M0,-15 L4.35,-4.65 L14.25,-4.65 L6.3,1.8 L9.3,12.15 L0,6 L-9.3,12.15 L-6.3,1.8 L-14.25,-4.65 L-4.35,-4.65Z"/>
+</defs></svg>
+
+<script>/* Porte d'entrée commune des jeux de classe 1SPE HGGSP, LaClasseDeGreg */
+var Gate=(function(){
+"use strict";
+var CLASSE=["Thibaud A.","Saúl B.","Alexandre B.","Thomas C.","Pénélope D.","Dalia D.","Siana D.","Ina D.","Monica G.","Adrian H.","Kaloyan J.","Maria K.","Paul K.","Alexander K.","Alice L.","Mia L.","Elitza M.","Boris P.","Daniel R.","Ismael S.","Philippe S.","Daniel S.","Eyango Y.","Damian Y.","Deyan Z."];
+var PROF_HASH="a1678784c91abfc4b832f34f3b2e058dac2b8610e2e6e609329aaf6cfcc075fe";
+var MEM={};
+function lit(k){try{var v=window.localStorage.getItem(k);return v===null?(k in MEM?MEM[k]:null):v}catch(e){return k in MEM?MEM[k]:null}}
+function ecrit(k,v){MEM[k]=v;try{window.localStorage.setItem(k,v)}catch(e){}}
+function efface(k){delete MEM[k];try{window.localStorage.removeItem(k)}catch(e){}}
+function sha256(a){function r(v,n){return(v>>>n)|(v<<(32-n))}var mp=Math.pow,mw=mp(2,32),res="",w=[],l=a.length*8,h=[],k=[],pc=0,ic={},i,j;for(var c=2;pc<64;c++){if(!ic[c]){for(i=0;i<313;i+=c)ic[i]=c;h[pc]=(mp(c,.5)*mw)|0;k[pc++]=(mp(c,1/3)*mw)|0}}a+="\x80";while(a.length%64-56)a+="\x00";for(i=0;i<a.length;i++){j=a.charCodeAt(i);if(j>>8)return "";w[i>>2]|=j<<((3-i)%4)*8}w[w.length]=((l/mw)|0);w[w.length]=l;for(j=0;j<w.length;){var x=w.slice(j,j+=16),o=h;h=h.slice(0,8);for(i=0;i<64;i++){var x15=x[i-15],x2=x[i-2],A=h[0],E=h[4],t1=h[7]+(r(E,6)^r(E,11)^r(E,25))+((E&h[5])^((~E)&h[6]))+k[i]+(x[i]=(i<16)?x[i]:(x[i-16]+(r(x15,7)^r(x15,18)^(x15>>>3))+x[i-7]+(r(x2,17)^r(x2,19)^(x2>>>10)))|0),t2=(r(A,2)^r(A,13)^r(A,22))+((A&h[1])^(A&h[2])^(h[1]&h[2]));h=[(t1+t2)|0].concat(h);h[4]=(h[4]+t1)|0}for(i=0;i<8;i++)h[i]=(h[i]+o[i])|0}for(i=0;i<8;i++){for(j=3;j+1;j--){var b=(h[i]>>(j*8))&255;res+=((b<16)?0:"")+b.toString(16)}}return res}
+function utf8(s){try{return unescape(encodeURIComponent(s))}catch(e){return s}}
+var G={ID:null,PROF:false,CLASSE:CLASSE,lit:lit,ecrit:ecrit,efface:efface,MAIL:"laclassedegreg@gmail.com"};
+G.slug=function(t){return String(t).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-")};
+G.nom=function(){return G.PROF?"M. Cron (test professeur)":(G.ID?G.ID.nom+(G.ID.vis?" (visiteur)":""):"")};
+G.prenom=function(){return G.PROF?"Monsieur Cron":(G.ID?G.ID.prenom:"")};
+G.cle=function(suffixe){return G.k+"-"+(G.PROF?"prof":(G.ID?(G.ID.vis?"vis-":"")+G.slug(G.ID.nom):"anon"))+(suffixe?"-"+suffixe:"")};
+G.envoyer=function(sujet,texte,ok,ko){
+  var nom=G.PROF?"TEST professeur":G.nom();
+  var x=new XMLHttpRequest();x.open("POST","https://formsubmit.co/ajax/"+G.MAIL,true);x.setRequestHeader("Content-Type","application/json");x.setRequestHeader("Accept","application/json");x.timeout=15000;
+  x.onload=function(){(x.status>=200&&x.status<300)?ok():ko()};x.onerror=ko;x.ontimeout=ko;
+  try{x.send(JSON.stringify({_subject:sujet+", "+nom,_template:"box",eleve:nom,bilan:texte}))}catch(e){ko()}
+};
+G.changer=function(){efface(G.k+"-id");try{sessionStorage.removeItem(G.k+"-prof")}catch(e){}delete MEM.prof;location.reload()};
+G.init=function(o){
+  G.k=o.key;
+  try{G.ID=JSON.parse(lit(G.k+"-id")||"null")}catch(e){G.ID=null}
+  try{G.PROF=sessionStorage.getItem(G.k+"-prof")==="1"}catch(e){G.PROF=MEM.prof==="1"}
+  var css=document.createElement("style");
+  css.textContent="#gate{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:"+(o.fond||"#0b2a8a")+";overflow:auto}#gate .gbox{background:#fff;color:#0d1640;border-radius:16px;max-width:440px;width:100%;padding:22px;box-shadow:0 12px 40px rgba(0,0,0,.3);font-family:'Source Sans 3',system-ui,sans-serif}#gate h2{font:800 26px Archivo,system-ui,sans-serif;margin:0 0 6px}#gate p{margin:.4em 0}#gate select,#gate input{width:100%;min-height:46px;font-size:16px;border:2px solid #cfd6ee;border-radius:10px;padding:8px 10px;margin:6px 0;background:#fff;color:#0d1640}#gate .gbtn{width:100%;min-height:46px;border:0;border-radius:10px;background:"+(o.accent||"#ffcc00")+";color:#0d1640;font:700 17px 'Source Sans 3',sans-serif;cursor:pointer;margin-top:6px}#gate .glien{background:none;border:0;color:#1f3faf;text-decoration:underline;font:600 15px 'Source Sans 3',sans-serif;cursor:pointer;padding:8px 0;min-height:40px}#gate .gmsg{color:#c0392b;min-height:1.3em;font-size:15px}#gate .gsmall{font-size:13px;color:#4a5478}.gchip{display:inline-flex;align-items:center;gap:8px;font-size:14px}.gchip button{background:none;border:1px solid currentColor;color:inherit;border-radius:20px;padding:3px 10px;cursor:pointer;font:600 13px 'Source Sans 3',sans-serif;min-height:30px}.gprof{background:#7a1f1f;color:#fff;padding:8px 14px;font-weight:700;text-align:center}";
+  document.head.appendChild(css);
+  function pret(){var g=document.getElementById("gate");if(g)g.remove();
+    if(G.PROF){var b=document.createElement("div");b.className="gprof";b.textContent="Mode professeur. Toutes les étapes sont ouvertes et les corrigés sont accessibles.";document.body.insertBefore(b,document.body.firstChild)}
+    o.ready()}
+  if(G.ID||G.PROF){pret();return}
+  var d=document.createElement("div");d.id="gate";
+  d.innerHTML='<div class="gbox"><h2>'+o.titre+'</h2><p>'+o.accueil+'</p><select id="gEleve"><option value="">Choisis ton nom dans la liste</option>'+CLASSE.map(function(n){return '<option>'+n+'</option>'}).join("")+'</select><button class="glien" id="gVis" type="button">Je suis visiteur ou visiteuse</button><input id="gVisNom" type="text" maxlength="30" placeholder="Ton prénom" hidden autocomplete="off"><button class="gbtn" id="gGo" type="button">Entrer</button><p class="gmsg" id="gMsg"></p><button class="glien gsmall" id="gProfBtn" type="button">Espace professeur</button><div id="gProf" hidden><input id="gMdp" type="password" placeholder="Mot de passe professeur" autocomplete="off"><button class="gbtn" id="gProfGo" type="button">Entrer en mode professeur</button></div><p class="gsmall">LaClasseDeGreg, Lycée Victor Hugo de Sofia, 1SPE HGGSP</p></div>';
+  document.body.appendChild(d);
+  var $=function(i){return document.getElementById(i)};
+  $("gVis").onclick=function(){var v=$("gVisNom");v.hidden=!v.hidden;if(!v.hidden){$("gEleve").value="";v.focus()}};
+  $("gProfBtn").onclick=function(){$("gProf").hidden=!$("gProf").hidden;if(!$("gProf").hidden)$("gMdp").focus()};
+  $("gGo").onclick=function(){var vis=!$("gVisNom").hidden&&$("gVisNom").value.trim();var nom=vis?$("gVisNom").value.trim():$("gEleve").value;
+    if(!nom){$("gMsg").textContent="Choisis ton nom dans la liste, ou entre comme visiteur avec ton prénom.";return}
+    G.ID={nom:nom,prenom:nom.split(" ")[0],vis:!!vis};ecrit(G.k+"-id",JSON.stringify(G.ID));G.PROF=false;pret()};
+  function prof(){if(sha256(utf8($("gMdp").value.trim()))===PROF_HASH){G.PROF=true;MEM.prof="1";try{sessionStorage.setItem(G.k+"-prof","1")}catch(e){}pret()}else $("gMsg").textContent="Mot de passe professeur incorrect."}
+  $("gProfGo").onclick=prof;$("gMdp").addEventListener("keydown",function(e){if(e.key==="Enter")prof()});
+  $("gVisNom").addEventListener("keydown",function(e){if(e.key==="Enter")$("gGo").click()});
+};
+return G;
+})();
+</script>
+<script>
+function europaMain(){
+const nb=s=>s.replace(/ ([?!;»])/g,' $1').replace(/« /g,'« ');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let st={stars:[],pairs:0,steps:false,open:{}};
+try{const s=JSON.parse(Gate.lit(Gate.cle())||'null');if(s)st=Object.assign(st,s)}catch(e){}
+const save=()=>Gate.ecrit(Gate.cle(),JSON.stringify(st));
+
+const Q=[
+["Combien d'États membres compte l'Union européenne en 2026 ?",["25","27","28","30"],1,"27 États depuis la sortie du Royaume-Uni le 31 janvier 2020. Le Monténégro pourrait devenir le 28e d'ici 2028 selon António Costa."],
+["Depuis quelle année les députés européens sont-ils élus au suffrage universel direct ?",["1957","1979","1992","2009"],1,"Juin 1979, premières élections européennes directes. Avant, les députés étaient désignés par les parlements nationaux."],
+["Combien de députés siègent au Parlement européen depuis les élections de juin 2024 ?",["705","720","751","785"],1,"720 eurodéputés, répartis selon la proportionnalité dégressive (96 pour l'Allemagne, 6 pour Malte)."],
+["Quel traité crée la citoyenneté européenne ?",["Rome, 1957","Maastricht, 1992","Nice, 2001","Lisbonne, 2007"],1,"Le traité de Maastricht (signé en 1992, en vigueur en 1993) crée la citoyenneté européenne, qui s'ajoute à la citoyenneté nationale."],
+["Les critères de Copenhague, conditions démocratiques pour entrer dans l'UE, datent de",["1975","1986","1993","2004"],2,"Juin 1993. Institutions stables garantissant la démocratie, l'État de droit, les droits de l'homme et la protection des minorités, plus une économie de marché viable et la reprise de l'acquis."],
+["Quel article du traité sur l'UE énonce ses valeurs (démocratie, État de droit, droits de l'homme) ?",["Article 2","Article 7","Article 50","Article 1er"],0,"L'article 2 TUE. L'article 7 sanctionne leur violation, l'article 50 organise la sortie."],
+["Que permet la procédure de l'article 7 ?",["Exclure un État","Suspendre certains droits d'un État, dont son droit de vote au Conseil","Dissoudre le Parlement","Annuler une élection nationale"],1,"Les traités ne prévoient pas d'exclusion. L'article 7 peut suspendre des droits, mais la sanction exige l'unanimité des autres États, d'où son blocage contre la Pologne et la Hongrie."],
+["Combien de signatures faut-il pour une initiative citoyenne européenne ?",["100 000 dans 3 États","500 000 dans 5 États","Un million dans au moins 7 États","Deux millions dans 10 États"],2,"Un million de signatures venues d'au moins sept États. En février 2026, la Commission a répondu à la douzième initiative réussie, « My Voice, My Choice »."],
+["Quels pays ont rejeté par référendum le traité constitutionnel européen en 2005 ?",["France et Pays-Bas","Danemark et Irlande","Royaume-Uni et Suède","Espagne et Italie"],0,"La France le 29 mai 2005 (54,7 % de non) puis les Pays-Bas le 1er juin. Le traité de Lisbonne (2007) en reprend l'essentiel sans référendum en France."],
+["En avril 2026, que s'est-il passé en Hongrie ?",["Viktor Orbán a été réélu","Péter Magyar a battu Viktor Orbán aux législatives","La Hongrie a quitté l'UE","La Hongrie a adopté l'euro"],1,"Le 12 avril 2026, le parti Tisza de Péter Magyar obtient la majorité des deux tiers. Depuis, la Commission a débloqué des fonds gelés en échange de réformes sur l'État de droit."],
+["Le 1er janvier 2026, la Bulgarie est devenue",["Membre de l'UE","Le 21e pays de la zone euro","Membre de Schengen pour la première fois","Candidate à l'adhésion"],1,"La Bulgarie, membre de l'UE depuis 2007, a adopté l'euro le 1er janvier 2026. Elle est le 21e membre de la zone euro."],
+["Selon le rapport de la Commission du 4 novembre 2026, quel candidat est le plus proche de l'adhésion ?",["Ukraine","Turquie","Monténégro","Serbie"],2,"Le Monténégro a 21 chapitres de négociation provisoirement clos sur 33 et pourrait signer son traité d'adhésion vers l'été 2027."]
+];
+let qi=0,redo=false;
+const qbox=document.getElementById('qbox');
+function drawQ(){
+  if(qi>=Q.length){qbox.innerHTML=`<h2>Quiz terminé</h2><p>Tu as allumé <b>${st.stars.length}</b> étoile${st.stars.length>1?'s':''} sur 12. ${st.stars.length>=9?'Superbe, tu maîtrises l’essentiel.':'Relis les explications, puis recommence les questions ratées.'}</p><div class="row"><button id="redo">Refaire les questions ratées</button><button class="ghost" data-go="inst">Passer à l'épreuve 2</button></div>`;
+    document.getElementById('redo').onclick=()=>{redo=true;qi=Q.findIndex((q,i)=>!st.stars.includes(i));if(qi<0)qi=Q.length;drawQ()};bindGo();return}
+  const [q,o,a,e]=Q[qi];
+  qbox.innerHTML=`<small>Question ${qi+1} sur 12</small><h3>${esc(nb(q))}</h3><div class="opts">${o.map((x,i)=>`<button data-i="${i}">${esc(nb(x))}</button>`).join('')}</div><div id="qe"></div>`;
+  qbox.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i;qbox.querySelectorAll('.opts button').forEach(x=>x.disabled=true);
+    qbox.querySelector(`[data-i="${a}"]`).classList.add('good');
+    if(i===a){if(!st.stars.includes(qi))st.stars.push(qi);save();drawFlag(qi)}else b.classList.add('bad');
+    document.getElementById('qe').innerHTML=`<p class="expl">${i===a?'<b>Bravo, une étoile de plus.</b> ':'<b>Pas tout à fait.</b> '}${esc(nb(e))}</p><button id="nx">Question suivante</button>`;
+    document.getElementById('nx').onclick=()=>{qi++;if(redo)while(qi<Q.length&&st.stars.includes(qi))qi++;drawQ()};
+  });
+}
+
+function drawFlag(n){
+  const s=document.getElementById('flag');let h='';
+  h+=`<path d="M70 318 A130 78 0 0 1 330 318" fill="none" stroke="#2c4bb8" stroke-width="30"/><path d="M104 318 A96 56 0 0 1 296 318" fill="none" stroke="#3d5fd0" stroke-width="20"/><path d="M134 318 A66 36 0 0 1 266 318" fill="none" stroke="#5576e0" stroke-width="13"/><rect x="178" y="296" width="44" height="22" rx="4" fill="#ffcc00" opacity=".9"/>`;
+  for(let i=0;i<12;i++){const a=i/12*Math.PI*2-Math.PI/2,x=200+86*Math.cos(a),y=112+86*Math.sin(a),on=st.stars.includes(i);
+    h+=`<use href="#starP" x="${x.toFixed(1)}" y="${y.toFixed(1)}" transform="scale(1)" fill="${on?'#ffcc00':'none'}" stroke="${on?'#ffcc00':'#6f86d8'}" stroke-width="1.5" class="${i===n?'star-on':''}" style="transform-box:fill-box;transform-origin:center"/>`}
+  s.innerHTML=h;
+  document.getElementById('starsTxt').textContent=`${st.stars.length} étoile${st.stars.length>1?'s':''} allumée${st.stars.length>1?'s':''} sur 12`;
+}
+
+const INST=["Commission européenne","Parlement européen","Conseil de l'UE","Conseil européen","Cour de justice de l'UE","Banque centrale européenne","Médiateur européen"];
+const ROLES=[
+["Propose les lois et veille au respect des traités, on l'appelle la gardienne des traités",0],
+["Élu au suffrage universel direct, il vote les lois et le budget et peut censurer la Commission",1],
+["Réunit les ministres des 27 États, colégislateur, présidé par l'Irlande au second semestre 2026",2],
+["Réunit les chefs d'État ou de gouvernement et fixe les grandes orientations, présidé par António Costa",3],
+["Siège à Luxembourg, interprète le droit européen et sanctionne les États qui ne le respectent pas",4],
+["Siège à Francfort, conduit en toute indépendance la politique monétaire de la zone euro",5],
+["Reçoit les plaintes des citoyens contre la mauvaise administration des institutions",6]];
+const pairs=document.getElementById('pairs');let ptries=0;
+const shuffledInst=INST.map((x,i)=>i).sort((a,b)=>((a*5+3)%7)-((b*5+3)%7));
+pairs.innerHTML=ROLES.map(([r],i)=>`<div class="pair" id="p${i}"><span>${esc(nb(r))}</span><select aria-label="Institution pour le rôle ${i+1}"><option value="">Choisir</option>${shuffledInst.map(k=>`<option value="${k}">${esc(INST[k])}</option>`).join('')}</select></div>`).join('');
+document.getElementById('chkPairs').onclick=()=>{let ok=0;ROLES.forEach(([,a],i)=>{const p=document.getElementById('p'+i),v=p.querySelector('select').value;p.classList.remove('good','bad');if(v==='')return;if(+v===a){ok++;p.classList.add('good')}else p.classList.add('bad')});
+  st.pairs=Math.max(st.pairs,ok);save();ptries++;if(ok<7&&ptries>=2){ROLES.forEach(([,a],i)=>{const p=document.getElementById('p'+i);p.querySelector('select').value=a;p.classList.remove('bad');p.classList.add('good')});document.getElementById('pairMsg').textContent=`${ok} sur 7. Voici la correction complète, relis chaque rôle puis passe au trajet d\u2019une loi.`}else document.getElementById('pairMsg').textContent=ok===7?'Sept sur sept, tu connais la maison Europe par cœur.':`${ok} sur 7. Corrige seulement les cases rouges, la correction s\u2019affiche au prochain essai.`};
+
+const STEPS=["La Commission européenne rédige et présente une proposition","Le Parlement européen adopte sa position en première lecture","Le Conseil de l'UE examine le texte et adopte sa propre position","Parlement, Conseil et Commission négocient un compromis en trilogue","Le Parlement et le Conseil adoptent le même texte, la loi est votée","Le texte paraît au Journal officiel de l'UE, puis les États l'appliquent ou le transposent"];
+let order=[3,0,5,1,4,2],tries=0;
+const stepsEl=document.getElementById('steps');
+function drawSteps(done){stepsEl.innerHTML=order.map((k,i)=>`<div class="step ${done?'good':''}"><b>${i+1}</b><span>${esc(nb(STEPS[k]))}</span><button class="ghost" data-u="${i}" aria-label="Monter">&uarr;</button><button class="ghost" data-d="${i}" aria-label="Descendre">&darr;</button></div>`).join('');
+  stepsEl.querySelectorAll('[data-u]').forEach(b=>b.onclick=()=>{const i=+b.dataset.u;if(i>0){[order[i-1],order[i]]=[order[i],order[i-1]];drawSteps()}});
+  stepsEl.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{const i=+b.dataset.d;if(i<order.length-1){[order[i+1],order[i]]=[order[i],order[i+1]];drawSteps()}})}
+document.getElementById('chkSteps').onclick=()=>{const good=order.filter((k,i)=>k===i).length;if(good===6){st.steps=true;save();drawSteps(true);document.getElementById('stepMsg').textContent='Parfait. Retiens la formule, la Commission propose, le Parlement et le Conseil disposent.'}else{tries++;if(tries>=2){order=[0,1,2,3,4,5];drawSteps(true);document.getElementById('stepMsg').textContent=`Voici le bon ordre, lis-le attentivement. Retiens la formule, la Commission propose, le Parlement et le Conseil disposent.`}else document.getElementById('stepMsg').textContent=`${good} étape${good>1?'s':''} sur 6 à la bonne place. Indice, tout commence par la Commission. Encore un essai, puis la solution s\u2019affiche.`}};
+
+const OPEN=[
+["Pourquoi dit-on que l'UE combine démocratie représentative et démocratie déléguée ?","L'UE repose sur deux légitimités. Les citoyens élisent directement les 720 députés européens depuis 1979, c'est la démocratie représentative. Les États, eux, sont représentés par leurs gouvernements, issus d'élections nationales, qui siègent au Conseil de l'UE et au Conseil européen, c'est une démocratie déléguée ou indirecte. Le traité de Lisbonne (2009) a renforcé le Parlement, désormais colégislateur avec le Conseil dans la plupart des domaines.",["1979","suffrage","Parlement","Conseil","gouvernement","Lisbonne","État"]],
+["Qu'appelle-t-on le « déficit démocratique » de l'UE ? Donne un argument pour et un argument contre.","On parle de déficit démocratique pour désigner l'écart entre le pouvoir de l'UE et le contrôle qu'en ont les citoyens. Pour, la Commission n'est pas élue, les décisions semblent lointaines et techniques, et l'abstention aux européennes est restée longtemps forte. Contre, la Commission est investie et peut être censurée par le Parlement, le Parlement est colégislateur, et la participation de 2024 (environ 51 %) est la plus élevée depuis trente ans.",["Commission","élue","abstention","Parlement","censure","technocrat","citoyen","2024"]],
+["Comment l'UE protège-t-elle la démocratie dans les États membres ? Prends l'exemple de la Hongrie.","L'UE affirme ses valeurs dans l'article 2 du TUE et peut sanctionner un État par l'article 7, procédure engagée contre la Hongrie en 2018 mais bloquée par la règle de l'unanimité. Elle utilise surtout l'argent, le mécanisme de conditionnalité de 2020 a permis de geler des fonds européens. Après la victoire de Péter Magyar le 12 avril 2026, la Commission a débloqué ces fonds en échange de réformes contre la corruption et pour l'indépendance de la justice.",["article 2","article 7","unanimité","fonds","conditionnalité","Cour de justice","Magyar","2026"]],
+["Pourquoi l'entrée dans la Communauté européenne a-t-elle consolidé la démocratie en Grèce, au Portugal et en Espagne ?","Ces trois pays sortent de dictatures au milieu des années 1970 (Révolution des Œillets en 1974, chute des colonels en 1974, mort de Franco en 1975). L'adhésion, en 1981 pour la Grèce et en 1986 pour l'Espagne et le Portugal, est à la fois une récompense et une garantie. Elle ancre la démocratie, car revenir à la dictature signifierait sortir de la Communauté, et elle apporte des fonds qui modernisent l'économie. Ce modèle sera formalisé par les critères de Copenhague en 1993.",["1974","1975","1981","1986","dictature","Franco","Copenhague","fonds","ancr"]],
+["Le Brexit montre-t-il une crise ou une vitalité de la démocratie européenne ?","Le Brexit est d'abord le signe d'une crise, 51,9 % des Britanniques votent le 23 juin 2016 pour quitter l'UE, au nom de la souveraineté et du contrôle des frontières. Mais il montre aussi que l'UE est une union volontaire, l'article 50 permet de partir et le Royaume-Uni sort le 31 janvier 2020 au terme d'une procédure négociée. Les difficultés du divorce ont d'ailleurs refroidi les autres partis souverainistes, qui ne réclament plus la sortie.",["2016","référendum","souveraineté","article 50","2020","volontaire","eurosceptique"]]];
+const ob=document.getElementById('openBox');
+ob.innerHTML=OPEN.map(([q],i)=>`<div class="card"><small>Question ouverte ${i+1} sur 5</small><h3>${esc(nb(q))}</h3><textarea id="t${i}" aria-label="Ta réponse"></textarea><div class="row" style="margin-top:10px"><button data-s="${i}">Comparer avec le corrigé</button><span class="mute" id="c${i}"></span></div><div id="m${i}"></div></div>`).join('');
+OPEN.forEach((o,i)=>{const t=document.getElementById('t'+i);t.value=st.open[i]||'';t.oninput=()=>{st.open[i]=t.value;save()}});
+ob.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{const i=+b.dataset.s,[,m,k]=OPEN[i],v=document.getElementById('t'+i).value;
+  const words=v.trim().split(/\s+/).filter(Boolean).length;
+  if(words<25&&!b.dataset.force){document.getElementById('c'+i).textContent=`Conseil, écris au moins 25 mots (${words} pour l'instant). Tu peux aussi recliquer pour voir le corrigé.`;b.dataset.force='1';b.textContent='Voir quand même le corrigé';return}
+  const low=v.toLowerCase(),hits=k.filter(w=>low.includes(w.toLowerCase()));
+  document.getElementById('c'+i).textContent=`${hits.length} mot${hits.length>1?'s':''}-clé${hits.length>1?'s':''} sur ${k.length}`;
+  document.getElementById('m'+i).innerHTML=`<div class="model"><b>Le corrigé de Glaukê</b><p>${esc(nb(m))}</p>${k.map(w=>`<span class="kw ${hits.includes(w)?'hit':''}">${esc(w)}</span>`).join('')}<p class="mute" style="margin-top:8px">Compare ta structure, une idée, un exemple daté, une analyse. Complète ta réponse si besoin.</p></div>`});
+
+function bilanText(){return `Mission Europa, ${Gate.nom()}\nQuiz ${st.stars.length}/12\nInstitutions ${st.pairs}/7\nTrajet de la loi ${st.steps?'réussi':'à revoir'}\nQuestions ouvertes rédigées ${Object.values(st.open).filter(x=>x&&x.trim().split(/\s+/).length>=25).length}/5\nTrois mots ${document.getElementById('mots').value}\nConfiance ${document.getElementById('conf').value}/10\nAvis ${document.getElementById('avis').value}\n\n${OPEN.map(([q],i)=>`Q${i+1} ${q}\n${st.open[i]||'(vide)'}`).join('\n\n')}`}
+function drawBilan(){document.getElementById('sc').textContent=`${st.stars.length} sur 12`;document.getElementById('scDetail').textContent=`Institutions ${st.pairs} sur 7, trajet de la loi ${st.steps?'réussi':'à revoir'}.`}
+document.getElementById('copy').onclick=async()=>{try{await navigator.clipboard.writeText(bilanText());document.getElementById('sendMsg').textContent='Bilan copié, envoie-le à M. Cron par Pronote ou par mail (laclassedegreg@gmail.com).'}catch(e){document.getElementById('sendMsg').textContent='La copie est bloquée ici, fais une capture d’écran de ton bilan.'}};
+document.getElementById('send').onclick=()=>{const m=document.getElementById('sendMsg');m.textContent='Envoi en cours...';Gate.envoyer('Bilan Mission Europa',bilanText(),()=>{m.textContent='Bilan envoyé, M. Cron le reçoit directement. Bravo !'},()=>{m.textContent='L\u2019envoi n\u2019a pas fonctionné. Touche Copier mon bilan et envoie-le à M. Cron par Pronote ou par mail (laclassedegreg@gmail.com).'})};
+
+function show(t){document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('hide',p.id!==t));document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));if(t==='bilan')drawBilan();window.scrollTo({top:document.querySelector('.tabs').offsetTop-10,behavior:'smooth'})}
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>show(b.dataset.t));
+function bindGo(){document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go))}
+
+if(Gate.PROF){document.getElementById('tabProf').classList.remove('hide');
+ document.getElementById('corr').innerHTML='<h3>Quiz des douze étoiles</h3><ol>'+Q.map(q=>`<li><b>${esc(nb(q[0]))}</b><br>Réponse, ${esc(q[1][q[2]])}. ${esc(nb(q[3]))}</li>`).join('')+'</ol><h3>Qui fait quoi</h3><ul>'+ROLES.map(([r,a])=>`<li>${esc(nb(r))}, <b>${esc(INST[a])}</b></li>`).join('')+'</ul><h3>Le trajet d\u2019une loi</h3><ol>'+STEPS.map(t=>`<li>${esc(t)}</li>`).join('')+'</ol><h3>Questions ouvertes</h3><ol>'+OPEN.map(([q,m,k])=>`<li><b>${esc(nb(q))}</b><br>${esc(nb(m))}<br><span class="mute">Mots-clés, ${esc(k.join(', '))}</span></li>`).join('')+'</ol>';}
+document.getElementById('qui').innerHTML=`<span>${esc(Gate.PROF?'Mode professeur':Gate.prenom())}</span><button id="chg" type="button">Changer</button>`;document.getElementById('chg').onclick=Gate.changer;
+drawFlag(-1);drawQ();drawSteps();
+}
+Gate.init({key:'europa1spe',titre:'Mission Europa',accueil:'Glaukê, la chouette d\u2019Athéna, a quitté l\u2019Agora pour le Parlement européen. Aide-la à rallumer les douze étoiles du drapeau. Qui embarque ?',ready:europaMain});
+</script>
+</body>
+</html>
