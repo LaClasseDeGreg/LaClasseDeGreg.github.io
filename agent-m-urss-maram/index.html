@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent M, dossier URSS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Source+Sans+3:wght@400;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+/* VOICE tendu, clair, ludique, un jeu d'espionnage pour une lycéenne
+   IDEA un dossier classé du renseignement, tampons, fiches, coffre
+   PICTURE une chemise cartonnée tamponnée SECRET avec étoile rouge
+   COLOUR acier froid, encre noire, rouge tampon, vert olive en appui
+   TYPE Oswald titres, Special Elite pour les tampons, Source Sans 3 texte
+   LAYOUT bandeau mission, deux onglets de mission, cartes dossier en colonne */
+:root{color-scheme:light dark;--bg:light-dark(#e6eaee,#14171b);--paper:light-dark(#ffffff,#1e2328);--ink:light-dark(#121417,#e9ecef);--mut:light-dark(#4d5660,#a7b0b9);--red:light-dark(#c3161c,#ff5a52);--ol:light-dark(#4b5a3a,#a9bd8c);--line:light-dark(#c7ced5,#343b43);--ok:light-dark(#1f6b3a,#7fd39a)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 "Source Sans 3",system-ui,sans-serif;overflow-x:clip}
+.band{padding:clamp(24px,4vw,56px) max(5vw,16px)}
+.wrap{max-width:1000px;margin:0 auto}
+h1,h2,h3{font-family:Oswald,Impact,sans-serif;line-height:1.08;margin:0 0 .4em;text-wrap:balance}
+h1{font-size:clamp(32px,5vw,50px)}h2{font-size:30px}h3{font-size:21px}
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:center}
+.hero p{color:var(--mut);max-width:60ch}
+.stamp{font-family:"Special Elite",monospace;color:var(--red)}
+svg.folder{width:100%;height:auto;display:block}
+.tabs{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 20px}
+.tab{font:600 17px "Source Sans 3",sans-serif;min-height:44px;padding:8px 18px;border:2px solid var(--ink);background:transparent;color:var(--ink);border-radius:4px;cursor:pointer}
+.tab[aria-selected=true]{background:var(--ink);color:var(--bg)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:20px;margin:0 0 16px;position:relative}
+.card .tag{font-family:"Special Elite",monospace;color:var(--red);font-size:15px}
+.doc{border-left:4px solid var(--ol);padding:6px 12px;margin:10px 0;font-style:italic;color:var(--mut)}
+.opts{display:grid;gap:8px;margin-top:10px}
+.opt{text-align:left;font:16px "Source Sans 3",sans-serif;min-height:44px;padding:10px 14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;cursor:pointer}
+.opt:hover{border-color:var(--ink)}
+.opt.good{border:2px solid var(--ok);color:var(--ok);font-weight:600}
+.opt.bad{border:2px solid var(--red);color:var(--red);text-decoration:line-through}
+.fb{margin-top:10px;font-size:16px}
+.bar{position:sticky;top:0;z-index:5;background:var(--ink);color:var(--bg);display:flex;flex-wrap:wrap;gap:6px 18px;align-items:center;padding:10px max(5vw,16px);font-weight:600}
+.bar .t{font-family:"Special Elite",monospace;font-size:20px}
+.frag{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.frag span{font-family:"Special Elite",monospace;border:1px dashed var(--mut);padding:4px 10px;border-radius:4px;color:var(--mut)}
+.frag span.on{border:2px solid var(--red);color:var(--red)}
+input[type=text],select,textarea{font:16px "Source Sans 3",sans-serif;padding:10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:100%}
+textarea{min-height:220px}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 140px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.row.v2{grid-template-columns:minmax(0,1fr) 170px}
+.btn{font:700 16px "Source Sans 3",sans-serif;min-height:44px;padding:10px 18px;border:0;border-radius:6px;background:var(--red);color:#fff;cursor:pointer}
+.btn.alt{background:var(--ol)}
+:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.score{font-family:"Special Elite",monospace;font-size:19px;margin-top:10px}
+.hidden{display:none}
+.read p{margin:.4em 0}
+small{color:var(--mut)}
+@media(max-width:600px){.hero{grid-template-columns:1fr}.row,.row.v2{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:no-preference){.card.open{animation:in .35s ease}@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}}
+</style>
+</head>
+<body>
+<div class="bar"><span>Agent M</span><span class="t" id="timer">12:00</span><span id="pts">Fragments 0 sur 6</span></div>
+<header class="band"><div class="wrap hero">
+<div>
+<p class="stamp">Ordre de mission, HGGSP Première, thème 2</p>
+<h1>Agent M, le dossier URSS</h1>
+<p>Tu es une espionne infiltrée au cœur de la guerre froide. Ton officier traitant t'envoie des dossiers interceptés à Moscou. Chaque bonne réponse te livre un fragment du message final. Rassemble les six, ouvre le coffre, et comprends comment une superpuissance a pu s'effondrer.</p>
+<div class="dl" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center"><a class="btn alt" style="text-decoration:none;display:inline-flex;align-items:center" href="cours/Cours_URSS_Russie_HGGSP_1re.docx" download>Télécharger le cours complet (Word)</a><a class="btn alt" style="text-decoration:none;display:inline-flex;align-items:center" href="cours/Cours_URSS_Russie_HGGSP_1re.pdf" target="_blank" rel="noopener">Lire le cours (PDF)</a></div>
+</div>
+<svg class="folder" viewBox="0 0 400 280" role="img" aria-label="Chemise de dossier tamponnée secret">
+<rect x="30" y="40" width="340" height="220" rx="8" fill="#5b6a48"/>
+<path d="M30 48 q0-8 8-8h110l18 20h196q8 0 8 8v10H30z" fill="#4b5a3a"/>
+<rect x="44" y="70" width="312" height="178" rx="4" fill="#f2f4f5" transform="rotate(-2 200 160)"/>
+<rect x="56" y="78" width="300" height="172" rx="4" fill="#ffffff" stroke="#c7ced5"/>
+<g transform="rotate(-10 150 150)"><rect x="80" y="118" width="170" height="54" rx="4" fill="none" stroke="#c3161c" stroke-width="5"/><text x="165" y="156" text-anchor="middle" font-family="Special Elite, monospace" font-size="30" fill="#c3161c">СЕКРЕТНО</text></g>
+<path d="M300 110 l9 27h28l-23 17 9 27-23-17-23 17 9-27-23-17h28z" fill="#c3161c"/>
+<g stroke="#9aa4ad" stroke-width="3"><line x1="80" y1="200" x2="320" y2="200"/><line x1="80" y1="216" x2="280" y2="216"/><line x1="80" y1="232" x2="300" y2="232"/></g>
+</svg>
+</div></header>
+
+<main class="band" style="padding-top:0"><div class="wrap">
+<div class="tabs" role="tablist">
+<button class="tab" role="tab" id="t1" aria-selected="true">Mission 1, en séance, 12 min</button>
+<button class="tab" role="tab" id="t2" aria-selected="false">Mission 2, à la maison, 30 min</button>
+</div>
+
+<section id="m1">
+<h2>Mission 1, les dossiers interceptés</h2>
+<p>Lis chaque dossier, choisis la bonne réponse. Une erreur ne bloque pas la mission, mais le fragment reste perdu.</p>
+<div class="frag" id="frags"></div>
+<div id="q1"></div>
+<div class="card hidden" id="safe">
+<p class="tag">Coffre-fort du Kremlin</p>
+<h3>Dernière serrure</h3>
+<p>Tape l'année où l'URSS disparaît pour ouvrir le coffre.</p>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><input type="text" id="code" inputmode="numeric" maxlength="4" style="max-width:140px" aria-label="Code du coffre"><button class="btn" id="open">Ouvrir</button></div>
+<p class="fb" id="safefb" aria-live="polite"></p>
+</div>
+</section>
+
+<section id="m2" class="hidden">
+<h2>Mission 2, le dossier Moscou</h2>
+<p>À faire chez toi, sans IA, en 30 minutes environ. Cinq étapes. Note ton score à la fin et envoie ton rapport à Greg.</p>
+
+<div class="card read"><p class="tag">Étape 1, 6 min</p><h3>Lis le dossier de révision</h3>
+<div class="dl" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:8px"><a class="btn alt" style="text-decoration:none;display:inline-flex;align-items:center" href="cours/Cours_URSS_Russie_HGGSP_1re.docx" download>Télécharger le cours complet (Word)</a><a class="btn alt" style="text-decoration:none;display:inline-flex;align-items:center" href="cours/Cours_URSS_Russie_HGGSP_1re.pdf" target="_blank" rel="noopener">Lire le cours (PDF)</a></div>
+<p><b>Les fondements de la puissance.</b> Née en 1922, l'URSS sort victorieuse de la Seconde Guerre mondiale en 1945. Elle devient une superpuissance, avec la bombe atomique dès 1949, une armée immense et une avance spatiale spectaculaire, Spoutnik en 1957 et Gagarine en 1961. Elle contrôle l'Europe de l'Est, dont la Bulgarie, par les partis communistes et le Pacte de Varsovie créé en 1955.</p>
+<p><b>Les fragilités.</b> Son économie planifiée produit des armes mais manque de biens de consommation. La course aux armements coûte très cher. La guerre en Afghanistan, de 1979 à 1989, devient un gouffre humain et financier. Les peuples non russes supportent mal la domination de Moscou.</p>
+<p><b>L'effondrement.</b> Gorbatchev arrive au pouvoir en 1985. Il lance la perestroïka, une restructuration de l'économie, et la glasnost, la transparence. Après Tchernobyl en 1986, la parole se libère et la critique vise le régime. En 1989 le mur de Berlin tombe, les démocraties populaires s'effondrent, Jivkov chute en Bulgarie le 10 novembre. Le putsch manqué d'août 1991 affaiblit Gorbatchev. Le 8 décembre, la Russie, l'Ukraine et la Biélorussie fondent la CEI. Le 25 décembre 1991, Gorbatchev démissionne et l'URSS disparaît.</p>
+<p><b>L'héritage.</b> La Russie hérite du siège au Conseil de sécurité et de l'arsenal nucléaire. Après la crise des années Eltsine, Vladimir Poutine, président à partir de 2000, veut restaurer la puissance perdue. Il qualifie en 2005 la fin de l'URSS de plus grande catastrophe géopolitique du siècle. D'où la guerre en Géorgie en 2008, l'annexion de la Crimée en 2014 et l'invasion de l'Ukraine en 2022.</p>
+</div>
+
+<div class="card"><p class="tag">Étape 2, 6 min</p><h3>Remets la frise en ordre</h3><p>Associe chaque événement à sa date.</p><div id="frise"></div><button class="btn alt" id="chkF" style="margin-top:12px">Vérifier la frise</button><p class="fb" id="fbF" aria-live="polite"></p></div>
+
+<div class="card"><p class="tag">Étape 3, 6 min</p><h3>Démasque le double agent</h3><p>Un agent double a glissé de fausses informations. Vrai ou faux ?</p><div id="vf"></div><button class="btn alt" id="chkV" style="margin-top:12px">Vérifier</button><p class="fb" id="fbV" aria-live="polite"></p></div>
+
+<div class="card"><p class="tag">Étape 4, 4 min</p><h3>Le lexique du renseignement</h3><p>Associe chaque notion à sa définition.</p><div id="lex"></div><button class="btn alt" id="chkL" style="margin-top:12px">Vérifier</button><p class="fb" id="fbL" aria-live="polite"></p></div>
+
+<div class="card"><p class="tag">Étape 5, 8 min, sans IA</p><h3>Ton rapport à l'officier traitant</h3>
+<p>En 8 à 10 lignes, réponds à cette question. En quoi la chute de l'URSS aide-t-elle à comprendre la politique de la Russie aujourd'hui ?</p>
+<p><small>Ton rapport doit contenir au moins deux dates précises, un exemple actuel et le mot puissance.</small></p>
+<textarea id="rap" aria-label="Ton rapport"></textarea>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px"><button class="btn" id="copy">Copier mon rapport et mon score</button></div>
+<p class="fb" id="fbR" aria-live="polite"></p>
+<p><small>Colle-le dans un mail à laclassedegreg@gmail.com</small></p>
+<p class="score" id="tot"></p>
+</div>
+</section>
+</div></main>
+
+<script>
+{
+const Q=[
+{tag:"Dossier SPOUTNIK, 4 octobre 1957",doc:"Message capté à Baïkonour. Un satellite soviétique tourne autour de la Terre. Washington est sous le choc.",q:"Ce lancement prouve surtout que l'URSS",o:["maîtrise des fusées capables d'atteindre le territoire américain","a déjà gagné la guerre froide","est devenue la première puissance économique du monde","coopère avec la NASA"],a:0,f:"UNE",e:"La fusée qui place Spoutnik en orbite peut aussi porter une bombe nucléaire. C'est une démonstration de puissance technologique et militaire."},
+{tag:"Dossier RDS-1, 29 août 1949",doc:"Rapport d'un physicien. Une explosion atomique a eu lieu dans la steppe du Kazakhstan.",q:"Que change la première bombe atomique soviétique ?",o:["Les États-Unis perdent leur monopole nucléaire","L'URSS devient une démocratie","La guerre froide se termine","L'Europe de l'Ouest rejoint l'URSS"],a:0,f:"SUPERPUISSANCE",e:"Dès 1949, l'URSS rattrape les États-Unis. L'équilibre de la terreur commence."},
+{tag:"Dossier VARSOVIE, 1955",doc:"Note d'ambassade à Sofia. Les troupes et les conseillers soviétiques sont partout. Le parti communiste bulgare suit Moscou.",q:"Comment l'URSS contrôle-t-elle l'Europe de l'Est, dont la Bulgarie ?",o:["Par des élections libres","Par le Pacte de Varsovie et des partis communistes alliés","Par l'Union européenne","Par l'OTAN"],a:1,f:"PEUT",e:"Les démocraties populaires sont des régimes communistes alignés sur Moscou, liés par le Pacte de Varsovie, alliance militaire créée en 1955."},
+{tag:"Dossier KABOUL, décembre 1979",doc:"Télégramme chiffré. Les blindés soviétiques entrent en Afghanistan. Les combats s'annoncent longs.",q:"Pourquoi cette guerre affaiblit-elle l'URSS ?",o:["Elle est gagnée en trois semaines","Elle dure dix ans, coûte très cher et tue des milliers de soldats","Elle rapproche l'URSS des États-Unis","Elle enrichit l'économie soviétique"],a:1,f:"TOMBER",e:"De 1979 à 1989, la guerre d'Afghanistan épuise l'armée, le budget et le moral de la population."},
+{tag:"Dossier GLASNOST, avril 1986",doc:"Journal intercepté. Le réacteur de Tchernobyl a explosé. Le pouvoir a d'abord gardé le silence.",q:"Avec la glasnost voulue par Gorbatchev, que se passe-t-il ?",o:["La censure se renforce","La parole se libère et la critique vise le régime lui-même","Le Parti communiste gagne en popularité","Les journaux sont fermés"],a:1,f:"SANS",e:"La transparence devait sauver le système. Elle révèle ses mensonges et ses échecs, et l'opinion se retourne contre lui."},
+{tag:"Dossier BERLIN, 9 novembre 1989",doc:"Flash radio. Des milliers de Berlinois franchissent le mur. Les soldats soviétiques ne bougent pas.",q:"Que révèle cette nuit pour la puissance soviétique ?",o:["L'URSS renonce à tenir son empire par la force","L'URSS envahit l'Allemagne de l'Ouest","Rien ne change à l'Est","Le Pacte de Varsovie se renforce"],a:0,f:"GUERRE",e:"Moscou laisse faire. Le lendemain, Todor Jivkov est écarté en Bulgarie. Les démocraties populaires tombent une à une."}
+];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let got=0,done=0,total2=0;
+$("frags").innerHTML=Q.map((x,i)=>`<span id="fr${i}">fragment ${i+1}</span>`).join("");
+$("q1").innerHTML=Q.map((x,i)=>`<div class="card" id="c${i}"><p class="tag">${x.tag}</p><p class="doc">${x.doc}</p><h3>${x.q}</h3><div class="opts">${x.o.map((o,j)=>`<button class="opt" data-q="${i}" data-o="${j}">${o}</button>`).join("")}</div><p class="fb" id="fb${i}" aria-live="polite"></p></div>`).join("");
+document.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{
+ const i=+b.dataset.q,j=+b.dataset.o,x=Q[i],card=$("c"+i);
+ if(card.dataset.done)return;card.dataset.done=1;done++;
+ card.querySelectorAll(".opt").forEach((o,k)=>{if(k===x.a)o.classList.add("good");else if(k===j)o.classList.add("bad");o.disabled=true});
+ if(j===x.a){got++;const s=$("fr"+i);s.textContent=x.f;s.classList.add("on");$("fb"+i).textContent="Fragment récupéré. "+x.e}
+ else $("fb"+i).textContent="Fragment perdu. "+x.e;
+ $("pts").textContent="Fragments "+got+" sur 6";
+ if(done===Q.length){$("safe").classList.remove("hidden");$("safe").classList.add("open")}
+}));
+$("open").addEventListener("click",()=>{
+ const v=$("code").value.trim();
+ if(v==="1991"){$("safefb").innerHTML="Coffre ouvert. Le 25 décembre 1991, Gorbatchev démissionne et le drapeau rouge descend du Kremlin. Message reconstitué, <b>"+Q.map(x=>x.f).join(" ")+"</b>. Agent M, explique maintenant à ton officier traitant, en une phrase et à l'oral, pourquoi l'URSS s'est effondrée sans perdre de guerre."}
+ else $("safefb").textContent="Code refusé. Indice, l'année du putsch manqué d'août et de la démission de Gorbatchev.";
+});
+let sec=720;const tick=setInterval(()=>{sec--;if(sec<=0){clearInterval(tick);$("timer").textContent="Temps écoulé";return}$("timer").textContent=String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0")},1000);
+const show=n=>{$("m1").classList.toggle("hidden",n!==1);$("m2").classList.toggle("hidden",n!==2);$("t1").setAttribute("aria-selected",n===1);$("t2").setAttribute("aria-selected",n===2)};
+$("t1").addEventListener("click",()=>show(1));$("t2").addEventListener("click",()=>show(2));
+const F=[["Pacte de Varsovie","1955"],["Création de l'URSS","1922"],["Arrivée de Gorbatchev au pouvoir","1985"],["Première bombe atomique soviétique","1949"],["Victoire sur l'Allemagne nazie","1945"],["Disparition de l'URSS","1991"],["Lancement de Spoutnik","1957"],["Entrée des troupes en Afghanistan","1979"]];
+const yrs=F.map(f=>f[1]).sort();
+$("frise").innerHTML=F.map((f,i)=>`<div class="row"><span>${f[0]}</span><select id="f${i}" aria-label="Date pour ${esc(f[0])}"><option value="">Date</option>${yrs.map(y=>`<option>${y}</option>`).join("")}</select></div>`).join("");
+let sF=0,sV=0,sL=0;
+$("chkF").addEventListener("click",()=>{sF=0;F.forEach((f,i)=>{const s=$("f"+i);const ok=s.value===f[1];if(ok)sF++;s.style.borderColor=ok?"var(--ok)":"var(--red)"});$("fbF").textContent=sF+" sur 8. "+(sF===8?"Chronologie parfaite.":"Corrige les cases rouges avec le dossier de révision.");sc()});
+const V=[["L'URSS comptait quinze républiques.",1,"Vrai, la Russie, l'Ukraine, la Biélorussie, les pays baltes, le Kazakhstan et dix autres."],["L'URSS disparaît après avoir perdu une guerre contre les États-Unis.",0,"Faux, elle s'effondre de l'intérieur, sans guerre directe."],["La perestroïka est une restructuration de l'économie.",1,"Vrai, c'est le sens du mot."],["Le putsch d'août 1991 renforce Gorbatchev.",0,"Faux, il l'affaiblit et Boris Eltsine s'impose."],["En décembre 1991, la Russie, l'Ukraine et la Biélorussie créent la CEI.",1,"Vrai, le 8 décembre 1991."],["Vladimir Poutine devient président de la Russie dès 1991.",0,"Faux, c'est Boris Eltsine. Poutine devient président en 2000."],["La Bulgarie quitte le bloc soviétique et entre dans l'Union européenne en 2007.",1,"Vrai."],["La Russie annexe la Crimée en 2014.",1,"Vrai, une annexion non reconnue par la communauté internationale."]];
+$("vf").innerHTML=V.map((v,i)=>`<div class="row"><span>${v[0]}</span><select id="v${i}" aria-label="Vrai ou faux"><option value="">Choisir</option><option value="1">Vrai</option><option value="0">Faux</option></select></div><p class="fb hidden" id="vx${i}"><small>${v[2]}</small></p>`).join("");
+$("chkV").addEventListener("click",()=>{sV=0;V.forEach((v,i)=>{const s=$("v"+i);const ok=s.value!==""&&+s.value===v[1];if(ok)sV++;s.style.borderColor=ok?"var(--ok)":"var(--red)";$("vx"+i).classList.remove("hidden")});$("fbV").textContent=sV+" sur 8. "+(sV>=7?"Agent double démasqué.":"Relis les corrections sous chaque phrase.");sc()});
+const L=[["Glasnost","Politique de transparence et de liberté d'expression lancée par Gorbatchev"],["Perestroïka","Restructuration de l'économie soviétique à partir de 1985"],["Superpuissance","État capable d'agir dans tous les domaines de la puissance à l'échelle mondiale"],["Démocratie populaire","Régime communiste d'Europe de l'Est aligné sur Moscou"],["CEI","Communauté des États indépendants créée en décembre 1991"],["Hard power","Puissance fondée sur la contrainte, militaire ou économique"]];
+const defs=L.map(l=>l[1]).slice().sort();
+$("lex").innerHTML=L.map((l,i)=>`<div class="row v2" style="grid-template-columns:150px minmax(0,1fr)"><b>${l[0]}</b><select id="l${i}" aria-label="Définition de ${esc(l[0])}"><option value="">Choisir la définition</option>${defs.map(d=>`<option>${d}</option>`).join("")}</select></div>`).join("");
+$("chkL").addEventListener("click",()=>{sL=0;L.forEach((l,i)=>{const s=$("l"+i);const ok=s.value===l[1];if(ok)sL++;s.style.borderColor=ok?"var(--ok)":"var(--red)"});$("fbL").textContent=sL+" sur 6.";sc()});
+function sc(){$("tot").textContent="Score de la mission 2, "+(sF+sV+sL)+" sur 22"}
+$("copy").addEventListener("click",()=>{const t="Rapport de l'agent M\n\n"+$("rap").value+"\n\nMission 1, "+got+" fragments sur 6\nMission 2, frise "+sF+" sur 8, vrai ou faux "+sV+" sur 8, lexique "+sL+" sur 6";
+ if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>{$("fbR").textContent="Copié. Colle-le dans ton mail."}).catch(()=>{$("fbR").textContent="Copie impossible ici, sélectionne ton texte à la main."});else $("fbR").textContent="Copie impossible ici, sélectionne ton texte à la main."});
+}
+</script>
+</body>
+</html>
